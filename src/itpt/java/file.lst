@@ -1,0 +1,4 @@
+JAVA_OBJ = \
+         HubCtl.java \
+         HubModuleCtl.java \
+         HubBase.java

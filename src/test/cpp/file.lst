@@ -1,0 +1,21 @@
+SUBDIRS = ../../hub \
+        bsn \
+        ui
+
+OBJ = main.o
+
+# Library name
+LIB_A_NAME =
+LIB_SO_NAME = \
+              ui \
+              bsn \
+              hub \
+              gdal \
+              gsl \
+              rtklib 
+
+# Binary file name.
+BIN_FILE = test_cpp
+
+# Backup directory.
+BACKUP_DIR = $(HUB_DIR)/../../.backup

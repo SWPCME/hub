@@ -1,0 +1,3 @@
+OBJ = ui_ctl.o
+
+LIB_SO_NAME = ui

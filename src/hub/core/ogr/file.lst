@@ -1,0 +1,49 @@
+################################################################################
+# $Id: file.lst 2017-06 $
+#
+# Project:  Ogr (OpenGIS Simple Features Reference Implementation) library..
+# Purpose:  File list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+PRJ = ogr
+
+OBJ = \
+      ogr_ctl.o \
+      ogr_datasrcctl.o \
+      ogr_layerctl.o \
+      ogr_featuredefnctl.o \
+      ogr_fielddefnctl.o \
+      ogr_geomfielddefnctl.o \
+      ogr_featuresctl.o \
+      ogr_featurectl.o \
+      ogr_fieldctl.o \
+      ogr_geometryctl.o 
+
+HEADER = \
+         ogr_base.h \
+         ogr_ctl.hpp \
+         ogr_datasrcctl.hpp \
+         ogr_layerctl.hpp \
+         ogr_fieldctl.hpp \
+         ogr_geomfielddefnctl.hpp \
+         ogr_featuresctl.hpp \
+         ogr_featurectl.hpp \
+         ogr_fieldctl.hpp \
+         ogr_geometryctl.hpp 

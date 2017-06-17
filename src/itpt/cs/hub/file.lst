@@ -1,0 +1,8 @@
+include core/file.lst
+include wrap/file.lst
+
+CS_OBJ = ${CS_CORE_OBJ} ${CS_WRAP_OBJ} \
+         HubCtl.cs \
+         HubModuleCtl.cs \
+         HubBase.cs 
+

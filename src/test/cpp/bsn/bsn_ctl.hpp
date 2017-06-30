@@ -34,8 +34,10 @@
 
 class CBsnGda;
 class CBsnGsl;
+class CBsnCut;
 class CBsnNcc;
 class CBsnRtk;
+class CBsnFmd;
 class CBsnUniqueId;
 
 class BSN_LIB CBsnCtl
@@ -47,8 +49,10 @@ class BSN_LIB CBsnCtl
     UErrCodeT Init();
     CBsnGda *Gda();
     CBsnGsl *Gsl();
+    CBsnCut *Cut();
     CBsnNcc *Ncc();
     CBsnRtk *Rtk();
+    CBsnFmd *Fmd();
     CBsnUniqueId *UniqueId();
 
  protected:
@@ -56,8 +60,10 @@ class BSN_LIB CBsnCtl
     CHubCtl *mHub;
     CBsnGda *mGda;
     CBsnGsl *mGsl;
+    CBsnCut *mCut;
     CBsnNcc *mNcc;
     CBsnRtk *mRtk;
+    CBsnFmd *mFmd;
     CBsnUniqueId *mUniqueId;
 };
 

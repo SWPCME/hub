@@ -2,7 +2,7 @@
  * $Id: rtk_convertctl.cpp 2017-05 $
  *
  * Project:  Rtk (Real time kinematic).
- * Purpose:  Rtk convert controler definition.
+ * Purpose:  Rtk convert controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
@@ -75,6 +75,26 @@ UErrCodeT CRtkConvertCtl::EcefToGd(BGeomCsGdT *aGd, const BGeomCsEcefT *aEcef)
 UErrCodeT CRtkConvertCtl::GdToEcef(BGeomCsEcefT *aEcef, const BGeomCsGdT *aGd)
 {
     mType->CsGdToCsEcef(aEcef, aGd);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Ecef To Vector.
+ */
+UErrCodeT CRtkConvertCtl::EcefToVector(NccVectorT *aVector,
+                                       const BGeomCsEcefT *aEcef)
+{
+    UIntT size = 0;
+    aVector->DimSize(&size);
+    if (size != 3)
+    {
+        return UErrTrue;
+    }
+
+    aVector->SetValue(aEcef->x, 0);
+    aVector->SetValue(aEcef->y, 1);
+    aVector->SetValue(aEcef->z, 2);
 
     return UErrFalse;
 }

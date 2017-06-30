@@ -110,6 +110,7 @@ SYS_DIR = $(CORE_DIR)/sys
 OGR_DIR = $(CORE_DIR)/ogr
 GDA_DIR = ${CORE_DIR}/gda
 GSL_DIR = ${CORE_DIR}/gsl
+CUT_DIR = ${CORE_DIR}/cut
 # Wrap directory.
 WRAP_DIR = $(HUB_DIR)/wrap
 UST_DIR = $(WRAP_DIR)/ust
@@ -119,6 +120,7 @@ NCC_DIR = $(WRAP_DIR)/ncc
 CTGY_DIR = ${HUB_DIR}/ctgy
 EARTH_DIR = ${CTGY_DIR}/earth
 RTK_DIR = ${EARTH_DIR}/rtk
+FMD_DIR = ${CTGY_DIR}/fmd
 
 # Include
 FILE_LIST = $(FILE_DIR)/file.lst

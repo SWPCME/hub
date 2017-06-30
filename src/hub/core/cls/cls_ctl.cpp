@@ -30,6 +30,7 @@
 #include "cls_ctl.hpp"
 
 // Module
+#include "cls_typectl.hpp"
 #include "cls_stringctl.hpp"
 #include "cls_memoryctl.hpp"
 #include "cls_ioctl.hpp"
@@ -41,6 +42,7 @@
  */
 CClsCtl::CClsCtl()
 {
+    mType = NULL;
     mStr = NULL;
     mMem = NULL;
     mIo = NULL;
@@ -53,6 +55,11 @@ CClsCtl::CClsCtl()
  */
 CClsCtl::~CClsCtl()
 {
+    if (mType != NULL)
+    {
+        delete mType;
+    }
+
     if (mStr != NULL)
     {
         delete mStr;
@@ -90,11 +97,25 @@ UErrCodeT CClsCtl::Init()
 }
 
 /**
+ * \brief Type controler.
+ */
+CClsTypeCtl *CClsCtl::Type()
+{
+    if (mType == NULL)
+    {
+        mType = new CClsTypeCtl;
+        mType->Init();
+    }
+
+    return mType;
+}
+
+/**
  * \brief String control.
  *
  * @return Handle of string control.
  */
-CClsStringCtl* CClsCtl::Str()
+CClsStringCtl *CClsCtl::Str()
 {
     if (mStr == NULL)
     {
@@ -110,7 +131,7 @@ CClsStringCtl* CClsCtl::Str()
  *
  * @return Handle of memory control.
  */
-CClsMemoryCtl* CClsCtl::Mem()
+CClsMemoryCtl *CClsCtl::Mem()
 {
     if (mMem == NULL)
     {
@@ -126,7 +147,7 @@ CClsMemoryCtl* CClsCtl::Mem()
  *
  * @return Handle of io control.
  */
-CClsIoCtl* CClsCtl::Io()
+CClsIoCtl *CClsCtl::Io()
 {
     if (mIo == NULL)
     {
@@ -142,7 +163,7 @@ CClsIoCtl* CClsCtl::Io()
  *
  * @return Handle of universal control.
  */
-CClsUniCtl* CClsCtl::Uni()
+CClsUniCtl *CClsCtl::Uni()
 {
     if (mUni == NULL)
     {
@@ -156,7 +177,7 @@ CClsUniCtl* CClsCtl::Uni()
 /**
  * \brief Mathematical controler.
  */
-CClsMathCtl* CClsCtl::Math()
+CClsMathCtl *CClsCtl::Math()
 {
     if (mMath == NULL)
     {

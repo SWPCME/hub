@@ -28,6 +28,7 @@ OBJ = \
       base_ctl.o
 
 HEADER = \
+         base_macrodefn.hpp \
          base_mathtype.hpp \
          base_timetype.hpp \
-         base_geomtype.hpp
+         base_geomtype.hpp 

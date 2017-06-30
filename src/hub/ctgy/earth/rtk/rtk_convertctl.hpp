@@ -29,6 +29,7 @@
 
 // Module.
 #include "base_geomtype.hpp"
+#include "ncc/ncc_vectortype.hpp"
 
 class CRtkTypeCtl;
 
@@ -41,6 +42,7 @@ class RTK_LIB CRtkConvertCtl
     UErrCodeT Init();
     UErrCodeT EcefToGd(BGeomCsGdT *aGd, const BGeomCsEcefT *aEcef);
     UErrCodeT GdToEcef(BGeomCsEcefT *aEcef, const BGeomCsGdT *aGd);
+    UErrCodeT EcefToVector(NccVectorT *aVector, const BGeomCsEcefT *aEcef);
 
   protected:
   private:

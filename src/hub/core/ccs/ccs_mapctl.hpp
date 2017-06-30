@@ -54,6 +54,7 @@ class CCS_LIB CCcsMapCtl
     // Traversal.
     UErrCodeT Head(const USequenceCodeT aCode = USequenceOrder);
     UErrCodeT Next();
+    UErrCodeT Goto(const KeyT *aKey);
     UErrCodeT State();
     ContentT *Content();
     const KeyT *Key();
@@ -65,10 +66,19 @@ class CCS_LIB CCcsMapCtl
     typedef typename std::map<KeyT, ContentT>::iterator MapIteratorT;
     typedef typename std::map<KeyT, ContentT>::reverse_iterator MapRIteratorT;
 
-    // Check
+    // Iterator.
     UErrCodeT CheckIt(UHandleT aIt);
     UHandleT It();
     UErrCodeT SetIt(UHandleT aIt);
+    UErrCodeT SetIt(MapRIteratorT *aDest, MapRIteratorT *aSrc, UIntT aDist);
+
+    // Distance.
+    UErrCodeT Dist(UIntT *aDist, MapIteratorT *aPosA, MapIteratorT *aPosB);
+    UErrCodeT DistToHead(UIntT *aDist, MapIteratorT *aPos);
+    UErrCodeT DistToTail(UIntT *aDist, MapIteratorT *aPos);
+    UErrCodeT Dist(UIntT *aDist, MapRIteratorT *aPosA, MapRIteratorT *aPosB);
+    UErrCodeT DistToRHead(UIntT *aDist, MapIteratorT *aPos);
+    UErrCodeT DistToRTail(UIntT *aDist, MapIteratorT *aPos);
 
     // Free
     UErrCodeT Free();

@@ -29,6 +29,9 @@
 #include "wrap_ctl.hpp"
 #include "ctgy_ctl.hpp"
 
+// Base.
+#include "base_macrodefn.hpp"
+
 /**
  * \brief Static handle of base.
  */
@@ -36,10 +39,7 @@ CBaseCtl *CBaseCtl::mBase = NULL;
 
 CBaseCtl *CBaseCtl::Base()
 {
-    if (mBase == NULL)
-    {
-        mBase = new CBaseCtl;
-    }
+    BMD_CLASS_NEW(mBase, CBaseCtl);
 
     return mBase;
 }
@@ -49,10 +49,6 @@ CBaseCtl *CBaseCtl::Base()
  */
 UErrCodeT CBaseCtl::Init()
 {
-    mCore->Init();
-    mWrap->Init();
-    mCtgy->Init();
-
     return UErrFalse;
 }
 
@@ -61,6 +57,8 @@ UErrCodeT CBaseCtl::Init()
  */
 CCoreCtl *CBaseCtl::Core()
 {
+    BMD_CLASS_NEW(mCore, CCoreCtl);
+
     return mCore;
 }
 
@@ -69,6 +67,8 @@ CCoreCtl *CBaseCtl::Core()
  */
 CWrapCtl *CBaseCtl::Wrap()
 {
+    BMD_CLASS_NEW(mWrap, CWrapCtl);
+
     return mWrap;
 }
 
@@ -77,6 +77,8 @@ CWrapCtl *CBaseCtl::Wrap()
  */
 CCtgyCtl *CBaseCtl::Ctgy()
 {
+    BMD_CLASS_NEW(mCtgy, CCtgyCtl);
+
     return mCtgy;
 }
 
@@ -87,9 +89,9 @@ CCtgyCtl *CBaseCtl::Ctgy()
  */
 CBaseCtl::CBaseCtl()
 {
-    mCore = new CCoreCtl;
-    mWrap = new CWrapCtl;
-    mCtgy = new CCtgyCtl;
+    BMD_POINTER_INIT(mCore);
+    BMD_POINTER_INIT(mWrap);
+    BMD_POINTER_INIT(mCore);
 }
 
 /**
@@ -97,9 +99,9 @@ CBaseCtl::CBaseCtl()
  */
 CBaseCtl::~CBaseCtl()
 {
-    delete mCtgy;
-    delete mWrap;
-    delete mCore;
+    BMD_CLASS_DEL(mCore);
+    BMD_CLASS_DEL(mWrap);
+    BMD_CLASS_DEL(mCtgy);
 }
 
 /***** Private B ******/

@@ -29,7 +29,10 @@
 
 #include "bsn_ctl.hpp"
 
-// Module
+// Hub Module.
+// Base.
+#include "base_macrodefn.hpp"
+// Ust.
 #include "ust_stringtype.hpp"
 #include "ust_containertype.hpp"
 
@@ -37,10 +40,13 @@
 #include "bsn_uniqueid.hpp"
 // Core.
 #include "bsn_gda.hpp"
-#include "bsn_rtk.hpp"
 #include "bsn_gsl.hpp"
+#include "bsn_cut.hpp"
 // Wrap.
 #include "bsn_ncc.hpp"
+// Ctgy.
+#include "bsn_rtk.hpp"
+#include "bsn_fmd.hpp"
 
 CBsnCtl::CBsnCtl()
 {
@@ -50,6 +56,7 @@ CBsnCtl::CBsnCtl()
 
     mGda = NULL;
     mGsl = NULL;
+    mCut = NULL;
     mNcc = NULL;
     mRtk = NULL;
     mUniqueId = NULL;
@@ -57,30 +64,12 @@ CBsnCtl::CBsnCtl()
 
 CBsnCtl::~CBsnCtl()
 {
-    if (mGda != NULL)
-    {
-        delete mGda;
-    }
-
-    if (mGsl != NULL)
-    {
-        delete mGsl;
-    }
-
-    if (mNcc != NULL)
-    {
-        delete mNcc;
-    }
-
-    if (mRtk != NULL)
-    {
-        delete mRtk;
-    }
-
-    if (mUniqueId != NULL)
-    {
-        delete mUniqueId;
-    }
+    BMD_CLASS_DEL(mGda);
+    BMD_CLASS_DEL(mGsl);
+    BMD_CLASS_DEL(mCut);
+    BMD_CLASS_DEL(mNcc);
+    BMD_CLASS_DEL(mRtk);
+    BMD_CLASS_DEL(mUniqueId);
 
     mHub->DeregisterAll();
 }
@@ -92,54 +81,49 @@ UErrCodeT CBsnCtl::Init()
 
 CBsnGda *CBsnCtl::Gda()
 {
-    if (mGda == NULL)
-    {
-        mGda = new CBsnGda;
-        mGda->Init();
-    }
+    BMD_CLASS_NEW(mGda, CBsnGda);
 
     return mGda;
 }
 
 CBsnGsl *CBsnCtl::Gsl()
 {
-    if (mGsl == NULL)
-    {
-        mGsl = new CBsnGsl;
-        mGsl->Init();
-    }
+    BMD_CLASS_NEW(mGsl, CBsnGsl);
 
     return mGsl;
 }
 
+CBsnCut *CBsnCtl::Cut()
+{
+    BMD_CLASS_NEW(mCut, CBsnCut);
+
+    return mCut;
+}
+
 CBsnNcc *CBsnCtl::Ncc()
 {
-    if (mNcc == NULL)
-    {
-        mNcc = new CBsnNcc;
-        mNcc->Init();
-    }
+    BMD_CLASS_NEW(mNcc, CBsnNcc);
 
     return mNcc;
 }
 
 CBsnUniqueId *CBsnCtl::UniqueId()
 {
-    if (mUniqueId == NULL)
-    {
-        mUniqueId = new CBsnUniqueId;
-    }
+    BMD_CLASS_NEW(mUniqueId, CBsnUniqueId);
 
     return mUniqueId;
 }
 
 CBsnRtk *CBsnCtl::Rtk()
 {
-    if (mRtk == NULL)
-    {
-        mRtk = new CBsnRtk;
-        mRtk->Init();
-    }
+    BMD_CLASS_NEW(mRtk, CBsnRtk);
 
     return mRtk;
+}
+
+CBsnFmd *CBsnCtl::Fmd()
+{
+    BMD_CLASS_NEW(mFmd, CBsnFmd);
+
+    return mFmd;
 }

@@ -133,7 +133,7 @@ UErrCodeT CClsStringCtl::AToW(wchar_t* aDest, const char* aSrc)
  */
 char* CClsStringCtl::Cat(char* aDest, const char* aSrc)
 {
-    return NULL;
+    return strcat(aDest, aSrc);
 }
 
 /**

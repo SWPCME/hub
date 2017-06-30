@@ -8,4 +8,5 @@ SUBDIRS = cls \
         sys \
         ogr \
         gda \
-        gsl
+        gsl \
+        cut

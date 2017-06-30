@@ -69,13 +69,46 @@ UErrCodeT CRtkTideCtl::Init()
 UErrCodeT CRtkTideCtl::Solid(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aInGd,
                              const BTimeTmT *aTm)
 {
+    return Tide(aOutEcef, aInGd, aTm, RtkTideSolid);
+}
+
+/**
+ * \brief Ocean
+ */
+UErrCodeT CRtkTideCtl::Ocean(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aInGd,
+                             const BTimeTmT *aTm)
+{
+    return Tide(aOutEcef, aInGd, aTm, RtkTideOcean);
+}
+
+/***** Private A *****/
+
+UErrCodeT CRtkTideCtl::Tide(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aInGd,
+                            const BTimeTmT *aTm, RtkTideCodeT aCode)
+{
     gtime_t gtm;
     mType->BTmToGTm(&gtm, aTm);
     double ecef[3];
     mType->CsGdToCsEcef(ecef, aInGd);
     double outEcef[3];
-    tidedisp(gtm, ecef, 1, NULL, NULL, outEcef);
+
+    UIntT code = 0;
+    switch (aCode)
+    {
+    case RtkTideSolid:
+        code = 1;
+        break;
+    case RtkTideOcean:
+        code = 2;
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    tidedisp(gtm, ecef, code, NULL, NULL, outEcef);
     mType->ToCsEcef(aOutEcef, outEcef);
 
     return UErrFalse;
 }
+
+/***** Private B *****/

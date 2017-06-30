@@ -51,8 +51,8 @@ class HUB_LIB CHubModuleCtl
 
  protected:
  private:
-    UStateCodeT m_state;
-    MHandleCodeT m_mCHandle;     /* Register handle. */
+    UStateCodeT mState;
+    MHandleCodeT mMCodeH;     /* Register handle. */
 };
 
 #endif  /* MODULE_CTL_H_INCLUDED */

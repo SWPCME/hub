@@ -32,6 +32,9 @@
 
 #include "cls_base.h"
 
+class CClsIoCommonCtl;
+class CClsIoStreamCtl;
+
 class CLS_LIB CClsIoCtl
 {
   public:
@@ -39,9 +42,13 @@ class CLS_LIB CClsIoCtl
     ~CClsIoCtl();
 
     UErrCodeT Init();
-    UErrCodeT PrintF(const char* aFormat, ...);
+    CClsIoCommonCtl *Common();
+    CClsIoStreamCtl *Stream();
+
   private:
   protected:
+    CClsIoCommonCtl *mCommon;
+    CClsIoStreamCtl *mStream;
 };
 
 #endif  // CLS_IOCTL_HPP_INCLUDED

@@ -40,9 +40,20 @@ class RTK_LIB CRtkTideCtl
     UErrCodeT Init();
     UErrCodeT Solid(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aOutGd,
                     const BTimeTmT *aTm);
+    UErrCodeT Ocean(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aOutGd,
+                    const BTimeTmT *aTm);
 
   protected:
   private:
+    typedef enum
+    {
+        RtkTideSolid = 1,
+        RtkTideOcean = 2,
+    } RtkTideCodeT;
+
+    UErrCodeT Tide(BGeomCsEcefT *aOutEcef, const BGeomCsGdT *aOutGd,
+                   const BTimeTmT *aTm, RtkTideCodeT aCode);
+
     CRtkTypeCtl *mType;
 };
 

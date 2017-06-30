@@ -30,6 +30,7 @@
 class CGslVectorBaseCtl;
 class CGslVectorMemCtl;
 class CGslVectorOperCtl;
+class CGslBlasVopCtl;
 
 class NCC_LIB CNccVectorCtl
 {
@@ -44,6 +45,7 @@ class NCC_LIB CNccVectorCtl
     UErrCodeT SetValue(UFloatT aVal, NccVectorHT aVector, UIntT aDim);
     UErrCodeT Cpy(NccVectorHT *aDest, const NccVectorHT aSrc);
     UErrCodeT Mul(NccVectorHT *aC, const NccVectorHT aA, const NccVectorHT aB);
+    UErrCodeT Dot(UFloatT *aResult, const NccVectorHT aX, const NccVectorHT aY);
     UErrCodeT Free(NccVectorHT aVector);
 
   protected:
@@ -52,6 +54,7 @@ class NCC_LIB CNccVectorCtl
     CGslVectorBaseCtl *mBase;
     CGslVectorMemCtl *mMem;
     CGslVectorOperCtl *mOper;
+    CGslBlasVopCtl *mVop;
 };
 
 #endif  // NCC_VECTORCTL_HPP_INCLUDED

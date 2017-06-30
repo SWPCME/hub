@@ -125,6 +125,16 @@ UErrCodeT NccVectorT::SetValue(UFloatT aVal, UIntT aDim)
 }
 
 /**
+ * \brief Dot.
+ */
+UErrCodeT NccVectorT::Dot(UFloatT *aResult, const NccVectorT *aVector)
+{
+    NccVectorHT handle = aVector->Handle();
+
+    return mVector->Dot(aResult, mVtrHandle, handle);
+}
+
+/**
  * \brief Multiplication.
  */
 NccVectorT NccVectorT::operator *(const NccVectorT &aVector)

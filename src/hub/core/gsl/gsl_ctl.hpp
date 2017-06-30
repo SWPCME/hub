@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gsl_ctl.cpp 2017-05 $
+ * $Id: gsl_ctl.hpp 2017-05 $
  *
  * Project:  GSL (GSL: Gnu Scientific Library).
  * Purpose:  Gsl controler definition.
@@ -29,6 +29,7 @@
 
 class CGslTypeCtl;
 class CGslVectorCtl;
+class CGslBlasCtl;
 
 class GSL_LIB CGslCtl
 {
@@ -39,11 +40,13 @@ class GSL_LIB CGslCtl
     UErrCodeT Init();
     CGslTypeCtl *Type();
     CGslVectorCtl *Vector();
+    CGslBlasCtl *Blas();
 
   protected:
   private:
     CGslTypeCtl *mType;
     CGslVectorCtl *mVector;
+    CGslBlasCtl *mBlas;
 };
 
 #endif  // GSL_CTL_HPP_INCLUDED

@@ -54,10 +54,11 @@ class UST_LIB CUstContainerCtl
 
     // Iterator.
     UHandleT Iterator();
-    UErrCodeT Head(USequenceCodeT aCode);
+    UErrCodeT Head(const USequenceCodeT aCode);
     UErrCodeT Tail();
     UErrCodeT Next();
     UErrCodeT Prev();
+    UErrCodeT Goto(const KeyT *aKey);
     UErrCodeT State();
     ContentT *Content();
     const KeyT *Key();

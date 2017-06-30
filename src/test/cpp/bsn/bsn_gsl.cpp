@@ -38,9 +38,6 @@
  */
 CBsnGsl::CBsnGsl()
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-    hubCtl->Register(HubMGsl);
-    mGsl = (CGslCtl*) hubCtl->Module(HubMGsl);
 }
 
 /**
@@ -55,6 +52,10 @@ CBsnGsl::~CBsnGsl()
  */
 UErrCodeT CBsnGsl::Init()
 {
+    CHubCtl *hubCtl = CHubCtl::Hub();
+    hubCtl->Register(HubMGsl);
+    mGsl = (CGslCtl*) hubCtl->Module(HubMGsl);
+
     return UErrFalse;
 }
 

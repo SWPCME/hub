@@ -28,6 +28,7 @@
 #include "ctgy_base.hpp"
 
 class CEarthCtl;
+class CFmdCtl;
 
 class CTGY_LIB CCtgyCtl
 {
@@ -37,10 +38,12 @@ class CTGY_LIB CCtgyCtl
 
     UErrCodeT Init();
     CEarthCtl *Earth();
+    CFmdCtl *Fmd();
 
   protected:
   private:
     CEarthCtl *mEarth;
+    CFmdCtl *mFmd;
 };
 
 #endif  // CTGY_CTL_HPP_INCLUDED

@@ -30,7 +30,11 @@ OBJ = \
       gsl_vectorctl.o \
       gsl_vectorbasectl.o \
       gsl_vectormemctl.o \
-      gsl_vectoroperctl.o
+      gsl_vectoroperctl.o \
+      gsl_blasctl.o \
+      gsl_blasvopctl.o \
+      gsl_blasmvopctl.o \
+      gsl_blasmmopctl.o 
 
 HEADER = \
          gsl_base.hpp \
@@ -38,4 +42,8 @@ HEADER = \
          gsl_vectorctl.hpp \
          gsl_vectorbasectl.hpp \
          gsl_vectormemctl.hpp \
-         gsl_vectoroperctl.hpp 
+         gsl_vectoroperctl.hpp \
+         gsl_blasctl.hpp \
+         gsl_blasvopctl.hpp \
+         gsl_blasmvopctl.hpp \
+         gsl_blasmmopctl.hpp

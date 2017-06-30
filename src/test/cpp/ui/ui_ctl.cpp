@@ -33,6 +33,7 @@
 #include "bsn_ctl.hpp"
 #include "bsn_gda.hpp"
 #include "bsn_gsl.hpp"
+#include "bsn_cut.hpp"
 #include "bsn_ncc.hpp"
 #include "bsn_rtk.hpp"
 #include "bsn_uniqueid.hpp"
@@ -78,6 +79,9 @@ UErrCodeT CUiCtl::Test()
 
     CBsnGsl *gsl = m_bsn->Gsl();
     gsl->Test();
+
+    CBsnCut *cut = m_bsn->Cut();
+    cut->Test();
 
     CBsnNcc *ncc = m_bsn->Ncc();
     ncc->Test();

@@ -126,10 +126,13 @@ typedef void* UHandleT;
 /* Data */
 typedef void* UDataT;
 
+/* String */
+const char kStrNull[1] = "";
+
 const UIntT kNMax = 10000;
 
 const UIntT kHubCodeCoreBegin = -1;
-const UIntT kHubCodeCoreEnd   = -7;
+const UIntT kHubCodeCoreEnd   = -8;
 const UIntT kHubCodeWrapBegin = 1;
 const UIntT kHubCodeWrapEnd   = 1;
 const UIntT kHubCodeCtgyBegin = 1000;
@@ -141,9 +144,11 @@ typedef enum
     HubMCcs = -2,               /* C with class standard library. */
     HubMUst = -3,               /* Universal struct type library. */
     HubMSys = -4,               /* System library. */
-    HubMOgr = -5,               /* Ogr library. */
-    HubMGda = -6,               /* Gda library. */
-    HubMGsl = -7,               /* Gsl library. */
+    HubMOgr = -5,               /* OpenGIS Simple Features Reference 
+                                   Implementation. */
+    HubMGda = -6,               /* Geospatial Data Absraction. */
+    HubMGsl = -7,               /* Gnu Scientific Library. */
+    HubMCut = -8,               /* Client-side URL Transfer. */
 
     /* Wrap module */
     HubMVtr = 1,                /* Vector library. */

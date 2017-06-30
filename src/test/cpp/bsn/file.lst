@@ -2,8 +2,10 @@ OBJ = \
       bsn_ctl.o \
       bsn_gda.o \
       bsn_gsl.o \
+      bsn_cut.o \
       bsn_ncc.o \
       bsn_rtk.o \
+      bsn_fmd.o \
       bsn_uniqueid.o
 
 LIB_SO_NAME = bsn

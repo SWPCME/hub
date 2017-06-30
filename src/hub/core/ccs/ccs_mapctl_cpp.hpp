@@ -250,6 +250,38 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Next()
 }
 
 /**
+ * \brief Goto position that you specified.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::Goto(const KeyT *aKey)
+{
+    MapIteratorT it = mMap.find(*aKey);
+    if (it == mMap.end())
+    {
+        return UErrTrue;
+    }
+
+    switch (mItCode)
+    {
+    case USequenceOrder:
+        mIt = it;
+        break;
+    case USequenceReverse:
+    {
+        MapRIteratorT rIt = mMap.rbegin();
+        UIntT dist;
+        DistToRHead(&dist, &it);
+        SetIt(&mRIt, &rIt, dist);
+        break;
+    }
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
  * \brief State.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
@@ -428,6 +460,42 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::SetIt(UHandleT aIt)
     }
 
     return UErrFalse;
+}
+
+/**
+ * \brief Set reverse iterator with distance.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::SetIt(MapRIteratorT *aDest,
+                                            MapRIteratorT *aSrc,
+                                            UIntT aDist)
+{
+    aDest = aSrc + aDist;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Distance with aPosA and aPosB by MapIteratorT.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::Dist(UIntT *aDist, MapIteratorT *aPosA,
+                                           MapIteratorT *aPosB)
+{
+    *aDist = std::distance(*aPosA, *aPosB);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Distance with aPosA and "Reverse Head" by MapIteratorT.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::DistToRHead(UIntT *aDist, MapIteratorT *aPosA)
+{
+    MapIteratorT tail = mMap.end();
+
+    return Dist(aDist, aPosA, &tail);
 }
 
 /**

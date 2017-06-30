@@ -34,12 +34,16 @@
 
 // Module
 #include "cls_argctl.hpp"
+#include "cls_iocommonctl.hpp"
+#include "cls_iostreamctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CClsIoCtl::CClsIoCtl()
 {
+    mCommon = NULL;
+    mStream = NULL;
 }
 
 /**
@@ -47,6 +51,15 @@ CClsIoCtl::CClsIoCtl()
  */
 CClsIoCtl::~CClsIoCtl()
 {
+    if (mCommon != NULL)
+    {
+        delete mCommon;
+    }
+
+    if (mStream != NULL)
+    {
+        delete mStream;
+    }
 }
 
 /**
@@ -60,14 +73,29 @@ UErrCodeT CClsIoCtl::Init()
 }
 
 /**
- * \brief Format and print data.
+ * \brief Common Controler.
  */
-UErrCodeT CClsIoCtl::PrintF(const char* aFormat, ...)
+CClsIoCommonCtl *CClsIoCtl::Common()
 {
-    ClsArgListT list;
-    cls_arg_start(list, aFormat);
-    vprintf(aFormat, list);
-    cls_arg_end(list);
+    if (mCommon == NULL)
+    {
+        mCommon = new CClsIoCommonCtl;
+        mCommon->Init();
+    }
 
-    return UErrFalse;
+    return mCommon;
+}
+
+/**
+ * \brief Stream Controler.
+ */
+CClsIoStreamCtl *CClsIoCtl::Stream()
+{
+    if (mStream == NULL)
+    {
+        mStream = new CClsIoStreamCtl;
+        mStream->Init();
+    }
+
+    return mStream;
 }

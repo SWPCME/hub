@@ -27,13 +27,16 @@
 // Gsl.
 #include "gsl_typectl.hpp"
 #include "gsl_vectorctl.hpp"
+#include "gsl_blasctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CGslCtl::CGslCtl()
 {
-    mType = new CGslTypeCtl;
+    mType = NULL;
+    mVector = NULL;
+    mBlas = NULL;
 }
 
 /**
@@ -41,7 +44,20 @@ CGslCtl::CGslCtl()
  */
 CGslCtl::~CGslCtl()
 {
-    delete mType;
+    if (mType != NULL)
+    {
+        delete mType;
+    }
+
+    if (mVector != NULL)
+    {
+        delete mVector;
+    }
+
+    if (mBlas != NULL)
+    {
+        delete mBlas;
+    }
 }
 
 /**
@@ -49,8 +65,6 @@ CGslCtl::~CGslCtl()
  */
 UErrCodeT CGslCtl::Init()
 {
-    mType->Init();
-
     return UErrFalse;
 }
 
@@ -59,6 +73,12 @@ UErrCodeT CGslCtl::Init()
  */
 CGslTypeCtl *CGslCtl::Type()
 {
+    if (mType == NULL)
+    {
+        mType = new CGslTypeCtl;
+        mType->Init();
+    }
+
     return mType;
 }
 
@@ -74,6 +94,20 @@ CGslVectorCtl *CGslCtl::Vector()
     }
 
     return mVector;
+}
+
+/**
+ * \brief Blas.
+ */
+CGslBlasCtl *CGslCtl::Blas()
+{
+    if (mBlas == NULL)
+    {
+        mBlas = new CGslBlasCtl;
+        mBlas->Init();
+    }
+
+    return mBlas;
 }
 
 /***** Private A *****/

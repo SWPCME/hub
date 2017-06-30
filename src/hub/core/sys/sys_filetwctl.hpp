@@ -39,7 +39,7 @@
 #include "ust_stringtype.hpp"
 
 // Class
-class CClsIoCtl;
+class CClsIoCommonCtl;
 
 class SYS_LIB CSysFileTwCtl
 {
@@ -56,7 +56,7 @@ class SYS_LIB CSysFileTwCtl
                             int aTFlag, struct FTW* aFtwBuf);
 
     // Cls control.
-    static CClsIoCtl* m_io;
+    static CClsIoCommonCtl* mIoCmn;
 };
 
 #endif  // SYS_FTWCTL_HPP_INCLUDED

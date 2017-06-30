@@ -35,6 +35,9 @@
 #include "ust_ctl.hpp"
 #include "ust_stringctl.hpp"
 
+// Cls.
+#include "cls_argctl.hpp"
+
 /**
  * \brief Constructor.
  */
@@ -48,7 +51,7 @@ UStringT::UStringT()
  *
  * @param aStr Initialize by "UStringT".
  */
-UStringT::UStringT(const UStringT& aStr)
+UStringT::UStringT(const UStringT &aStr)
 {
     Init();
     m_char = m_str->MCpy(aStr.ToA());
@@ -59,7 +62,7 @@ UStringT::UStringT(const UStringT& aStr)
  *
  * @param aStr Initialize by "UStringT*".
  */
-UStringT::UStringT(const UStringT* aStr)
+UStringT::UStringT(const UStringT *aStr)
 {
     Init();
     m_char = m_str->MCpy(aStr->ToA());
@@ -70,7 +73,7 @@ UStringT::UStringT(const UStringT* aStr)
  *
  * @param aStr Initialize by "char".
  */
-UStringT::UStringT(const char* aStr)
+UStringT::UStringT(const char *aStr)
 {
     Init();
     m_char = m_str->MCpy(aStr);
@@ -81,7 +84,7 @@ UStringT::UStringT(const char* aStr)
  *
  * @param aStr Initialize by "wchar_t".
  */
-UStringT::UStringT(const wchar_t* aStr)
+UStringT::UStringT(const wchar_t *aStr)
 {
     Init();
     m_char = m_str->MWToA(aStr);
@@ -102,12 +105,33 @@ UStringT::~UStringT()
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT UStringT::Add(const char* aStr)
+UErrCodeT UStringT::Add(const char *aStr)
 {
     m_str->MCat(&m_char, aStr);
-    
+
     return UErrFalse;
 }
+
+/**
+ * \brief Add "aNum" string.
+ *
+ * @param aNum Number of string.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+// UErrCodeT UStringT::Add(UIntT aNum, ...)
+// {
+//     ClsArgListT list;
+//     cls_arg_start(list, aNum);
+//     for (UIntT i = 0; i < aNum; ++i)
+//     {
+//         char* val = cls_arg_value(list, char*);
+//         m_str->MCat(&m_char, val);
+//     }
+//     cls_arg_end(list);
+    
+//     return UErrFalse;
+// }
 
 /**
  * \brief Get string with type of "UCharT"
@@ -155,7 +179,12 @@ const wchar_t* UStringT::ToW()
  */
 UErrCodeT UStringT::IsNull()
 {
-    return UErrFalse;
+    if (m_str->Len(m_char) == 0)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 
@@ -187,10 +216,18 @@ UErrCodeT UStringT::Clear()
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT UStringT::operator =(const char* aStr)
+UErrCodeT UStringT::operator =(const char *aStr)
 {
     m_char = m_str->MCpy(aStr);
 
+    return UErrFalse;
+}
+
+/**
+ * \brief TODO
+ */
+UErrCodeT UStringT::operator !=(const char *aStr)
+{
     return UErrFalse;
 }
 
@@ -220,6 +257,36 @@ UErrCodeT UStringT::operator =(const UStringT& aStr)
 UErrCodeT UStringT::operator <(const UStringT& aStr) const
 {
     m_str->Cmp(ToA(), aStr.ToA());
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "+".
+ */
+UStringT UStringT::operator +(const UStringT &aStr)
+{
+    m_str->MCat(&m_char, aStr.ToA());
+
+    return m_char;
+}
+
+/**
+ * \brief Overload operator of "+".
+ */
+UStringT UStringT::operator +(const char *aStr)
+{
+    m_str->MCat(&m_char, aStr);
+
+    return m_char;
+}
+
+/**
+ * \brief Overload operator of "+=".
+ */
+UErrCodeT UStringT::operator +=(const UStringT &aStr)
+{
+    m_str->MCat(&m_char, aStr.ToA());
 
     return UErrFalse;
 }

@@ -38,33 +38,38 @@ class UST_LIB UStringT
 {
  public:
     UStringT(void);
-    UStringT(const UStringT& aStr);
-    UStringT(const UStringT* aStr);
-    UStringT(const char* aStr);
-    UStringT(const wchar_t* aStr);
+    UStringT(const UStringT &aStr);
+    UStringT(const UStringT *aStr);
+    UStringT(const char *aStr);
+    UStringT(const wchar_t *aStr);
     ~UStringT();
 
-    UErrCodeT Add(const char* aStr);
-    UErrCodeT Add(const wchar_t* aStr);
-    UErrCodeT Del(const char* aStr);
-    UErrCodeT Del(const wchar_t* aStr);
-    UErrCodeT Find(const char* aStr);
-    UErrCodeT Find(const wchar_t* aStr);
+    // UErrCodeT Add(UIntT aNum, ...);
+    UErrCodeT Add(const char *aStr);
+    UErrCodeT Add(const wchar_t *aStr);
+    UErrCodeT Del(const char *aStr);
+    UErrCodeT Del(const wchar_t *aStr);
+    UErrCodeT Find(const char *aStr);
+    UErrCodeT Find(const wchar_t *aStr);
     UIntT Count();
     UErrCodeT IsNull();
     UErrCodeT Clear();
-    const UCharT* ToU();
-    const char* ToA() const;
-    const wchar_t* ToW();
+    const UCharT *ToU();
+    const char *ToA() const;
+    const wchar_t *ToW();
     UIntT ToI();
     UFloatT ToF();
 
     // Operator.
-    UErrCodeT operator =(const char* aStr);
+    UErrCodeT operator =(const char *aStr);
+    UErrCodeT operator !=(const char *aStr);
     // UErrCodeT operator =(const wchar_t* aStr);
-    UErrCodeT operator =(const UStringT& aStr);
-    UErrCodeT operator =(const UIntT& aInt);
-    UErrCodeT operator <(const UStringT& aStr) const;
+    UErrCodeT operator =(const UStringT &aStr);
+    UErrCodeT operator =(const UIntT &aInt);
+    UErrCodeT operator <(const UStringT &aStr) const;
+    UStringT operator +(const UStringT &aStr);
+    UStringT operator +(const char *aStr);
+    UErrCodeT operator +=(const UStringT &aStr);
  protected:
  private:
     UErrCodeT Init();
@@ -73,8 +78,8 @@ class UST_LIB UStringT
 
     UStateCodeT m_state;
     /* Multi format. */
-    char* m_char;
-    wchar_t* m_wchar;
+    char *m_char;
+    wchar_t *m_wchar;
     UIntT m_int;
     UFloatT m_float;
 };

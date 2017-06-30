@@ -44,6 +44,7 @@
 #include "ogr_ctl.hpp"
 #include "gda_ctl.hpp"
 #include "gsl_ctl.hpp"
+#include "cut_ctl.hpp"
 
 /**
  * \brief Wrap module.
@@ -66,8 +67,8 @@ CHubModuleCtl::CHubModuleCtl()
     CBaseCtl* base = CBaseCtl::Base();
     base->Init();
 
-    m_mCHandle.Init(UContainerMap);
-    m_state = UStateOff;
+    mMCodeH.Init(UContainerMap);
+    mState = UStateOff;
 }
 
 /**
@@ -96,7 +97,7 @@ UErrCodeT CHubModuleCtl::Init(UFlagCodeT aFlag /* = UFlagOff */)
  */
 UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
 {
-    if (m_mCHandle.FindByKey(aCode) == UErrFalse)
+    if (mMCodeH.FindByKey(aCode) == UErrFalse)
     {
         return UErrFalse;
     }
@@ -105,51 +106,57 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
     {
     case HubMCls:
     {
-        CClsCtl* clsCtl = new CClsCtl;
+        CClsCtl *clsCtl = new CClsCtl;
         clsCtl->Init();
-        m_mCHandle.Add((UHandleT) clsCtl, aCode);
+        mMCodeH.Add((UHandleT) clsCtl, aCode);
         return UErrFalse;
     }
     case HubMSys:
     {
-        CSysCtl* sysCtl = new CSysCtl;
+        CSysCtl *sysCtl = new CSysCtl;
         sysCtl->Init();
-        m_mCHandle.Add((UHandleT) sysCtl, aCode);
+        mMCodeH.Add((UHandleT) sysCtl, aCode);
         return UErrFalse;
     }
     case HubMOgr:
     {
-        COgrCtl* ogrCtl = new COgrCtl;
+        COgrCtl *ogrCtl = new COgrCtl;
         ogrCtl->Init();
-        m_mCHandle.Add((UHandleT) ogrCtl, aCode);
+        mMCodeH.Add((UHandleT) ogrCtl, aCode);
         return UErrFalse;
     }
     case HubMGda:
     {
-        CGdaCtl* gdaCtl = new CGdaCtl;
+        CGdaCtl *gdaCtl = new CGdaCtl;
         gdaCtl->Init();
-        m_mCHandle.Add((UHandleT) gdaCtl, aCode);
+        mMCodeH.Add((UHandleT) gdaCtl, aCode);
         return UErrFalse;
     }
     case HubMGsl:
     {
-        CGslCtl* gslCtl = new CGslCtl;
+        CGslCtl *gslCtl = new CGslCtl;
         gslCtl->Init();
-        m_mCHandle.Add((UHandleT) gslCtl, aCode);
+        mMCodeH.Add((UHandleT) gslCtl, aCode);
         return UErrFalse;
+    }
+    case HubMCut:
+    {
+        CCutCtl *cutCtl = new CCutCtl;
+        cutCtl->Init();
+        mMCodeH.Add((UHandleT) cutCtl, aCode);
     }
     case HubMVtr:
     {
-        CVtrCtl* vtrCtl = new CVtrCtl;
+        CVtrCtl *vtrCtl = new CVtrCtl;
         vtrCtl->Init();
-        m_mCHandle.Add((UHandleT) vtrCtl, aCode);
+        mMCodeH.Add((UHandleT) vtrCtl, aCode);
         return UErrFalse;
     }
     case HubMRtk:
     {
         CRtkCtl *rtkCtl = new CRtkCtl;
         rtkCtl->Init();
-        m_mCHandle.Add((UHandleT) rtkCtl, aCode);
+        mMCodeH.Add((UHandleT) rtkCtl, aCode);
         return UErrFalse;
     }
     default:
@@ -166,7 +173,7 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
  */
 UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
 {
-    if (m_mCHandle.FindByKey(aCode) == UErrTrue)
+    if (mMCodeH.FindByKey(aCode) == UErrTrue)
     {
         return UErrTrue;
     }
@@ -174,30 +181,30 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
     switch (aCode)
     {
     case HubMCls:
-        delete (CClsCtl*) m_mCHandle[aCode];
+        delete (CClsCtl*) mMCodeH[aCode];
         break;
     case HubMSys:
-        delete (CSysCtl*) m_mCHandle[aCode];
+        delete (CSysCtl*) mMCodeH[aCode];
         break;
     case HubMOgr:
-        delete (COgrCtl*) m_mCHandle[aCode];
+        delete (COgrCtl*) mMCodeH[aCode];
         break;
     case HubMGda:
-        delete (CGdaCtl*) m_mCHandle[aCode];
+        delete (CGdaCtl*) mMCodeH[aCode];
         break;
     case HubMGsl:
-        delete (CGslCtl*) m_mCHandle[aCode];
+        delete (CGslCtl*) mMCodeH[aCode];
         break;
     case HubMVtr:
-        delete (CVtrCtl*) m_mCHandle[aCode];
+        delete (CVtrCtl*) mMCodeH[aCode];
         break;
     case HubMRtk:
-        delete (CRtkCtl*) m_mCHandle[aCode];
+        delete (CRtkCtl*) mMCodeH[aCode];
         break;
     default:
         break;
     }
-    m_mCHandle.DelByKey(aCode);
+    mMCodeH.DelByKey(aCode);
 
     return UErrFalse;
 }
@@ -211,7 +218,7 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
  */
 UErrCodeT CHubModuleCtl::DeregisterAll()
 {
-    MHandleCodeItT *it = m_mCHandle.Iterator();
+    MHandleCodeItT *it = mMCodeH.Iterator();
     for (it->Head(); it->State() == UErrFalse; it->Next())
     {
         Deregister(it->Key());
@@ -229,9 +236,9 @@ UErrCodeT CHubModuleCtl::DeregisterAll()
  */
 UHandleT CHubModuleCtl::Module(HubCodeT aCode)
 {
-    if (m_mCHandle.FindByKey(aCode) == UErrFalse)
+    if (mMCodeH.FindByKey(aCode) == UErrFalse)
     {
-        return (UHandleT) m_mCHandle[aCode];
+        return (UHandleT) mMCodeH[aCode];
     }
 
     return NULL;

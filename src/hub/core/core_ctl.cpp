@@ -29,21 +29,25 @@
 
 #include "core_ctl.hpp"
 
+// Base.
+#include "base_macrodefn.hpp"
 // Module.
 #include "cls_ctl.hpp"
 #include "sys_ctl.hpp"
 #include "ogr_ctl.hpp"
 #include "gsl_ctl.hpp"
+#include "cut_ctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CCoreCtl::CCoreCtl()
 {
-    mCls = NULL;
-    mSys = NULL;
-    mOgr = NULL;
-    mGsl = NULL;
+    BMD_POINTER_INIT(mCls);
+    BMD_POINTER_INIT(mSys);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mGsl);
+    BMD_POINTER_INIT(mCut);
 }
 
 /**
@@ -51,25 +55,11 @@ CCoreCtl::CCoreCtl()
  */
 CCoreCtl::~CCoreCtl()
 {
-    if (mCls != NULL)
-    {
-        delete mCls;
-    }
-
-    if (mSys != NULL)
-    {
-        delete mSys;
-    }
-
-    if (mOgr != NULL)
-    {
-        delete mOgr;
-    }
-
-    if (mGsl != NULL)
-    {
-        delete mGsl;
-    }
+    BMD_CLASS_DEL(mCls);
+    BMD_CLASS_DEL(mSys);
+    BMD_CLASS_DEL(mOgr);
+    BMD_CLASS_DEL(mGsl);
+    BMD_CLASS_DEL(mCut);
 }
 
 /**
@@ -85,11 +75,7 @@ UErrCodeT CCoreCtl::Init()
  */
 CClsCtl *CCoreCtl::Cls()
 {
-    if (mCls == NULL)
-    {
-        mCls = new CClsCtl;
-        mCls->Init();
-    }
+    BMD_CLASS_NEW(mCls, CClsCtl);
 
     return mCls;
 }
@@ -99,11 +85,7 @@ CClsCtl *CCoreCtl::Cls()
  */
 CSysCtl *CCoreCtl::Sys()
 {
-    if (mSys == NULL)
-    {
-        mSys = new CSysCtl;
-        mSys->Init();
-    }
+    BMD_CLASS_NEW(mSys, CSysCtl);
 
     return mSys;
 }
@@ -113,11 +95,7 @@ CSysCtl *CCoreCtl::Sys()
  */
 COgrCtl *CCoreCtl::Ogr()
 {
-    if (mOgr == NULL)
-    {
-        mOgr = new COgrCtl;
-        mOgr->Init();
-    }
+    BMD_CLASS_NEW(mOgr, COgrCtl);
 
     return mOgr;
 }
@@ -127,13 +105,19 @@ COgrCtl *CCoreCtl::Ogr()
  */
 CGslCtl *CCoreCtl::Gsl()
 {
-    if (mGsl == NULL)
-    {
-        mGsl = new CGslCtl;
-        mGsl->Init();
-    }
+    BMD_CLASS_NEW(mGsl, CGslCtl);
 
     return mGsl;
+}
+
+/**
+ * \brief Cut.
+ */
+CCutCtl *CCoreCtl::Cut()
+{
+    BMD_CLASS_NEW(mCut, CCutCtl);
+
+    return mCut;
 }
 
 /***** Private A *****/

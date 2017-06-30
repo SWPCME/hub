@@ -37,9 +37,10 @@
 // Cls control.
 #include "cls_ctl.hpp"
 #include "cls_ioctl.hpp"
+#include "cls_iocommonctl.hpp"
 
 // Static valuable.
-CClsIoCtl* CSysFileTwCtl::m_io = NULL;
+CClsIoCommonCtl* CSysFileTwCtl::mIoCmn = NULL;
 
 /**
  * \brief Constructor.
@@ -65,7 +66,8 @@ UErrCodeT CSysFileTwCtl::Init()
     CBaseCtl *baseCtl = CBaseCtl::Base();
     CCoreCtl* coreCtl = baseCtl->Core();
     CClsCtl* clsCtl = coreCtl->Cls();
-    m_io = clsCtl->Io();
+    CClsIoCtl *clsIoCtl = clsCtl->Io();
+    mIoCmn = clsIoCtl->Common();
 
     return UErrFalse;
 }
@@ -95,13 +97,13 @@ UErrCodeT CSysFileTwCtl::Traversal(const UStringT* aPath)
 int CSysFileTwCtl::NFtw(const char* aFPath, const struct stat* aSB,
                      int aTFlag, struct FTW* aFtwBuf)
 {
-    m_io->PrintF("%-3s %2d %7jd   %-40s %d %s\n",
-              (aTFlag == FTW_D) ?   "d"   : (aTFlag == FTW_DNR) ? "dnr" :
-              (aTFlag == FTW_DP) ?  "dp"  : (aTFlag == FTW_F) ?   "f" :
-              (aTFlag == FTW_NS) ?  "ns"  : (aTFlag == FTW_SL) ?  "sl" :
-              (aTFlag == FTW_SLN) ? "sln" : "???",
-              aFtwBuf->level, (intmax_t) aSB->st_size,
-              aFPath, aFtwBuf->base, aFPath + aFtwBuf->base);
+    mIoCmn->PrintF("%-3s %2d %7jd   %-40s %d %s\n",
+                   (aTFlag == FTW_D) ?   "d"   : (aTFlag == FTW_DNR) ? "dnr" :
+                   (aTFlag == FTW_DP) ?  "dp"  : (aTFlag == FTW_F) ?   "f" :
+                   (aTFlag == FTW_NS) ?  "ns"  : (aTFlag == FTW_SL) ?  "sl" :
+                   (aTFlag == FTW_SLN) ? "sln" : "???",
+                   aFtwBuf->level, (intmax_t) aSB->st_size,
+                   aFPath, aFtwBuf->base, aFPath + aFtwBuf->base);
 
     return 0;               /* To tell nftw() to continue. */
 }

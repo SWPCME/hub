@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: cls_expctl.cpp 2017-05 $
+ * $Id: cls_expctl.hpp 2017-05 $
  *
  * Project:  C language standard library.
  * Purpose:  Exponentiation controler definition.

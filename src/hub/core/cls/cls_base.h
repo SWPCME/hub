@@ -34,4 +34,15 @@
 
 #define CLS_LIB HUB_LIB
 
+typedef UHandleT ClsFileHT;
+
+typedef enum
+{
+    ClsFileOperR   = 1,          /* Read. */
+    ClsFileOperRb  = 2,          /* Read bit. */
+    ClsFileOperW   = 21,         /* Write. */
+    ClsFileOperWb  = 22,         /* Write bit. */
+    ClsFileOperWba = 23,         /* Write bit add. */
+} ClsFileOperCodeT;
+
 #endif  /* CLS_BASE_H_INCLUDED */

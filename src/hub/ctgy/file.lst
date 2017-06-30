@@ -29,4 +29,5 @@ OBJ = \
       ctgy_ctl.o
 
 SUBDIRS = \
-          earth
+          earth \
+          fmd 

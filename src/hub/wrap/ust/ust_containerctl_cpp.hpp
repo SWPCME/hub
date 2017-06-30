@@ -220,6 +220,7 @@ UHandleT CUstContainerCtl<ContentT, KeyT>::Iterator()
     if (mIt == NULL)
     {
         mIt = (UHandleT) new UIteratorT<ContentT, KeyT>;
+        ((UIteratorT<ContentT, KeyT>*) mIt)->Init(this);
     }
 
     return mIt;
@@ -231,7 +232,7 @@ UHandleT CUstContainerCtl<ContentT, KeyT>::Iterator()
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT CUstContainerCtl<ContentT, KeyT>::Head(USequenceCodeT aCode)
+UErrCodeT CUstContainerCtl<ContentT, KeyT>::Head(const USequenceCodeT aCode)
 {
     if (Lock() == UErrTrue)
     {
@@ -304,6 +305,24 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Prev()
 }
 
 /**
+ * \brief Goto position that you specified.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CUstContainerCtl<ContentT, KeyT>::Goto(const KeyT *aKey)
+{
+    switch (mCode)
+    {
+    case UContainerList:
+        // return mList->Goto(aKey);
+        return UErrTrue;
+    case UContainerMap:
+        return mMap->Goto(aKey);
+    default:
+        return UErrTrue;
+    }
+}
+
+/**
  * \brief State.
  */
 template <typename ContentT, typename KeyT>
@@ -318,8 +337,6 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::State()
     default:
         return UErrTrue;
     }
-
-    return UErrFalse;
 }
 
 /**

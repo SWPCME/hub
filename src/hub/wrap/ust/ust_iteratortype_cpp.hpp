@@ -47,8 +47,7 @@ UIteratorT<ContentT, KeyT>::~UIteratorT()
  * \brief Initialize.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UIteratorT<ContentT, KeyT>::Init(
-    CUstContainerCtl<ContentT, KeyT> *aCtn)
+UErrCodeT UIteratorT<ContentT, KeyT>::Init(CUstContainerCtl<ContentT, KeyT> *aCtn)
 {
     mCtn = aCtn;
 
@@ -59,9 +58,18 @@ UErrCodeT UIteratorT<ContentT, KeyT>::Init(
  * \brief Goto begin.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UIteratorT<ContentT, KeyT>::Head(USequenceCodeT aCode)
+UErrCodeT UIteratorT<ContentT, KeyT>::Head(const USequenceCodeT aCode)
 {
     return mCtn->Head(aCode);
+}
+
+/**
+ * \brief Goto position that specified.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT UIteratorT<ContentT, KeyT>::Goto(const KeyT &aKey)
+{
+    return mCtn->Goto(&aKey);
 }
 
 /**
@@ -104,7 +112,7 @@ const KeyT UIteratorT<ContentT, KeyT>::Key()
  * \brief Add.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UIteratorT<ContentT, KeyT>::Add(ContentT &aContent, KeyT &aKey)
+UErrCodeT UIteratorT<ContentT, KeyT>::Add(const ContentT &aContent, const KeyT &aKey)
 {
     return mCtn->Add(&aContent, &aKey);
 }

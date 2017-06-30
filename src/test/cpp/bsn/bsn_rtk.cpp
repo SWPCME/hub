@@ -33,6 +33,7 @@
 // Cls.
 #include "cls_ctl.hpp"
 #include "cls_ioctl.hpp"
+#include "cls_iocommonctl.hpp"
 // Gsl.
 #include "gsl_ctl.hpp"
 // Rtk.
@@ -65,6 +66,7 @@ UErrCodeT CBsnRtk::Test()
     CRtkTideCtl *tideCtl = mRtk->Tide();
     CClsCtl *cls = (CClsCtl*) mHub->Module(HubMCls);
     CClsIoCtl *ioCtl = cls->Io();
+    CClsIoCommonCtl *ioCmnCtl = ioCtl->Common();
     CGslCtl *gslCtl = (CGslCtl*) mHub->Module(HubMGsl);
 
     BGeomCsGdT gd;
@@ -76,10 +78,10 @@ UErrCodeT CBsnRtk::Test()
     gd.h = 0;
     BGeomCsEcefT inEcef;
     convertCtl->GdToEcef(&inEcef, &gd);
-    ioCtl->PrintF("X_disp = %8.5lf, ", inEcef.x);
-    ioCtl->PrintF("Y_disp = %8.5lf, ", inEcef.y);
-    ioCtl->PrintF("Z_disp = %8.5lf\n", inEcef.z);
-    ioCtl->PrintF("r = %8.5lf\n", BGEOM_EARTH_R);
+    ioCmnCtl->PrintF("X_disp = %8.5lf, ", inEcef.x);
+    ioCmnCtl->PrintF("Y_disp = %8.5lf, ", inEcef.y);
+    ioCmnCtl->PrintF("Z_disp = %8.5lf\n", inEcef.z);
+    ioCmnCtl->PrintF("r = %8.5lf\n", BGEOM_EARTH_R);
 
     BTimeTmT tm;
     tm.year = 2017;
@@ -96,21 +98,21 @@ UErrCodeT CBsnRtk::Test()
     {
         tm.hour += i;
         tideCtl->Solid(&ecef[i], &gd, &tm);
-        // ioCtl->PrintF("%d: ", i);
-        // ioCtl->PrintF("X_disp = %8.5f, ", ecef[i].x * 1000);
-        // ioCtl->PrintF("Y_disp = %8.5f, ", ecef[i].y * 1000);
-        // ioCtl->PrintF("Z_disp = %8.5f\n", ecef[i].z * 1000);
+        // ioCmnCtl->PrintF("%d: ", i);
+        // ioCmnCtl->PrintF("X_disp = %8.5f, ", ecef[i].x * 1000);
+        // ioCmnCtl->PrintF("Y_disp = %8.5f, ", ecef[i].y * 1000);
+        // ioCmnCtl->PrintF("Z_disp = %8.5f\n", ecef[i].z * 1000);
         convertCtl->EcefToGd(&outGd[i], &ecef[i]);
-        // ioCtl->PrintF("Lo_disp = %8.5f, ", outGd[i].lon);
-        // ioCtl->PrintF("La_disp = %8.5f, ", outGd[i].lat);
-        // ioCtl->PrintF("H_disp = %8.5f\n", outGd[i].h);
+        // ioCmnCtl->PrintF("Lo_disp = %8.5f, ", outGd[i].lon);
+        // ioCmnCtl->PrintF("La_disp = %8.5f, ", outGd[i].lat);
+        // ioCmnCtl->PrintF("H_disp = %8.5f\n", outGd[i].h);
         if (i != 0)
         {
             UFloatT x = (ecef[i].x - ecef[i-1].x) * 1000;
             UFloatT y = (ecef[i].y - ecef[i-1].y) * 1000;
             UFloatT z = (ecef[i].z - ecef[i-1].z) * 1000;
             UFloatT a = 2 * (x * x + y * y + z * z);
-            // ioCtl->PrintF("a = %lf \n", a);
+            // ioCmnCtl->PrintF("a = %lf \n", a);
         }
     }
 

@@ -34,6 +34,8 @@
 #include "gsl_vectorbasectl.hpp"
 #include "gsl_vectormemctl.hpp"
 #include "gsl_vectoroperctl.hpp"
+#include "gsl_blasctl.hpp"
+#include "gsl_blasvopctl.hpp"
 
 /**
  * \brief Constructor.
@@ -57,10 +59,14 @@ UErrCodeT CNccVectorCtl::Init()
     CBaseCtl *baseCtl = CBaseCtl::Base();
     CCoreCtl *coreCtl = baseCtl->Core();
     CGslCtl *gslCtl = coreCtl->Gsl();
+
     CGslVectorCtl *vectorCtl = gslCtl->Vector();
     mBase = vectorCtl->Base();
     mMem = vectorCtl->Mem();
     mOper = vectorCtl->Oper();
+
+    CGslBlasCtl *blasCtl = gslCtl->Blas();
+    mVop = blasCtl->Vop();
 
     return UErrFalse;
 }
@@ -123,6 +129,14 @@ UErrCodeT CNccVectorCtl::Cpy(NccVectorHT *aDest, const NccVectorHT aSrc)
 UErrCodeT CNccVectorCtl::Mul(NccVectorHT *aC, const NccVectorHT aA, const NccVectorHT aB)
 {
     return mOper->Mul((GslVectorHT*) aC, (GslVectorHT) aA, (GslVectorHT) aB);
+}
+
+/**
+ * \brief Dot.
+ */
+UErrCodeT CNccVectorCtl::Dot(UFloatT *aResult, const NccVectorHT aX, const NccVectorHT aY)
+{
+    return mVop->Dot(aResult, (GslVectorHT) aX, (GslVectorHT) aY);
 }
 
 /**

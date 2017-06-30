@@ -26,6 +26,7 @@
 
 // Module.
 #include "earth_ctl.hpp"
+#include "fmd_ctl.hpp"
 
 /**
  * \brief Constructor.
@@ -33,6 +34,7 @@
 CCtgyCtl::CCtgyCtl()
 {
     mEarth = NULL;
+    mFmd = NULL;
 }
 
 /**
@@ -43,6 +45,11 @@ CCtgyCtl::~CCtgyCtl()
     if (mEarth != NULL)
     {
         delete mEarth;
+    }
+
+    if (mFmd != NULL)
+    {
+        delete mFmd;
     }
 }
 
@@ -66,4 +73,18 @@ CEarthCtl *CCtgyCtl::Earth()
     }
 
     return mEarth;
+}
+
+/**
+ * \brief Fmd Controler.
+ */
+CFmdCtl *CCtgyCtl::Fmd()
+{
+    if (mFmd == NULL)
+    {
+        mFmd = new CFmdCtl;
+        mFmd->Init();
+    }
+
+    return mFmd;
 }

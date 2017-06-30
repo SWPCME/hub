@@ -33,6 +33,7 @@
 #include "cls_base.h"
 
 // Class.
+class CClsTypeCtl;
 class CClsStringCtl;
 class CClsMemoryCtl;
 class CClsIoCtl;
@@ -46,14 +47,16 @@ class CLS_LIB CClsCtl
     ~CClsCtl();
 
     UErrCodeT Init(void);
-    CClsStringCtl* Str(void);
-    CClsMemoryCtl* Mem(void);
-    CClsIoCtl* Io(void);
-    CClsUniCtl* Uni(void);
-    CClsMathCtl* Math(void);
+    CClsTypeCtl *Type(void);
+    CClsStringCtl *Str(void);
+    CClsMemoryCtl *Mem(void);
+    CClsIoCtl *Io(void);
+    CClsUniCtl *Uni(void);
+    CClsMathCtl *Math(void);
 
  protected:
  private:
+    CClsTypeCtl *mType;
     CClsStringCtl *mStr;
     CClsMemoryCtl *mMem;
     CClsIoCtl *mIo;

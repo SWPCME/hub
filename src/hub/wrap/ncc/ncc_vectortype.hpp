@@ -41,6 +41,7 @@ class NCC_LIB NccVectorT
     UErrCodeT SetDimSize(UIntT aSize);
     UErrCodeT Value(UFloatT *aVal, UIntT aDim);
     UErrCodeT SetValue(UFloatT aVal, UIntT aDim);
+    UErrCodeT Dot(UFloatT *aResult, const NccVectorT *aVector);
     NccVectorT operator *(const NccVectorT &aVector);
     UErrCodeT operator =(const NccVectorT &aVector);
 

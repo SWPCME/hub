@@ -24,11 +24,22 @@
 
 #include "bsn_fmd.hpp"
 
+// base
+#include "base_macrodefn.hpp"
+// fmd
+#include "fmd_ctl.hpp"
+#include "fmd_filectl.hpp"
+#include "fmd_fileload.hpp"
+#include "fmd_filewrite.hpp"
+#include "fmd_burnctl.hpp"
+#include "fmd_burntime.hpp"
+
 /**
  * \brief Constructor.
  */
 CBsnFmd::CBsnFmd()
 {
+    BMD_POINTER_INIT(mFmd);
 }
 
 /**
@@ -36,6 +47,7 @@ CBsnFmd::CBsnFmd()
  */
 CBsnFmd::~CBsnFmd()
 {
+    BMD_POINTER_INIT(mFmd);
 }
 
 /**
@@ -43,6 +55,8 @@ CBsnFmd::~CBsnFmd()
  */
 UErrCodeT CBsnFmd::Init()
 {
+    BMD_MODULE(mFmd, CFmdCtl, HubMFmd);
+
     return UErrFalse;
 }
 
@@ -51,5 +65,14 @@ UErrCodeT CBsnFmd::Init()
  */
 UErrCodeT CBsnFmd::Test()
 {
+    CFmdFileCtl *fileCtl = mFmd->File();
+    CFmdFileLoad *fileLoad = fileCtl->Load();
+    CFmdFileWrite *fileWrite = fileCtl->Write();
+    CFmdBurnCtl *burnCtl = mFmd->Burn();
+    CFmdBurnTime *burnTime = burnCtl->Time();
+
+    // fileLoad->All();
+    // fileWrite->All();
+
     return UErrFalse;
 }

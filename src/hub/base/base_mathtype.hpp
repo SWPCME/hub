@@ -35,6 +35,16 @@ typedef enum
 } BMathNumCodeT;
 
 /**
+ * \brief Number.
+ */
+typedef enum
+{
+    BMathNumSignNeg  = -1,
+    BMathNumSignNull = 0,
+    BMathNumSignPos  = 1,
+} BMathNumSignCodeT;
+
+/**
  * \brief Block
  */
 typedef struct

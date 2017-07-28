@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ogr_ctl.cpp 2016-08 $
+ * $Id: ogr_ctl.cpp 2017-07 $
  *
  * Project:  Ogr (OpenGIS Simple Features Reference Implementation) library.
  * Purpose:  Ogr Control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -32,17 +32,19 @@
 // Ogr library.
 #include "ogr_api.h"
 
-// Module
-#include "ogr_datasrcctl.hpp"
+// base
+#include "base_macrodefn.hpp"
+// ogr
+#include "ogr_typectl.hpp"
+#include "ogr_driverctl.hpp"
 
 /**
  * \brief Constructor.
  */
 COgrCtl::COgrCtl()
 {
-    m_dataSrc = new COgrDataSrcCtl;
-    m_mDHName.Init(UContainerMap);
-    m_mDHSuffix.Init(UContainerMap);
+    BMD_POINTER_INIT(mType);
+    mMDriver.Init(UContainerMap);
 }
 
 /**
@@ -50,8 +52,8 @@ COgrCtl::COgrCtl()
  */
 COgrCtl::~COgrCtl()
 {
+    BMD_CLASS_DEL(mType);
     CleanupAll();
-    delete m_dataSrc;
 }
 
 /**
@@ -63,133 +65,182 @@ COgrCtl::~COgrCtl()
  */
 UErrCodeT COgrCtl::Init()
 {
-    OGRRegisterAll();
-    InitDriver();
+    CleanupAll();
+    OgrRegisterAll();
 
     return UErrFalse;
 }
 
 /**
- * \brief Cleanup All.
- *
- * Cleanup all the driver of ogr.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
+ * \brief Type controler.
  */
-UErrCodeT COgrCtl::CleanupAll()
+COgrTypeCtl *COgrCtl::Type()
 {
-    OGRCleanupAll();
+    BMD_CLASS_NEW(mType, COgrTypeCtl);
 
-    return UErrFalse;
+    return mType;
 }
 
 /**
- * \brief Attach driver
- *
- * @param aDriverName Name of driver that you need to attach.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
+ * \brief Register all driver.
  */
-UErrCodeT COgrCtl::Attach(const UStringT* aDriverName)
+UErrCodeT COgrCtl::RegisterAll()
 {
-    m_driver = (OgrDriverHT) m_mDHName.Content(*aDriverName);
-
-    return UErrFalse;
-}
-
-/**
- * \brief Create Datasource.
- *
- * Get a handle of datasource that point to this file.
- *
- * @param aFile The file that you want to create.
- * @param aDName The name of the driver, the default value is NULL.
- *
- * @return Handle of ogr data source, if successful; NULL, if failed.
- */
-COgrDataSrcCtl* COgrCtl::Create(UStringT* aFile, const UStringT* aDriverName)
-{
-    char** options = NULL;
-    const char* file = aFile->ToA();
-    OgrDataSrcHT dataSrcH = (OgrDataSrcHT) OGR_Dr_CreateDataSource
-        ((OGRSFDriverH) m_driver, file, options);
-    m_dataSrc->Attach(dataSrcH);
-
-    return m_dataSrc;
-}
-
-/**
- * \brief Load file and get the handle of data source.
- *
- * @return Hanle of data source, if successful; NULL, if failed.
- */
-COgrDataSrcCtl* COgrCtl::Load(UStringT* aFile, const UStringT* aDriverName)
-{
-    UIntT update = 1;
-    const char* file = aFile->ToA();
-    OgrDataSrcHT dataSrcH = (OgrDataSrcHT) OGR_Dr_Open
-        ((OGRSFDriverH) m_driver, file, update);
-    m_dataSrc->Attach(dataSrcH);
-
-    return m_dataSrc;
-}
-
-/**
- * \brief Close file.
- */
-UErrCodeT COgrCtl::Close(OgrDataSrcHT aHandle)
-{
-    OGR_DS_Destroy((OGRDataSourceH) aHandle);
-
-    return UErrFalse;
-}
-
-/***** Private A *****/
-
-/**
- * \brief Initialize Driver.
- *
- * Initialize driver of the handle.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT COgrCtl::InitDriver()
-{
-    UStringT defnName[OGR_VECTOR_FORMATS_COUNT] =
+    UStringT defnName[OGR_F_COUNT] =
         {
-            OGR_VECTOR_TAB_NAME, OGR_VECTOR_SHP_NAME, OGR_VECTOR_CSV_NAME,
-            OGR_VECTOR_XLS_NAME, OGR_VECTOR_XLSX_NAME, OGR_VECTOR_SQLITE_NAME
+            OGR_F_TAB, OGR_F_SHP, OGR_F_CSV, OGR_F_XLS, OGR_F_XLSX,
+            OGR_F_SQLITE, OGR_F_JSON
         };
-    UStringT defnSuffix[OGR_VECTOR_FORMATS_COUNT] =
-        {
-            OGR_VECTOR_TAB_SUFFIX, OGR_VECTOR_SHP_SUFFIX, OGR_VECTOR_CSV_SUFFIX,
-            OGR_VECTOR_XLS_SUFFIX, OGR_VECTOR_XLSX_SUFFIX,
-            OGR_VECTOR_SQLITE_SUFFIX
-        };
-    for (UIntT i= 0; i < OGR_VECTOR_FORMATS_COUNT; ++i)
+
+    for (UIntT i= 0; i < OGR_F_COUNT; ++i)
     {
-        UHandleT handle = NULL;
-        GetDriver((OgrDriverHT) handle, &defnName[i]);
-        m_mDHName.Add(&handle, &defnName[i]);
-        m_mDHSuffix.Add(&handle, &defnSuffix[i]);
+        Register(&defnName[i]);
     }
 
     return UErrFalse;
 }
 
 /**
- * \brief Get Driver.
- *
- * Get driver by name of the format.
- *
- * @param aHandle The handle of driver.
- * @param aName The name of driver.
- *
- * @return UErrFalse, if successful; Others, if failed.
+ * \brief Deregister all driver.
  */
-UErrCodeT COgrCtl::GetDriver(OgrDriverHT aHandle, UStringT* aName)
+UErrCodeT COgrCtl::DeregisterAll()
 {
-    aHandle = (OgrDriverHT) OGRGetDriverByName(aName->ToA());
+    MDriverItT *it = mMDriver.Iterator();
+    for (it->Head(); it->State() == UErrFalse; it->Next())
+    {
+        UStringT name = it->Key();
+        Deregister(&name);
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Register driver.
+ */
+UErrCodeT COgrCtl::Register(const UStringT *aName)
+{
+    if (mMDriver.FindByKey(aName) == UErrTrue)
+    {
+        COgrDriverCtl *driverCtl = NULL;
+        BMD_CLASS_NEW_A_1(driverCtl, COgrDriverCtl, aName);
+        if (driverCtl == NULL)
+        {
+            return UErrTrue;
+        }
+        mMDriver.Add(&driverCtl, aName);
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Register driver.
+ */
+UErrCodeT COgrCtl::Register(OgrFormatCodeT aFormat)
+{
+    UStringT name;
+    mType->ToFormat(&name, aFormat);
+
+    return Register(&name);
+}
+
+/**
+ * \brief Deregister driver.
+ */
+UErrCodeT COgrCtl::Deregister(const UStringT *aName)
+{
+    MDriverItT *it = mMDriver.Iterator();
+    if (it->Goto(aName) == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    delete it->Content();
+    mMDriver.Del(it->Content());
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Dergister driver.
+ */
+UErrCodeT COgrCtl::Deregister(OgrFormatCodeT aFormat)
+{
+    UStringT name;
+    mType->ToFormat(&name, aFormat);
+
+    return Deregister(&name);
+}
+
+/**
+ * \brief Get driver control.
+ *
+ * @param aName Driver name.
+ *
+ * @return Driver control, if successful; NULL, if failed.
+ */
+COgrDriverCtl *COgrCtl::Driver(const UStringT *aName)
+{
+    MDriverItT *it = mMDriver.Iterator();
+    if (it->Goto(aName) == UErrTrue)
+    {
+        return NULL;
+    }
+
+    COgrDriverCtl *driverCtl = it->Content();
+
+    return driverCtl;
+}
+
+/**
+ * \brief Driver controler.
+ */
+COgrDriverCtl *COgrCtl::Driver(OgrFormatCodeT aFormat)
+{
+    UStringT name;
+    mType->ToFormat(&name, aFormat);
+
+    return Driver(&name);
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Cleanup all.
+ */
+UErrCodeT COgrCtl::CleanupAll()
+{
+    DeregisterAll();
+    OgrCleanupAll();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Register all.
+ *
+ * Register all the driver of ogr.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT COgrCtl::OgrRegisterAll()
+{
+    OGRRegisterAll();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Cleanup all.
+ *
+ * Deregister all the driver of ogr, and all things.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT COgrCtl::OgrCleanupAll()
+{
+    OGRCleanupAll();
 
     return UErrFalse;
 }

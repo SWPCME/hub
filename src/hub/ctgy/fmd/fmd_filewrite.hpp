@@ -40,31 +40,31 @@ class FMD_LIB CFmdFileWrite
     ~CFmdFileWrite();
 
     UErrCodeT Init();
-    UErrCodeT All(const char *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT All(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
     // Map Environment.
     UErrCodeT MapEnv(UStringT *aFile, BTimeTmT *aTm,
                      FmdMapEnvIntervalCodeT aCode);
     // Special.
-    UErrCodeT Special(const char *aFile, UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT CrownFireGrid(const char *aFile, UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT IntensityGrid(const char *aFile, UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT FlameLengthGrid(const char *aFile, UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT SpreadRateGrid(const char *aFile, UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT SpreadDirectionGrid(const char *aFile,
+    UErrCodeT Special(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT CrownFireGrid(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT IntensityGrid(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT FlameLengthGrid(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT SpreadRateGrid(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT SpreadDirectionGrid(const UStringT *aFile,
                                   UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT HeatPerUnitAreaGrid(const char *aFile,
+    UErrCodeT HeatPerUnitAreaGrid(const UStringT *aFile,
                                   UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT ReactionIntensityGrid(const char *aFile,
+    UErrCodeT ReactionIntensityGrid(const UStringT *aFile,
                                     UFlagCodeT aFlag = UFlagOff);
-    UErrCodeT ArrivalTimeGrid(const char *aFile, UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT ArrivalTimeGrid(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
     // Common.
-    UErrCodeT Common(const char *aFile);
-    UErrCodeT IgnitionGrid(const char *aFile);
-    UErrCodeT PerimetersShape(const char *aFile);
-    UErrCodeT SpotGrid(const char *aFile);
-    UErrCodeT SpotData(const char *aFile);
-    UErrCodeT SpotShape(const char *aFile);
-    UErrCodeT Timings(const char *aFile);
+    UErrCodeT Common(const UStringT *aFile);
+    UErrCodeT IgnitionGrid(const UStringT *aFile);
+    UErrCodeT PerimetersShape(const UStringT *aFile);
+    UErrCodeT SpotGrid(const UStringT *aFile);
+    UErrCodeT SpotData(const UStringT *aFile);
+    UErrCodeT SpotShape(const UStringT *aFile);
+    UErrCodeT Timings(const UStringT *aFile);
 
   protected:
   private:

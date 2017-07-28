@@ -1,7 +1,9 @@
 # File list.
 # For core.
 
-OBJ = core_ctl.o
+OBJ = \
+      core_ctl.o \
+      core_sngctl.o
 
 SUBDIRS = cls \
         ccs \

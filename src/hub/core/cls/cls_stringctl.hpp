@@ -31,6 +31,10 @@
 #define CLS_STRINGCTL_HPP_INCLUDED
 
 #include "cls_base.h"
+#include "base_mathtype.hpp"
+
+// cls
+class CClsStringToken;
 
 class CLS_LIB CClsStringCtl
 {
@@ -40,6 +44,9 @@ class CLS_LIB CClsStringCtl
 
     // Initialize.
     UErrCodeT Init();
+
+    // Controler.
+    CClsStringToken *Token();
 
     /* Length of string */
     UIntT Len(const char* aStr);
@@ -55,6 +62,7 @@ class CLS_LIB CClsStringCtl
 
     // Compare string.
     UErrCodeT Cmp(const char* aDest, const char* aSrc);
+    BMathNumSignCodeT Coll(const char *aDest, const char *aSrc);
 
     /* Translate */
     UErrCodeT AToW(wchar_t* aDest, const char* aSrc);
@@ -62,6 +70,7 @@ class CLS_LIB CClsStringCtl
 
  protected:
  private:
+    CClsStringToken *mToken;
 };
 
 #endif  /* CLS_STRINGCTL_HPP_INCLUDED */

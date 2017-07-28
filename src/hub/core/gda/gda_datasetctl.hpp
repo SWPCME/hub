@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_datasetctl.hpp 2017-05 $
+ * $Id: gda_datasetctl.hpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda dataset control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -26,37 +26,51 @@
 #define GDA_DATASETCTL_HPP_INCLUDED
 
 #include "gda_base.h"
-#include "ust_containertype.hpp"
-#include "ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
+#include "ust/ust_stringtype.hpp"
 
 class CGdaTypeCtl;
-class CGdaRasterbandCtl;
-
-typedef UContainerT<CGdaRasterbandCtl*, UIntT> MGdaRasterBandCtlT;
+class CGdaBandCtl;
 
 class GDA_LIB CGdaDatasetCtl
 {
   public:
-    CGdaDatasetCtl(GdaDatasetHT aHandle);
+    CGdaDatasetCtl(const UStringT *aFile, const GdaDatasetAttrT *aAttr,
+                   const GdaDriverHT aDriver);
+    CGdaDatasetCtl(const UStringT *aFile, UAccessCodeT aAccess);
     ~CGdaDatasetCtl();
 
     // Init
-    UErrCodeT Init(UStringT *aFile, UAccessCodeT aCode);
+    UErrCodeT Init();
+
+    // Attribute
+    GdaDatasetHT Handle();
+    UStringT Description();
 
     UErrCodeT Save();
-    UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption);
     UErrCodeT Count(UIntT *aNum);
-    CGdaRasterbandCtl *Band(UIntT aId);
+    UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption);
+    CGdaBandCtl *Band(UIntT aId);
     UErrCodeT XSize(UIntT *aNum);
+    UErrCodeT YSize(UIntT *aNum);
 
   private:
   protected:
-    UErrCodeT Close();
+    typedef UContainerT<CGdaBandCtl*, UIntT> MBandT;
+    typedef UIteratorT<CGdaBandCtl*, UIntT> MBandItT;
+
+    UErrCodeT InitPointer();
+    UErrCodeT CreateDataset(const UStringT *aFile,
+                            const GdaDatasetAttrT *aAttr,
+                            const GdaDriverHT aDriver);
+    UErrCodeT LoadDataset(const UStringT *aFile, UAccessCodeT aAccess);
+    CGdaBandCtl *BandCtl(UIntT aId);
+    UErrCodeT GdaClose();
 
     // Handle.
-    GdaDatasetHT mHandle;
+    GdaDatasetHT mDatasetH;
     CGdaTypeCtl *mType;
-    MGdaRasterBandCtlT mBandCtn;
+    MBandT mMBand;
 };
 
 #endif  // GDA_DATASETCTL_HPP_INCLUDED

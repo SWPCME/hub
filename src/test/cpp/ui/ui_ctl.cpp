@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ui_ctl.cpp 2016-08 $
+ * $Id: ui_ctl.cpp 2017-07 $
  *
  * Project:  User Interface.
  * Purpose:  UI Control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -31,26 +31,30 @@
 
 // Business logic.
 #include "bsn_ctl.hpp"
+#include "bsn_cls.hpp"
 #include "bsn_gda.hpp"
+#include "bsn_ogr.hpp"
 #include "bsn_gsl.hpp"
 #include "bsn_cut.hpp"
+#include "bsn_ust.hpp"
 #include "bsn_ncc.hpp"
 #include "bsn_rtk.hpp"
+#include "bsn_fmd.hpp"
 #include "bsn_uniqueid.hpp"
 
 CUiCtl::CUiCtl()
 {
-    m_bsn = new CBsnCtl;
+    mBsn = new CBsnCtl;
 }
 
 CUiCtl::~CUiCtl()
 {
-    delete m_bsn;
+    delete mBsn;
 }
 
 UErrCodeT CUiCtl::Init()
 {
-    m_bsn->Init();
+    mBsn->Init();
 
     return UErrFalse;
 }
@@ -64,27 +68,39 @@ UErrCodeT CUiCtl::Main()
 
 UErrCodeT CUiCtl::Test()
 {
-    CBsnUniqueId *uniqueId = m_bsn->UniqueId();
+    CBsnUniqueId *uniqueId = mBsn->UniqueId();
     BsnUniqueIdPathT uniqueIdPath;
     uniqueIdPath.in = STR_NULL;
     uniqueIdPath.out = STR_NULL;
     uniqueId->SetPath(&uniqueIdPath);
     // uniqueId->Main();
 
-    CBsnGda *gda = m_bsn->Gda();
+    CBsnCls *cls = mBsn->Cls();
+    cls->Test();
+
+    CBsnGda *gda = mBsn->Gda();
     gda->Test();
 
-    CBsnRtk *rtk = m_bsn->Rtk();
-    rtk->Test();
+    CBsnOgr *ogr = mBsn->Ogr();
+    // ogr->Test();
 
-    CBsnGsl *gsl = m_bsn->Gsl();
+    CBsnRtk *rtk = mBsn->Rtk();
+    // rtk->Test();
+
+    CBsnGsl *gsl = mBsn->Gsl();
     gsl->Test();
 
-    CBsnCut *cut = m_bsn->Cut();
-    cut->Test();
+    CBsnCut *cut = mBsn->Cut();
+    // cut->Test();
 
-    CBsnNcc *ncc = m_bsn->Ncc();
+    CBsnUst *ust = mBsn->Ust();
+    ust->Test();
+
+    CBsnNcc *ncc = mBsn->Ncc();
     ncc->Test();
+
+    CBsnFmd *fmd = mBsn->Fmd();
+    fmd->Test();
 
     return UErrFalse;
 }

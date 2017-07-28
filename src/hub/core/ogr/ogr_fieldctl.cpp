@@ -29,14 +29,18 @@
 
 #include "ogr_fieldctl.hpp"
 
-// Module
+// Ogr module.
 #include "ogr_api.h"
+// base
+#include "base_macrodefn.hpp"
 
 /**
  * \brief Constructor.
  */
-COgrFieldCtl::COgrFieldCtl()
+COgrFieldCtl::COgrFieldCtl(OgrFeatureHT aFeatureH)
 {
+    BMD_POINTER_INIT(mFieldH);
+    SetHandle(aFeatureH);
 }
 
 /**
@@ -44,6 +48,7 @@ COgrFieldCtl::COgrFieldCtl()
  */
 COgrFieldCtl::~COgrFieldCtl()
 {
+    BMD_POINTER_INIT(mFieldH);
 }
 
 /**
@@ -51,15 +56,10 @@ COgrFieldCtl::~COgrFieldCtl()
  */
 UErrCodeT COgrFieldCtl::Init()
 {
-    return UErrFalse;
-}
-
-/**
- * \brief Attach handle of feature.
- */
-UErrCodeT COgrFieldCtl::Attach(OgrFieldHT aHandle)
-{
-    m_handle = aHandle;
+    if (mFieldH == NULL)
+    {
+        return UErrTrue;
+    }
 
     return UErrFalse;
 }
@@ -74,7 +74,7 @@ UErrCodeT COgrFieldCtl::Attach(OgrFieldHT aHandle)
  */
 UErrCodeT COgrFieldCtl::Value(UStringT* aValue, UIntT aColumn)
 {
-    // aValue = OGR_F_GetFieldAsString(m_handle, (int) aColumn);
+    *aValue = OGR_F_GetFieldAsString(mFieldH, (int) aColumn);
 
     return UErrFalse;
 }
@@ -89,7 +89,7 @@ UErrCodeT COgrFieldCtl::Value(UStringT* aValue, UIntT aColumn)
  */
 UErrCodeT COgrFieldCtl::Value(UStringT* aValue, UStringT* aName)
 {
-    // aValue = OGR_F_GetFieldAsString(m_handle, aName->ToA());
+    // *aValue = OGR_F_GetFieldAsString(mFieldH, aName->ToA());
 
     return UErrFalse;
 }
@@ -106,7 +106,21 @@ UErrCodeT COgrFieldCtl::Value(UStringT* aValue, UStringT* aName)
  */
 UErrCodeT COgrFieldCtl::SetValue(UStringT* aValue, UIntT aColumn)
 {
-    OGR_F_SetFieldString((OGRFeatureH) m_handle, (int) aColumn, aValue->ToA());
+    OGR_F_SetFieldString((OGRFeatureH) mFieldH, (int) aColumn, aValue->ToA());
 
     return UErrFalse;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Set handle.
+ */
+UErrCodeT COgrFieldCtl::SetHandle(OgrLayerHT aFeatureH)
+{
+    mFieldH = aFeatureH;
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

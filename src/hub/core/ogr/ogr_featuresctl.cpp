@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ogr_featuresctl.cpp 2016-08 $
+ * $Id: ogr_featuresctl.cpp 2017-07 $
  *
  * Project:  Ogr(OpenGIS Simple Features Reference Implementation) library.
  * Purpose:  Ogr features control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -31,29 +31,28 @@
 
 // GDAL/OGR library.
 #include "ogr_api.h"
-
-// Module.
+// base
+#include "base_macrodefn.hpp"
+// ogr
 #include "ogr_featurectl.hpp"
 
-COgrFeaturesCtl::COgrFeaturesCtl()
+COgrFeaturesCtl::COgrFeaturesCtl(OgrLayerHT aLayerH)
 {
-    m_feature = new COgrFeatureCtl;
+    BMD_POINTER_INIT(mFeaturesH);
+    SetHandle(aLayerH);
+    BMD_POINTER_INIT(mIt);
+    mMFeature.Init(UContainerMap);
 }
 
 COgrFeaturesCtl::~COgrFeaturesCtl()
 {
-    delete m_feature;
+    CloseAll();
+    BMD_CLASS_DEL(mIt);
+    BMD_POINTER_INIT(mFeaturesH);
 }
 
 UErrCodeT COgrFeaturesCtl::Init()
 {
-    return UErrFalse;
-}
-
-UErrCodeT COgrFeaturesCtl::Attach(OgrLayerHT aHandle)
-{
-    m_handle = aHandle;
-
     return UErrFalse;
 }
 
@@ -62,17 +61,9 @@ UErrCodeT COgrFeaturesCtl::Attach(OgrLayerHT aHandle)
  *
  * @return Handle of feature control, if successful; NULL, if failed.
  */
-COgrFeatureCtl* COgrFeaturesCtl::Create()
+COgrFeatureCtl *COgrFeaturesCtl::Create()
 {
-    OgrFeatureHT featureH = NULL;
-    OGRErr err = OGR_L_CreateFeature((OGRLayerH) m_handle, (OGRFeatureH) featureH);
-    if (err != OGRERR_NONE)
-    {
-        return NULL;
-    }
-    m_feature->Attach(featureH);
-
-    return m_feature;
+    return FeatureCtl(0);
 }
 
 /**
@@ -82,11 +73,81 @@ COgrFeatureCtl* COgrFeaturesCtl::Create()
  *
  * @return Handle of feature control, if successful; NULL, if failed.
  */
-COgrFeatureCtl* COgrFeaturesCtl::Load(UIntT aRow)
+COgrFeatureCtl *COgrFeaturesCtl::Load(UIntT aRow)
 {
-    OgrFeatureHT featrueH = (OgrFeatureHT) OGR_L_GetFeature
-        ((OGRLayerH) m_handle, (GIntBig) aRow);
-    m_feature->Attach(featrueH);
-
-    return m_feature;
+    return FeatureCtl(aRow);
 }
+
+/**
+ * \brief Close.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT COgrFeaturesCtl::Close(COgrFeatureCtl *aFeature)
+{
+    return UErrFalse;
+}
+
+/**
+ * \brief Close all.
+ */
+UErrCodeT COgrFeaturesCtl::CloseAll()
+{
+    return UErrFalse;
+}
+
+/**
+ * \brief Count.
+ */
+UIntT COgrFeaturesCtl::Count()
+{
+    UIntT bForce = TRUE;
+    UIntT count = OGR_L_GetFeatureCount((OGRLayerH) mFeaturesH, bForce);
+
+    return count;
+}
+
+/**
+ * \brief Iterator Type.
+ */
+COgrFeatureItCtl *COgrFeaturesCtl::Iterator()
+{
+    // BMD_CLASS_NEW(COgrFeatureItCtl);
+
+    return mIt;
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Set handle.
+ */
+UErrCodeT COgrFeaturesCtl::SetHandle(OgrLayerHT aLayerH)
+{
+    mFeaturesH = aLayerH;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Featrue controler.
+ */
+COgrFeatureCtl *COgrFeaturesCtl::FeatureCtl(UIntT aRow)
+{
+    MFeatureItT *it = mMFeature.Iterator();
+    if (it->Goto(aRow) == UErrFalse)
+    {
+        return it->Content();
+    }
+
+    COgrFeatureCtl *featureCtl = NULL;
+    BMD_CLASS_NEW_A_2(featureCtl, COgrFeatureCtl, aRow, mFeaturesH);
+    if (featureCtl != NULL)
+    {
+        mMFeature.Add(featureCtl, aRow);
+    }
+
+    return featureCtl;
+}
+
+/***** Private B *****/

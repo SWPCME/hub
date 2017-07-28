@@ -27,7 +27,26 @@
 
 #include "bsn_base.hpp"
 
+// ust
+#include "ust/ust_stringtype.hpp"
+// gda
+#include "gda/gda_base.h"
+// ogr
+#include "ogr/ogr_base.h"
+
+// cls
+class CClsIoCommonCtl;
+// gda
 class CGdaCtl;
+class CGdaDriversCtl;
+class CGdaDriverCtl;
+class CGdaDatasetCtl;
+class CGdaBandCtl;
+class CGdaAlgCtl;
+class CGdaUtilsCtl;
+// ogr
+class COgrCtl;
+class COgrLayerCtl;
 
 class BSN_LIB CBsnGda
 {
@@ -40,11 +59,34 @@ class BSN_LIB CBsnGda
 
   protected:
   private:
-    // Hub library.
-    CHubCtl *mHub;
+    UErrCodeT TestCreate();
+    UErrCodeT TestLoad();
+    UErrCodeT TestAlg();
+    UErrCodeT TestUtils();
 
-    // Gda library.
+    // rst
+    CGdaDatasetCtl *CreateDataset(const UStringT *aFile, UIntT aNXSize,
+                                  UIntT aNYSize, UIntT aNBand,
+                                  UDataTCodeT aDataT, GdaFormatCodeT aFormat);
+    CGdaDatasetCtl *LoadDataset(const UStringT *aFile, UAccessCodeT aAccess,
+                                GdaFormatCodeT aFormat);
+    CGdaBandCtl *Band(const UStringT *aFile, UIntT aBandId,
+                      UAccessCodeT aAccess, GdaFormatCodeT aFormat);
+    // vtr
+    COgrLayerCtl *Layer(const UStringT *aFile, UIntT aLayerId,
+                        OgrFormatCodeT aFormat);
+    
+    // hub
+    CHubCtl *mHub;
+    // cls
+    CClsIoCommonCtl *mIoCmn;
+    // gda
     CGdaCtl *mGda;
+    CGdaDriversCtl *mDrivers;
+    CGdaAlgCtl *mAlg;
+    CGdaUtilsCtl *mUtils;
+    // ogr
+    COgrCtl *mOgr;
 };
 
 #endif  // BSN_GDA_HPP_INCLUDED

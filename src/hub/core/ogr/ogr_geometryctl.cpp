@@ -32,8 +32,9 @@
 /**
  * \brief Constructor.
  */
-COgrGeometryCtl::COgrGeometryCtl()
+COgrGeometryCtl::COgrGeometryCtl(OgrFeatureHT aFeatureH)
 {
+    SetHandle(mGeometryH);
 }
 
 /**
@@ -51,12 +52,16 @@ UErrCodeT COgrGeometryCtl::Init()
     return UErrFalse;
 }
 
+/***** Private A *****/
+
 /**
- * \brief Attach handle of ogr geometry.
+ * \brief Set handle.
  */
-UErrCodeT COgrGeometryCtl::Attach(OgrGeometryHT aHandle)
+UErrCodeT COgrGeometryCtl::SetHandle(OgrFeatureHT aFeatureH)
 {
-    m_handle = aHandle;
+    mGeometryH = aFeatureH;
 
     return UErrFalse;
 }
+
+/***** Private B *****/

@@ -27,16 +27,15 @@
  * DEALINGS IN THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef OGR_CTL_H_INCLUDED
-#define OGR_CTL_H_INCLUDED
+#ifndef OGR_CTL_HPP_INCLUDED
+#define OGR_CTL_HPP_INCLUDED
 
 #include "ogr_base.h"
-#include "ust_stringtype.hpp"
-#include "ust_containertype.hpp"
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
-class COgrDataSrcCtl;
-
-typedef UContainerT<UHandleT, UStringT> MDriverHandleT;
+class COgrTypeCtl;
+class COgrDriverCtl;
 
 class OGR_LIB COgrCtl
 {
@@ -44,33 +43,38 @@ class OGR_LIB COgrCtl
     COgrCtl();
     ~COgrCtl();
 
-    /* Init and cleanup all. */
+    // Init and cleanup all.
     UErrCodeT Init();
-    UErrCodeT CleanupAll();
 
-    // Attach
-    UErrCodeT Attach(const UStringT* aDriverName);
+    COgrTypeCtl *Type();
 
-    // Data source handle.
-    COgrDataSrcCtl* Create(UStringT* aFile, const UStringT* aDriverName = NULL);
-    COgrDataSrcCtl* Load(UStringT* aFile, const UStringT* aDriverName = NULL);
-    UErrCodeT Close(OgrDataSrcHT aHandle);
+    // Register and deregister driver.
+    UErrCodeT RegisterAll();
+    UErrCodeT DeregisterAll();
+    UErrCodeT Register(const UStringT *aName);
+    UErrCodeT Register(OgrFormatCodeT aFormat);
+    UErrCodeT Deregister(const UStringT *aName);
+    UErrCodeT Deregister(OgrFormatCodeT aFormat);
+
+    // Get Driver.
+    COgrDriverCtl *Driver(const UStringT *aName);
+    COgrDriverCtl *Driver(OgrFormatCodeT aFormat);
 
   protected:
   private:
-    /* Init driver */
-    UErrCodeT InitDriver();
-    UErrCodeT GetDriver(OgrDriverHT aHandle, UStringT* aName);
+    typedef UContainerT<COgrDriverCtl*, UStringT> MDriverT;
+    typedef UIteratorT<COgrDriverCtl*, UStringT> MDriverItT;
 
-    // Driver
-    OgrDriverHT m_driver;
-    /* Map: driver handle with driver name. */
-    MDriverHandleT m_mDHName;
-    /* Map: driver handle with file suffix. */
-    MDriverHandleT m_mDHSuffix;
+    UErrCodeT CleanupAll();
 
-    // Handle
-    COgrDataSrcCtl* m_dataSrc;
+    // ogr
+    UErrCodeT OgrRegisterAll();
+    UErrCodeT OgrCleanupAll();
+
+    COgrTypeCtl *mType;
+
+    // Driver name to "COgrDriverCtl".
+    MDriverT mMDriver;
 };
 
-#endif  /* OGR_CTL_H_INCLUDED */
+#endif  /* OGR_CTL_HPP_INCLUDED */

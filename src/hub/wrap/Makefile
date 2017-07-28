@@ -7,8 +7,8 @@
 # Directory.
 HUB_DIR = ..
 # Search.
-INCLUDE_DIR = -I$(HUB_DIR) -I$(VTR_DIR) -I$(CLS_DIR) -I$(CCS_DIR) -I$(UST_DIR) \
-	-I$(NCC_DIR)
+INCLUDE_DIR = -I$(HUB_DIR) -I$(VTR_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
+	-I$(CCS_DIR) -I$(UST_DIR) -I$(NCC_DIR)
 
 # Include.
 HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk

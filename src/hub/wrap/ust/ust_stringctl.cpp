@@ -32,18 +32,32 @@
 // C Standard Library
 #include <string.h>
 
-// Module
+// cls
+#include "base_macrodefn.hpp"
 #include "base_ctl.hpp"
+// core
 #include "core_ctl.hpp"
+// cls
 #include "cls_ctl.hpp"
 #include "cls_stringctl.hpp"
+#include "cls_stringtoken.hpp"
 #include "cls_memoryctl.hpp"
+#include "cls_ioctl.hpp"
+#include "cls_iocommonctl.hpp"
+#include "cls_iostreamctl.hpp"
+#include "cls_streamformat.hpp"
+#include "cls_formatoutput.hpp"
 
 /**
  * \brief Constructor.
  */
 CUstStringCtl::CUstStringCtl()
 {
+    BMD_POINTER_INIT(mStr);
+    BMD_POINTER_INIT(mToken);
+    BMD_POINTER_INIT(mMem);
+    BMD_POINTER_INIT(mIoCmn);
+    BMD_POINTER_INIT(mFmtOut);
 }
 
 /**
@@ -51,6 +65,11 @@ CUstStringCtl::CUstStringCtl()
  */
 CUstStringCtl::~CUstStringCtl()
 {
+    BMD_POINTER_INIT(mStr);
+    BMD_POINTER_INIT(mToken);
+    BMD_POINTER_INIT(mMem);
+    BMD_POINTER_INIT(mIoCmn);
+    BMD_POINTER_INIT(mFmtOut);
 }
 
 /**
@@ -63,8 +82,14 @@ UErrCodeT CUstStringCtl::Init()
     CBaseCtl *baseCtl = CBaseCtl::Base();
     CCoreCtl* coreCtl = baseCtl->Core();
     CClsCtl* clsCtl = coreCtl->Cls();
-    m_str = clsCtl->Str();
-    m_mem = clsCtl->Mem();
+    mStr = clsCtl->Str();
+    mToken = mStr->Token();
+    mMem = clsCtl->Mem();
+    CClsIoCtl *ioCtl = clsCtl->Io();
+    mIoCmn = ioCtl->Common();
+    CClsIoStreamCtl *stream = ioCtl->Stream();
+    CClsStreamFormat *format = stream->Format();
+    mFmtOut = format->Output();
 
     return UErrFalse;
 }
@@ -80,7 +105,7 @@ UErrCodeT CUstStringCtl::Init()
  */
 UIntT CUstStringCtl::Len(const char* aStr)
 {
-    UIntT len = m_str->Len(aStr);
+    UIntT len = mStr->Len(aStr);
 
     return len;
 }
@@ -96,7 +121,7 @@ UIntT CUstStringCtl::Len(const char* aStr)
  */
 UIntT CUstStringCtl::Len(const wchar_t* aStr)
 {
-    return m_str->Len(aStr);
+    return mStr->Len(aStr);
 }
 
 /**
@@ -111,7 +136,7 @@ UIntT CUstStringCtl::Len(const wchar_t* aStr)
  */
 char* CUstStringCtl::Cpy(char* aDest, const char* aSrc)
 {
-    return m_str->Cpy(aDest, aSrc);
+    return mStr->Cpy(aDest, aSrc);
 }
 
 /**
@@ -126,7 +151,7 @@ char* CUstStringCtl::Cpy(char* aDest, const char* aSrc)
  */
 wchar_t* CUstStringCtl::Cpy(wchar_t* aDest, const wchar_t* aSrc)
 {
-    return m_str->Cpy(aDest, aSrc);
+    return mStr->Cpy(aDest, aSrc);
 }
 
 /**
@@ -141,7 +166,27 @@ wchar_t* CUstStringCtl::Cpy(wchar_t* aDest, const wchar_t* aSrc)
  */
 char* CUstStringCtl::Cat(char* aDest, const char* aSrc)
 {
-    return m_str->Cat(aDest, aSrc);
+    return mStr->Cat(aDest, aSrc);
+}
+
+/**
+ * \brief Catch number to string.
+ *
+ * Catch number to string, that the type of string is "char".
+ *
+ * @param aDest String of destination.
+ * @param aSrc Number of source.
+ *
+ * @return String of destination, if successful; NULL, if failed.
+ */
+char* CUstStringCtl::Cat(char* aDest, const UIntT aSrc)
+{
+    char *src;
+    MIToA(&src, aSrc);
+    aDest = Cat(aDest, src);
+    MFree(src);
+
+    return aDest;
 }
 
 /**
@@ -156,7 +201,7 @@ char* CUstStringCtl::Cat(char* aDest, const char* aSrc)
  */
 wchar_t* CUstStringCtl::Cat(wchar_t* aDest, const wchar_t* aSrc)
 {
-    return m_str->Cat(aDest, aSrc);
+    return mStr->Cat(aDest, aSrc);
 }
 
 /**
@@ -171,7 +216,7 @@ wchar_t* CUstStringCtl::Cat(wchar_t* aDest, const wchar_t* aSrc)
  */
 UErrCodeT CUstStringCtl::AToW(wchar_t* aDest, const char* aSrc)
 {
-    return m_str->AToW(aDest, aSrc);
+    return mStr->AToW(aDest, aSrc);
 }
 
 /**
@@ -186,7 +231,22 @@ UErrCodeT CUstStringCtl::AToW(wchar_t* aDest, const char* aSrc)
  */
 UErrCodeT CUstStringCtl::WToA(char* aDest, const wchar_t* aSrc)
 {
-    return m_str->WToA(aDest, aSrc);
+    return mStr->WToA(aDest, aSrc);
+}
+
+/**
+ * \brief Translate string.
+ *
+ * Translate string from "UIntT" to "char".
+ *
+ * @param aDest String of destination.
+ * @param aSrc String of source.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CUstStringCtl::IToA(char *aDest, const UIntT aSrc)
+{
+    return mFmtOut->ToStr(aDest, "%ld", aSrc);
 }
 
 char* CUstStringCtl::MCpy(const char* aStr)
@@ -210,6 +270,27 @@ char* CUstStringCtl::MCat(char** aDest, const char* aSrc)
     return Cat(*aDest, aSrc);
 }
 
+/**
+ * \brief Catch number to string.
+ *
+ * Catch number to string, that the type of string is "char".
+ *
+ * @param aDest String of destination.
+ * @param aSrc Number of source.
+ *
+ * @return String of destination, if successful; NULL, if failed.
+ */
+char *CUstStringCtl::MCat(char **aDst, const UIntT aSrc)
+{
+    char *src;
+    MIToA(&src, aSrc);
+    *aDst = MRealloc(*aDst, sizeof(char) * Len(src));
+    *aDst = mStr->Cat(*aDst, src);
+    MFree(src);
+
+    return *aDst;
+}
+
 wchar_t* CUstStringCtl::MCat(wchar_t** aDest, const wchar_t* aSrc)
 {
     *aDest = MRealloc(*aDest, aSrc);
@@ -227,29 +308,57 @@ char* CUstStringCtl::MWToA(const wchar_t* aStr)
     return NULL;
 }
 
+/**
+ * \brief Integer to char with allocate memory.
+ */
+UErrCodeT CUstStringCtl::MIToA(char **aStr, const UIntT aNum)
+{
+    *aStr = MAlloc(kNInt);
+
+    return IToA(*aStr, aNum);
+}
+
 UErrCodeT CUstStringCtl::MFree(char* aStr)
 {
-    return m_mem->Free((UHandleT) aStr);
+    return mMem->Free((UHandleT) aStr);
 }
 
 UErrCodeT CUstStringCtl::MFree(wchar_t* aStr)
 {
-    return m_mem->Free((UHandleT) aStr);
+    return mMem->Free((UHandleT) aStr);
 }
 
 UErrCodeT CUstStringCtl::MFree(char** aStr)
 {
-    return m_mem->Free((UHandleT*) aStr);
+    return mMem->Free((UHandleT*) aStr);
 }
 
 UErrCodeT CUstStringCtl::MFree(wchar_t** aStr)
 {
-    return m_mem->Free((UHandleT*) aStr);
+    return mMem->Free((UHandleT*) aStr);
 }
 
 UErrCodeT CUstStringCtl::Cmp(const char* aDest, const char* aSrc)
 {
-    return m_str->Cmp(aDest, aSrc);
+    return mStr->Cmp(aDest, aSrc);
+}
+
+BMathNumSignCodeT CUstStringCtl::Coll(const char *aDest, const char *aSrc)
+{
+    return mStr->Coll(aDest, aSrc);
+}
+
+/**
+ * \brief Finding tokens.
+ */
+UErrCodeT CUstStringCtl::Find(char **aDst, char *aSrc, const char *aDelimiters)
+{
+    return mToken->Find(aDst, aSrc, aDelimiters);
+}
+
+UErrCodeT CUstStringCtl::ToConsole(const char *aStr)
+{
+    return mIoCmn->PrintF("%s\n", aStr);
 }
 
 /***** Private A *****/
@@ -268,24 +377,37 @@ UIntT CUstStringCtl::Size(const wchar_t* aStr)
     return len;
 }
 
+char* CUstStringCtl::MAlloc(const UIntT aNum)
+{
+    return (char*) mMem->Alloc(aNum);
+}
+
 char* CUstStringCtl::MAlloc(const char* aStr)
 {
-    return (char*) m_mem->Alloc(Size(aStr));
+    return (char*) mMem->Alloc(Size(aStr));
 }
 
 wchar_t* CUstStringCtl::MAlloc(const wchar_t* aStr)
 {
-    return (wchar_t*) m_mem->Alloc(Size(aStr));
+    return (wchar_t*) mMem->Alloc(Size(aStr));
+}
+
+/**
+ * \brief Reallocate memeory by aNum for aStr.
+ */
+char *CUstStringCtl::MRealloc(char *aStr, const UIntT aNum)
+{
+    return (char *) mMem->Realloc((UHandleT) aStr, Size(aStr) + aNum);
 }
 
 char* CUstStringCtl::MRealloc(char* aStr, const char* aRef)
 {
-    return (char*) m_mem->Realloc((UHandleT) aStr, Size(aRef));
+    return (char*) mMem->Realloc((UHandleT) aStr, Size(aStr) + Size(aRef) - 1);
 }
 
 wchar_t* CUstStringCtl::MRealloc(wchar_t* aStr, const wchar_t* aRef)
 {
-    return (wchar_t*) m_mem->Realloc((UHandleT) aStr, Size(aRef));
+    return (wchar_t*) mMem->Realloc((UHandleT) aStr, Size(aStr) + Size(aRef) - 1);
 }
 
 /***** Private B *****/

@@ -1,8 +1,11 @@
 OBJ = \
       bsn_ctl.o \
+      bsn_cls.o \
       bsn_gda.o \
+      bsn_ogr.o \
       bsn_gsl.o \
       bsn_cut.o \
+      bsn_ust.o \
       bsn_ncc.o \
       bsn_rtk.o \
       bsn_fmd.o \

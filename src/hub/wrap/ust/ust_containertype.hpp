@@ -40,19 +40,19 @@ class UST_LIB UContainerT
 {
   public:
     UContainerT();
-    UContainerT(UContainerCodeT aCode);
+    UContainerT(const UContainerCodeT aCode);
     ~UContainerT();
 
-    UErrCodeT Init(UContainerCodeT aCode);
+    UErrCodeT Init(const UContainerCodeT aCode);
     UErrCodeT Add(const ContentT &aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
     UErrCodeT Add(const ContentT &aContent, const KeyT &aKey);
-    UErrCodeT Del(ContentT &aContent);
-    UErrCodeT DelByKey(KeyT &aKey);
+    UErrCodeT Del(const ContentT &aContent);
+    UErrCodeT DelByKey(const KeyT &aKey);
     UErrCodeT Clear();
-    UErrCodeT Find(ContentT &aContent);
-    UErrCodeT FindByKey(KeyT *aKey);
-    UErrCodeT FindByKey(KeyT &aKey);
+    UErrCodeT Find(const ContentT &aContent);
+    UErrCodeT FindByKey(const KeyT *aKey);
+    UErrCodeT FindByKey(const KeyT &aKey);
     UErrCodeT Sort();
     UErrCodeT SortByKey();
     UErrCodeT Count(UIntT *aNum);

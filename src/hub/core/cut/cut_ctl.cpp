@@ -130,6 +130,8 @@ CCutSlistsCtl *CCutCtl::Slists()
     return mSlists;
 }
 
+/***** Private A *****/
+
 /**
  * \brief Global Initialize.
  */
@@ -149,3 +151,5 @@ UErrCodeT CCutCtl::GCleanup()
 
     return UErrFalse;
 }
+
+/***** Private B *****/

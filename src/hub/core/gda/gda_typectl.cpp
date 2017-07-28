@@ -24,6 +24,15 @@
 
 #include "gda_typectl.hpp"
 
+// base
+#include "base_ctl.hpp"
+// core
+#include "core_ctl.hpp"
+// cls
+#include "cls_ctl.hpp"
+#include "cls_stringctl.hpp"
+#include "cls_memoryctl.hpp"
+
 /**
  * \brief Constructor.
  */
@@ -43,6 +52,12 @@ CGdaTypeCtl::~CGdaTypeCtl()
  */
 UErrCodeT CGdaTypeCtl::Init()
 {
+    CBaseCtl *baseCtl = CBaseCtl::Base();
+    CCoreCtl *coreCtl = baseCtl->Core();
+    CClsCtl *clsCtl = coreCtl->Cls();
+    mMem = clsCtl->Mem();
+    mStr = clsCtl->Str();
+
     return UErrFalse;
 }
 
@@ -78,6 +93,78 @@ UErrCodeT CGdaTypeCtl::ToDataType(GDALDataType *aDest, UDataTCodeT aSrc)
         break;
     default:
         return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To format.
+ */
+UErrCodeT CGdaTypeCtl::ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GdaFormatAsc:
+        *aDest = GDA_F_ASC;
+        break;
+    case GdaFormatDem:
+        *aDest = GDA_F_DEM;
+        break;
+    case GdaFormatLcp:
+        *aDest = GDA_F_LCP;
+        break;
+    case GdaFormatTif:
+        *aDest = GDA_F_TIF;
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To argument value.
+ * Need to free.
+ */
+UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
+{
+    UContainerT<UStringT> srcS;
+    srcS.Init(UContainerList);
+    const UStringT delimiters = " ";
+    UStringT *src = (UStringT *) aSrc;
+    src->Split(&srcS, &delimiters);
+
+    UIteratorT<UStringT> *it = srcS.Iterator();
+    UIntT count;
+    srcS.Count(&count);
+    char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 1));
+    argv[count] = NULL;
+
+    it->Head();
+    for (UIntT i = 0; it->State() == UErrFalse; it->Next(), ++i)
+    {
+        UStringT str = it->Content();
+        argv[i] = (char *) mMem->Alloc(sizeof(char) * (str.Len() + 1));
+        argv[i] = mStr->Cpy(argv[i], str.ToA());
+    }
+
+    *aDst = (GdaArgvT) argv;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Free Argv.
+ */
+UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
+{
+    char **argv = (char **) aArgv;
+    while (*argv != NULL)
+    {
+        mMem->Free((UHandleT) *argv);
+        argv++;
     }
 
     return UErrFalse;

@@ -27,7 +27,9 @@
 
 #include "cls_base.h"
 
-// Ust.
+// base
+#include "base_timetype.hpp"
+// ust
 #include "ust/ust_stringtype.hpp"
 
 class CLS_LIB CClsTypeCtl
@@ -38,6 +40,7 @@ class CLS_LIB CClsTypeCtl
 
     UErrCodeT Init();
     UErrCodeT ToFileOper(UStringT *aDest, const ClsFileOperCodeT aSrc);
+    UErrCodeT ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc);
 
   protected:
   private:

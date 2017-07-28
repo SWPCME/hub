@@ -28,24 +28,34 @@ OBJ = \
       cls_ctl.o \
       cls_typectl.o \
       cls_stringctl.o \
+      cls_stringtoken.o \
       cls_memoryctl.o \
       cls_unictl.o \
       cls_ioctl.o \
       cls_iocommonctl.o \
       cls_iostreamctl.o \
+      cls_streamformat.o \
+      cls_formatinput.o \
+      cls_formatoutput.o \
       cls_mathctl.o \
       cls_mathexpctl.o \
-      cls_mathlogctl.o
+      cls_mathlogctl.o \
+      cls_timectl.o
 
 HEADER = \
          cls_base.h \
          cls_ctl.hpp \
          cls_stringctl.hpp \
+         cls_stringtoken.hpp \
          cls_memoryctl.hpp \
          cls_unictl.hpp \
          cls_ioctl.hpp \
          cls_iocommonctl.hpp \
          cls_iostreamctl.hpp \
+         cls_streamformat.hpp \
+         cls_formatinput.hpp \
+         cls_formatoutput.hpp \
          cls_mathctl.hpp \
          cls_mathexpctl.hpp \
-         cls_mathlogctl.hpp
+         cls_mathlogctl.hpp \
+         cls_timectl.hpp

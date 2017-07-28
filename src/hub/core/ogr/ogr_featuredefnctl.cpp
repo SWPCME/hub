@@ -33,7 +33,7 @@
 #include "ogr_fielddefnctl.hpp"
 #include "ogr_geomfielddefnctl.hpp"
 
-COgrFeatureDefnCtl::COgrFeatureDefnCtl()
+COgrFeatureDefnCtl::COgrFeatureDefnCtl(OgrLayerHT aLayerH)
 {
     m_fieldDefn = new COgrFieldDefnCtl;
     m_geomFieldDefn = new COgrGeomFieldDefnCtl;
@@ -52,20 +52,6 @@ COgrFeatureDefnCtl::~COgrFeatureDefnCtl()
  */
 UErrCodeT COgrFeatureDefnCtl::Init()
 {
-    return UErrFalse;
-}
-
-/**
- * \brief Attach.
- *
- * @param aHandle The handle of ogr feature definition.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT COgrFeatureDefnCtl::Attach(OgrFeatureDefnHT aHandle)
-{
-    m_handle = aHandle;
-
     return UErrFalse;
 }
 

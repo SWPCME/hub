@@ -38,11 +38,10 @@ class COgrGeomFieldDefnCtl;
 class OGR_LIB COgrFeatureDefnCtl
 {
   public:
-    COgrFeatureDefnCtl();
+    COgrFeatureDefnCtl(OgrLayerHT aLayerH);
     ~COgrFeatureDefnCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrLayerHT aHandle);
 
     COgrFieldDefnCtl* FieldDefn();
     COgrGeomFieldDefnCtl* GeomFieldDefn();

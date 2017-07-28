@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_ctl.cpp 2016-08 $
+ * $Id: cls_ctl.cpp 2017-07 $
  *
  * Project:  C language standard library.
  * Purpose:  Controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,25 +29,29 @@
 
 #include "cls_ctl.hpp"
 
-// Module
+// base
+#include "base_macrodefn.hpp"
+// cls
 #include "cls_typectl.hpp"
 #include "cls_stringctl.hpp"
 #include "cls_memoryctl.hpp"
 #include "cls_ioctl.hpp"
 #include "cls_unictl.hpp"
 #include "cls_mathctl.hpp"
+#include "cls_timectl.hpp"
 
 /**
  * \brief Constructor.
  */
 CClsCtl::CClsCtl()
 {
-    mType = NULL;
-    mStr = NULL;
-    mMem = NULL;
-    mIo = NULL;
-    mUni = NULL;
-    mMath = NULL;
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mStr);
+    BMD_POINTER_INIT(mMem);
+    BMD_POINTER_INIT(mIo);
+    BMD_POINTER_INIT(mUni);
+    BMD_POINTER_INIT(mMath);
+    BMD_POINTER_INIT(mTime);
 }
 
 /**
@@ -55,35 +59,13 @@ CClsCtl::CClsCtl()
  */
 CClsCtl::~CClsCtl()
 {
-    if (mType != NULL)
-    {
-        delete mType;
-    }
-
-    if (mStr != NULL)
-    {
-        delete mStr;
-    }
-
-    if (mMem != NULL)
-    {
-        delete mMem;
-    }
-
-    if (mIo != NULL)
-    {
-        delete mIo;
-    }
-
-    if (mUni != NULL)
-    {
-        delete mUni;
-    }
-
-    if (mMath != NULL)
-    {
-        delete mMath;
-    }
+    BMD_CLASS_DEL(mType);
+    BMD_CLASS_DEL(mStr);
+    BMD_CLASS_DEL(mMem);
+    BMD_CLASS_DEL(mIo);
+    BMD_CLASS_DEL(mUni);
+    BMD_CLASS_DEL(mMath);
+    BMD_CLASS_DEL(mTime);
 }
 
 /**
@@ -101,11 +83,7 @@ UErrCodeT CClsCtl::Init()
  */
 CClsTypeCtl *CClsCtl::Type()
 {
-    if (mType == NULL)
-    {
-        mType = new CClsTypeCtl;
-        mType->Init();
-    }
+    BMD_CLASS_NEW(mType, CClsTypeCtl);
 
     return mType;
 }
@@ -117,11 +95,7 @@ CClsTypeCtl *CClsCtl::Type()
  */
 CClsStringCtl *CClsCtl::Str()
 {
-    if (mStr == NULL)
-    {
-        mStr = new CClsStringCtl;
-        mStr->Init();
-    }
+    BMD_CLASS_NEW(mStr, CClsStringCtl);
 
     return mStr;
 }
@@ -133,11 +107,7 @@ CClsStringCtl *CClsCtl::Str()
  */
 CClsMemoryCtl *CClsCtl::Mem()
 {
-    if (mMem == NULL)
-    {
-        mMem = new CClsMemoryCtl;
-        mMem->Init();
-    }
+    BMD_CLASS_NEW(mMem, CClsMemoryCtl);
 
     return mMem;
 }
@@ -149,11 +119,7 @@ CClsMemoryCtl *CClsCtl::Mem()
  */
 CClsIoCtl *CClsCtl::Io()
 {
-    if (mIo == NULL)
-    {
-        mIo = new CClsIoCtl;
-        mIo->Init();
-    }
+    BMD_CLASS_NEW(mIo, CClsIoCtl);
 
     return mIo;
 }
@@ -165,11 +131,7 @@ CClsIoCtl *CClsCtl::Io()
  */
 CClsUniCtl *CClsCtl::Uni()
 {
-    if (mUni == NULL)
-    {
-        mUni = new CClsUniCtl;
-        mUni->Init();
-    }
+    BMD_CLASS_NEW(mUni, CClsUniCtl);
 
     return mUni;
 }
@@ -179,11 +141,17 @@ CClsUniCtl *CClsCtl::Uni()
  */
 CClsMathCtl *CClsCtl::Math()
 {
-    if (mMath == NULL)
-    {
-        mMath = new CClsMathCtl;
-        mMath->Init();
-    }
+    BMD_CLASS_NEW(mMath, CClsMathCtl);
 
     return mMath;
+}
+
+/**
+ * \brief Time controler.
+ */
+CClsTimeCtl *CClsCtl::Time()
+{
+    BMD_CLASS_NEW(mTime, CClsTimeCtl);
+
+    return mTime;
 }

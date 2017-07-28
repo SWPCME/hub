@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_datasetctl.cpp 2017-05 $
+ * $Id: gda_datasetctl.cpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda dataset control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -24,19 +24,37 @@
 
 #include "gda_datasetctl.hpp"
 
-// Hub
+// base
+#include "base_ctl.hpp"
+// core
+#include "core_ctl.hpp"
+// gda
+#include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
-#include "gda_rasterbandctl.hpp"
-
+#include "gda_bandctl.hpp"
 // Module
 #include "gdal.h"
 
 /**
  * \brief Constructor.
+ * Create file.
  */
-CGdaDatasetCtl::CGdaDatasetCtl(GdaDatasetHT aHandle)
+CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile,
+                               const GdaDatasetAttrT *aAttr,
+                               const GdaDriverHT aDriver)
 {
-    mHandle = aHandle;
+    InitPointer();
+    CreateDataset(aFile, aAttr, aDriver);
+}
+
+/**
+ * \brief Constructor.
+ * Load file.
+ */
+CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile, UAccessCodeT aAccess)
+{
+    BMD_POINTER_INIT(mDatasetH);
+    LoadDataset(aFile, aAccess);
 }
 
 /**
@@ -44,15 +62,41 @@ CGdaDatasetCtl::CGdaDatasetCtl(GdaDatasetHT aHandle)
  */
 CGdaDatasetCtl::~CGdaDatasetCtl()
 {
-    Close();
+    GdaClose();
+    InitPointer();
 }
 
 /**
  * \brief Initialize.
  */
-UErrCodeT CGdaDatasetCtl::Init(UStringT *aFile, UAccessCodeT aCode)
+UErrCodeT CGdaDatasetCtl::Init()
 {
+    if (mDatasetH == NULL)
+    {
+        return UErrTrue;
+    }
+
+    GDA_TYPECTL(mType);
+
     return UErrFalse;
+}
+
+/**
+ * \brief Handle.
+ */
+GdaDatasetHT CGdaDatasetCtl::Handle()
+{
+    return mDatasetH;
+}
+
+/**
+ * \brief Get description.
+ */
+UStringT CGdaDatasetCtl::Description()
+{
+    UStringT description = GDALGetDescription(mDatasetH);
+
+    return description;
 }
 
 /**
@@ -60,7 +104,17 @@ UErrCodeT CGdaDatasetCtl::Init(UStringT *aFile, UAccessCodeT aCode)
  */
 UErrCodeT CGdaDatasetCtl::Save()
 {
-    GDALFlushCache((GDALDatasetH) mHandle);
+    GDALFlushCache((GDALDatasetH) mDatasetH);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Raster count.
+ */
+UErrCodeT CGdaDatasetCtl::Count(UIntT *aNum)
+{
+    *aNum = GDALGetRasterCount((GDALDatasetH) mDatasetH);
 
     return UErrFalse;
 }
@@ -73,18 +127,8 @@ UErrCodeT CGdaDatasetCtl::AddBand(UDataTCodeT aDataT, UStringT *aOption)
     GDALDataType dataType;
     mType->ToDataType(&dataType, aDataT);
     char** option;
-    GDALAddBand((GDALDatasetH) mHandle, dataType, option);
+    GDALAddBand((GDALDatasetH) mDatasetH, dataType, option);
     *aOption = *option;
-
-    return UErrFalse;
-}
-
-/**
- * \brief Raster count.
- */
-UErrCodeT CGdaDatasetCtl::Count(UIntT *aNum)
-{
-    *aNum = GDALGetRasterCount((GDALDatasetH) mHandle);
 
     return UErrFalse;
 }
@@ -92,13 +136,9 @@ UErrCodeT CGdaDatasetCtl::Count(UIntT *aNum)
 /**
  * \brief Raster band.
  */
-CGdaRasterbandCtl* CGdaDatasetCtl::Band(UIntT aId)
+CGdaBandCtl* CGdaDatasetCtl::Band(UIntT aId)
 {
-    GdaRasterBandHT rasterBandH = (GdaRasterBandHT) GDALGetRasterBand((GDALDatasetH) mHandle, aId);
-    CGdaRasterbandCtl *rasterBandCtl = new CGdaRasterbandCtl(rasterBandH);
-    mBandCtn.Add(rasterBandCtl, aId);
-
-    return rasterBandCtl;
+    return BandCtl(aId);
 }
 
 /**
@@ -106,7 +146,17 @@ CGdaRasterbandCtl* CGdaDatasetCtl::Band(UIntT aId)
  */
 UErrCodeT CGdaDatasetCtl::XSize(UIntT *aNum)
 {
-    *aNum = GDALGetRasterXSize((GDALDatasetH) mHandle);
+    *aNum = GDALGetRasterXSize((GDALDatasetH) mDatasetH);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Raster y size.
+ */
+UErrCodeT CGdaDatasetCtl::YSize(UIntT *aNum)
+{
+    *aNum = GDALGetRasterYSize((GDALDatasetH) mDatasetH);
 
     return UErrFalse;
 }
@@ -122,11 +172,77 @@ UErrCodeT CGdaDatasetCtl::XSize(UIntT *aNum)
 /***** Private A *****/
 
 /**
+ * \brief Init pointer.
+ */
+UErrCodeT CGdaDatasetCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mDatasetH);
+    BMD_POINTER_INIT(mType);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Create dataset
+ */
+UErrCodeT CGdaDatasetCtl::CreateDataset(const UStringT *aFile,
+                                        const GdaDatasetAttrT *aAttr,
+                                        const GdaDriverHT aDriver)
+{
+    GDALDataType dataType;
+    mType->ToDataType(&dataType, aAttr->dataT);
+    mDatasetH = (GdaDatasetHT) GDALCreate((GDALDriverH) aDriver, aFile->ToA(),
+                                          aAttr->xSize, aAttr->ySize,
+                                          aAttr->nBands, dataType,
+                                          aAttr->option);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Load dataset.
+ */
+UErrCodeT CGdaDatasetCtl::LoadDataset(const UStringT *aFile,
+                                      UAccessCodeT aAccess)
+{
+    GDALAccess access;
+    mType->ToAccess(&access, aAccess);
+    mDatasetH = (GdaDatasetHT) GDALOpen(aFile->ToA(), access);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Band controler.
+ */
+CGdaBandCtl *CGdaDatasetCtl::BandCtl(UIntT aId)
+{
+    MBandItT *it = mMBand.Iterator();
+    if (it->Goto(aId) == UErrFalse)
+    {
+        return it->Content();
+    }
+    CGdaBandCtl *bandCtl = NULL;
+    BMD_CLASS_NEW_A_2(bandCtl, CGdaBandCtl, aId, this);
+    if (bandCtl != NULL)
+    {
+        mMBand.Add(bandCtl, aId);
+    }
+
+    return bandCtl;
+}
+
+/**
  * \brief Close.
  */
-UErrCodeT CGdaDatasetCtl::Close()
+UErrCodeT CGdaDatasetCtl::GdaClose()
 {
-    GDALClose((GDALDatasetH) mHandle);
+    if (mDatasetH == NULL)
+    {
+        return UErrTrue;
+    }
+
+    // GDALClose((GDALDatasetH) mDatasetH);
 
     return UErrFalse;
 }

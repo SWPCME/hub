@@ -34,7 +34,8 @@ class CLS_LIB CClsIoCommonCtl
     ~CClsIoCommonCtl();
 
     UErrCodeT Init();
-    UErrCodeT PrintF(const char* aFormat, ...);
+    UErrCodeT PrintF(const char *aFormat, ...);
+    UErrCodeT SPrintF(char *aStr, const char *aFormat, ...);
 
   protected:
   private:

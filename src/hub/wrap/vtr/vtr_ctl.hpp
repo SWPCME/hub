@@ -37,9 +37,9 @@
 #include "ust_containertype.hpp"
 
 class COgrCtl;
-class CVtrDataSrcCtl;
+class CVtrDatasrcCtl;
 
-typedef UContainerT<CVtrDataSrcCtl*, UStringT> MVtrDataSrcT;
+typedef UContainerT<CVtrDatasrcCtl*, UStringT> MVtrDataSrcT;
 
 class VTR_LIB CVtrCtl
 {
@@ -53,14 +53,14 @@ class VTR_LIB CVtrCtl
     UErrCodeT CleanupAll();
 
     /* Create */
-    CVtrDataSrcCtl* Create(UStringT* aFile);
+    CVtrDatasrcCtl* Create(UStringT* aFile);
     /* Load */
-    CVtrDataSrcCtl* Load(UStringT* aFile);
+    CVtrDatasrcCtl* Load(UStringT* aFile);
     /* Close */
     UErrCodeT Close(UStringT* aFile);
     UErrCodeT CloseAll();
     /* Signal Handle */
-    CVtrDataSrcCtl* DataSrc(UStringT* File);
+    CVtrDatasrcCtl* DataSrc(UStringT* File);
 
  protected:
  private:

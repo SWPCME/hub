@@ -31,8 +31,8 @@
 #define BSN_UNIQUEID_HPP_INCLUDED
 
 #include "bsn_base.hpp"
-#include "ust_stringtype.hpp"
-#include "ust_containertype.hpp"
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
 class CHubCtl;
 class CVtrCtl;

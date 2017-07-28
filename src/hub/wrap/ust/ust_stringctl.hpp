@@ -31,9 +31,13 @@
 #define UST_STRINGCTL_HPP_INCLUDED
 
 #include "ust_stringbase.h"
+#include "base_mathtype.hpp"
 
 class CClsStringCtl;
+class CClsStringToken;
 class CClsMemoryCtl;
+class CClsIoCommonCtl;
+class CClsFormatOutput;
 
 class UST_LIB CUstStringCtl
 {
@@ -50,6 +54,7 @@ class UST_LIB CUstStringCtl
 
     /* Catch string. */
     char* Cat(char* aDest, const char* aSrc);
+    char* Cat(char* aDest, const UIntT aSrc);
     wchar_t* Cat(wchar_t* aDest, const wchar_t* aSrc);
 
     /* Length of string */
@@ -59,6 +64,7 @@ class UST_LIB CUstStringCtl
     /* Translate */
     UErrCodeT AToW(wchar_t* aDest, const char* aSrc);
     UErrCodeT WToA(char* aDest, const wchar_t* aSrc);
+    UErrCodeT IToA(char *aDest, const UIntT aSrc);
 
     // Copy string by allocate memory.
     char* MCpy(const char* aStr);
@@ -67,11 +73,13 @@ class UST_LIB CUstStringCtl
     // Warning: the string of destination must be allocate by MCpy.
     // Catch string by allocate extra memory with destination string.
     char* MCat(char** aDest, const char* aSrc);
+    char* MCat(char** aDest, const UIntT aSrc);
     wchar_t* MCat(wchar_t** aDest, const wchar_t* aSrc);
 
     // Translate string by allocate memory for destination string.
     wchar_t* MAToW(const char* aStr);
     char* MWToA(const wchar_t* aStr);
+    UErrCodeT MIToA(char **aStr, const UIntT aNum);
 
     // Free string by using the function of "M*".
     UErrCodeT MFree(char* aStr);
@@ -81,24 +89,36 @@ class UST_LIB CUstStringCtl
 
     // Compare string.
     UErrCodeT Cmp(const char* aDest, const char* aSrc);
+    BMathNumSignCodeT Coll(const char *aDest, const char *aSrc);
 
- protected:
+    // Finding token.
+    UErrCodeT Find(char **aDst, char *aSrc, const char *aDelimiters);
+
+    // Console.
+    UErrCodeT ToConsole(const char *aStr);
+
+  protected:
   private:
     /* Size of string */
     UIntT Size(const char* aStr);
     UIntT Size(const wchar_t* aStr);
 
     // Allocate memory with size of string.
+    char* MAlloc(const UIntT aNum);
     char* MAlloc(const char* aStr);
     wchar_t* MAlloc(const wchar_t* aStr);
 
     // Reallocate memory with size of string.
+    char *MRealloc(char *aStr, const UIntT aNum);
     char* MRealloc(char* aStr, const char* aRef);
     wchar_t* MRealloc(wchar_t* aStr, const wchar_t* aRef);
 
     // Cls Library.
-    CClsStringCtl* m_str;
-    CClsMemoryCtl* m_mem;
+    CClsStringCtl* mStr;
+    CClsStringToken *mToken;
+    CClsMemoryCtl *mMem;
+    CClsIoCommonCtl *mIoCmn;
+    CClsFormatOutput *mFmtOut;
 };
 
 #endif  /* CMN_STRINGCTL_HPP_INCLUDED */

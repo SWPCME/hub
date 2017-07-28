@@ -42,11 +42,11 @@ class CVtrLayerCtl;
 
 typedef UContainerT<CVtrLayerCtl*, UStringT> MVtrLayerByNameT;
 
-class VTR_LIB CVtrDataSrcCtl
+class VTR_LIB CVtrDatasrcCtl
 {
  public:
-    CVtrDataSrcCtl(COgrDataSrcCtl* aCtl);
-    ~CVtrDataSrcCtl();
+    CVtrDatasrcCtl(COgrDatasrcCtl* aCtl);
+    ~CVtrDatasrcCtl();
 
     /* Initialize */
     UErrCodeT Init();
@@ -65,12 +65,11 @@ class VTR_LIB CVtrDataSrcCtl
 
  protected:
  private:
-    UErrCodeT Attach();
     CVtrLayerCtl* AddToMVLName(COgrLayerCtl* aLayer);
     UErrCodeT DelFromMVName(UStringT* aName);
 
-    COgrDataSrcCtl* m_ogrDataSrc;
-    OgrDataSrcHT m_handle;
+    COgrDatasrcCtl* m_ogrDataSrc;
+    OgrDatasrcHT m_handle;
     MVtrLayerByNameT m_mVLName;
 };
 

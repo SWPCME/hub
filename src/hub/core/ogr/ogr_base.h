@@ -34,25 +34,41 @@
 
 #define OGR_LIB HUB_LIB
 
-/* Ogr vector formats. */
-#define OGR_VECTOR_FORMATS_COUNT 6
-#define OGR_VECTOR_TAB_NAME    "Mapinfo File"
-#define OGR_VECTOR_TAB_SUFFIX  "tab"
-#define OGR_VECTOR_SHP_NAME    "ESRI Shapefile"
-#define OGR_VECTOR_SHP_SUFFIX  "shp"
-#define OGR_VECTOR_CSV_NAME    "Comma Separated Value"
-#define OGR_VECTOR_CSV_SUFFIX  "csv"
-#define OGR_VECTOR_XLS_NAME    "MS Excel format"
-#define OGR_VECTOR_XLS_SUFFIX  "xls"
-#define OGR_VECTOR_XLSX_NAME   "MS Office Open XML spreadsheet"
-#define OGR_VECTOR_XLSX_SUFFIX "xlsx"
-#define OGR_VECTOR_SQLITE_NAME    "SQLite"
-#define OGR_VECTOR_SQLITE_SUFFIX  "sql"
+/**
+ * Ogr vector formats.
+ * "F" means format. 
+ */
+#define OGR_F_COUNT 7
+#define OGR_F_TAB         "Mapinfo File"
+#define OGR_F_TAB_SUFFIX  "tab"
+#define OGR_F_SHP         "ESRI Shapefile"
+#define OGR_F_SHP_SUFFIX  "shp"
+#define OGR_F_CSV         "Comma Separated Value"
+#define OGR_F_CSV_SUFFIX  "csv"
+#define OGR_F_XLS         "MS Excel format"
+#define OGR_F_XLS_SUFFIX  "xls"
+#define OGR_F_XLSX        "MS Office Open XML spreadsheet"
+#define OGR_F_XLSX_SUFFIX "xlsx"
+#define OGR_F_SQLITE      "SQLite"
+#define OGR_F_SQLITE_SUFFIX  "sql"
+#define OGR_F_JSON        "GeoJSON"
+#define OGR_F_JSON_SUFFIX "json"
+typedef enum
+{
+    OgrFormatTab    = 1,
+    OgrFormatShp    = 2,
+    OgrFormatCsv    = 3,
+    OgrFormatXls    = 4,
+    OgrFormatXlsx   = 5,
+    OgrFormatSqlite = 6,
+    OgrFormatJson   = 7,
+} OgrFormatCodeT;
 
 /* Handle */
 #define OgrDriverHT UHandleT
-#define OgrDataSrcHT UHandleT
+#define OgrDatasrcHT UHandleT
 #define OgrLayerHT UHandleT
+#define OgrFeaturesHT UHandleT
 #define OgrFeatureDefnHT UHandleT
 #define OgrFieldDefnHT UHandleT
 #define OgrGeomFieldDefnHT UHandleT

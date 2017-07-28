@@ -31,8 +31,25 @@
 #define CLS_BASE_H_INCLUDED
 
 #include "hub_base.h"
+/* base. */
+#include "base_macrodefn.hpp"
 
 #define CLS_LIB HUB_LIB
+
+/* Macro. */
+
+#define CLS_CTL(aCtl)                           \
+    BMD_CORE_CTL(coreCtl);                      \
+    CClsCtl *aCtl = coreCtl->Cls();
+
+#define CLS_TYPE_CTL(aCtl)                      \
+    {                                           \
+        CLS_CTL(clsCtl);                        \
+        aCtl = clsCtl->Type();                  \
+    }
+
+
+/* File. */
 
 typedef UHandleT ClsFileHT;
 
@@ -44,5 +61,9 @@ typedef enum
     ClsFileOperWb  = 22,         /* Write bit. */
     ClsFileOperWba = 23,         /* Write bit add. */
 } ClsFileOperCodeT;
+
+/* Time. */
+typedef UHandleT ClsTimeHT;
+typedef UHandleT ClsTmHT;
 
 #endif  /* CLS_BASE_H_INCLUDED */

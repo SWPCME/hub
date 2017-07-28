@@ -5,12 +5,12 @@ SUBDIRS = ../../hub \
 OBJ = main.o
 
 # Library name
+LIB_DIR = /home/swpcme/me/usr/lib
 LIB_A_NAME =
 LIB_SO_NAME = \
               ui \
               bsn \
               hub \
-              gdal \
               gsl \
               curl \
               rtklib \

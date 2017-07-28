@@ -31,6 +31,7 @@
 #include "cls/cls_iostreamctl.hpp"
 // Ust.
 #include "ust/ust_stringtype.hpp"
+#include "ust/ust_filetype.hpp"
 
 class CCutTypeCtl;
 
@@ -46,7 +47,7 @@ class CUT_LIB CCutEasyCtl
     UErrCodeT SetUrl(UStringT *aUrl);
     UErrCodeT SetGet();
     UErrCodeT SetPut();
-    UErrCodeT SetWriteData(ClsFileHT aFileH);
+    UErrCodeT SetWriteData(UFileT *aFile);
     UErrCodeT SetWriteFunc(cut_write_callback aFunc = NULL);
     // Perform.
     UErrCodeT Perform();

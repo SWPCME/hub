@@ -33,23 +33,24 @@
 #include "ogr_base.h"
 
 // Module.
-#include "ust_stringtype.hpp"
+#include "ust/ust_stringtype.hpp"
 
 class OGR_LIB COgrFieldCtl
 {
   public:
-    COgrFieldCtl();
+    COgrFieldCtl(OgrFeatureHT aFeatureH);
     ~COgrFieldCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrFieldHT aHandle);
     UErrCodeT Value(UStringT* aValue, UIntT aColumn);
     UErrCodeT Value(UStringT* aValue, UStringT* aName);
     UErrCodeT SetValue(UStringT* aValue, UIntT aColumn);
 
   protected:
   private:
-    OgrFieldHT m_handle;
+    UErrCodeT SetHandle(OgrLayerHT aLayerH);
+
+    OgrFieldHT mFieldH;
 };
 
 #endif  // OGR_FIELDCTL_HPP_INCLUDED

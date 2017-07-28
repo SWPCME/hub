@@ -40,7 +40,7 @@
  */
 CFmdFileLoad::CFmdFileLoad()
 {
-    mFarsiteH = NULL;
+    BMD_POINTER_INIT(mFarsiteH);
 }
 
 /**
@@ -48,7 +48,7 @@ CFmdFileLoad::CFmdFileLoad()
  */
 CFmdFileLoad::~CFmdFileLoad()
 {
-    mFarsiteH = NULL;
+    BMD_POINTER_INIT(mFarsiteH);
 }
 
 /**
@@ -56,10 +56,7 @@ CFmdFileLoad::~CFmdFileLoad()
  */
 UErrCodeT CFmdFileLoad::Init()
 {
-    CBaseCtl *baseCtl = CBaseCtl::Base();
-    CCtgyCtl *ctgyCtl = baseCtl->Ctgy();
-    CFmdCtl *fmdCtl = ctgyCtl->Fmd();
-    mFarsiteH = fmdCtl->FarsiteH();
+    FMD_FARSITE_H(mFarsiteH);
     
     return UErrFalse;
 }
@@ -67,13 +64,27 @@ UErrCodeT CFmdFileLoad::Init()
 /**
  * \brief Load all file.
  */
-UErrCodeT CFmdFileLoad::All(const char *aLandscape, const char *aInput,
-                            const char *aIgnition, const char *aBarrier)
+UErrCodeT CFmdFileLoad::All(const UStringT *aCfg, const UStringT *aLcp,
+                            const UStringT *aIgnition, const UStringT *aBarrier)
 {
-    Landscape(aLandscape);
-    Input(aInput);
+    Cfg(aCfg);
+    Lcp(aLcp);
     Ignition(aIgnition);
     Barrier(aBarrier);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Load configuration file.
+ *
+ * \param aFile, configuration file.
+ *
+ * \return UErrFalse, if successful; FMD_ERR, if failed.
+ */
+UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
+{
+    FMD_FARSITE(mFarsiteH)->LoadInputsFile((char *) aFile->ToA());
 
     return UErrFalse;
 }
@@ -85,37 +96,9 @@ UErrCodeT CFmdFileLoad::All(const char *aLandscape, const char *aInput,
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CFmdFileLoad::Landscape(const char *aFile)
+UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
 {
-    ((Farsite5 *) mFarsiteH)->LoadLandscapeFile((char*)aFile);
-
-    return UErrFalse;
-}
-
-/**
- * \brief Load input file.
- *
- * \param aFile, input file.
- *
- * \return UErrFalse, if successful; FMD_ERR, if failed.
- */
-UErrCodeT CFmdFileLoad::Input(const char *aFile)
-{
-    ((Farsite5 *) mFarsiteH)->LoadInputsFile((char*)aFile);
-
-    return UErrFalse;
-}
-
-/**
- * \brief Load input error.
- *
- * \param aErr, error number.
- *
- * \return UErrFalse, if successful; FMD_ERR, if failed.
- */
-UErrCodeT CFmdFileLoad::InputErr(int aErr)
-{
-    ((Farsite5 *) mFarsiteH)->LoadInputError(aErr);
+    FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
 
     return UErrFalse;
 }
@@ -125,9 +108,9 @@ UErrCodeT CFmdFileLoad::InputErr(int aErr)
  *
  * \param aFile, shape file.
  */
-UErrCodeT CFmdFileLoad::Ignition(const char *aFile)
+UErrCodeT CFmdFileLoad::Ignition(const UStringT *aFile)
 {
-    ((Farsite5 *) mFarsiteH)->SetIgnitionFileName((char*)aFile);
+    FMD_FARSITE(mFarsiteH)->SetIgnitionFileName((char *) aFile->ToA());
 
     return UErrFalse;
 }
@@ -137,9 +120,27 @@ UErrCodeT CFmdFileLoad::Ignition(const char *aFile)
  *
  * \param aFile, barrier file.
  */
-UErrCodeT CFmdFileLoad::Barrier(const char *aFile)
+UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 {
-    ((Farsite5 *) mFarsiteH)->SetBarrierFileName((char*)aFile);
+    FMD_FARSITE(mFarsiteH)->SetBarrierFileName((char *) aFile->ToA());
 
     return UErrFalse;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Load input error.
+ *
+ * \param aErr, error number.
+ *
+ * \return UErrFalse, if successful; FMD_ERR, if failed.
+ */
+UErrCodeT CFmdFileLoad::InputErr(UIntT aErr)
+{
+    FMD_FARSITE(mFarsiteH)->LoadInputError(aErr);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

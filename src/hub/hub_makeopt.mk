@@ -266,7 +266,8 @@ lib_a: create_obj
 	$(RANLIB) $(LIB_A_ABS)
 
 lib_so: create_obj
-	$(LD) $(LD_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) -o $(LIB_SO_ABS)
+	$(LD) $(LD_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) $(EXTRA_LIB_DIR) $(EXTRA_LIB_SO) \
+		  -o $(LIB_SO_ABS)
 
 #
 # Install
@@ -310,11 +311,11 @@ ifeq ($(UNIX), yes)
 bin_file: create_tmp create_obj target_dir_install
 	($(CD) $(INSTALL_O_DIR); \
 		$(CXX) $(CXX_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) \
-		-o $(BIN_FILE) $(IMPORT_LIB_A) $(IMPORT_LIB_SO))
+		-o $(BIN_FILE) -L$(LIB_DIR) $(IMPORT_LIB_A) $(IMPORT_LIB_SO))
 else
 bin_file: create_tmp create_obj target_dir_install
 	($(CP) $(OBJ_DIR)/*.$(OBJ_EXT) $(INSTALL_O_DIR))
 	($(CD) $(INSTALL_O_DIR); \
-		$(CXX) $(CXX_FLAG) *.$(OBJ_EXT) $(IMPORT_LIB_A) $(IMPORT_LIB_SO) \
-		-o $(BIN_FILE))
+		$(CXX) $(CXX_FLAG) *.$(OBJ_EXT) -L$(LIB_DIR) $(IMPORT_LIB_A) \
+		$(IMPORT_LIB_SO) -o $(BIN_FILE))
 endif

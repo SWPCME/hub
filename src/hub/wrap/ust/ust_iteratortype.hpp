@@ -39,11 +39,12 @@ class UST_LIB UIteratorT
 
     UErrCodeT Init(CUstContainerCtl<ContentT, KeyT> *aCtn);
     UErrCodeT Head(const USequenceCodeT aCode = USequenceOrder);
+    UErrCodeT Goto(const KeyT *aKey);
     UErrCodeT Goto(const KeyT &aKey);
     UErrCodeT Next();
     UErrCodeT State();
-    const ContentT Content();
-    const KeyT Key();
+    ContentT Content();
+    KeyT Key();
     UErrCodeT Add(const ContentT &aContent, const KeyT &aKey);
 
   protected:

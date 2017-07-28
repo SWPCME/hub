@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_iostreamctl.hpp 2017-06 $
+ * $Id: cls_iostreamctl.hpp 2017-07 $
  *
  * Project:  C language standard library.
  * Purpose:  Stream controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -31,6 +31,7 @@
 #include "ust_stringtype.hpp"
 
 class CClsTypeCtl;
+class CClsStreamFormat;
 
 class CLS_LIB CClsIoStreamCtl
 {
@@ -39,6 +40,10 @@ class CLS_LIB CClsIoStreamCtl
     ~CClsIoStreamCtl();
 
     UErrCodeT Init();
+
+    // Controler.
+    CClsStreamFormat *Format();
+
     UErrCodeT Open(ClsFileHT *aFileH, const UStringT *aFile,
                    const ClsFileOperCodeT aOper);
     UErrCodeT Close(ClsFileHT *aFileH);
@@ -50,6 +55,7 @@ class CLS_LIB CClsIoStreamCtl
   protected:
   private:
     CClsTypeCtl *mType;
+    CClsStreamFormat *mFormat;
 };
 
 #endif  // CLS_IOSTREAMCTL_HPP_INCLUDED

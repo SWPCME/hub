@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: hub_ctl.hpp 2016-08 $
+ * $Id: hub_ctl.hpp 2017-07 $
  *
  * Project:  Hub Library.
  * Purpose:  Hub control, for all library.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -50,8 +50,8 @@ class CHubCtl
     CHubCtl();
     ~CHubCtl();
 
-    static CHubCtl* m_hub;
-    CHubModuleCtl* m_module;
+    static CHubCtl* mHub;
+    CHubModuleCtl* mModule;
 };
 
 #endif  /* HUB_CTL_HPP_INCLUDED */

@@ -27,20 +27,22 @@
 // Glibc Module.
 #include "stdio.h"
 
-// Base.
+// base
 #include "base_ctl.hpp"
-// Core.
+// core
 #include "core_ctl.hpp"
-// Cls.
+// cls
 #include "cls_ctl.hpp"
 #include "cls_typectl.hpp"
+#include "cls_streamformat.hpp"
 
 /**
  * \brief Constructor.
  */
 CClsIoStreamCtl::CClsIoStreamCtl()
 {
-    mType = NULL;
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mFormat);
 }
 
 /**
@@ -48,6 +50,8 @@ CClsIoStreamCtl::CClsIoStreamCtl()
  */
 CClsIoStreamCtl::~CClsIoStreamCtl()
 {
+    BMD_POINTER_INIT(mType);
+    BMD_CLASS_DEL(mFormat);
 }
 
 /**
@@ -55,12 +59,19 @@ CClsIoStreamCtl::~CClsIoStreamCtl()
  */
 UErrCodeT CClsIoStreamCtl::Init()
 {
-    CBaseCtl *baseCtl = CBaseCtl::Base();
-    CCoreCtl *coreCtl = baseCtl->Core();
-    CClsCtl *clsCtl = coreCtl->Cls();
-    mType = clsCtl->Type();
+    CLS_TYPE_CTL(mType);
     
     return UErrFalse;
+}
+
+/**
+ * \brief Format.
+ */
+CClsStreamFormat *CClsIoStreamCtl::Format()
+{
+    BMD_CLASS_NEW(mFormat, CClsStreamFormat);
+
+    return mFormat;
 }
 
 /**

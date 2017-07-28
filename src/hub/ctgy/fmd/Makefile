@@ -24,8 +24,9 @@
 
 # Options.
 HUB_DIR = ../..
-INCLUDE_DIR = -I$(HUB_DIR) -I${BASE_DIR} -I$(CLS_DIR) -I$(CCS_DIR) -I$(WRAP_DIR)\
-	-I$(UST_DIR) -I$(CTGY_DIR) -I$(INSTALL_H_DIR)/ctgy/firemod/unix
+INCLUDE_DIR = -I$(HUB_DIR) -I${BASE_DIR} -I$(CORE_DIR) -I$(CLS_DIR) \
+	-I$(CCS_DIR) -I$(WRAP_DIR) -I$(UST_DIR) -I$(CTGY_DIR) \
+	-I$(INSTALL_H_DIR)/ctgy/firemod/unix
 
 # Include.
 HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk

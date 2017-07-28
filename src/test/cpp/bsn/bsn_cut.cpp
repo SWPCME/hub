@@ -96,7 +96,7 @@ UErrCodeT CBsnCut::Test()
     UStringT file = "/home/swpcme/tmp/test.txt";
     ClsFileHT fileH = NULL;
     mIoStr->Open(&fileH, &file, ClsFileOperWba);
-    easyCtl->SetWriteData(fileH);
+    // easyCtl->SetWriteData(fileH);
     UErrCodeT code = easyCtl->Perform();
     mIoCmn->PrintF("%d\n", code);
     mIoStr->Close(&fileH);

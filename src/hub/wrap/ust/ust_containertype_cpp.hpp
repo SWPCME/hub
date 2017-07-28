@@ -45,7 +45,7 @@ UContainerT<ContentT, KeyT>::UContainerT()
  * \brief Constructor.
  */
 template <typename ContentT, typename KeyT>
-UContainerT<ContentT, KeyT>::UContainerT(UContainerCodeT aCode)
+UContainerT<ContentT, KeyT>::UContainerT(const UContainerCodeT aCode)
 {
     mCtn = new CUstContainerCtl<ContentT, KeyT>;
     Init(aCode);
@@ -73,7 +73,7 @@ UContainerT<ContentT, KeyT>::~UContainerT()
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::Init(UContainerCodeT aCode)
+UErrCodeT UContainerT<ContentT, KeyT>::Init(const UContainerCodeT aCode)
 {
     mCtn->Init(aCode);
 
@@ -117,7 +117,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT &aContent, const KeyT 
  * \brief Delete item by content.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::Del(ContentT &aContent)
+UErrCodeT UContainerT<ContentT, KeyT>::Del(const ContentT &aContent)
 {
     return UErrFalse;
 }
@@ -126,7 +126,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Del(ContentT &aContent)
  * \brief Delete item by key.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::DelByKey(KeyT &aKey)
+UErrCodeT UContainerT<ContentT, KeyT>::DelByKey(const KeyT &aKey)
 {
     return UErrFalse;
 }
@@ -135,7 +135,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::DelByKey(KeyT &aKey)
  * \brief Find item by content.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::Find(ContentT &aContent)
+UErrCodeT UContainerT<ContentT, KeyT>::Find(const ContentT &aContent)
 {
     return UErrFalse;
 }
@@ -144,7 +144,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Find(ContentT &aContent)
  * \brief Find by key.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(KeyT* aKey)
+UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(const KeyT* aKey)
 {
     return mCtn->FindByKey(aKey);
 }
@@ -153,7 +153,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(KeyT* aKey)
  * \brief Find by key.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(KeyT &aKey)
+UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(const KeyT &aKey)
 {
     return FindByKey(&aKey);
 }

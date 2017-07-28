@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: hub_modulectl.hpp 2016-08 $
+ * $Id: hub_modulectl.hpp 2017-07 $
  *
  * Project:  Hub Library.
  * Purpose:  Module control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,10 @@
 #define HUB_MODULECTL_HPP_INCLUDED
 
 #include "hub_base.h"
-#include "ust_containertype.hpp"
+// ust
+#include "ust/ust_containertype.hpp"
+// base
+#include "base_macrodefn.hpp"
 
 typedef UContainerT<UHandleT, HubCodeT> MHandleCodeT;
 typedef UIteratorT<UHandleT, HubCodeT> MHandleCodeItT;
@@ -51,6 +54,8 @@ class HUB_LIB CHubModuleCtl
 
  protected:
  private:
+    UErrCodeT RegisterRegion(HubCodeT aBegin, HubCodeT aEnd);
+
     UStateCodeT mState;
     MHandleCodeT mMCodeH;     /* Register handle. */
 };

@@ -39,10 +39,13 @@
 // Business Logic
 #include "bsn_uniqueid.hpp"
 // Core.
+#include "bsn_cls.hpp"
 #include "bsn_gda.hpp"
+#include "bsn_ogr.hpp"
 #include "bsn_gsl.hpp"
 #include "bsn_cut.hpp"
 // Wrap.
+#include "bsn_ust.hpp"
 #include "bsn_ncc.hpp"
 // Ctgy.
 #include "bsn_rtk.hpp"
@@ -54,19 +57,16 @@ CBsnCtl::CBsnCtl()
     mHub->Init();
     mHub->RegisterAll();
 
-    mGda = NULL;
-    mGsl = NULL;
-    mCut = NULL;
-    mNcc = NULL;
-    mRtk = NULL;
-    mUniqueId = NULL;
+    InitPointer();
 }
 
 CBsnCtl::~CBsnCtl()
 {
+    BMD_CLASS_DEL(mCls);
     BMD_CLASS_DEL(mGda);
     BMD_CLASS_DEL(mGsl);
     BMD_CLASS_DEL(mCut);
+    BMD_CLASS_DEL(mUst);
     BMD_CLASS_DEL(mNcc);
     BMD_CLASS_DEL(mRtk);
     BMD_CLASS_DEL(mUniqueId);
@@ -79,11 +79,25 @@ UErrCodeT CBsnCtl::Init()
     return UErrFalse;
 }
 
+CBsnCls *CBsnCtl::Cls()
+{
+    BMD_CLASS_NEW(mCls, CBsnCls);
+
+    return mCls;
+}
+
 CBsnGda *CBsnCtl::Gda()
 {
     BMD_CLASS_NEW(mGda, CBsnGda);
 
     return mGda;
+}
+
+CBsnOgr *CBsnCtl::Ogr()
+{
+    BMD_CLASS_NEW(mOgr, CBsnOgr);
+
+    return mOgr;
 }
 
 CBsnGsl *CBsnCtl::Gsl()
@@ -98,6 +112,13 @@ CBsnCut *CBsnCtl::Cut()
     BMD_CLASS_NEW(mCut, CBsnCut);
 
     return mCut;
+}
+
+CBsnUst *CBsnCtl::Ust()
+{
+    BMD_CLASS_NEW(mUst, CBsnUst);
+
+    return mUst;
 }
 
 CBsnNcc *CBsnCtl::Ncc()
@@ -127,3 +148,22 @@ CBsnFmd *CBsnCtl::Fmd()
 
     return mFmd;
 }
+
+/***** Private A *****/
+
+UErrCodeT CBsnCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mCls);
+    BMD_POINTER_INIT(mGda);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mGsl);
+    BMD_POINTER_INIT(mCut);
+    BMD_POINTER_INIT(mUst);
+    BMD_POINTER_INIT(mNcc);
+    BMD_POINTER_INIT(mRtk);
+    BMD_POINTER_INIT(mUniqueId);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

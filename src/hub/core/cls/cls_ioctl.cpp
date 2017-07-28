@@ -32,7 +32,9 @@
 // C standard lib.
 #include <stdio.h>
 
-// Module
+// base
+#include "base_macrodefn.hpp"
+// cls
 #include "cls_argctl.hpp"
 #include "cls_iocommonctl.hpp"
 #include "cls_iostreamctl.hpp"
@@ -42,8 +44,8 @@
  */
 CClsIoCtl::CClsIoCtl()
 {
-    mCommon = NULL;
-    mStream = NULL;
+    BMD_POINTER_INIT(mCommon);
+    BMD_POINTER_INIT(mStream);
 }
 
 /**
@@ -51,15 +53,8 @@ CClsIoCtl::CClsIoCtl()
  */
 CClsIoCtl::~CClsIoCtl()
 {
-    if (mCommon != NULL)
-    {
-        delete mCommon;
-    }
-
-    if (mStream != NULL)
-    {
-        delete mStream;
-    }
+    BMD_CLASS_DEL(mCommon);
+    BMD_CLASS_DEL(mStream);
 }
 
 /**
@@ -77,11 +72,7 @@ UErrCodeT CClsIoCtl::Init()
  */
 CClsIoCommonCtl *CClsIoCtl::Common()
 {
-    if (mCommon == NULL)
-    {
-        mCommon = new CClsIoCommonCtl;
-        mCommon->Init();
-    }
+    BMD_CLASS_NEW(mCommon, CClsIoCommonCtl);
 
     return mCommon;
 }
@@ -91,11 +82,7 @@ CClsIoCommonCtl *CClsIoCtl::Common()
  */
 CClsIoStreamCtl *CClsIoCtl::Stream()
 {
-    if (mStream == NULL)
-    {
-        mStream = new CClsIoStreamCtl;
-        mStream->Init();
-    }
+    BMD_CLASS_NEW(mStream, CClsIoStreamCtl);
 
     return mStream;
 }

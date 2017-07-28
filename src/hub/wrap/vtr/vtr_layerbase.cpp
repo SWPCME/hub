@@ -40,7 +40,7 @@
 CVtrLayerBase::CVtrLayerBase(COgrLayerCtl* aCtl)
 {
     m_ogrLayer = aCtl;
-    m_handle = aCtl->Handle();
+    // m_handle = aCtl->Handle();
 }
 
 /**
@@ -63,8 +63,7 @@ UErrCodeT CVtrLayerBase::Init()
  */
 UStringT* CVtrLayerBase::Name()
 {
-    Attach();
-    m_ogrLayer->Name(&m_name);
+    // m_ogrLayer->Name(&m_name);
 
     return &m_name;
 }
@@ -74,7 +73,6 @@ UStringT* CVtrLayerBase::Name()
  */
 COgrFieldCtl* CVtrLayerBase::Field(UIntT aRow)
 {
-    Attach();
     COgrFeaturesCtl* features = m_ogrLayer->Features();
     COgrFeatureCtl* feature = features->Load(aRow);
 
@@ -82,15 +80,5 @@ COgrFieldCtl* CVtrLayerBase::Field(UIntT aRow)
 }
 
 /***** Private A *****/
-
-/**
- * \brief Attach handle of ogr layer.
- */
-UErrCodeT CVtrLayerBase::Attach()
-{
-    m_ogrLayer->Attach(m_handle);
-
-    return UErrFalse;
-}
 
 /***** Private B *****/

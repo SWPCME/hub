@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: string_struct.h 2016-08 $
+ * $Id: string_struct.h 2017-07 $
  *
  * Project:  Common Library.
  * Purpose:  Universal string struct.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,9 @@
 
 #include "ust_stringbase.h"
 
+// ust
+#include "ust_containertype.hpp"
+
 class CUstStringCtl;
 
 class UST_LIB UStringT
@@ -44,6 +47,9 @@ class UST_LIB UStringT
     UStringT(const wchar_t *aStr);
     ~UStringT();
 
+    // Attribute.
+    UIntT Len();
+
     // UErrCodeT Add(UIntT aNum, ...);
     UErrCodeT Add(const char *aStr);
     UErrCodeT Add(const wchar_t *aStr);
@@ -52,7 +58,7 @@ class UST_LIB UStringT
     UErrCodeT Find(const char *aStr);
     UErrCodeT Find(const wchar_t *aStr);
     UIntT Count();
-    UErrCodeT IsNull();
+    UErrCodeT IsNull() const;
     UErrCodeT Clear();
     const UCharT *ToU();
     const char *ToA() const;
@@ -60,8 +66,15 @@ class UST_LIB UStringT
     UIntT ToI();
     UFloatT ToF();
 
+    // Algorithm.
+    UErrCodeT Split(UContainerT<UStringT> *aStringS,
+                    const UStringT *aSeparator);
+
     // Operator.
     UErrCodeT operator =(const char *aStr);
+    UErrCodeT operator ==(const UStringT &aStr);
+    UErrCodeT operator ==(const char *aStr);
+    UErrCodeT operator !=(const UStringT &aStr);
     UErrCodeT operator !=(const char *aStr);
     // UErrCodeT operator =(const wchar_t* aStr);
     UErrCodeT operator =(const UStringT &aStr);
@@ -69,19 +82,26 @@ class UST_LIB UStringT
     UErrCodeT operator <(const UStringT &aStr) const;
     UStringT operator +(const UStringT &aStr);
     UStringT operator +(const char *aStr);
+    UStringT operator +(const UIntT aStr);
     UErrCodeT operator +=(const UStringT &aStr);
+    UErrCodeT operator +=(const char *aStr);
+    UErrCodeT operator +=(const UIntT aNum);
+
+    // Console.
+    UErrCodeT ToConsole();
+
  protected:
  private:
     UErrCodeT Init();
 
-    CUstStringCtl* m_str;
+    CUstStringCtl* mStr;
 
-    UStateCodeT m_state;
+    UStateCodeT mState;
     /* Multi format. */
-    char *m_char;
-    wchar_t *m_wchar;
-    UIntT m_int;
-    UFloatT m_float;
+    char *mChar;
+    wchar_t *mWchar;
+    UIntT mInt;
+    UFloatT mFloat;
 };
 
 #endif  /* STRING_STRUCT_H_INCLUDED */

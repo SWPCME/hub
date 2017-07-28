@@ -39,3 +39,5 @@ HEADER = \
          hub_ctl.hpp
 
 LIB_SO_NAME = hub
+EXTRA_LIB_DIR = -L/home/swpcme/me/usr/lib
+EXTRA_LIB_SO = -lgdal -lgsl -lcurl -lfiremod -lrtklib

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_ctl.hpp 2016-08 $
+ * $Id: bsn_ctl.hpp 2017-07 $
  *
  * Project:  Business logic library.
  * Purpose:  Business control definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -32,9 +32,12 @@
 
 #include "bsn_base.hpp"
 
+class CBsnCls;
 class CBsnGda;
+class CBsnOgr;
 class CBsnGsl;
 class CBsnCut;
+class CBsnUst;
 class CBsnNcc;
 class CBsnRtk;
 class CBsnFmd;
@@ -47,9 +50,12 @@ class BSN_LIB CBsnCtl
     ~CBsnCtl();
 
     UErrCodeT Init();
+    CBsnCls *Cls();
     CBsnGda *Gda();
+    CBsnOgr *Ogr();
     CBsnGsl *Gsl();
     CBsnCut *Cut();
+    CBsnUst *Ust();
     CBsnNcc *Ncc();
     CBsnRtk *Rtk();
     CBsnFmd *Fmd();
@@ -57,10 +63,15 @@ class BSN_LIB CBsnCtl
 
  protected:
  private:
+    UErrCodeT InitPointer();
+
     CHubCtl *mHub;
+    CBsnCls *mCls;
     CBsnGda *mGda;
+    CBsnOgr *mOgr;
     CBsnGsl *mGsl;
     CBsnCut *mCut;
+    CBsnUst *mUst;
     CBsnNcc *mNcc;
     CBsnRtk *mRtk;
     CBsnFmd *mFmd;

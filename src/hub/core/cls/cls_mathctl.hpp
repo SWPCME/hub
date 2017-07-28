@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_mathctl.cpp 2017-05 $
+ * $Id: cls_mathctl.cpp 2017-07 $
  *
  * Project:  C language standard library.
  * Purpose:  Math controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: hub_ctl.cpp 2016-08 $
+ * $Id: hub_ctl.cpp 2017-07 $
  *
  * Project:  Hub.
  * Purpose:  Hub ctl.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -28,7 +28,7 @@
 #include "hub_modulectl.hpp"
 
 // Global static
-CHubCtl* CHubCtl::m_hub = NULL;
+CHubCtl* CHubCtl::mHub = NULL;
 
 /******************************************************************************
  * \brief Initialize.
@@ -37,7 +37,7 @@ CHubCtl* CHubCtl::m_hub = NULL;
  *****************************************************************************/
 UErrCodeT CHubCtl::Init()
 {
-    m_module->Init();
+    mModule->Init();
 
     return UErrFalse;
 }
@@ -49,12 +49,12 @@ UErrCodeT CHubCtl::Init()
  */
 CHubCtl* CHubCtl::Hub()
 {
-    if (m_hub == NULL)
+    if (mHub == NULL)
     {
-        m_hub = new CHubCtl;
+        mHub = new CHubCtl;
     }
 
-    return m_hub;
+    return mHub;
 }
 
 /**
@@ -64,12 +64,7 @@ CHubCtl* CHubCtl::Hub()
  */
 UErrCodeT CHubCtl::Register(HubCodeT aCode)
 {
-    if ((aCode >= kHubCodeCoreEnd && aCode <= kHubCodeWrapEnd) || (aCode >= kHubCodeCtgyBegin))
-    {
-        return m_module->Register(aCode);
-    }
-
-    return UErrTrue;
+    return mModule->Register(aCode);
 }
 
 /**
@@ -79,12 +74,7 @@ UErrCodeT CHubCtl::Register(HubCodeT aCode)
  */
 UErrCodeT CHubCtl::RegisterAll()
 {
-    for (UIntT i = kHubCodeCoreEnd; i <= kHubCodeWrapEnd; ++i)
-    {
-        Register((HubCodeT) i);
-    }
-    
-    return UErrFalse;
+    return mModule->RegisterAll();
 }
 
 /**
@@ -94,12 +84,7 @@ UErrCodeT CHubCtl::RegisterAll()
  */
 UErrCodeT CHubCtl::Deregister(HubCodeT aCode)
 {
-    if ((aCode >= kHubCodeCoreEnd && aCode <= kHubCodeWrapEnd) || (aCode >= kHubCodeCtgyBegin))
-    {
-        return m_module->Deregister(aCode);
-    }
-
-    return UErrTrue;
+    return mModule->Deregister(aCode);
 }
 
 /**
@@ -109,12 +94,7 @@ UErrCodeT CHubCtl::Deregister(HubCodeT aCode)
  */
 UErrCodeT CHubCtl::DeregisterAll()
 {
-    for (UIntT i = kHubCodeCoreEnd; i <= kHubCodeWrapEnd; ++i)
-    {
-        Deregister((HubCodeT) i);
-    }
-    
-    return UErrFalse;
+    return mModule->DeregisterAll();
 }
 
 /**
@@ -126,7 +106,7 @@ UErrCodeT CHubCtl::DeregisterAll()
  */
 UHandleT CHubCtl::Module(HubCodeT aCode)
 {
-    return m_module->Module(aCode);
+    return mModule->Module(aCode);
 }
 
 /***** Private A *****/
@@ -136,7 +116,7 @@ UHandleT CHubCtl::Module(HubCodeT aCode)
  */
 CHubCtl::CHubCtl()
 {
-    m_module = new CHubModuleCtl;
+    mModule = new CHubModuleCtl;
 }
 
 /**
@@ -145,7 +125,7 @@ CHubCtl::CHubCtl()
 CHubCtl::~CHubCtl()
 {
     DeregisterAll();
-    delete m_module;
+    delete mModule;
 }
 
 /***** Private B *****/

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ogr_featurectl.hpp 2016-08 $
+ * $Id: ogr_featurectl.hpp 2017-07 $
  *
  * Project:  Ogr(OpenGIS Simple Features Reference Implementation) library.
  * Purpose:  Ogr feature control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -38,20 +38,21 @@ class COgrGeometryCtl;
 class OGR_LIB COgrFeatureCtl
 {
   public:
-    COgrFeatureCtl();
+    COgrFeatureCtl(UIntT aId, OgrLayerHT aLayerH);
     ~COgrFeatureCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrFeatureHT aHandle);
-    COgrFieldCtl* Field();
-    COgrGeometryCtl* Geometry();
+    COgrFieldCtl *Field();
+    COgrGeometryCtl *Geometry();
 
   protected:
   private:
-    OgrFeatureHT m_handle;
+    UErrCodeT SetHandle(UIntT aId, OgrLayerHT aLayerH);
 
-    COgrFieldCtl* m_field;
-    COgrGeometryCtl* m_geometry;
+    OgrFeatureHT mFeatureH;
+
+    COgrFieldCtl* mField;
+    COgrGeometryCtl* mGeometry;
 };
 
 #endif  // OGR_FEATURECTL_HPP_INCLUDED

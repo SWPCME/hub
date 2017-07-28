@@ -43,8 +43,7 @@ class UI_LIB CUiCtl
     UErrCodeT Test();
  protected:
  private:
-    CBsnCtl* m_bsn;
-    CHubCtl* m_hub;
+    CBsnCtl* mBsn;
 };
 
 #endif  /* UI_CTL_HPP_INCLUDED */

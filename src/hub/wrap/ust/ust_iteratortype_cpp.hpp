@@ -50,6 +50,7 @@ template <typename ContentT, typename KeyT>
 UErrCodeT UIteratorT<ContentT, KeyT>::Init(CUstContainerCtl<ContentT, KeyT> *aCtn)
 {
     mCtn = aCtn;
+    Head();
 
     return UErrFalse;
 }
@@ -67,9 +68,18 @@ UErrCodeT UIteratorT<ContentT, KeyT>::Head(const USequenceCodeT aCode)
  * \brief Goto position that specified.
  */
 template <typename ContentT, typename KeyT>
+UErrCodeT UIteratorT<ContentT, KeyT>::Goto(const KeyT *aKey)
+{
+    return mCtn->Goto(aKey);
+}
+
+/**
+ * \brief Goto position that specified.
+ */
+template <typename ContentT, typename KeyT>
 UErrCodeT UIteratorT<ContentT, KeyT>::Goto(const KeyT &aKey)
 {
-    return mCtn->Goto(&aKey);
+    return Goto(&aKey);
 }
 
 /**
@@ -94,7 +104,7 @@ UErrCodeT UIteratorT<ContentT, KeyT>::State()
  * \brief Content.
  */
 template <typename ContentT, typename KeyT>
-const ContentT UIteratorT<ContentT, KeyT>::Content()
+ContentT UIteratorT<ContentT, KeyT>::Content()
 {
     return *mCtn->Content();
 }
@@ -103,7 +113,7 @@ const ContentT UIteratorT<ContentT, KeyT>::Content()
  * \brief Key.
  */
 template <typename ContentT, typename KeyT>
-const KeyT UIteratorT<ContentT, KeyT>::Key()
+KeyT UIteratorT<ContentT, KeyT>::Key()
 {
     return *mCtn->Key();
 }

@@ -207,11 +207,13 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Head(const USequenceCodeT aCode)
     {
         mIt = mMap.begin();
         mItCode = USequenceOrder;
+        break;
     }
     case USequenceReverse:
     {
         mRIt = mMap.rbegin();
         mItCode = USequenceReverse;
+        break;
     }
     default:
         return UErrTrue;
@@ -264,8 +266,10 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Goto(const KeyT *aKey)
     switch (mItCode)
     {
     case USequenceOrder:
+    {
         mIt = it;
         break;
+    }
     case USequenceReverse:
     {
         MapRIteratorT rIt = mMap.rbegin();
@@ -292,15 +296,21 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::State()
     switch (mItCode)
     {
     case USequenceOrder:
+    {
         if (mIt == mMap.end())
         {
             return UErrTrue;
         }
+        break;
+    }
     case USequenceReverse:
+    {
         if (mRIt == mMap.rend())
         {
             return UErrTrue;
         }
+        break;
+    }
     default:
         return UErrTrue;
     }
@@ -410,6 +420,7 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::CheckIt(UHandleT aIt)
         {
             return UErrTrue;
         }
+        break;
     }
     case USequenceReverse:
     {
@@ -417,10 +428,13 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::CheckIt(UHandleT aIt)
         {
             return UErrTrue;
         }
+        break;
     }
     default:
         return UErrTrue;
     }
+
+    return UErrFalse;
 }
 
 /**
@@ -494,8 +508,10 @@ template <typename ContentT, typename KeyT>
 UErrCodeT CCcsMapCtl<ContentT, KeyT>::DistToRHead(UIntT *aDist, MapIteratorT *aPosA)
 {
     MapIteratorT tail = mMap.end();
+    Dist(aDist, aPosA, &tail);
+    --(*aDist);
 
-    return Dist(aDist, aPosA, &tail);
+    return UErrFalse;
 }
 
 /**
@@ -519,7 +535,7 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::FreeContent()
 {
     for (Head(); Next() == UErrFalse;)
     {
-        delete mIt->second;
+        // delete mIt->second;
     }
 
     return UErrFalse;

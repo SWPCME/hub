@@ -234,10 +234,10 @@ UHandleT CUstContainerCtl<ContentT, KeyT>::Iterator()
 template <typename ContentT, typename KeyT>
 UErrCodeT CUstContainerCtl<ContentT, KeyT>::Head(const USequenceCodeT aCode)
 {
-    if (Lock() == UErrTrue)
-    {
-        return UErrTrue;
-    }
+    // if (Lock() == UErrTrue)
+    // {
+    //     return UErrTrue;
+    // }
 
     switch (mCode)
     {
@@ -384,9 +384,9 @@ const KeyT *CUstContainerCtl<ContentT, KeyT>::Key()
 template <typename ContentT, typename KeyT>
 UErrCodeT CUstContainerCtl<ContentT, KeyT>::Lock()
 {
-    if (mRwLock == ULockFalse)
+    if (mRwLock == ULockOff)
     {
-        mRwLock = ULockTrue;
+        mRwLock = ULockOn;
         return UErrFalse;
     }
 
@@ -401,9 +401,9 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Lock()
 template <typename ContentT, typename KeyT>
 UErrCodeT CUstContainerCtl<ContentT, KeyT>::Unlock()
 {
-    if (mRwLock == ULockTrue)
+    if (mRwLock == ULockOn)
     {
-        mRwLock = ULockFalse;
+        mRwLock = ULockOff;
         return UErrFalse;
     }
 

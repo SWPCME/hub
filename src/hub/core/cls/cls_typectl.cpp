@@ -24,6 +24,9 @@
 
 #include "cls_typectl.hpp"
 
+// glibc
+#include "time.h"
+
 /**
  * \brief Constructor.
  */
@@ -71,6 +74,29 @@ UErrCodeT CClsTypeCtl::ToFileOper(UStringT *aDest, const ClsFileOperCodeT aSrc)
     default:
         return UErrTrue;
     }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To tm.
+ */
+UErrCodeT CClsTypeCtl::ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc)
+{
+    const UIntT yearOffset = 1900;
+    const UIntT monOffset = 1;
+    tm *src = (tm *) aSrc;
+    aDest->sec = src->tm_sec;
+    aDest->min = src->tm_min;
+    aDest->hour = src->tm_hour;
+    aDest->mday = src->tm_mday;
+    aDest->mon = src->tm_mon + monOffset;
+    aDest->year = src->tm_year + yearOffset;
+    aDest->wday = src->tm_wday;
+    aDest->yday = src->tm_yday;
+    aDest->isdst = src->tm_isdst;
+    aDest->gmtoff = src->tm_gmtoff;
+    // aDest->zone = src->tm_zone;
 
     return UErrFalse;
 }

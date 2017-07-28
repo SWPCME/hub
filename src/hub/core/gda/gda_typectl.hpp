@@ -26,7 +26,14 @@
 #define GDA_TYPECTL_HPP_INCLUDED
 
 #include "gda_base.h"
+// GDAL
 #include "gdal.h"
+// ust
+#include "ust/ust_stringtype.hpp"
+
+// cls
+class CClsStringCtl;
+class CClsMemoryCtl;
 
 class GDA_LIB CGdaTypeCtl
 {
@@ -37,9 +44,16 @@ class GDA_LIB CGdaTypeCtl
     UErrCodeT Init();
     UErrCodeT ToAccess(GDALAccess *aDest, const UAccessCodeT aSrc);
     UErrCodeT ToDataType(GDALDataType *aDest, UDataTCodeT aSrc);
+    UErrCodeT ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc);
+
+    // argv
+    UErrCodeT NewArgv(GdaArgvT *aDst, const UStringT *aSrc);
+    UErrCodeT DelArgv(GdaArgvT aArgv);
 
   protected:
   private:
+    CClsStringCtl *mStr;
+    CClsMemoryCtl *mMem;
 };
 
 #endif  // GDA_TYPECTL_HPP_INCLUDED

@@ -104,13 +104,31 @@ UHandleT CClsMemoryCtl::CAlloc(UIntT aNMemB, UIntT aSize)
  *
  * @return Handle of memory with new size.
  */
-UHandleT CClsMemoryCtl::Realloc(UHandleT aHandle, UIntT aSize)
+UHandleT CClsMemoryCtl::Realloc(UHandleT aHandle, UIntT aSize, UErrCodeT *aErr)
 {
     if (aSize <= 0)
     {
+        if (aErr != NULL)
+        {
+            *aErr = UErrTrue;
+        }
         return aHandle;
     }
     UHandleT handle = (UHandleT) realloc((void *) aHandle, (size_t) aSize);
+
+    if (handle == NULL)
+    {
+        if (aErr != NULL)
+        {
+            *aErr = UErrTrue;
+        }
+        return aHandle;
+    }
+
+    if (aErr != NULL)
+    {
+        *aErr = UErrFalse;
+    }
 
     return handle;
 }

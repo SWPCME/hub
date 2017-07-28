@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: hub_modulectl.cpp 2016-08 $
+ * $Id: hub_modulectl.cpp 2017-07 $
  *
  * Project:  Hub library.
  * Purpose:  Module control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -58,6 +58,13 @@
  */
 #include "ctgy_ctl.hpp"
 #include "rtk_ctl.hpp"
+#include "fmd_ctl.hpp"
+
+#define HUB_REGISTER(aCode, aClass)             \
+    BMD_REGISTER(aCode, aClass, mMCodeH)
+
+#define HUB_DEREGISTER(aCode, aClass)           \
+    BMD_DEREGISTER(aCode, aClass, mMCodeH)
 
 /**
  * \brief Constructor.
@@ -104,64 +111,39 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
 
     switch (aCode)
     {
-    case HubMCls:
-    {
-        CClsCtl *clsCtl = new CClsCtl;
-        clsCtl->Init();
-        mMCodeH.Add((UHandleT) clsCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMSys:
-    {
-        CSysCtl *sysCtl = new CSysCtl;
-        sysCtl->Init();
-        mMCodeH.Add((UHandleT) sysCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMOgr:
-    {
-        COgrCtl *ogrCtl = new COgrCtl;
-        ogrCtl->Init();
-        mMCodeH.Add((UHandleT) ogrCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMGda:
-    {
-        CGdaCtl *gdaCtl = new CGdaCtl;
-        gdaCtl->Init();
-        mMCodeH.Add((UHandleT) gdaCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMGsl:
-    {
-        CGslCtl *gslCtl = new CGslCtl;
-        gslCtl->Init();
-        mMCodeH.Add((UHandleT) gslCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMCut:
-    {
-        CCutCtl *cutCtl = new CCutCtl;
-        cutCtl->Init();
-        mMCodeH.Add((UHandleT) cutCtl, aCode);
-    }
-    case HubMVtr:
-    {
-        CVtrCtl *vtrCtl = new CVtrCtl;
-        vtrCtl->Init();
-        mMCodeH.Add((UHandleT) vtrCtl, aCode);
-        return UErrFalse;
-    }
-    case HubMRtk:
-    {
-        CRtkCtl *rtkCtl = new CRtkCtl;
-        rtkCtl->Init();
-        mMCodeH.Add((UHandleT) rtkCtl, aCode);
-        return UErrFalse;
-    }
+        // core
+        HUB_REGISTER(HubMCls, CClsCtl);
+        HUB_REGISTER(HubMCcs, CCcsCtl);
+        HUB_REGISTER(HubMSys, CSysCtl);
+        HUB_REGISTER(HubMOgr, COgrCtl);
+        HUB_REGISTER(HubMGda, CGdaCtl);
+        HUB_REGISTER(HubMGsl, CGslCtl);
+        HUB_REGISTER(HubMCut, CCutCtl);
+        // wrap
+        HUB_REGISTER(HubMUst, CUstCtl);
+        HUB_REGISTER(HubMVtr, CVtrCtl);
+        // ctgy
+        HUB_REGISTER(HubMRtk, CRtkCtl);
+        HUB_REGISTER(HubMFmd, CFmdCtl);
     default:
         return UErrTrue;
     }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Register all module. 
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CHubModuleCtl::RegisterAll()
+{
+    RegisterRegion((HubCodeT) kHubCodeCoreBegin, (HubCodeT) kHubCodeCoreEnd);
+    RegisterRegion((HubCodeT) kHubCodeWrapBegin, (HubCodeT) kHubCodeWrapEnd);
+    RegisterRegion((HubCodeT) kHubCodeCtgyBegin, (HubCodeT) kHubCodeCtgyEnd);
+
+    return UErrFalse;
 }
 
 /**
@@ -180,29 +162,22 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
 
     switch (aCode)
     {
-    case HubMCls:
-        delete (CClsCtl*) mMCodeH[aCode];
-        break;
-    case HubMSys:
-        delete (CSysCtl*) mMCodeH[aCode];
-        break;
-    case HubMOgr:
-        delete (COgrCtl*) mMCodeH[aCode];
-        break;
-    case HubMGda:
-        delete (CGdaCtl*) mMCodeH[aCode];
-        break;
-    case HubMGsl:
-        delete (CGslCtl*) mMCodeH[aCode];
-        break;
-    case HubMVtr:
-        delete (CVtrCtl*) mMCodeH[aCode];
-        break;
-    case HubMRtk:
-        delete (CRtkCtl*) mMCodeH[aCode];
-        break;
+        // core
+        HUB_DEREGISTER(HubMCls, CClsCtl);
+        HUB_DEREGISTER(HubMCcs, CCcsCtl);
+        HUB_DEREGISTER(HubMSys, CSysCtl);
+        HUB_DEREGISTER(HubMOgr, COgrCtl);
+        HUB_DEREGISTER(HubMGda, CGdaCtl);
+        HUB_DEREGISTER(HubMGsl, CGslCtl);
+        HUB_DEREGISTER(HubMCut, CCutCtl);
+        // wrap
+        HUB_DEREGISTER(HubMUst, CUstCtl);
+        HUB_DEREGISTER(HubMVtr, CVtrCtl);
+        // ctgy
+        HUB_DEREGISTER(HubMRtk, CRtkCtl);
+        HUB_DEREGISTER(HubMFmd, CFmdCtl);
     default:
-        break;
+        return UErrTrue;
     }
     mMCodeH.DelByKey(aCode);
 
@@ -245,5 +220,23 @@ UHandleT CHubModuleCtl::Module(HubCodeT aCode)
 }
 
 /***** Private A *****/
+
+/**
+ * \brief Register module with region.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CHubModuleCtl::RegisterRegion(HubCodeT aBegin, HubCodeT aEnd)
+{
+    for (UIntT i = aBegin; i <= aEnd; i++)
+    {
+        if (Register((HubCodeT) i) == UErrTrue)
+        {
+            break;
+        }
+    }
+
+    return UErrFalse;
+}
 
 /***** Private B *****/

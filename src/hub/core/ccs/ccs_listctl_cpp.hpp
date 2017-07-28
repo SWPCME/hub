@@ -156,11 +156,13 @@ UErrCodeT CCcsListCtl<ContentT>::Head(USequenceCodeT aCode)
     {
         mIt = mList.begin();
         mItCode = USequenceOrder;
+        break;
     }
     case USequenceReverse:
     {
         mRIt = mList.rbegin();
         mItCode = USequenceReverse;
+        break;
     }
     default:
         return UErrTrue;
@@ -205,15 +207,21 @@ UErrCodeT CCcsListCtl<ContentT>::State()
     switch (mItCode)
     {
     case USequenceOrder:
+    {
         if (mIt == mList.end())
         {
             return UErrTrue;
         }
+        break;
+    }
     case USequenceReverse:
+    {
         if (mRIt == mList.rend())
         {
             return UErrTrue;
         }
+        break;
+    }
     default:
         return UErrTrue;
     }
@@ -314,6 +322,7 @@ UErrCodeT CCcsListCtl<ContentT>::CheckIt(UHandleT aIt)
         {
             return UErrTrue;
         }
+        break;
     }
     case USequenceReverse:
     {
@@ -321,10 +330,13 @@ UErrCodeT CCcsListCtl<ContentT>::CheckIt(UHandleT aIt)
         {
             return UErrTrue;
         }
+        break;
     }
     default:
         return UErrTrue;
     }
+
+    return UErrFalse;
 }
 
 /**
@@ -353,7 +365,7 @@ UErrCodeT CCcsListCtl<ContentT>::Free()
     for (Head(); State() == UErrFalse;)
     {
         ContentT* content = Content();
-        delete *content;
+        // delete *content;
     }
 
     return UErrFalse;

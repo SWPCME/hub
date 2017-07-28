@@ -28,13 +28,19 @@ OBJ = \
       ust_ctl.o \
       ust_stringctl.o \
       ust_stringtype.o \
+      ust_filetype.o \
       ust_filesctl.o \
       ust_filestype.o
 
 HEADER = \
          ust_base.h \
+         ust_stringbase.h \
          ust_stringtype.hpp \
          ust_filetype.hpp \
+         ust_filestype.hpp \
+         ust_containerctl.hpp \
+         ust_containerctl_cpp.hpp \
+         ust_containerbase.h \
          ust_containertype.hpp \
          ust_containertype_cpp.hpp \
          ust_iteratortype.hpp \

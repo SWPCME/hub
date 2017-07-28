@@ -39,6 +39,7 @@ class CClsMemoryCtl;
 class CClsIoCtl;
 class CClsUniCtl;
 class CClsMathCtl;
+class CClsTimeCtl;
 
 class CLS_LIB CClsCtl
 {
@@ -53,6 +54,7 @@ class CLS_LIB CClsCtl
     CClsIoCtl *Io(void);
     CClsUniCtl *Uni(void);
     CClsMathCtl *Math(void);
+    CClsTimeCtl *Time(void);
 
  protected:
  private:
@@ -62,6 +64,7 @@ class CLS_LIB CClsCtl
     CClsIoCtl *mIo;
     CClsUniCtl *mUni;
     CClsMathCtl *mMath;
+    CClsTimeCtl *mTime;
 };
 
 #endif  // CLS_CTL_HPP_INCLUDED

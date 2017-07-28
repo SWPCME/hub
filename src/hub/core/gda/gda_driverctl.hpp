@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_driverctl.cpp 2017-05 $
+ * $Id: gda_driverctl.cpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda driver control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -28,36 +28,40 @@
 #include "gda_base.h"
 
 // Hub.
-#include "ust_stringtype.hpp"
-#include "ust_containertype.hpp"
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
 class CGdaDatasetCtl;
 class CGdaTypeCtl;
 
-typedef UContainerT<CGdaDatasetCtl*, UStringT> MDatasetCtlT;
-typedef UIteratorT<CGdaDatasetCtl*, UStringT> MDatasetCtlItT;
-
 class GDA_LIB CGdaDriverCtl
 {
   public:
-    CGdaDriverCtl(GdaDriverHT aHandle);
+    CGdaDriverCtl(const UStringT *aName);
     ~CGdaDriverCtl();
 
     UErrCodeT Init();
     CGdaDatasetCtl *Create(const UStringT *aFile, UIntT aXSize, UIntT aYSize,
                            UIntT aNBands, UDataTCodeT aDataT, char **aOption);
     UErrCodeT Copy(const UStringT *aDest, const UStringT *aSrc);
-    CGdaDatasetCtl *Open(const UStringT *aFile, const UAccessCodeT aAccess);
+    CGdaDatasetCtl *Load(const UStringT *aFile, const UAccessCodeT aAccess);
     UErrCodeT Close(const UStringT *aFile);
     UErrCodeT Delete(const UStringT *aFile);
 
   protected:
   private:
+    typedef UContainerT<CGdaDatasetCtl*, UStringT> MDatasetT;
+    typedef UIteratorT<CGdaDatasetCtl*, UStringT> MDatasetItT;
+
+    UErrCodeT SetHandle(const UStringT *aName);
+    CGdaDatasetCtl *DatasetCtl(const UStringT *aFile, UFileOperCodeT aFileOper,
+                               const GdaDatasetAttrT *aAttr,
+                               const UAccessCodeT *aAccess);
     UErrCodeT CloseAll();
 
     // Map: dataset control with file name.
-    MDatasetCtlT mMDataset;
-    GdaDriverHT mHandle;
+    MDatasetT mMDataset;
+    GdaDriverHT mDriverH;
     CGdaTypeCtl *mType;
 };
 

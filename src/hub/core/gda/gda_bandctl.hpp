@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_rasterbandctl.hpp 2017-05 $
+ * $Id: gda_bandctl.hpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Gda raster band control.
+ * Purpose:  Gda band control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,21 +22,30 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#ifndef GDA_RASTERBANDCTL_HPP_INCLUDED
-#define GDA_RASTERBANDCTL_HPP_INCLUDED
+#ifndef GDA_BANDCTL_HPP_INCLUDED
+#define GDA_BANDCTL_HPP_INCLUDED
 
 #include "gda_base.h"
+// base
+#include "ust/ust_stringtype.hpp"
 
+// gda
 class CGdaTypeCtl;
+class CGdaDatasetCtl;
 
-class GDA_LIB CGdaRasterbandCtl
+class GDA_LIB CGdaBandCtl
 {
   public:
-    CGdaRasterbandCtl(GdaRasterBandHT aHandle);
-    ~CGdaRasterbandCtl();
+    CGdaBandCtl(UDataTCodeT aDataT, const UStringT *aOption,
+                CGdaDatasetCtl *aDsCtl);
+    CGdaBandCtl(UIntT aId, CGdaDatasetCtl *aDsCtl);
+    ~CGdaBandCtl();
 
     // Init.
     UErrCodeT Init();
+
+    // Framework.
+    CGdaDatasetCtl *Up();
 
     // Size.
     UErrCodeT BlockSize(UIntT *aX, UIntT *aY);
@@ -58,8 +67,13 @@ class GDA_LIB CGdaRasterbandCtl
 
   protected:
   private:
-    GdaRasterBandHT mHandle;
+    UErrCodeT InitPointer();
+    UErrCodeT CreateBand(UDataTCodeT aDataT, const UStringT *aOption);
+    UErrCodeT LoadBand(UIntT aId);
+
+    GdaRasterBandHT mBandH;
+    CGdaDatasetCtl *mDs;
     CGdaTypeCtl *mType;
 };
 
-#endif  // GDA_RASTERBANDCTL_HPP_INCLUDED
+#endif  // GDA_BANDCTL_HPP_INCLUDED

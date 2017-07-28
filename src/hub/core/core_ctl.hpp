@@ -32,9 +32,12 @@
 
 #include "core_base.h"
 
-// Class.
+// core
+class CCoreSngCtl;
+// module
 class CClsCtl;
 class CSysCtl;
+class CGdaCtl;
 class COgrCtl;
 class CGslCtl;
 class CCutCtl;
@@ -46,16 +49,27 @@ class CORE_LIB CCoreCtl
     ~CCoreCtl();
 
     UErrCodeT Init();
+    // core
+    CCoreSngCtl *Sng();
+    // module
     CClsCtl *Cls();
     CSysCtl *Sys();
+    CGdaCtl *Gda();
     COgrCtl *Ogr();
     CGslCtl *Gsl();
     CCutCtl *Cut();
 
   protected:
   private:
+
+    UErrCodeT InitPointer();
+
+    // core
+    CCoreSngCtl *mSng;
+    // module
     CClsCtl *mCls;
     CSysCtl *mSys;
+    CGdaCtl *mGda;
     COgrCtl *mOgr;
     CGslCtl *mGsl;
     CCutCtl *mCut;

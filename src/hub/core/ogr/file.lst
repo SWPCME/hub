@@ -26,6 +26,8 @@ PRJ = ogr
 
 OBJ = \
       ogr_ctl.o \
+      ogr_typectl.o \
+      ogr_driverctl.o \
       ogr_datasrcctl.o \
       ogr_layerctl.o \
       ogr_featuredefnctl.o \
@@ -39,6 +41,7 @@ OBJ = \
 HEADER = \
          ogr_base.h \
          ogr_ctl.hpp \
+         ogr_driverctl.hpp \
          ogr_datasrcctl.hpp \
          ogr_layerctl.hpp \
          ogr_fieldctl.hpp \

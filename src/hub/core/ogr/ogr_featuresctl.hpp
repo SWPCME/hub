@@ -31,26 +31,42 @@
 #define OGR_FEATURESCTL_HPP_INCLUDED
 
 #include "ogr_base.h"
+// ust
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
 class COgrFeatureCtl;
+class COgrFeatureItCtl;
 
 class OGR_LIB COgrFeaturesCtl
 {
   public:
-    COgrFeaturesCtl();
+    COgrFeaturesCtl(OgrLayerHT aLayerH);
     ~COgrFeaturesCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrLayerHT aHandle);
-    COgrFeatureCtl* Create();
-    COgrFeatureCtl* Load(UIntT aRow);
+    COgrFeatureCtl *Create();
+    COgrFeatureCtl *Load(UIntT aRow);
+    UIntT Count();
+    UErrCodeT CloseAll();
+    UErrCodeT Close(COgrFeatureCtl *aFeature);
+    COgrFeatureItCtl *Iterator();
 
   protected:
   private:
-    OgrLayerHT m_handle;
+    typedef UContainerT<COgrFeatureCtl*, UIntT> MFeatureT;
+    typedef UIteratorT<COgrFeatureCtl*, UIntT> MFeatureItT;
+
+    UErrCodeT SetHandle(OgrLayerHT aLayerH);
+    COgrFeatureCtl *FeatureCtl(UIntT aRow);
+    OgrLayerHT mLayerH;
 
     // Handle
-    COgrFeatureCtl* m_feature;
+    OgrFeaturesHT mFeaturesH;
+    MFeatureT mMFeature;
+
+    COgrFeatureCtl *mFeature;
+    COgrFeatureItCtl *mIt;
 };
 
 #endif  // OGR_FEATURESCTL_HPP_INCLUDED

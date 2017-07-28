@@ -52,7 +52,7 @@ CVtrCtl::~CVtrCtl()
 }
 
 /**
- * \brief Initialization
+ * \brief Initialize.
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
@@ -75,7 +75,7 @@ UErrCodeT CVtrCtl::Init()
  */
 UErrCodeT CVtrCtl::CleanupAll()
 {
-    m_ogr->CleanupAll();
+    m_ogr->Init();
 
     return UErrFalse;
 }
@@ -89,13 +89,14 @@ UErrCodeT CVtrCtl::CleanupAll()
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-CVtrDataSrcCtl* CVtrCtl::Create(UStringT* aFile)
+CVtrDatasrcCtl* CVtrCtl::Create(UStringT* aFile)
 {
-    UStringT driverName = OGR_VECTOR_TAB_NAME;
-    m_ogr->Attach(&driverName);
-    COgrDataSrcCtl* ogrDataSrc = m_ogr->Create(aFile);
-    CVtrDataSrcCtl* dataSrc = new CVtrDataSrcCtl(ogrDataSrc);
-    m_mDataSrc->Add(dataSrc, *aFile);
+    CVtrDatasrcCtl *dataSrc = NULL;
+    // UStringT driverName = OGR_VECTOR_TAB_NAME;
+    // m_ogr->Attach(&driverName);
+    // COgrDataSrcCtl* ogrDataSrc = m_ogr->Create(aFile);
+    // CVtrDatasrcCtl* dataSrc = new CVtrDatasrcCtl(ogrDataSrc);
+    // m_mDataSrc->Add(dataSrc, *aFile);
 
     return dataSrc;
 }
@@ -109,13 +110,14 @@ CVtrDataSrcCtl* CVtrCtl::Create(UStringT* aFile)
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-CVtrDataSrcCtl* CVtrCtl::Load(UStringT* aFile)
+CVtrDatasrcCtl* CVtrCtl::Load(UStringT* aFile)
 {
-    UStringT driverName = OGR_VECTOR_TAB_NAME;
-    m_ogr->Attach(&driverName);
-    COgrDataSrcCtl* ogrDataSrc = m_ogr->Load(aFile);
-    CVtrDataSrcCtl* dataSrc = new CVtrDataSrcCtl(ogrDataSrc);
-    m_mDataSrc->Add(dataSrc, *aFile);
+    CVtrDatasrcCtl *dataSrc = NULL;
+    // UStringT driverName = OGR_VECTOR_TAB_NAME;
+    // m_ogr->Attach(&driverName);
+    // COgrDataSrcCtl* ogrDataSrc = m_ogr->Load(aFile);
+    // CVtrDatasrcCtl* dataSrc = new CVtrDatasrcCtl(ogrDataSrc);
+    // m_mDataSrc->Add(dataSrc, *aFile);
 
     return dataSrc;
 }
@@ -131,7 +133,7 @@ CVtrDataSrcCtl* CVtrCtl::Load(UStringT* aFile)
  */
 UErrCodeT CVtrCtl::Close(UStringT* aFile)
 {
-    // const CVtrDataSrcCtl* dataSrc = (*m_mDataSrc)[*aFile];
+    // const CVtrDatasrcCtl* dataSrc = (*m_mDataSrc)[*aFile];
     // m_ogr->Close(dataSrc->Handle());
 
     return UErrFalse;

@@ -26,21 +26,78 @@
 #define GDA_BASE_H_INCLUDED
 
 #include "hub_base.h"
+/* base */
+#include "base_macrodefn.hpp"
+/* ust */
+#include "ust/ust_stringtype.hpp"
 
 #define GDA_LIB HUB_LIB
 
-/* Gda raster formats. */
-#define GDA_RASTER_FORMATS_COUNT 2
+/**
+ * Gda raster formats. 
+ * "F" means format.
+ */
+#define GDA_F_COUNT 4
 // AAIGrid: Arc/Info ASCII Grid (.asc).
-#define GDA_RASTER_ASC_NAME    "AAIGrid"
-#define GDA_RASTER_ASC_SUFFIX  "asc"
+#define GDA_F_ASC        "AAIGrid"
+#define GDA_F_ASC_SUFFIX "asc"
 // LCP: FARSITE v.4 Landscape File (.lcp).
-#define GDA_RASTER_LCP_NAME    "LCP"
-#define GDA_RASTER_LCP_SUFFIX  "lcp"
+#define GDA_F_LCP        "LCP"
+#define GDA_F_LCP_SUFFIX "lcp"
+// USGSDEM: USGS Optional ASCII DEM (and CDED) (.dem)
+#define GDA_F_DEM        "USGSDEM"
+#define GDA_F_DEM_SUFFIX "dem"
+// GTiff: GeoTIFF (.tif)
+#define GDA_F_TIF        "GTiff"
+#define GDA_F_TIF_SUFFIX "tif"
 
-/* Handle */
+typedef enum
+{
+    GdaFormatAsc = 1,           /* Arc/Info ASCII Grid. */
+    GdaFormatLcp = 2,           /* FARSITE v.4 Landscape File. */
+    GdaFormatDem = 3,           /* USGSDEM. */
+    GdaFormatTif = 4,           /* GTiff. */
+} GdaFormatCodeT;
+
+typedef struct
+{
+    UIntT xSize;                /* Width of raster in pixels. */
+    UIntT ySize;                /* Height of raster in pixels. */
+    UIntT nBands;               /* Number of bands. */
+    UDataTCodeT dataT;          /* Type of raster. */
+    char **option;   /* List of driver specific control parameters. */
+} GdaDatasetAttrT;
+
+/**
+ * \brief Translate options.
+ */
+typedef struct
+{
+    GdaFormatCodeT format;
+    UDataTCodeT outType;
+    UIntT bandCount;
+    UIntT *bandList;
+} GdaTranslateRstOptT;
+
+/**
+ * \brief Handle.
+ */
+// core
 #define GdaDriverHT UHandleT
 #define GdaDatasetHT UHandleT
 #define GdaRasterBandHT UHandleT
+// utils
+#define GdaRasterizeOptHT UHandleT
+#define GdaTranslateRstOptHT UHandleT
+#define GdaTranslateVtrOptHT UHandleT
+#define GdaArgvT UHandleT
+
+#define GDA_TYPECTL(aType)                      \
+    if (mType == NULL)                          \
+    {                                           \
+        BMD_CORE_CTL(coreCtl);                  \
+        CGdaCtl *gdaCtl = coreCtl->Gda();       \
+        aType = gdaCtl->Type();                 \
+    }
 
 #endif  /* GDA_BASE_H_INCLUDED */

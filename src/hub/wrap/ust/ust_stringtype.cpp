@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: string_struct.cpp 2016-08 $
+ * $Id: string_struct.cpp 2017-07 $
  *
  * Project:  Universal struct library.
  * Purpose:  Universal string struct.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -44,6 +44,7 @@
 UStringT::UStringT()
 {
     Init();
+    mChar = mStr->MCpy(kStrNull);
 }
 
 /**
@@ -54,7 +55,7 @@ UStringT::UStringT()
 UStringT::UStringT(const UStringT &aStr)
 {
     Init();
-    m_char = m_str->MCpy(aStr.ToA());
+    mChar = mStr->MCpy(aStr.ToA());
 }
 
 /**
@@ -65,7 +66,7 @@ UStringT::UStringT(const UStringT &aStr)
 UStringT::UStringT(const UStringT *aStr)
 {
     Init();
-    m_char = m_str->MCpy(aStr->ToA());
+    mChar = mStr->MCpy(aStr->ToA());
 }
 
 /**
@@ -76,7 +77,7 @@ UStringT::UStringT(const UStringT *aStr)
 UStringT::UStringT(const char *aStr)
 {
     Init();
-    m_char = m_str->MCpy(aStr);
+    mChar = mStr->MCpy(aStr);
 }
 
 /**
@@ -87,7 +88,7 @@ UStringT::UStringT(const char *aStr)
 UStringT::UStringT(const wchar_t *aStr)
 {
     Init();
-    m_char = m_str->MWToA(aStr);
+    mChar = mStr->MWToA(aStr);
 }
 
 /**
@@ -99,6 +100,14 @@ UStringT::~UStringT()
 }
 
 /**
+ * \brief Length of string.
+ */
+UIntT UStringT::Len()
+{
+    return mStr->Len(mChar);
+}
+
+/**
  * \brief Add new string.
  *
  * @param aStr String of "char" that to add in original string.
@@ -107,7 +116,7 @@ UStringT::~UStringT()
  */
 UErrCodeT UStringT::Add(const char *aStr)
 {
-    m_str->MCat(&m_char, aStr);
+    mStr->MCat(&mChar, aStr);
 
     return UErrFalse;
 }
@@ -126,7 +135,7 @@ UErrCodeT UStringT::Add(const char *aStr)
 //     for (UIntT i = 0; i < aNum; ++i)
 //     {
 //         char* val = cls_arg_value(list, char*);
-//         m_str->MCat(&m_char, val);
+//         mStr->MCat(&mChar, val);
 //     }
 //     cls_arg_end(list);
     
@@ -154,7 +163,7 @@ const UCharT* UStringT::ToU()
  */
 const char* UStringT::ToA() const
 {
-    return m_char;
+    return mChar;
 }
 
 /**
@@ -164,22 +173,22 @@ const char* UStringT::ToA() const
  */
 const wchar_t* UStringT::ToW()
 {
-    if (m_wchar != NULL)
+    if (mWchar != NULL)
     {
-        m_str->MFree(&m_wchar);
-        m_wchar = NULL;
+        mStr->MFree(&mWchar);
+        mWchar = NULL;
     }
-    m_wchar = m_str->MAToW(m_char);
+    mWchar = mStr->MAToW(mChar);
 
-    return m_wchar;
+    return mWchar;
 }
 
 /**
  * \brief This string is null.
  */
-UErrCodeT UStringT::IsNull()
+UErrCodeT UStringT::IsNull() const
 {
-    if (m_str->Len(m_char) == 0)
+    if (mStr->Len(mChar) == 0)
     {
         return UErrFalse;
     }
@@ -195,16 +204,43 @@ UErrCodeT UStringT::IsNull()
  */
 UErrCodeT UStringT::Clear()
 {
-    if (m_char != NULL)
+    if (mChar != NULL)
     {
-        m_str->MFree(m_char);
-        m_char = NULL;
+        mStr->MFree(mChar);
+        mChar = NULL;
     }
-    if (m_wchar != NULL)
+    if (mWchar != NULL)
     {
-        m_str->MFree(m_wchar);
-        m_wchar = NULL;
+        mStr->MFree(mWchar);
+        mWchar = NULL;
     }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Split string.
+ */
+UErrCodeT UStringT::Split(UContainerT<UStringT> *aStringS,
+                          const UStringT *aDelimiters)
+{
+    char *dst = NULL;
+    char *src = mStr->MCpy(mChar);
+    char *delimiters = (char *) aDelimiters->ToA();
+
+    if (mStr->Find(&dst, src, delimiters) == UErrTrue)
+    {
+        mStr->MFree(src);
+        return UErrTrue;
+    }
+
+    src = NULL;
+    do
+    {
+        aStringS->Add(dst);
+    } while (mStr->Find(&dst, src, delimiters) == UErrFalse);
+
+    mStr->MFree(src);
 
     return UErrFalse;
 }
@@ -218,16 +254,60 @@ UErrCodeT UStringT::Clear()
  */
 UErrCodeT UStringT::operator =(const char *aStr)
 {
-    m_char = m_str->MCpy(aStr);
+    mChar = mStr->MCpy(aStr);
 
     return UErrFalse;
 }
 
 /**
- * \brief TODO
+ * \brief Equal.
+ */
+UErrCodeT UStringT::operator ==(const UStringT &aStr)
+{
+    if (mStr->Cmp(mChar, aStr.ToA()) == UErrFalse)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Equal.
+ */
+UErrCodeT UStringT::operator ==(const char *aStr)
+{
+    if (mStr->Cmp(mChar, aStr) == UErrFalse)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Not Equal.
+ */
+UErrCodeT UStringT::operator !=(const UStringT &aStr)
+{
+    if (mStr->Cmp(mChar, aStr.ToA()) == UErrFalse)
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Not Equal.
  */
 UErrCodeT UStringT::operator !=(const char *aStr)
 {
+    if (mStr->Cmp(mChar, aStr) == UErrFalse)
+    {
+        return UErrTrue;
+    }
+
     return UErrFalse;
 }
 
@@ -240,7 +320,7 @@ UErrCodeT UStringT::operator !=(const char *aStr)
  */
 UErrCodeT UStringT::operator =(const UStringT& aStr)
 {
-    m_char = m_str->MCpy(aStr.ToA());
+    mChar = mStr->MCpy(aStr.ToA());
 
     return UErrFalse;
 }
@@ -256,9 +336,13 @@ UErrCodeT UStringT::operator =(const UStringT& aStr)
  */
 UErrCodeT UStringT::operator <(const UStringT& aStr) const
 {
-    m_str->Cmp(ToA(), aStr.ToA());
+    BMathNumSignCodeT code = mStr->Coll(ToA(), aStr.ToA());
+    if (code == BMathNumSignNeg)
+    {
+        return UErrFalse;
+    }
 
-    return UErrFalse;
+    return UErrTrue;
 }
 
 /**
@@ -266,9 +350,9 @@ UErrCodeT UStringT::operator <(const UStringT& aStr) const
  */
 UStringT UStringT::operator +(const UStringT &aStr)
 {
-    m_str->MCat(&m_char, aStr.ToA());
+    mStr->MCat(&mChar, aStr.ToA());
 
-    return m_char;
+    return mChar;
 }
 
 /**
@@ -276,19 +360,57 @@ UStringT UStringT::operator +(const UStringT &aStr)
  */
 UStringT UStringT::operator +(const char *aStr)
 {
-    m_str->MCat(&m_char, aStr);
+    mStr->MCat(&mChar, aStr);
 
-    return m_char;
+    return mChar;
 }
 
 /**
- * \brief Overload operator of "+=".
+ * \brief Overload operator of "+"
+ */
+UStringT UStringT::operator +(const UIntT aNum)
+{
+    // mStr->MCat(&mChar, str);
+
+    return mChar;
+}
+
+/**
+ * \brief Overload operator of "+=" with string.
  */
 UErrCodeT UStringT::operator +=(const UStringT &aStr)
 {
-    m_str->MCat(&m_char, aStr.ToA());
+    mStr->MCat(&mChar, aStr.ToA());
 
     return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "+=" with char.
+ */
+UErrCodeT UStringT::operator +=(const char *aStr)
+{
+    mChar = mStr->MCat(&mChar, aStr);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "+=" with number.
+ */
+UErrCodeT UStringT::operator +=(const UIntT aNum)
+{
+    mStr->MCat(&mChar, aNum);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Output to console.
+ */
+UErrCodeT UStringT::ToConsole()
+{
+    return mStr->ToConsole(mChar);
 }
 
 /***** Private A *****/
@@ -303,13 +425,13 @@ UErrCodeT UStringT::Init()
     CBaseCtl *baseCtl = CBaseCtl::Base();
     CWrapCtl* wrapCtl = baseCtl->Wrap();
     CUstCtl* ustCtl = wrapCtl->Ust();
-    m_str = ustCtl->Str();
+    mStr = ustCtl->Str();
 
-    m_state = UStateOff;
-    m_char = NULL;
-    m_wchar = NULL;
-    m_int = 0;
-    m_float = 0;
+    mState = UStateOff;
+    mChar = NULL;
+    mWchar = NULL;
+    mInt = 0;
+    mFloat = 0;
     
     return UErrFalse;
 }

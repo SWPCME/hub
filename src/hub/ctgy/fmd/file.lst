@@ -27,6 +27,7 @@ PRJ = fmd
 OBJ = \
       fmd_ctl.o \
       fmd_typectl.o \
+      fmd_masterctl.o \
       fmd_filectl.o \
       fmd_fileload.o \
       fmd_filewrite.o \
@@ -36,7 +37,7 @@ OBJ = \
 HEADER = \
          fmd_base.hpp \
          fmd_ctl.hpp \
-         fmd_typectl.hpp \
+         fmd_masterctl.hpp \
          fmd_filectl.hpp \
          fmd_fileload.hpp \
          fmd_filewrite.hpp \

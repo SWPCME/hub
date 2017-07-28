@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_ctl.hpp 2017-05 $
+ * $Id: gda_ctl.hpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Gda control api.
+ * Purpose:  Gda control definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-07 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -26,15 +26,12 @@
 #define GDA_CTL_HPP_INCLUDED
 
 #include "gda_base.h"
-#include "ust_stringtype.hpp"
-#include "ust_containertype.hpp"
 
+class CGdaCoreCtl;
+class CGdaOgrCtl;
+class CGdaAlgCtl;
+class CGdaUtilsCtl;
 class CGdaTypeCtl;
-class CGdaDriverCtl;
-
-typedef UContainerT<GdaDriverHT, UStringT> MGdaDriverHT;
-typedef UIteratorT<GdaDriverHT, UStringT> MGdaDriverHItT;
-typedef UContainerT<CGdaDriverCtl*, UStringT> MGdaDriverCtlT;
 
 class GDA_LIB CGdaCtl
 {
@@ -44,36 +41,23 @@ class GDA_LIB CGdaCtl
 
     // Init.
     UErrCodeT Init();
-    CGdaDriverCtl *Driver(UStringT *aName);
+
+    // Controler.
+    CGdaCoreCtl *Core();
+    CGdaOgrCtl *Ogr();
+    CGdaAlgCtl *Alg();
+    CGdaUtilsCtl *Utils();
+
+    // Private controler.
+    CGdaTypeCtl *Type();
 
   protected:
   private:
-    // Driver.
-    UErrCodeT InitDriver();
-    UErrCodeT DriverCount(UIntT *aNum);
-    UErrCodeT GetDriver(GdaDriverHT *aHandle, const UStringT* aName);
-    UErrCodeT GetDriver(GdaDriverHT *aHandle, UIntT aNum);
-
-    // Register.
-    UErrCodeT Register();
-    UErrCodeT RegisterAll();
-
-    // Deregister.
-    UErrCodeT Deregister(UStringT *aDriver);
-    UErrCodeT Deregister(GdaDriverHT aDriver);
-    UErrCodeT DeregisterAll();
-    UErrCodeT Destroy();
-
-    // Cleanup all.
-    UErrCodeT CleanupAll();
-
-    // Map: driver handle with driver name.
-    MGdaDriverHT mMDriverH;
-    // Map: driver control with driver name.
-    MGdaDriverCtlT mMDriverCtl;
-
-    // Dataset.
-    CGdaTypeCtl* mType;
+    CGdaCoreCtl *mCore;
+    CGdaOgrCtl *mOgr;
+    CGdaAlgCtl *mAlg;
+    CGdaUtilsCtl *mUtils;
+    CGdaTypeCtl *mType;
 };
 
 #endif  // GDA_CTL_HPP_INCLUDED

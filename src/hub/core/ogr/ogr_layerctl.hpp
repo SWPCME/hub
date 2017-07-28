@@ -33,23 +33,28 @@
 #include "ogr_base.h"
 
 //Module
-#include "ust_stringtype.hpp"
+#include "ust/ust_stringtype.hpp"
 
+class COgrDatasrcCtl;
 class COgrFeatureDefnCtl;
 class COgrFeaturesCtl;
 
 class OGR_LIB COgrLayerCtl
 {
   public:
-    COgrLayerCtl();
+    COgrLayerCtl(const UStringT *aName, UFileOperCodeT aCode,
+                 COgrDatasrcCtl *aDsCtl);
     ~COgrLayerCtl();
 
     // Initialize.
     UErrCodeT Init();
 
-    UErrCodeT Attach(OgrLayerHT aHandle);
+    // Attribute.
+    UStringT Name();
     OgrLayerHT Handle();
-    UErrCodeT Name(UStringT* aName);
+
+    // Framework.
+    COgrDatasrcCtl *Up();
 
     // Handle.
     COgrFeatureDefnCtl* FeatureDefn();
@@ -57,11 +62,13 @@ class OGR_LIB COgrLayerCtl
 
   protected:
   private:
-    OgrLayerHT m_handle;
+    UErrCodeT SetHandle(const UStringT *aName, UFileOperCodeT aCode);
 
-    // Handle
-    COgrFeatureDefnCtl* m_featureDefn;
-    COgrFeaturesCtl* m_features;
+    OgrLayerHT mLayerH;
+
+    COgrDatasrcCtl *mDs;
+    COgrFeatureDefnCtl *mFeatureDefn;
+    COgrFeaturesCtl *mFeatures;
 };
 
 #endif  // OGR_LAYERCTL_HPP_INCLUDED

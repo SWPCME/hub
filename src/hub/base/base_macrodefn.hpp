@@ -25,17 +25,85 @@
 #ifndef BASE_MACRODEFN_HPP_INCLUDED
 #define BASE_MACRODEFN_HPP_INCLUDED
 
-#define BMD_POINTER_INIT(aName) \
+#define BMD_MODULE(aCtl, aClass, aCode)             \
+    {                                               \
+        CHubCtl *hubCtl = CHubCtl::Hub();           \
+        aCtl = (aClass *) hubCtl->Module(aCode);    \
+    }
+
+#define BMD_REGISTER(aCode, aClass, aMHandle)       \
+    case aCode:                                     \
+    {                                               \
+        aClass *ctl = new aClass;                   \
+        if (ctl->Init() == UErrTrue)                \
+        {                                           \
+            delete ctl;                             \
+            return UErrTrue;                        \
+        }                                           \
+        aMHandle.Add((UHandleT) ctl, aCode);        \
+        return UErrFalse;                           \
+    }
+
+#define BMD_DEREGISTER(aCode, aClass, aMHandle) \
+    case aCode:                                 \
+    {                                           \
+        delete (aClass *) aMHandle[aCode];      \
+        break;                                  \
+    }
+
+
+/***** Private A *****/
+
+#define BMD_POINTER_INIT(aName)                 \
     aName = NULL
 
 #define BMD_CLASS_H(aName, aClass) \
     ((aClass *) aName)
     
-#define BMD_CLASS_NEWH(aName, aClass, aHandle) \
-    if (aName == NULL)                         \
-    {                                          \
-        aName = (aHandle *) new aClass;        \
-        BMD_CLASS_H(aName, aClass)->Init();    \
+#define BMD_CLASS_NEWH(aName, aClass, aHandle)                  \
+    if (aName == NULL)                                          \
+    {                                                           \
+        aName = (aHandle *) new aClass;                         \
+        if (BMD_CLASS_H(aName, aClass)->Init() == UErrTrue)     \
+        {                                                       \
+            delete aName;                                       \
+            aName = NULL;                                       \
+        }                                                       \
+    }
+
+#define BMD_CLASS_NEWH_A_1(aName, aClass, aHandle, aParam1)             \
+    if (aName == NULL)                                                  \
+    {                                                                   \
+        aName = (aHandle *) new aClass(aParam1);                        \
+        if (BMD_CLASS_H(aName, aClass)->Init() == UErrTrue)             \
+        {                                                               \
+            delete aName;                                               \
+            aName = NULL;                                               \
+        }                                                               \
+    }
+
+#define BMD_CLASS_NEWH_A_2(aName, aClass, aHandle, aParam1, aParam2)    \
+    if (aName == NULL)                                                  \
+    {                                                                   \
+        aName = (aHandle *) new aClass(aParam1, aParam2);               \
+        if (BMD_CLASS_H(aName, aClass)->Init()                          \
+            == UErrTrue)                                                \
+        {                                                               \
+            delete aName;                                               \
+            aName = NULL;                                               \
+        }                                                               \
+    }
+
+#define BMD_CLASS_NEWH_A_3(aName, aClass, aHandle, aParam1, aParam2,    \
+                           aParam3)                                     \
+    if (aName == NULL)                                                  \
+    {                                                                   \
+        aName = (aHandle *) new aClass(aParam1, aParam2, aParam3);      \
+        if (BMD_CLASS_H(aName, aClass)->Init() == UErrTrue)             \
+        {                                                               \
+            delete aName;                                               \
+            aName = NULL;                                               \
+        }                                                               \
     }
 
 #define BMD_CLASS_ONEWH(aName, aClass, aHandle) \
@@ -46,6 +114,15 @@
 
 #define BMD_CLASS_NEW(aName, aClass) \
     BMD_CLASS_NEWH(aName, aClass, aClass)
+
+#define BMD_CLASS_NEW_A_1(aName, aClass, aParam1) \
+    BMD_CLASS_NEWH_A_1(aName, aClass, aClass, aParam1)
+
+#define BMD_CLASS_NEW_A_2(aName, aClass, aParam1, aParam2) \
+    BMD_CLASS_NEWH_A_2(aName, aClass, aClass, aParam1, aParam2)
+
+#define BMD_CLASS_NEW_A_3(aName, aClass, aParam1, aParam2, aParam3) \
+    BMD_CLASS_NEWH_A_3(aName, aClass, aClass, aParam1, aParam2, aParam3)
 
 #define BMD_CLASS_DELH(aName, aClass) \
     if (aName != NULL)                \
@@ -63,15 +140,17 @@
 #define BMD_BASE_CTL(aCtl) CBaseCtl *aCtl = CBaseCtl::Base()
 
 #define BMD_CORE_CTL(aCtl)                      \
-    BMD_BASE_CTL(baseCtl);                      \
-    CCoreCtl *aCtl = baseCtl->Core()
+        BMD_BASE_CTL(baseCtl);                  \
+        CCoreCtl *aCtl = baseCtl->Core()
 
 #define BMD_WRAP_CTL(aCtl)                             \
-    BMD_BASE_CTL(baseCtl);                             \
-    CWrapCtl *aCtl = baseCtl->Wrap()
+        BMD_BASE_CTL(baseCtl);                         \
+        CWrapCtl *aCtl = baseCtl->Wrap()
 
 #define BMD_CTGY_CTL(aCtl)                          \
-    BMD_BASE_CTL(baseCtl);                          \
-    CCtgyCtl *aCtl = baseCtl->Ctgy()
+        BMD_BASE_CTL(baseCtl);                      \
+        CCtgyCtl *aCtl = baseCtl->Ctgy()
+
+/***** Private B *****/
 
 #endif  // BASE_MACRODEFN_HPP_INCLUDED

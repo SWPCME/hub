@@ -42,7 +42,7 @@ class CLS_LIB CClsMemoryCtl
 
     UHandleT Alloc(UIntT aSize);
     UHandleT CAlloc(UIntT aNMemB, UIntT aSize);
-    UHandleT Realloc(UHandleT aHandle, UIntT aSize);
+    UHandleT Realloc(UHandleT aHandle, UIntT aSize, UErrCodeT *aErr = NULL);
     UErrCodeT Cpy(UHandleT aDest, const UHandleT aSrc, UIntT aSize);
 
     UErrCodeT Free(UHandleT aHandle);

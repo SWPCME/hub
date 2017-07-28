@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_stringctl.cpp 2016-08 $
+ * $Id: cls_stringctl.cpp 2017-07 $
  *
  * Project:  C language standard library.
  * Purpose:  String controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -29,14 +29,21 @@
 
 #include "cls_stringctl.hpp"
 
-// C Standard Library
+// libc
 #include <string.h>
+
+// cls
+// #include "cls_stringcollation.hpp"
+// #include "cls_stringlength.hpp"
+#include "cls_stringtoken.hpp"
+// #include "cls_stringcopy.hpp"
 
 /**
  * \brief Constructor
  */
 CClsStringCtl::CClsStringCtl()
 {
+    BMD_POINTER_INIT(mToken);
 }
 
 /**
@@ -44,6 +51,7 @@ CClsStringCtl::CClsStringCtl()
  */
 CClsStringCtl::~CClsStringCtl()
 {
+    BMD_CLASS_DEL(mToken);
 }
 
 /**
@@ -54,6 +62,25 @@ CClsStringCtl::~CClsStringCtl()
 UErrCodeT CClsStringCtl::Init()
 {
     return UErrFalse;
+}
+
+
+// /**
+//  * \brief String length.
+//  */
+// CClsStringLength *CClsStringCtl::Length()
+// {
+//     return mLength;
+// }
+
+/**
+ * \brief Finding tokens in a string.
+ */
+CClsStringToken *CClsStringCtl::Token()
+{
+    BMD_CLASS_NEW(mToken, CClsStringToken);
+
+    return mToken;
 }
 
 /**
@@ -149,7 +176,32 @@ wchar_t* CClsStringCtl::Cat(wchar_t* aDest, const wchar_t* aSrc)
  */
 UErrCodeT CClsStringCtl::Cmp(const char* aDest, const char* aSrc)
 {
-    return UErrFalse;
+    if (strcmp(aDest, aSrc) == 0)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Compare two string using locale.
+ */
+BMathNumSignCodeT CClsStringCtl::Coll(const char *aDest, const char *aSrc)
+{
+    UIntT sign = strcoll(aDest, aSrc);
+    if (sign == 0)
+    {
+        return BMathNumSignNull;
+    }
+    if (sign < 0)
+    {
+        return BMathNumSignNeg;
+    }
+    if (sign > 0)
+    {
+        return BMathNumSignPos;
+    }
 }
 
 /**

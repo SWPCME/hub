@@ -29,6 +29,7 @@
 
 // Fmd.
 class CFmdTypeCtl;
+class CFmdMasterCtl;
 class CFmdFileCtl;
 class CFmdBurnCtl;
 
@@ -38,17 +39,21 @@ class FMD_LIB CFmdCtl
     CFmdCtl();
     ~CFmdCtl();
 
+    // Private.
     UErrCodeT Init();
     FmdFarsiteHT FarsiteH();
     CFmdTypeCtl *Type();
+
+    // Controler.
+    CFmdMasterCtl *Master();
     CFmdFileCtl *File();
     CFmdBurnCtl *Burn();
-    UErrCodeT Launch();
 
   protected:
   private:
     FmdFarsiteHT mFarsiteH;
     CFmdTypeCtl *mType;
+    CFmdMasterCtl *mMaster;
     CFmdFileCtl *mFile;
     CFmdBurnCtl *mBurn;
 };

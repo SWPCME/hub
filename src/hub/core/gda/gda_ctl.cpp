@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_ctl.cpp 2017-05 $
+ * $Id: gda_ctl.hpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Implementation of gda control.
+ * Purpose:  Gda control implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-07 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -20,25 +20,27 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+ *****************************************************************************/
 
 #include "gda_ctl.hpp"
 
-// Gdal library.
-#include "gdal.h"
-
-// Module
+// gda
+#include "gda_corectl.hpp"
+#include "gda_ogrctl.hpp"
+#include "gda_algctl.hpp"
+#include "gda_utilsctl.hpp"
 #include "gda_typectl.hpp"
-#include "gda_driverctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CGdaCtl::CGdaCtl()
 {
-    mType = new CGdaTypeCtl();
-    mMDriverH.Init(UContainerMap);
-    mMDriverCtl.Init(UContainerMap);
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mCore);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mAlg);
+    BMD_POINTER_INIT(mUtils);
 }
 
 /**
@@ -46,217 +48,65 @@ CGdaCtl::CGdaCtl()
  */
 CGdaCtl::~CGdaCtl()
 {
-    CleanupAll();
-    delete mType;
+    BMD_CLASS_DEL(mType);
+    BMD_CLASS_DEL(mCore);
+    BMD_CLASS_DEL(mOgr);
+    BMD_CLASS_DEL(mAlg);
+    BMD_CLASS_DEL(mUtils);
 }
 
 /**
  * \brief Initialize.
- *
- * Register the drivers of gda, and initialize the handle of driver.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT CGdaCtl::Init()
 {
-    RegisterAll();
-    InitDriver();
-
     return UErrFalse;
 }
 
 /**
- * \brief Get driver control.
- *
- * @param aName Driver name.
- * @return Driver control, if successful; NULL, if failed.
+ * \brief Core.
  */
-CGdaDriverCtl *CGdaCtl::Driver(UStringT *aName)
+CGdaCoreCtl *CGdaCtl::Core()
 {
-    CGdaDriverCtl *driverCtl;
-    if (mMDriverCtl.FindByKey(aName) == UErrTrue)
-    {
-        driverCtl = new CGdaDriverCtl(mMDriverH[aName]);
-        mMDriverCtl.Add(&driverCtl, aName);
-    }
+    BMD_CLASS_NEW(mCore, CGdaCoreCtl);
 
-    driverCtl = mMDriverCtl.Content(aName);
-
-    return driverCtl;
-}
-
-/***** Private A *****/
-
-/**
- * \brief Initialize Driver.
- *
- * Initialize driver of the handle.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CGdaCtl::InitDriver()
-{
-    UStringT defnName[GDA_RASTER_FORMATS_COUNT] =
-        {
-            GDA_RASTER_ASC_NAME, GDA_RASTER_LCP_NAME
-        };
-    UStringT defnSuffix[GDA_RASTER_FORMATS_COUNT] =
-        {
-            GDA_RASTER_ASC_SUFFIX, GDA_RASTER_LCP_SUFFIX
-        };
-    for (UIntT i= 0; i < GDA_RASTER_FORMATS_COUNT; ++i)
-    {
-        UHandleT handle = NULL;
-        GetDriver((GdaDriverHT *) &handle, &defnName[i]);
-        mMDriverH.Add(&handle, &defnName[i]);
-    }
-
-    return UErrFalse;
+    return mCore;
 }
 
 /**
- * \brief Get Driver.
- *
- * Get driver by name of the format.
- *
- * @param aHandle The handle of driver.
- * @param aName The name of driver.
- *
- * @return UErrFalse, if successful; Others, if failed.
+ * \brief OpenGIS simple features reference implementation.
  */
-UErrCodeT CGdaCtl::GetDriver(GdaDriverHT *aHandle, const UStringT* aName)
+CGdaOgrCtl *CGdaCtl::Ogr()
 {
-    *aHandle = (GdaDriverHT) GDALGetDriverByName(aName->ToA());
-    if (*aHandle == NULL)
-    {
-        return UErrTrue;
-    }
-
-    return UErrFalse;
+    return mOgr;
 }
 
 /**
- * \brief Get driver by serial number.
+ * \brief Image processing algorithms.
  */
-UErrCodeT CGdaCtl::GetDriver(GdaDriverHT *aHandle, UIntT aNum)
+CGdaAlgCtl *CGdaCtl::Alg()
 {
-    *aHandle = (GdaDriverHT) GDALGetDriver(aNum);
-    if (*aHandle == NULL)
-    {
-        return UErrTrue;
-    }
+    BMD_CLASS_NEW(mAlg, CGdaAlgCtl);
 
-    return UErrFalse;
+    return mAlg;
 }
 
 /**
- * \brief Get driver count.
+ * \brief Utilities.
  */
-UErrCodeT CGdaCtl::DriverCount(UIntT *aNum)
+CGdaUtilsCtl *CGdaCtl::Utils()
 {
-    *aNum = GDALGetDriverCount();
+    BMD_CLASS_NEW(mUtils, CGdaUtilsCtl);
 
-    return UErrFalse;
+    return mUtils;
 }
 
 /**
- * \brief Register all with gdal.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
+ * \brief Type.
  */
-UErrCodeT CGdaCtl::RegisterAll()
+CGdaTypeCtl *CGdaCtl::Type()
 {
-    GDALAllRegister();
+    BMD_CLASS_NEW(mType, CGdaTypeCtl);
 
-    return UErrFalse;
+    return mType;
 }
-
-/**
- * \brief Register.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CGdaCtl::Register()
-{
-    // GDALRegisterDriver((int) aNum);
-
-    return UErrFalse;
-}
-
-/**
- * \brief Deregister by driver name.
- */
-UErrCodeT CGdaCtl::Deregister(UStringT *aDriver)
-{
-    if (mMDriverH.FindByKey(*aDriver) == UErrFalse)
-    {
-        GDALDeregisterDriver(mMDriverH.Content(*aDriver));
-    }
-
-    return UErrFalse;
-}
-
-/**
- * \brief Deregister by handle.
- */
-UErrCodeT CGdaCtl::Deregister(GdaDriverHT aDriver)
-{
-    GDALDeregisterDriver((GDALDriverH) aDriver);
-
-    return UErrFalse;
-}
-
-/**
- * \brief Deregister all.
- */
-UErrCodeT CGdaCtl::DeregisterAll()
-{
-    MGdaDriverHItT *it = mMDriverH.Iterator();
-    for (it->Head(); it->State() == UErrFalse; it->Next())
-    {
-        GDALDestroyDriver(it->Content());
-    }
-
-    UIntT driverCount;
-    DriverCount(&driverCount);
-    for (UIntT i = 0; i < driverCount; i++)
-    {
-        GdaDriverHT driverH = NULL;
-        if (GetDriver((GdaDriverHT*) &driverH, i) == UErrTrue)
-        {
-            continue;
-        }
-        Deregister(driverH);
-        GDALDestroyDriver((GDALDriverH) driverH);
-    }
-
-    return UErrFalse;
-}
-
-/**
- * \brief Destroy.
- */
-UErrCodeT CGdaCtl::Destroy()
-{
-    GDALDestroyDriverManager();
-    GDALDestroy();
-
-    return UErrFalse;
-}
-
-/**
- * \brief Cleanup All.
- *
- * Cleanup all the driver of gda.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CGdaCtl::CleanupAll()
-{
-    DeregisterAll();
-    Destroy();
-
-    return UErrFalse;
-}
-
-/***** Private B *****/

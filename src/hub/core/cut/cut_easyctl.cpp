@@ -137,10 +137,10 @@ UErrCodeT CCutEasyCtl::SetPut()
 /**
  * \brief Write data.
  */
-UErrCodeT CCutEasyCtl::SetWriteData(ClsFileHT aFileH)
+UErrCodeT CCutEasyCtl::SetWriteData(UFileT *aFile)
 {
     CutOptCodeT opt = CutOptWriteData;
-    SetOpt(opt, aFileH);
+    SetOpt(opt, (UHandleT) aFile->Handle());
 
     return UErrFalse;
 }

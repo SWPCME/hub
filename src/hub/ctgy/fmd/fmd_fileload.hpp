@@ -26,6 +26,8 @@
 #define FMD_FILELOAD_HPP_INCLUDED
 
 #include "fmd_base.hpp"
+// ust
+#include "ust/ust_stringtype.hpp"
 
 class FMD_LIB CFmdFileLoad
 {
@@ -35,21 +37,22 @@ class FMD_LIB CFmdFileLoad
 
     UErrCodeT Init();
     // Load All file.
-    UErrCodeT All(const char *aLandscape, const char *aInput,
-                  const char *aIgnition, const char *aBarrier);
+    UErrCodeT All(const UStringT *aCfg, const UStringT *aLcp,
+                  const UStringT *aIgnition, const UStringT *aBarrier);
+    // Load configuration file.
+    UErrCodeT Cfg(const UStringT *aFile);
     // Load landscape file.
-    UErrCodeT Landscape(const char *aFile);
-    // Load input file.
-    UErrCodeT Input(const char *aFile);
-    // Load input error.
-    UErrCodeT InputErr(int aErr);
+    UErrCodeT Lcp(const UStringT *aFile);
     // Set ignition file.
-    UErrCodeT Ignition(const char *aFile);
+    UErrCodeT Ignition(const UStringT *aFile);
     // Set barrier file.
-    UErrCodeT Barrier(const char *aFile);
+    UErrCodeT Barrier(const UStringT *aFile);
 
   protected:
   private:
+    // Load input error.
+    UErrCodeT InputErr(UIntT aErr);
+
     FmdFarsiteHT mFarsiteH;
 };
 

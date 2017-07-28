@@ -31,7 +31,7 @@
 #define CLS_UNICTL_HPP_INCLUDED
 
 #include "cls_base.h"
-#include "ust_stringtype.hpp"
+#include "ust/ust_stringtype.hpp"
 
 class CLS_LIB CClsUniCtl
 {

@@ -71,8 +71,6 @@ class VTR_LIB CVtrLayerBase
 
   protected:
   private:
-    UErrCodeT Attach();
-
     COgrLayerCtl* m_ogrLayer;
     OgrLayerHT m_handle;
     UStringT m_name;

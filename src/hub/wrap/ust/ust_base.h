@@ -34,4 +34,6 @@
 
 #define UST_LIB HUB_LIB
 
+typedef UHandleT UstFileHT;
+
 #endif  /* UST_BASE_H_INCLUDED */

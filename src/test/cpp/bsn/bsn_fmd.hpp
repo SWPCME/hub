@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_fmd.hpp 2017-06 $
+ * $Id: bsn_fmd.hpp 2017-07 $
  *
  * Project:  Business Logic library.
  * Purpose:  Test fmd control api definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -27,6 +27,8 @@
 
 #include "bsn_base.hpp"
 
+class CFmdCtl;
+
 class BSN_LIB CBsnFmd
 {
   public:
@@ -38,6 +40,7 @@ class BSN_LIB CBsnFmd
 
   protected:
   private:
+    CFmdCtl *mFmd;
 };
 
 #endif  // BSN_FMD_HPP_INCLUDED

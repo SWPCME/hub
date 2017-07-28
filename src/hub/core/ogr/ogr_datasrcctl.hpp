@@ -31,35 +31,58 @@
 #define OGR_DATASRCCTL_HPP_INCLUDED
 
 #include "ogr_base.h"
-#include "ust_stringtype.hpp"
+// ust
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
 class COgrLayerCtl;
 
-class OGR_LIB COgrDataSrcCtl
+class OGR_LIB COgrDatasrcCtl
 {
   public:
-    COgrDataSrcCtl();
-    ~COgrDataSrcCtl();
+    COgrDatasrcCtl(const UStringT *aName, UFileOperCodeT aCode,
+                   const OgrDriverHT aDriverH);
+    ~COgrDatasrcCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrDataSrcHT aDataSrcH);
-    OgrDataSrcHT Handle();
-    UErrCodeT Name(UStringT* aName);
 
-    COgrLayerCtl* Create(UStringT* aName);
-    COgrLayerCtl* Load(UStringT* aName);
+    // Attribute.
+    UStringT Name();
+    OgrDatasrcHT Handle();
+    UIntT Count();
+
+    // Layer operator.
+    COgrLayerCtl* Create(const UStringT* aName);
+    COgrLayerCtl* Load(const UStringT* aName);
     COgrLayerCtl* Load(UIntT aId);
     // COgrLayerCtl* Copy(UIntT aId);
     // COgrLayerCtl* Copy(UStringT* aName);
-    UErrCodeT Del(UStringT* aName);
+    UErrCodeT Del(const UStringT* aName);
     UErrCodeT Del(UIntT aId);
+    UErrCodeT Close(const UStringT *aName);
+    UErrCodeT Close(UIntT aId);
+    UErrCodeT CloseAll();
 
   protected:
   private:
-    OgrDataSrcHT m_handle;
+    typedef UContainerT<COgrLayerCtl*, UStringT> MLayerT;
+    typedef UIteratorT<COgrLayerCtl*, UStringT> MLayerItT;
 
-    // Handle
-    COgrLayerCtl* m_layer;
+    UErrCodeT SetDs(const UStringT *aFile, UFileOperCodeT aCode,
+                    const OgrDriverHT aDriverH);
+    UErrCodeT DestoryHandle();
+    COgrLayerCtl *LayerCtl(const UStringT *aName, UFileOperCodeT aCode);
+    UErrCodeT LayerId(UIntT *aId, const UStringT *aName);
+    UErrCodeT LayerName(UStringT *aName, const OgrLayerHT aLayerH);
+    UErrCodeT LayerName(UStringT *aName, UIntT aId);
+    UErrCodeT OgrLayer(OgrLayerHT *aLayerH, const UStringT *aName);
+    UErrCodeT OgrLayer(OgrLayerHT *aLayerH, UIntT aId);
+
+    // Handle.
+    OgrDatasrcHT mDsH;
+
+    // Map: name to "COgrLayerCtl*".
+    MLayerT mMLayer;
 };
 
 #endif  /* OGR_DATASRCCTL_HPP_INCLUDED */

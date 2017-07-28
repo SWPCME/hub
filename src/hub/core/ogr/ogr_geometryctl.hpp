@@ -35,15 +35,16 @@
 class OGR_LIB COgrGeometryCtl
 {
   public:
-    COgrGeometryCtl();
+    COgrGeometryCtl(OgrFeatureHT aFeatureH);
     ~COgrGeometryCtl();
 
     UErrCodeT Init();
-    UErrCodeT Attach(OgrGeometryHT aHandle);
 
   protected:
   private:
-    OgrGeometryHT m_handle;
+    UErrCodeT SetHandle(OgrFeatureHT aFeatureH);
+
+    OgrGeometryHT mGeometryH;
 };
 
 #endif  // OGR_GEOMETRYCTL_HPP_INCLUDED

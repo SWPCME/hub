@@ -48,11 +48,15 @@ typedef enum
     CFmdCtl *aCtl = ctgyCtl->Fmd()
 
 #define FMD_FARSITE_H(aCtl)                     \
-    FMD_CTL(fmdCtl);                            \
-    aCtl = fmdCtl->FarsiteH()
+    {                                           \
+        FMD_CTL(fmdCtl);                        \
+        aCtl = fmdCtl->FarsiteH();              \
+    }
 
-#define FMD_TYPE_CTL(aCtl) \
-    FMD_CTL(fmdCtl);       \
-    aCtl = fmdCtl->Type()
+#define FMD_TYPE_CTL(aCtl)                      \
+    {                                           \
+        FMD_CTL(fmdCtl);                        \
+        aCtl = fmdCtl->Type();                  \
+    }
 
 #endif  // FMD_BASE_HPP_INCLUDED

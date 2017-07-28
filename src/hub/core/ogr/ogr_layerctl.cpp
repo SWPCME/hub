@@ -31,21 +31,34 @@
 
 // GDAL/OGR Library.
 #include "ogr_api.h"
-
-// Module.
+// base
+#include "base_macrodefn.hpp"
+// ogr
+#include "ogr_datasrcctl.hpp"
 #include "ogr_featuredefnctl.hpp"
 #include "ogr_featuresctl.hpp"
 
-COgrLayerCtl::COgrLayerCtl()
+/**
+ * \brief Constructor.
+ */
+COgrLayerCtl::COgrLayerCtl(const UStringT *aName, UFileOperCodeT aCode,
+                           COgrDatasrcCtl *aDsCtl)
 {
-    m_featureDefn = new COgrFeatureDefnCtl;
-    m_features = new COgrFeaturesCtl;
+    mDs = aDsCtl;
+    BMD_POINTER_INIT(mFeatureDefn);
+    BMD_POINTER_INIT(mFeatures);
+    BMD_POINTER_INIT(mLayerH);
+    SetHandle(aName, aCode);
 }
 
+/**
+ * \brief Destructor.
+ */
 COgrLayerCtl::~COgrLayerCtl()
 {
-    delete m_featureDefn;
-    delete m_features;
+    BMD_CLASS_DEL(mFeatureDefn);
+    BMD_CLASS_DEL(mFeatures);
+    BMD_POINTER_INIT(mLayerH);
 }
 
 /**
@@ -55,29 +68,12 @@ COgrLayerCtl::~COgrLayerCtl()
  */
 UErrCodeT COgrLayerCtl::Init()
 {
-    m_handle = NULL;
+    if (mLayerH == NULL)
+    {
+        return UErrTrue;
+    }
 
     return UErrFalse;
-}
-
-/**
- * \brief Attach
- */
-UErrCodeT COgrLayerCtl::Attach(OgrLayerHT aHandle)
-{
-    m_handle = aHandle;
-
-    return UErrFalse;
-}
-
-/**
- * \brief Handle of layer.
- *
- * @return Handle of layer, if successful; NULL, if failed.
- */
-OgrLayerHT COgrLayerCtl::Handle()
-{
-    return m_handle;
 }
 
 /**
@@ -85,11 +81,27 @@ OgrLayerHT COgrLayerCtl::Handle()
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT COgrLayerCtl::Name(UStringT* aName)
+UStringT COgrLayerCtl::Name()
 {
-    *aName = OGR_L_GetName(m_handle);
+    UStringT name = OGR_L_GetName(mLayerH);
 
-    return UErrFalse;
+    return name;
+}
+
+/**
+ * \brief Handle.
+ */
+OgrLayerHT COgrLayerCtl::Handle()
+{
+    return mLayerH;
+}
+
+/**
+ * \brief Up.
+ */
+COgrDatasrcCtl *COgrLayerCtl::Up()
+{
+    return mDs;
 }
 
 /**
@@ -99,9 +111,9 @@ UErrCodeT COgrLayerCtl::Name(UStringT* aName)
  */
 COgrFeatureDefnCtl* COgrLayerCtl::FeatureDefn()
 {
-    m_featureDefn->Attach(m_handle);
+    BMD_CLASS_NEW_A_1(mFeatureDefn, COgrFeatureDefnCtl, mLayerH);
 
-    return m_featureDefn;
+    return mFeatureDefn;
 }
 
 /**
@@ -111,8 +123,37 @@ COgrFeatureDefnCtl* COgrLayerCtl::FeatureDefn()
  */
 COgrFeaturesCtl* COgrLayerCtl::Features()
 {
-    m_features->Attach(m_handle);
+    BMD_CLASS_NEW_A_1(mFeatures, COgrFeaturesCtl, mLayerH);
 
-    return m_features;
+    return mFeatures;
 }
 
+/***** Private A *****/
+
+UErrCodeT COgrLayerCtl::SetHandle(const UStringT *aName, UFileOperCodeT aCode)
+{
+    OgrDatasrcHT dsH = mDs->Handle();
+    switch (aCode)
+    {
+    case UFileOperCreate:
+    {
+        OGRSpatialReferenceH spatialRef = NULL;
+        OGRwkbGeometryType gType = wkbUnknown;
+        char** options = NULL;
+        mLayerH = (OgrLayerHT) OGR_DS_CreateLayer
+            (dsH, aName->ToA(), spatialRef, gType, options);
+        break;
+    }
+    case UFileOperLoad:
+    {
+        mLayerH = OGR_DS_GetLayerByName(dsH, aName->ToA());
+        break;
+    }
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

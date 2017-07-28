@@ -38,10 +38,10 @@
  *
  * Construct the handle of layers in data source.
  */
-CVtrDataSrcCtl::CVtrDataSrcCtl(COgrDataSrcCtl* aCtl)
+CVtrDatasrcCtl::CVtrDatasrcCtl(COgrDatasrcCtl* aCtl)
 {
     m_ogrDataSrc = aCtl;
-    m_handle = aCtl->Handle();
+    // m_handle = aCtl->Handle();
 }
 
 /**
@@ -49,7 +49,7 @@ CVtrDataSrcCtl::CVtrDataSrcCtl(COgrDataSrcCtl* aCtl)
  *
  * Destruct the handle of layers in data source.
  */
-CVtrDataSrcCtl::~CVtrDataSrcCtl()
+CVtrDatasrcCtl::~CVtrDatasrcCtl()
 {
     CloseAll();
 }
@@ -61,7 +61,7 @@ CVtrDataSrcCtl::~CVtrDataSrcCtl()
  *
  * @return HE_NONE, if successful; Others, if failed.
  */
-UErrCodeT CVtrDataSrcCtl::Init()
+UErrCodeT CVtrDatasrcCtl::Init()
 {
     return UErrFalse;
 }
@@ -73,9 +73,8 @@ UErrCodeT CVtrDataSrcCtl::Init()
  *
  * @return Handle of "CVtrLayerCtl", if successful; NULL, if failed.
  */
-CVtrLayerCtl* CVtrDataSrcCtl::Create(UStringT* aName)
+CVtrLayerCtl* CVtrDatasrcCtl::Create(UStringT* aName)
 {
-    Attach();
     COgrLayerCtl* ogrLayer = m_ogrDataSrc->Create(aName);
     CVtrLayerCtl* layer = AddToMVLName(ogrLayer);
 
@@ -91,9 +90,8 @@ CVtrLayerCtl* CVtrDataSrcCtl::Create(UStringT* aName)
  *
  * @return Handle of "CVtrLayerCtl", if successful; NULL, if failed.
  */
-CVtrLayerCtl* CVtrDataSrcCtl::Load(UStringT* aName)
+CVtrLayerCtl* CVtrDatasrcCtl::Load(UStringT* aName)
 {
-    Attach();
     COgrLayerCtl* ogrLayer = m_ogrDataSrc->Load(aName);
     CVtrLayerCtl* layer = AddToMVLName(ogrLayer);
 
@@ -109,9 +107,8 @@ CVtrLayerCtl* CVtrDataSrcCtl::Load(UStringT* aName)
  *
  * @return Handle of "CVtrLayerCtl", if successful; NULL, if failed.
  */
-CVtrLayerCtl* CVtrDataSrcCtl::Load(UIntT aId)
+CVtrLayerCtl* CVtrDatasrcCtl::Load(UIntT aId)
 {
-    Attach();
     COgrLayerCtl* ogrLayer = m_ogrDataSrc->Load(aId);
     CVtrLayerCtl* layer = AddToMVLName(ogrLayer);
 
@@ -121,7 +118,7 @@ CVtrLayerCtl* CVtrDataSrcCtl::Load(UIntT aId)
 /**
  * \brief Close a layer.
  */
-UErrCodeT CVtrDataSrcCtl::Close(UStringT* aName)
+UErrCodeT CVtrDatasrcCtl::Close(UStringT* aName)
 {
     DelFromMVName(aName);
 
@@ -131,7 +128,7 @@ UErrCodeT CVtrDataSrcCtl::Close(UStringT* aName)
 /**
  * \brief Close all layer.
  */
-UErrCodeT CVtrDataSrcCtl::CloseAll()
+UErrCodeT CVtrDatasrcCtl::CloseAll()
 {
     return UErrFalse;
 }
@@ -139,17 +136,9 @@ UErrCodeT CVtrDataSrcCtl::CloseAll()
 /***** Private A *****/
 
 /**
- * \brief Attach handle of ogr data source.
- */
-UErrCodeT CVtrDataSrcCtl::Attach()
-{
-    return m_ogrDataSrc->Attach(m_handle);
-}
-
-/**
  * \brief Add layer by name from "m_mVLName".
  */
-CVtrLayerCtl* CVtrDataSrcCtl::AddToMVLName(COgrLayerCtl* aLayer)
+CVtrLayerCtl* CVtrDatasrcCtl::AddToMVLName(COgrLayerCtl* aLayer)
 {
     CVtrLayerCtl* layer = NULL;
 
@@ -159,7 +148,7 @@ CVtrLayerCtl* CVtrDataSrcCtl::AddToMVLName(COgrLayerCtl* aLayer)
     }
 
     UStringT name;
-    aLayer->Name(&name);
+    // aLayer->Name(&name);
     if (m_mVLName.FindByKey(name) == UErrFalse)
     {
         return layer;
@@ -174,7 +163,7 @@ CVtrLayerCtl* CVtrDataSrcCtl::AddToMVLName(COgrLayerCtl* aLayer)
 /**
  * \brief Del layer by name from "m_mVLName".
  */
-UErrCodeT CVtrDataSrcCtl::DelFromMVName(UStringT* aName)
+UErrCodeT CVtrDatasrcCtl::DelFromMVName(UStringT* aName)
 {
     return UErrFalse;
     // return m_mVLName.DelK(aName);

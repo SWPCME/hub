@@ -25,15 +25,46 @@
 PRJ = gda
 
 OBJ = \
+      gda_sngctl.o \
+      gda_snglockctl.o \
+      gda_snglockdriver.o \
       gda_ctl.o \
       gda_typectl.o \
+      gda_corectl.o \
+      gda_driversctl.o \
       gda_driverctl.o \
       gda_datasetctl.o \
-      gda_rasterbandctl.o
+      gda_bandctl.o \
+      gda_ogrctl.o \
+      gda_algctl.o \
+      gda_algbase.o \
+      gda_algtransform.o \
+      gda_algcontour.o \
+      gda_algrasterizer.o \
+      gda_alggridding.o \
+      gda_utilsctl.o \
+      gda_utilsinfo.o \
+      gda_utilstranslate.o \
+      gda_translatevector.o \
+      gda_translateraster.o
 
 HEADER = \
          gda_base.h \
          gda_ctl.hpp \
+         gda_corectl.hpp \
+         gda_driversctl.hpp \
          gda_driverctl.hpp \
          gda_datasetctl.hpp \
-         gda_rasterbandctl.hpp
+         gda_bandctl.hpp \
+         gda_ogrctl.hpp \
+         gda_algctl.hpp \
+         gda_algbase.hpp \
+         gda_algtransform.hpp \
+         gda_algcontour.hpp \
+         gda_algrasterizer.hpp \
+         gda_alggridding.hpp \
+         gda_utilsctl.hpp \
+         gda_utilsinfo.hpp \
+         gda_utilstranslate.hpp \
+         gda_translatevector.hpp \
+         gda_translateraster.hpp

@@ -55,11 +55,24 @@ UErrCodeT CClsIoCommonCtl::Init()
 /**
  * \brief Format and print data.
  */
-UErrCodeT CClsIoCommonCtl::PrintF(const char* aFormat, ...)
+UErrCodeT CClsIoCommonCtl::PrintF(const char *aFormat, ...)
 {
     ClsArgListT list;
     cls_arg_start(list, aFormat);
     vprintf(aFormat, list);
+    cls_arg_end(list);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Format and sprint data.
+ */
+UErrCodeT CClsIoCommonCtl::SPrintF(char *aStr, const char *aFormat, ...)
+{
+    ClsArgListT list;
+    cls_arg_start(list, aFormat);
+    sprintf(aStr, aFormat, list);
     cls_arg_end(list);
 
     return UErrFalse;

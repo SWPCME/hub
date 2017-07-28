@@ -129,45 +129,49 @@ typedef void* UDataT;
 /* String */
 const char kStrNull[1] = "";
 
+const UIntT kNInt = 11;
 const UIntT kNMax = 10000;
 
-const UIntT kHubCodeCoreBegin = -1;
-const UIntT kHubCodeCoreEnd   = -8;
-const UIntT kHubCodeWrapBegin = 1;
-const UIntT kHubCodeWrapEnd   = 1;
-const UIntT kHubCodeCtgyBegin = 1000;
+const UIntT kHubCodeCoreBegin = 1;
+const UIntT kHubCodeCoreEnd   = 999;
+const UIntT kHubCodeWrapBegin = 1001;
+const UIntT kHubCodeWrapEnd   = 1999;
+const UIntT kHubCodeCtgyBegin = 2001;
+const UIntT kHubCodeCtgyEnd   = 2999;
 
 typedef enum
 {
     /* Core module */
-    HubMCls = -1,               /* C language standard library. */
-    HubMCcs = -2,               /* C with class standard library. */
-    HubMUst = -3,               /* Universal struct type library. */
-    HubMSys = -4,               /* System library. */
-    HubMOgr = -5,               /* OpenGIS Simple Features Reference 
+    HubMCls = 1,                /* C language standard library. */
+    HubMCcs = 2,                /* C with class standard library. */
+    HubMSys = 3,                /* System library. */
+    HubMOgr = 4,                /* OpenGIS Simple Features Reference 
                                    Implementation. */
-    HubMGda = -6,               /* Geospatial Data Absraction. */
-    HubMGsl = -7,               /* Gnu Scientific Library. */
-    HubMCut = -8,               /* Client-side URL Transfer. */
+    HubMGda = 5,                /* Geospatial Data Absraction. */
+    HubMGsl = 6,                /* Gnu Scientific Library. */
+    HubMCut = 7,                /* Client-side URL Transfer. */
 
     /* Wrap module */
-    HubMVtr = 1,                /* Vector library. */
+    HubMUst = 1001,             /* Universal struct type library. */
+    HubMVtr = 1002,             /* Vector library. */
 
     /* Ctgy module */
     // Earth
-    HubMRtk = 1000,             /* Rtk library. */
+    HubMRtk = 2001,             /* Real time kinematic library. */
+    // Fire
+    HubMFmd = 2002,             /* Firemod library. */
 } HubCodeT;
 
 /* Universal error code type. */
 typedef enum
 {
     // Outer.
-    UErrNone  = 0,
-    UErrError = 1,
+    UErrNone  = 1,
+    UErrError = 0,
 
     // Iner.
-    UErrFalse = 0,
-    UErrTrue  = 1,
+    UErrFalse = 1,
+    UErrTrue  = 0,
 } UErrCodeT;
 
 /* Universal flag code type. */
@@ -193,6 +197,22 @@ typedef enum
     UDataTFloat  = 3,
 } UDataTCodeT;
 
+/* Universal file oper code type. */
+typedef enum
+{
+    UFileOperCreate = 1,
+    UFileOperLoad   = 2,
+    UFileOperClose  = 3,
+    UFileOperDelete = 4,
+} UFileOperCodeT;
+
+/* Universal obj oper code type. */
+typedef enum
+{
+    UObjOperNew = 1,
+    UObjOperDel = 2,
+} UObjOperCodeT;
+
 /* Universal access code type. */
 typedef enum
 {
@@ -212,8 +232,8 @@ typedef enum
 /* Universal lock code. */
 typedef enum
 {
-    ULockTrue  = 1,
-    ULockFalse = 2,
+    ULockOn  = 1,
+    ULockOff = 2,
 } ULockCodeT;
 
 /* Universal Sequence. */

@@ -73,9 +73,8 @@ CFmdFileWrite::~CFmdFileWrite()
  */
 UErrCodeT CFmdFileWrite::Init()
 {
-    FMD_CTL(fmdCtl);
-    mFarsiteH = fmdCtl->FarsiteH();
-    mType = fmdCtl->Type();
+    FMD_FARSITE_H(mFarsiteH);
+    FMD_TYPE_CTL(mType);
 
     return UErrFalse;
 }
@@ -85,7 +84,7 @@ UErrCodeT CFmdFileWrite::Init()
  *
  * \param aFile, output file name.
  */
-UErrCodeT CFmdFileWrite::All(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::All(const UStringT *aFile, UFlagCodeT aFlag)
 {
     // Write all file.
     Special(aFile);
@@ -111,7 +110,7 @@ UErrCodeT CFmdFileWrite::MapEnv(UStringT *aFile, BTimeTmT *aTm,
 /**
  * \brief Write text or binary file.
  */
-UErrCodeT CFmdFileWrite::Special(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::Special(const UStringT *aFile, UFlagCodeT aFlag)
 {
     CrownFireGrid(aFile, aFlag);
     IntensityGrid(aFile, aFlag);
@@ -128,7 +127,7 @@ UErrCodeT CFmdFileWrite::Special(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write crown fire grid.
  */
-UErrCodeT CFmdFileWrite::CrownFireGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::CrownFireGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_crownfiregrid";
     UStringT file(aFile);
@@ -149,7 +148,7 @@ UErrCodeT CFmdFileWrite::CrownFireGrid(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write intensity grid.
  */
-UErrCodeT CFmdFileWrite::IntensityGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::IntensityGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_intensitygrid";
     UStringT file(aFile);
@@ -170,7 +169,7 @@ UErrCodeT CFmdFileWrite::IntensityGrid(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write flame length grid.
  */
-UErrCodeT CFmdFileWrite::FlameLengthGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::FlameLengthGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_flamelengthgird";
     UStringT file(aFile);
@@ -191,7 +190,7 @@ UErrCodeT CFmdFileWrite::FlameLengthGrid(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write spread rate grid.
  */
-UErrCodeT CFmdFileWrite::SpreadRateGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::SpreadRateGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_spreadrategrid";
     UStringT file(aFile);
@@ -212,7 +211,7 @@ UErrCodeT CFmdFileWrite::SpreadRateGrid(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write spread direction grid.
  */
-UErrCodeT CFmdFileWrite::SpreadDirectionGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::SpreadDirectionGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_spreaddirectiongrid";
     UStringT file(aFile);
@@ -233,7 +232,7 @@ UErrCodeT CFmdFileWrite::SpreadDirectionGrid(const char *aFile, UFlagCodeT aFlag
 /**
  * \brief Write heat per unit area grid.
  */
-UErrCodeT CFmdFileWrite::HeatPerUnitAreaGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::HeatPerUnitAreaGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_heatperunitareagrid";
     UStringT file(aFile);
@@ -254,7 +253,7 @@ UErrCodeT CFmdFileWrite::HeatPerUnitAreaGrid(const char *aFile, UFlagCodeT aFlag
 /**
  * \brief Write reaction intensity grid.
  */
-UErrCodeT CFmdFileWrite::ReactionIntensityGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::ReactionIntensityGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_reactionintensitygrid";
     UStringT file(aFile);
@@ -275,7 +274,7 @@ UErrCodeT CFmdFileWrite::ReactionIntensityGrid(const char *aFile, UFlagCodeT aFl
 /**
  * \brief Write arrival time grid.
  */
-UErrCodeT CFmdFileWrite::ArrivalTimeGrid(const char *aFile, UFlagCodeT aFlag)
+UErrCodeT CFmdFileWrite::ArrivalTimeGrid(const UStringT *aFile, UFlagCodeT aFlag)
 {
     const UStringT suffix = "_arrivaltimegrid";
     UStringT file(aFile);
@@ -296,7 +295,7 @@ UErrCodeT CFmdFileWrite::ArrivalTimeGrid(const char *aFile, UFlagCodeT aFlag)
 /**
  * \brief Write common file.
  */
-UErrCodeT CFmdFileWrite::Common(const char *aFile)
+UErrCodeT CFmdFileWrite::Common(const UStringT *aFile)
 {
     IgnitionGrid(aFile);
     PerimetersShape(aFile);
@@ -311,7 +310,7 @@ UErrCodeT CFmdFileWrite::Common(const char *aFile)
 /**
  * \brief Write ignition grid file.
  */
-UErrCodeT CFmdFileWrite::IgnitionGrid(const char *aFile)
+UErrCodeT CFmdFileWrite::IgnitionGrid(const UStringT *aFile)
 {
     const UStringT suffix = "_ignitiongrid";
     UStringT file(aFile);
@@ -324,7 +323,7 @@ UErrCodeT CFmdFileWrite::IgnitionGrid(const char *aFile)
 /**
  * \brief Write perimeters shape file.
  */
-UErrCodeT CFmdFileWrite::PerimetersShape(const char *aFile)
+UErrCodeT CFmdFileWrite::PerimetersShape(const UStringT *aFile)
 {
     const UStringT suffix = "_perimetersshape";
     UStringT file(aFile);
@@ -337,7 +336,7 @@ UErrCodeT CFmdFileWrite::PerimetersShape(const char *aFile)
 /**
  * \brief Write spot grid.
  */
-UErrCodeT CFmdFileWrite::SpotGrid(const char *aFile)
+UErrCodeT CFmdFileWrite::SpotGrid(const UStringT *aFile)
 {
     const UStringT suffix = "_spotgrid";
     UStringT file(aFile);
@@ -350,7 +349,7 @@ UErrCodeT CFmdFileWrite::SpotGrid(const char *aFile)
 /**
  * \brief Write spot data file.
  */
-UErrCodeT CFmdFileWrite::SpotData(const char *aFile)
+UErrCodeT CFmdFileWrite::SpotData(const UStringT *aFile)
 {
     const UStringT suffix = "_spotdata";
     UStringT file(aFile);
@@ -363,7 +362,7 @@ UErrCodeT CFmdFileWrite::SpotData(const char *aFile)
 /**
  * \brief Write spot shape file.
  */
-UErrCodeT CFmdFileWrite::SpotShape(const char *aFile)
+UErrCodeT CFmdFileWrite::SpotShape(const UStringT *aFile)
 {
     const UStringT suffix = "_spotshape";
     UStringT file(aFile);
@@ -376,7 +375,7 @@ UErrCodeT CFmdFileWrite::SpotShape(const char *aFile)
 /**
  * \brief Write timings file.
  */
-UErrCodeT CFmdFileWrite::Timings(const char *aFile)
+UErrCodeT CFmdFileWrite::Timings(const UStringT *aFile)
 {
     const UStringT suffix = "_timings";
     UStringT file(aFile);

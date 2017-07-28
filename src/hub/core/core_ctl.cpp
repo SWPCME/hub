@@ -31,9 +31,12 @@
 
 // Base.
 #include "base_macrodefn.hpp"
+// Core.
+#include "core_sngctl.hpp"
 // Module.
 #include "cls_ctl.hpp"
 #include "sys_ctl.hpp"
+#include "gda_ctl.hpp"
 #include "ogr_ctl.hpp"
 #include "gsl_ctl.hpp"
 #include "cut_ctl.hpp"
@@ -43,11 +46,7 @@
  */
 CCoreCtl::CCoreCtl()
 {
-    BMD_POINTER_INIT(mCls);
-    BMD_POINTER_INIT(mSys);
-    BMD_POINTER_INIT(mOgr);
-    BMD_POINTER_INIT(mGsl);
-    BMD_POINTER_INIT(mCut);
+    InitPointer();
 }
 
 /**
@@ -55,11 +54,7 @@ CCoreCtl::CCoreCtl()
  */
 CCoreCtl::~CCoreCtl()
 {
-    BMD_CLASS_DEL(mCls);
-    BMD_CLASS_DEL(mSys);
-    BMD_CLASS_DEL(mOgr);
-    BMD_CLASS_DEL(mGsl);
-    BMD_CLASS_DEL(mCut);
+    InitPointer();
 }
 
 /**
@@ -69,6 +64,17 @@ UErrCodeT CCoreCtl::Init()
 {
     return UErrFalse;
 }
+
+/**
+ * \brief Singleton.
+ */
+CCoreSngCtl *CCoreCtl::Sng()
+{
+    BMD_CLASS_NEW(mSng, CCoreSngCtl);
+
+    return mSng;
+}
+
 
 /**
  * \brief Cls.
@@ -88,6 +94,16 @@ CSysCtl *CCoreCtl::Sys()
     BMD_CLASS_NEW(mSys, CSysCtl);
 
     return mSys;
+}
+
+/**
+ * \brief Gda.
+ */
+CGdaCtl *CCoreCtl::Gda()
+{
+    BMD_CLASS_NEW(mGda, CGdaCtl);
+
+    return mGda;
 }
 
 /**
@@ -121,5 +137,22 @@ CCutCtl *CCoreCtl::Cut()
 }
 
 /***** Private A *****/
+
+/**
+ * \brief Init Pointer.
+ */
+UErrCodeT CCoreCtl::InitPointer()
+{
+    // core
+    BMD_POINTER_INIT(mSng);
+
+    // module
+    BMD_POINTER_INIT(mCls);
+    BMD_POINTER_INIT(mSys);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mGda);
+    BMD_POINTER_INIT(mGsl);
+    BMD_POINTER_INIT(mCut);
+}
 
 /***** Private B *****/

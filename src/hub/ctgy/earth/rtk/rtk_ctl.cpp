@@ -1,7 +1,7 @@
 /******************************************************************************
  * $Id: rtk_ctl.cpp 2017-05 $
  *
- * Project:  Rtk.
+ * Project:  Rtk (Real time kinematic).
  * Purpose:  Rtk ctl.
  * Author:   Weiwei Huang, 898687324@qq.com
  *

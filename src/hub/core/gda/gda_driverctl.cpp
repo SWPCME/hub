@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_driverctl.cpp 2017-05 $
+ * $Id: gda_driverctl.cpp 2017-07 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda driver control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -30,26 +30,49 @@
 // Module
 #include "gdal.h"
 
-CGdaDriverCtl::CGdaDriverCtl(GdaDriverHT aHandle)
+/**
+ * \brief Constructor.
+ */
+CGdaDriverCtl::CGdaDriverCtl(const UStringT *aName)
 {
-    mHandle = aHandle;
+    BMD_POINTER_INIT(mDriverH);
+    SetHandle(aName);
     mMDataset.Init(UContainerMap);
 }
 
+/**
+ * \brief Destructor.
+ */
 CGdaDriverCtl::~CGdaDriverCtl()
 {
     CloseAll();
+    BMD_POINTER_INIT(mDriverH);
 }
 
+/**
+ * \brief Initialize.
+ */
 UErrCodeT CGdaDriverCtl::Init()
 {
+    if (mDriverH == NULL)
+    {
+        return UErrTrue;
+    }
+
+    CloseAll();
+
     return UErrFalse;
 }
 
 /**
  * \brief Create file.
  *
- * @param aFile File name that create.
+ * @param aFile   File name that create.
+ * @param aXSize  Width of raster in pixels.
+ * @param aYSize  Height of raster in pixels.
+ * @param aNBands Number of bands.
+ * @param aDataT  Type of raster.
+ * @param aOption List of driver specific control parameters.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
@@ -57,29 +80,23 @@ CGdaDatasetCtl *CGdaDriverCtl::Create(const UStringT *aFile, UIntT aXSize,
                                       UIntT aYSize, UIntT aNBands,
                                       UDataTCodeT aDataT, char **aOption)
 {
-    GDALDataType dataType;
-    mType->ToDataType(&dataType, aDataT);
-    GDALDatasetH dataset;
-    dataset = GDALCreate((GDALDriverH) mHandle, aFile->ToA(), aXSize, aYSize,
-                         aNBands, dataType, aOption);
-    CGdaDatasetCtl *datasetCtl = new CGdaDatasetCtl((GdaDatasetHT) dataset);
+    GdaDatasetAttrT attr;
+    attr.xSize = aXSize;
+    attr.ySize = aYSize;
+    attr.nBands = aNBands;
+    attr.dataT = aDataT;
+    attr.option = aOption;
 
-    return datasetCtl;
+    return DatasetCtl(aFile, UFileOperCreate, &attr, NULL);
 }
 
 /**
- * \brief Open file.
+ * \brief Load file.
  */
-CGdaDatasetCtl *CGdaDriverCtl::Open(const UStringT *aFile,
+CGdaDatasetCtl *CGdaDriverCtl::Load(const UStringT *aFile,
                                     const UAccessCodeT aAccess)
 {
-    GDALAccess access;
-    mType->ToAccess(&access, aAccess);
-    UHandleT handle = (UHandleT) GDALOpen(aFile->ToA(), access);
-    CGdaDatasetCtl *datasetCtl = new CGdaDatasetCtl(handle);
-    mMDataset.Add(&datasetCtl, aFile);
-
-    return datasetCtl;
+    return DatasetCtl(aFile, UFileOperLoad, NULL, &aAccess);
 }
 
 /**
@@ -87,15 +104,16 @@ CGdaDatasetCtl *CGdaDriverCtl::Open(const UStringT *aFile,
  */
 UErrCodeT CGdaDriverCtl::Close(const UStringT *aFile)
 {
-    // GDAL_DS_Destroy((GDAL) aHandle);
-    const CGdaDatasetCtl *datasetCtl = mMDataset.Content(aFile);
-    if (datasetCtl != NULL)
+    MDatasetItT *it = mMDataset.Iterator();
+    if (it->Goto(aFile) == UErrTrue)
     {
-        delete datasetCtl;
-        return UErrFalse;
+        return UErrTrue;
     }
+    CGdaDatasetCtl *datasetCtl = it->Content();
+    delete datasetCtl;
+    mMDataset.DelByKey(aFile);
 
-    return UErrTrue;
+    return UErrFalse;
 }
 
 /**
@@ -103,7 +121,8 @@ UErrCodeT CGdaDriverCtl::Close(const UStringT *aFile)
  */
 UErrCodeT CGdaDriverCtl::Delete(const UStringT *aFile)
 {
-    GDALDeleteDataset(mHandle, aFile->ToA());
+    Close(aFile);
+    GDALDeleteDataset(mDriverH, aFile->ToA());
 
     return UErrFalse;
 }
@@ -111,11 +130,62 @@ UErrCodeT CGdaDriverCtl::Delete(const UStringT *aFile)
 /***** Private A *****/
 
 /**
- * \brief CloseAll().
+ * \brief Set handle.
+ */
+UErrCodeT CGdaDriverCtl::SetHandle(const UStringT *aName)
+{
+    mDriverH = GDALGetDriverByName(aName->ToA());
+    if (mDriverH == NULL)
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Dataset controler.
+ */
+CGdaDatasetCtl *CGdaDriverCtl::DatasetCtl(const UStringT *aFile,
+                                          UFileOperCodeT aFileOper,
+                                          const GdaDatasetAttrT *aAttr,
+                                          const UAccessCodeT *aAccess)
+{
+    MDatasetItT *it = mMDataset.Iterator();
+    if (it->Goto(aFile) == UErrFalse)
+    {
+        return it->Content();
+    }
+    CGdaDatasetCtl *datasetCtl = NULL;
+    switch (aFileOper)
+    {
+    case UFileOperCreate:
+    {
+        BMD_CLASS_NEW_A_3(datasetCtl, CGdaDatasetCtl, aFile, aAttr, mDriverH);
+        break;
+    }
+    case UFileOperLoad:
+    {
+        BMD_CLASS_NEW_A_2(datasetCtl, CGdaDatasetCtl, aFile, *aAccess);
+        break;
+    }
+    default:
+        break;
+    }
+    if (datasetCtl != NULL)
+    {
+        mMDataset.Add(&datasetCtl, aFile);
+    }
+
+    return datasetCtl;
+}
+
+/**
+ * \brief Close all.
  */
 UErrCodeT CGdaDriverCtl::CloseAll()
 {
-    MDatasetCtlItT *it = mMDataset.Iterator();
+    MDatasetItT *it = mMDataset.Iterator();
 
     for (it->Head(); it->State() == UErrFalse; it->Next())
     {

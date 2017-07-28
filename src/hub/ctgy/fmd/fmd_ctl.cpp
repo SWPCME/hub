@@ -31,6 +31,7 @@
 #include "base_macrodefn.hpp"
 // Fmd.
 #include "fmd_typectl.hpp"
+#include "fmd_masterctl.hpp"
 #include "fmd_filectl.hpp"
 #include "fmd_burnctl.hpp"
 
@@ -40,6 +41,7 @@
 CFmdCtl::CFmdCtl()
 {
     BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mMaster);
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mFile);
 }
@@ -50,6 +52,7 @@ CFmdCtl::CFmdCtl()
 CFmdCtl::~CFmdCtl()
 {
     BMD_CLASS_DELH(mFarsiteH, Farsite5);
+    BMD_CLASS_DEL(mMaster);
     BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mFile);
 }
@@ -70,6 +73,16 @@ FmdFarsiteHT CFmdCtl::FarsiteH()
     BMD_CLASS_ONEWH(mFarsiteH, Farsite5, FmdFarsiteHT);
 
     return mFarsiteH;
+}
+
+/**
+ * \brief Master controler.
+ */
+CFmdMasterCtl *CFmdCtl::Master()
+{
+    BMD_CLASS_NEW(mMaster, CFmdMasterCtl);
+
+    return mMaster;
 }
 
 /**
@@ -100,14 +113,4 @@ CFmdBurnCtl *CFmdCtl::Burn()
     BMD_CLASS_NEW(mBurn, CFmdBurnCtl);
 
     return mBurn;
-}
-
-/**
- * \brief Launch.
- */
-UErrCodeT CFmdCtl::Launch()
-{
-    FMD_FARSITE(mFarsiteH)->LaunchFarsite();
-
-    return UErrFalse;
 }

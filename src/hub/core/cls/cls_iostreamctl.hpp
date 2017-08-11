@@ -27,11 +27,8 @@
 
 #include "cls_base.h"
 
-// Ust.
-#include "ust_stringtype.hpp"
-
-class CClsTypeCtl;
 class CClsStreamFormat;
+class CClsStreamFile;
 
 class CLS_LIB CClsIoStreamCtl
 {
@@ -43,19 +40,14 @@ class CLS_LIB CClsIoStreamCtl
 
     // Controler.
     CClsStreamFormat *Format();
-
-    UErrCodeT Open(ClsFileHT *aFileH, const UStringT *aFile,
-                   const ClsFileOperCodeT aOper);
-    UErrCodeT Close(ClsFileHT *aFileH);
-    UErrCodeT Read(UIntT *aRealCount, UDataT aData, UIntT aSize,
-                   UIntT aCount, ClsFileHT aFileH);
-    UErrCodeT Write(const UDataT aData, UIntT aSize, UIntT aCount, 
-                    ClsFileHT aFileH);
+    CClsStreamFile *File();
 
   protected:
   private:
-    CClsTypeCtl *mType;
+    UErrCodeT InitPointer();
+
     CClsStreamFormat *mFormat;
+    CClsStreamFile *mFile;
 };
 
 #endif  // CLS_IOSTREAMCTL_HPP_INCLUDED

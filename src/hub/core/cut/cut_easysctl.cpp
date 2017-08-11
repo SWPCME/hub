@@ -30,7 +30,7 @@
 /**
  * \brief Constructor.
  */
-CCutEasysCtl::CCutEasysCtl()
+CCutEasysCtl::CCutEasysCtl() : mMEasyH(UContainerMap)
 {
 }
 
@@ -46,11 +46,6 @@ CCutEasysCtl::~CCutEasysCtl()
  */
 UErrCodeT CCutEasysCtl::Init()
 {
-    if (mMEasyH.Init(UContainerMap) == UErrTrue)
-    {
-        return UErrTrue;
-    }
-
     return UErrFalse;
 }
 

@@ -126,9 +126,6 @@ typedef void* UHandleT;
 /* Data */
 typedef void* UDataT;
 
-/* String */
-const char kStrNull[1] = "";
-
 const UIntT kNInt = 11;
 const UIntT kNMax = 10000;
 
@@ -194,7 +191,8 @@ typedef enum
     UDataTNone   = 0,
     UDataTString = 1,
     UDataTInt    = 2,
-    UDataTFloat  = 3,
+    UDataTInt16  = 3,
+    UDataTFloat  = 4,
 } UDataTCodeT;
 
 /* Universal file oper code type. */

@@ -33,10 +33,9 @@
 /**
  * \brief Constructor.
  */
-COgrDriverCtl::COgrDriverCtl(const UStringT *aName)
+COgrDriverCtl::COgrDriverCtl(const UStringT *aName) : mMDs(UContainerMap)
 {
     SetHandle(aName);
-    mMDs.Init(UContainerMap);
 }
 
 /**

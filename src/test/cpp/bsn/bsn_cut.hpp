@@ -29,7 +29,7 @@
 
 class CCutEasysCtl;
 class CClsIoCommonCtl;
-class CClsIoStreamCtl;
+class CClsStreamFile;
 
 class BSN_LIB CBsnCut
 {
@@ -44,7 +44,7 @@ class BSN_LIB CBsnCut
   private:
     CCutEasysCtl *mEasys;
     CClsIoCommonCtl *mIoCmn;
-    CClsIoStreamCtl *mIoStr;
+    CClsStreamFile *mFile;
 };
 
 #endif  // BSN_CUT_HPP_INCLUED

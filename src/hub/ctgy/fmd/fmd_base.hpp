@@ -32,6 +32,11 @@
 #define FMD_LIB HUB_LIB
 
 typedef UHandleT FmdFarsiteHT;
+typedef enum
+{
+    FmdFileCfgCreate = 1,
+    FmdFileCfgLoad   = 2,
+} FmdFileCfgCodeT;
 
 typedef enum
 {

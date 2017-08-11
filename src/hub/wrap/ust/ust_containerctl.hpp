@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_containerctl.hpp 2016-08 $
+ * $Id: ust_containerctl.hpp 2017-07 $
  *
  * Project:  Universal structure library.
  * Purpose:  Container controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -43,13 +43,19 @@ class UST_LIB CUstContainerCtl
     CUstContainerCtl();
     ~CUstContainerCtl();
 
-    // Contenter.
     UErrCodeT Init(UContainerCodeT aCode);
+
+    // Attribute.
+    UContainerCodeT Code();
+    UstContainerHT Handle();
+
+    // Contenter.
     UErrCodeT Add(const ContentT *aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
     UErrCodeT FindByKey(const KeyT *aKey);
     ContentT *Content(const KeyT *aKey);
     UErrCodeT Count(UIntT *aNum);
+    UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT Clear();
 
     // Iterator.

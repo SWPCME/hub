@@ -1,7 +1,7 @@
 /******************************************************************************
  * $Id: gda_ctl.hpp 2017-07 $
  *
- * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
+ * Project:  Gda (GDAL: Geospatial Data Abstraction Library) library.
  * Purpose:  Gda control definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *

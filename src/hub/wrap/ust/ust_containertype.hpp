@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_containertype.hpp 2016-08 $
+ * $Id: ust_containertype.hpp 2017 $
  *
  * Project:  Universal structure library.
  * Purpose:  Container type.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -39,11 +39,14 @@ template <typename ContentT, typename KeyT = UIntT>
 class UST_LIB UContainerT
 {
   public:
-    UContainerT();
     UContainerT(const UContainerCodeT aCode);
     ~UContainerT();
 
-    UErrCodeT Init(const UContainerCodeT aCode);
+    // Attribute
+    UContainerCodeT Code();
+    UstContainerHT Handle();
+    UIntT Count();
+
     UErrCodeT Add(const ContentT &aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
     UErrCodeT Add(const ContentT &aContent, const KeyT &aKey);
@@ -55,7 +58,6 @@ class UST_LIB UContainerT
     UErrCodeT FindByKey(const KeyT &aKey);
     UErrCodeT Sort();
     UErrCodeT SortByKey();
-    UErrCodeT Count(UIntT *aNum);
 
     // Iterator.
     UIteratorT<ContentT, KeyT> *Iterator();
@@ -66,8 +68,12 @@ class UST_LIB UContainerT
 
     /* Operator */
     ContentT operator [](const KeyT &aKey);
-  protected:
+    UErrCodeT operator =(const UContainerT<ContentT, KeyT> &aCtn);
+
+ protected:
   private:
+    UErrCodeT Init(const UContainerCodeT aCode);
+
     CUstContainerCtl<ContentT, KeyT> *mCtn;
 };
 

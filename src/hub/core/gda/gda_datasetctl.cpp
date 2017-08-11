@@ -42,6 +42,7 @@
 CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile,
                                const GdaDatasetAttrT *aAttr,
                                const GdaDriverHT aDriver)
+    : mMBand(UContainerMap)
 {
     InitPointer();
     CreateDataset(aFile, aAttr, aDriver);
@@ -52,6 +53,7 @@ CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile,
  * Load file.
  */
 CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile, UAccessCodeT aAccess)
+    : mMBand(UContainerMap)
 {
     BMD_POINTER_INIT(mDatasetH);
     LoadDataset(aFile, aAccess);
@@ -76,7 +78,7 @@ UErrCodeT CGdaDatasetCtl::Init()
         return UErrTrue;
     }
 
-    GDA_TYPECTL(mType);
+    GDA_TYPE_CTL(mType);
 
     return UErrFalse;
 }
@@ -120,13 +122,13 @@ UErrCodeT CGdaDatasetCtl::Count(UIntT *aNum)
 }
 
 /**
- * \brief Add Band.
+ * \brief Add band.
  */
 UErrCodeT CGdaDatasetCtl::AddBand(UDataTCodeT aDataT, UStringT *aOption)
 {
     GDALDataType dataType;
     mType->ToDataType(&dataType, aDataT);
-    char** option;
+    char** option = NULL;
     GDALAddBand((GDALDatasetH) mDatasetH, dataType, option);
     *aOption = *option;
 
@@ -136,9 +138,35 @@ UErrCodeT CGdaDatasetCtl::AddBand(UDataTCodeT aDataT, UStringT *aOption)
 /**
  * \brief Raster band.
  */
-CGdaBandCtl* CGdaDatasetCtl::Band(UIntT aId)
+CGdaBandCtl *CGdaDatasetCtl::Band(UIntT aId)
 {
     return BandCtl(aId);
+}
+
+/**
+ * \brief Set band.
+ *
+ * Set destination of band id by source of band controler.
+ *
+ * @param aDstId Destination of band id.
+ * @param aSrcBand Source of band controler.
+ */
+UErrCodeT CGdaDatasetCtl::SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand)
+{
+    CGdaBandCtl *dstBand = Band(aDstId);
+    GDALRasterBandH dstBandH = (GDALRasterBandH) dstBand->Handle();
+    GDALRasterBandH srcBandH = (GDALRasterBandH) aSrcBand->Handle();
+    const char **opt = NULL;
+    GDALProgressFunc func = NULL;
+    void *data = NULL;
+    CPLErr err = GDALRasterBandCopyWholeRaster(srcBandH, dstBandH, opt, func, data);
+
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /**

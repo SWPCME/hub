@@ -38,7 +38,7 @@
 /**
  * \brief Constructor.
  */
-CSysThreadsCtl::CSysThreadsCtl()
+CSysThreadsCtl::CSysThreadsCtl() : m_threadCtn(UContainerList)
 {
 }
 

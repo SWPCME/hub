@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: base_macrodefn.hpp 2016-08 $
+ * $Id: base_macrodefn.hpp 2017-08 $
  *
  * Project:  Base.
  * Purpose:  Macro definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 

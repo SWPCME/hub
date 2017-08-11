@@ -24,25 +24,15 @@
 
 #include "cls_iostreamctl.hpp"
 
-// Glibc Module.
-#include "stdio.h"
-
-// base
-#include "base_ctl.hpp"
-// core
-#include "core_ctl.hpp"
 // cls
-#include "cls_ctl.hpp"
-#include "cls_typectl.hpp"
 #include "cls_streamformat.hpp"
+#include "cls_streamfile.hpp"
 
 /**
  * \brief Constructor.
  */
 CClsIoStreamCtl::CClsIoStreamCtl()
 {
-    BMD_POINTER_INIT(mType);
-    BMD_POINTER_INIT(mFormat);
 }
 
 /**
@@ -50,7 +40,6 @@ CClsIoStreamCtl::CClsIoStreamCtl()
  */
 CClsIoStreamCtl::~CClsIoStreamCtl()
 {
-    BMD_POINTER_INIT(mType);
     BMD_CLASS_DEL(mFormat);
 }
 
@@ -59,9 +48,17 @@ CClsIoStreamCtl::~CClsIoStreamCtl()
  */
 UErrCodeT CClsIoStreamCtl::Init()
 {
-    CLS_TYPE_CTL(mType);
-    
     return UErrFalse;
+}
+
+/**
+ * \brief File.
+ */
+CClsStreamFile *CClsIoStreamCtl::File()
+{
+    BMD_CLASS_NEW(mFile, CClsStreamFile);
+
+    return mFile;
 }
 
 /**
@@ -74,58 +71,13 @@ CClsStreamFormat *CClsIoStreamCtl::Format()
     return mFormat;
 }
 
-/**
- * \brief Open file.
- */
-UErrCodeT CClsIoStreamCtl::Open(ClsFileHT *aFileH, const UStringT *aFile,
-                                const ClsFileOperCodeT aOper)
+/***** Private A *****/
+
+UErrCodeT CClsIoStreamCtl::InitPointer()
 {
-    UStringT oper;
-    mType->ToFileOper(&oper, aOper);
-    *aFileH = (ClsFileHT) fopen(aFile->ToA(), oper.ToA());
+    BMD_POINTER_INIT(mFormat);
 
     return UErrFalse;
 }
 
-/**
- * \brief Close file.
- */
-UErrCodeT CClsIoStreamCtl::Close(ClsFileHT *aFileH)
-{
-    fclose((FILE *) *aFileH);
-    *aFileH = NULL;
-
-    return UErrFalse;
-}
-
-/**
- * \brief Read chunks of generic data from STREAM.
- */
-UErrCodeT CClsIoStreamCtl::Read(UIntT *aRealCount, UDataT aData, UIntT aSize,
-                                UIntT aCount, ClsFileHT aFileH)
-{
-    *aRealCount = fread(aData, aSize, aCount, (FILE *) aFileH);
-
-    if (*aRealCount == aCount)
-    {
-        return UErrFalse;
-    }
-
-    return UErrTrue;
-}
-
-/**
- * \brief Write chunks of generic data to STREAM.
- */
-UErrCodeT CClsIoStreamCtl::Write(const UDataT aData, UIntT aSize, UIntT aCount,
-                                 ClsFileHT aFileH)
-{
-    UIntT count = fwrite(aData, aSize, aCount, (FILE *) aFileH);
-
-    if (count == aCount)
-    {
-        return UErrFalse;
-    }
-
-    return UErrTrue;
-}
+/***** Private B *****/

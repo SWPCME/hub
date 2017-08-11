@@ -77,3 +77,16 @@ UErrCodeT CClsFormatOutput::ToCon(const char *aFormat, ...)
 
     return UErrFalse;
 }
+
+/**
+ * \brief Print to file.
+ */
+UErrCodeT CClsFormatOutput::ToFile(ClsFileHT aFile, const char *aFormat, ...)
+{
+    ClsArgListT list;
+    cls_arg_start(list, aFormat);
+    vfprintf((FILE *) aFile, aFormat, list);
+    cls_arg_end(list);
+
+    return UErrFalse;
+}

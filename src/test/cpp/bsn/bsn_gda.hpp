@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: bsn_gda.hpp 2017-05 $
+ * $Id: bsn_gda.hpp 2017-08 $
  *
  * Project:  Business Logic library.
  * Purpose:  Test gda control api.
@@ -63,6 +63,14 @@ class BSN_LIB CBsnGda
     UErrCodeT TestLoad();
     UErrCodeT TestAlg();
     UErrCodeT TestUtils();
+
+    // Tranlsate
+    UErrCodeT VtrToVtr();
+    UErrCodeT VtrToRstEasy();
+    UErrCodeT VtrToRstComplex();
+
+    // Merge
+    UErrCodeT MergeRst();
 
     // rst
     CGdaDatasetCtl *CreateDataset(const UStringT *aFile, UIntT aNXSize,

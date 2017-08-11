@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_stringctl.cpp 2016-08 $
+ * $Id: ust_stringctl.cpp 2017-08 $
  *
  * Project:  Universal struct library.
  * Purpose:  String control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

@@ -91,6 +91,29 @@ UErrCodeT CGdaTypeCtl::ToDataType(GDALDataType *aDest, UDataTCodeT aSrc)
     case UDataTFloat:
         *aDest = GDT_Float64;
         break;
+    case UDataTInt16:
+        *aDest = GDT_Int16;
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Translate UDataTCodeT to GDALDataType with string.
+ */
+UErrCodeT CGdaTypeCtl::ToDataType(UStringT *aDst, UDataTCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case UDataTFloat:
+        *aDst = "Float64";
+        break;
+    case UDataTInt16:
+        *aDst = "Int16";
+        break;
     default:
         return UErrTrue;
     }
@@ -117,6 +140,55 @@ UErrCodeT CGdaTypeCtl::ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc)
     case GdaFormatTif:
         *aDest = GDA_F_TIF;
         break;
+    case GdaFormatVrt:
+        *aDest = GDA_F_VRT;
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To gda create opt.
+ */
+UErrCodeT CGdaTypeCtl::ToGdaCreateOpt(UStringT *aDst,
+                                      const GdaCreateOptHT aSrc,
+                                      const GdaFormatCodeT aFormat)
+{
+    switch (aFormat)
+    {
+    case GdaFormatLcp:
+        ToLcpCreateOpt(aDst, (GdaR2RLcpCreateOptT *) aSrc);
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To linear unit.
+ */
+UErrCodeT CGdaTypeCtl::ToLinearUnit(UStringT *aDst,
+                                    const GdaLinearUnitCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GdaLinearUnitDefault:
+        *aDst = "SET_FROM_SRS";
+        break;
+    case GdaLinearUnitMeter:
+        *aDst = "METER";
+        break;
+    case GdaLinearUnitFoot:
+        *aDst = "FOOT";
+        break;
+    case GdaLinearUnitKilometer:
+        *aDst = "KILOMETER";
+        break;
     default:
         return UErrTrue;
     }
@@ -130,15 +202,14 @@ UErrCodeT CGdaTypeCtl::ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc)
  */
 UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
 {
-    UContainerT<UStringT> srcS;
-    srcS.Init(UContainerList);
+    UContainerT<UStringT> srcS(UContainerList);
     const UStringT delimiters = " ";
+    const UStringT token = "\"";
     UStringT *src = (UStringT *) aSrc;
-    src->Split(&srcS, &delimiters);
+    src->Split(&srcS, &delimiters, &token);
 
     UIteratorT<UStringT> *it = srcS.Iterator();
-    UIntT count;
-    srcS.Count(&count);
+    UIntT count = srcS.Count();
     char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 1));
     argv[count] = NULL;
 
@@ -169,3 +240,49 @@ UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
 
     return UErrFalse;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief To lcp create options.
+ */
+UErrCodeT CGdaTypeCtl::ToLcpCreateOpt(UStringT *aDst,
+                                      const GdaR2RLcpCreateOptT *aSrc)
+{
+    // Band.
+    const UStringT kBand = " -b ";
+    const GdaLcpBandT *bandValue = &aSrc->band;
+    *aDst += kBand;
+    *aDst += bandValue->elevation;
+    *aDst += kBand;
+    *aDst += bandValue->slope;
+    *aDst += kBand;
+    *aDst += bandValue->aspect;
+    *aDst += kBand;
+    *aDst += bandValue->fuelModels;
+    *aDst += kBand;
+    *aDst += bandValue->canopyCover;
+
+    // Latitude.
+    const UStringT kLatitude = " -co LATITUDE=";
+    if ((aSrc->latitude > 90) || (aSrc->latitude < -90))
+    {
+        return UErrTrue;
+    }
+    *aDst += kLatitude;
+    *aDst += aSrc->latitude;
+
+    // Linear unit.
+    const UStringT kLinear = " -co LINEAR_UNIT=";
+    UStringT linearUnit;
+    ToLinearUnit(&linearUnit, aSrc->linearUnit);
+    *aDst += kLinear;
+    *aDst += linearUnit;
+
+    // End.
+    *aDst += " ";
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

@@ -153,6 +153,8 @@ UErrCodeT CCoreCtl::InitPointer()
     BMD_POINTER_INIT(mGda);
     BMD_POINTER_INIT(mGsl);
     BMD_POINTER_INIT(mCut);
+
+    return UErrFalse;
 }
 
 /***** Private B *****/

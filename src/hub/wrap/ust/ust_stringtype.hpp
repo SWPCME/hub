@@ -45,6 +45,7 @@ class UST_LIB UStringT
     UStringT(const UStringT *aStr);
     UStringT(const char *aStr);
     UStringT(const wchar_t *aStr);
+    UStringT(const UIntT aInt);
     ~UStringT();
 
     // Attribute.
@@ -68,17 +69,18 @@ class UST_LIB UStringT
 
     // Algorithm.
     UErrCodeT Split(UContainerT<UStringT> *aStringS,
-                    const UStringT *aSeparator);
+                    const UStringT *aSeparator,
+                    const UStringT *aMergeTokens = NULL);
 
     // Operator.
     UErrCodeT operator =(const char *aStr);
+    UErrCodeT operator =(const wchar_t* aStr);
+    UErrCodeT operator =(const UStringT &aStr);
+    UErrCodeT operator =(const UIntT &aInt);
     UErrCodeT operator ==(const UStringT &aStr);
     UErrCodeT operator ==(const char *aStr);
     UErrCodeT operator !=(const UStringT &aStr);
     UErrCodeT operator !=(const char *aStr);
-    // UErrCodeT operator =(const wchar_t* aStr);
-    UErrCodeT operator =(const UStringT &aStr);
-    UErrCodeT operator =(const UIntT &aInt);
     UErrCodeT operator <(const UStringT &aStr) const;
     UStringT operator +(const UStringT &aStr);
     UStringT operator +(const char *aStr);
@@ -93,6 +95,9 @@ class UST_LIB UStringT
  protected:
  private:
     UErrCodeT Init();
+
+    UErrCodeT SplitString(UContainerT<UStringT> *aStrCtn, const char *aSrcStr,
+                          const UStringT *aDelimiters);
 
     CUstStringCtl* mStr;
 

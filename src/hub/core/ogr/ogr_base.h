@@ -34,7 +34,7 @@
 
 #define OGR_LIB HUB_LIB
 
-/**
+/** 
  * Ogr vector formats.
  * "F" means format. 
  */
@@ -75,5 +75,18 @@ typedef enum
 #define OgrFeatureHT UHandleT
 #define OgrFieldHT UHandleT
 #define OgrGeometryHT UHandleT
+
+/* Macro */
+#define OGR_CTL(aCtl)                           \
+    BMD_CORE_CTL(coreCtl);                      \
+    COgrCtl *aCtl = coreCtl->Ogr()
+
+/* Macro */
+#define OGR_TYPE_CTL(aCtl)                       \
+    if (aCtl == NULL)                            \
+    {                                            \
+        OGR_CTL(ogrCtl);                         \
+        aCtl = ogrCtl->Type();                   \
+    }
 
 #endif  /* GDAL_BASE_H_INCLUDED */

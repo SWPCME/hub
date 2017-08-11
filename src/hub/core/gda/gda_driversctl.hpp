@@ -42,9 +42,6 @@ class GDA_LIB CGdaDriversCtl
     // Init.
     UErrCodeT Init();
 
-    // Controler.
-    CGdaTypeCtl *Type();
-
     // Register and deregister.
     UErrCodeT Register(const UStringT *aName);
     UErrCodeT Register(const GdaFormatCodeT aFormat);
@@ -70,7 +67,7 @@ class GDA_LIB CGdaDriversCtl
     // Map: driver control with driver name.
     MDriverT mMDriver;
 
-    // Dataset.
+    // Type.
     CGdaTypeCtl* mType;
 };
 

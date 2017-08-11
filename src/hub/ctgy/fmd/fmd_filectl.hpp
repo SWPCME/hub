@@ -27,7 +27,11 @@
 
 #include "fmd_base.hpp"
 
-// Fmd.
+// ust
+#include "ust/ust_stringtype.hpp"
+
+// fmd
+class CFmdFileCfg;
 class CFmdFileLoad;
 class CFmdFileWrite;
 
@@ -38,11 +42,15 @@ class FMD_LIB CFmdFileCtl
     ~CFmdFileCtl();
 
     UErrCodeT Init();
+    CFmdFileCfg *Cfg(const UStringT *aFileName,
+                     const FmdFileCfgCodeT aCfg);
+
     CFmdFileLoad *Load();
     CFmdFileWrite *Write();
 
   protected:
   private:
+    CFmdFileCfg *mCfg;
     CFmdFileLoad *mLoad;
     CFmdFileWrite *mWrite;
 };

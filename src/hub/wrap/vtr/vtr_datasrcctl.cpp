@@ -38,7 +38,7 @@
  *
  * Construct the handle of layers in data source.
  */
-CVtrDatasrcCtl::CVtrDatasrcCtl(COgrDatasrcCtl* aCtl)
+CVtrDatasrcCtl::CVtrDatasrcCtl(COgrDatasrcCtl* aCtl) : m_mVLName(UContainerMap)
 {
     m_ogrDataSrc = aCtl;
     // m_handle = aCtl->Handle();

@@ -30,7 +30,7 @@
 #ifndef VTR_DATASRCCTL_HPP_INCLUDED
 #define VTR_DATASRCCTL_HPP_INCLUDED
 
-#include "vtr_base.h"
+#include "vtr_base.hpp"
 
 // Module
 #include "ogr_datasrcctl.hpp"

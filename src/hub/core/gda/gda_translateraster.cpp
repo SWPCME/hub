@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_translateraster.hpp 2017-07 $
+ * $Id: gda_translateraster.hpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Translate raster implementation.
@@ -55,25 +55,32 @@ CGdaTranslateRaster::~CGdaTranslateRaster()
 
 /**
  * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT CGdaTranslateRaster::Init()
 {
-    GDA_TYPECTL(mType);
+    GDA_TYPE_CTL(mType);
 
     return UErrFalse;
 }
 
 /**
  * \brief To raster.
+ *
+ * @param aFile Destination of file.
+ * @param aSrcDsCtl Source dataset controler.
+ * @param aOpt Gda translate raster options.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CGdaTranslateRaster::ToRst(const UStringT *aDstPath,
+UErrCodeT CGdaTranslateRaster::ToRst(const UStringT *aFile,
                                      CGdaDatasetCtl *aSrcDsCtl,
-                                     const GdaTranslateRstOptT *aOpt)
+                                     const GdaTranslateR2ROptT *aOpt)
 {
     GdaDatasetHT srcDsH = aSrcDsCtl->Handle();
-    Translate(aDstPath, srcDsH, aOpt);
 
-    return UErrFalse;
+    return Translate(aFile, srcDsH, aOpt);
 }
 
 /***** Private A *****/
@@ -83,15 +90,15 @@ UErrCodeT CGdaTranslateRaster::ToRst(const UStringT *aDstPath,
  */
 UErrCodeT CGdaTranslateRaster::Translate(const UStringT *aFile,
                                          GdaDatasetHT aSrcDsH,
-                                         const GdaTranslateRstOptT *aOpt)
+                                         const GdaTranslateR2ROptT *aOpt)
 {
-    char *pszDestFilename = (char *) aFile->ToA();
+    char *dstFile = (char *) aFile->ToA();
     GDALDatasetH dsH = aSrcDsH;
     GDALTranslateOptions *opt = NULL;
-    NewRstOpt((GdaTranslateRstOptHT *) &opt, aOpt);
+    NewR2ROpt((GdaTranslateR2ROptHT *) &opt, aOpt);
     int err;
-    GDALTranslate(pszDestFilename, dsH, opt, &err);
-    DelRstOpt((GdaTranslateRstOptHT) opt);
+    GDALTranslate(dstFile, dsH, opt, &err);
+    DelR2ROpt((GdaTranslateR2ROptHT) opt);
     if (err == TRUE)
     {
         return UErrFalse;
@@ -103,27 +110,17 @@ UErrCodeT CGdaTranslateRaster::Translate(const UStringT *aFile,
 /**
  * \brief New raster options.
  */
-int TestArgv(char **aArgv)
-{
-    while( *aArgv != NULL )
-    {
-        UStringT str(*aArgv);
-        str.ToConsole();
-        ++aArgv;
-    }
-    return 0;
-}
-#include <string.h>
-UErrCodeT CGdaTranslateRaster::NewRstOpt(GdaTranslateRstOptHT *aDst,
-                                         const GdaTranslateRstOptT *aSrc)
+UErrCodeT CGdaTranslateRaster::NewR2ROpt(GdaTranslateR2ROptHT *aDst,
+                                         const GdaTranslateR2ROptT *aSrc)
 {
     GDALTranslateOptionsForBinary *optForBin = NULL;
     UStringT dst;
-    ToRstOpt(&dst, aSrc);
+    ToR2ROpt(&dst, aSrc);
     GdaArgvT argv;
     mType->NewArgv(&argv, &dst);
 
-    *aDst = (GdaTranslateRstOptHT) GDALTranslateOptionsNew((char **) argv, optForBin);
+    *aDst = (GdaTranslateR2ROptHT) GDALTranslateOptionsNew((char **) argv,
+                                                           optForBin);
 
     mType->DelArgv(argv);
 
@@ -133,7 +130,7 @@ UErrCodeT CGdaTranslateRaster::NewRstOpt(GdaTranslateRstOptHT *aDst,
 /**
  * \brief Del raster options.
  */
-UErrCodeT CGdaTranslateRaster::DelRstOpt(const GdaTranslateRstOptHT aOpt)
+UErrCodeT CGdaTranslateRaster::DelR2ROpt(const GdaTranslateR2ROptHT aOpt)
 {
     GDALTranslateOptionsFree((GDALTranslateOptions *) aOpt);
 
@@ -143,25 +140,53 @@ UErrCodeT CGdaTranslateRaster::DelRstOpt(const GdaTranslateRstOptHT aOpt)
 /**
  * \brief To raster options.
  */
-UErrCodeT CGdaTranslateRaster::ToRstOpt(UStringT *aDst,
-                                        const GdaTranslateRstOptT *aSrc)
+UErrCodeT CGdaTranslateRaster::ToR2ROpt(GdaTranslateR2ROptT *aDst,
+                                        const GdaR2RCreateOptT *aSrc)
 {
-    const UStringT format = " -of ";
-    UStringT formatName;
-    mType->ToFormat(&formatName, aSrc->format);
-    *aDst += format;
-    *aDst += formatName;
+    // aDst->format = aSrc->format;
+    // aDst->type = aSrc->type;
 
-    // const UStringT format = " -of ";
-    // *aDst += format;
-    // *aDst += aSrc->outType;
+    return UErrFalse;
+}
+
+/**
+ * \brief To raster options.
+ */
+UErrCodeT CGdaTranslateRaster::ToR2ROpt(UStringT *aDst,
+                                        const GdaTranslateR2ROptT *aSrc)
+{
+    if (aSrc->format != GdaFormatNone)
+    {
+        const UStringT format = " -of ";
+        UStringT formatVal;
+        mType->ToFormat(&formatVal, aSrc->format);
+        *aDst += format;
+        *aDst += formatVal;
+    }
+
+    if (aSrc->type != UDataTNone)
+    {
+        const UStringT type = " -ot ";
+        UStringT typeVal;
+        mType->ToDataType(&typeVal, aSrc->type);
+        *aDst += type;
+        *aDst += typeVal;
+    }
 
     const UStringT band = " -b ";
-    const UIntT bandCount = aSrc->bandCount;
-    for (UIntT i = 0; i < bandCount; ++i)
+    // const UIntT bandCount = aSrc->bandCount;
+    // for (UIntT i = 0; i < bandCount; ++i)
+    // {
+    //     *aDst += band;
+    //     *aDst += aSrc->bandList[i];
+    // }
+
+    // Create options: " -co ".
+    UStringT createOptVal;
+    if (mType->ToGdaCreateOpt(&createOptVal, (GdaCreateOptHT) &aSrc->createOpt,
+                              aSrc->format) == UErrFalse)
     {
-        *aDst += band;
-        *aDst += aSrc->bandList[i];
+        *aDst += createOptVal;
     }
 
     // const UStringT quiet = " -q ";

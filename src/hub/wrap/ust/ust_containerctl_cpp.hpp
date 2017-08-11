@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_containerctl_cpp.hpp 2016-08 $
+ * $Id: ust_containerctl_cpp.hpp 2017-08 $
  *
  * Project:  Universal structure library.
  * Purpose:  Container controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -94,6 +94,32 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Init(UContainerCodeT aCode)
     }
 
     return UErrFalse;
+}
+
+/**
+ * \brief Code.
+ */
+template <typename ContentT, typename KeyT>
+UContainerCodeT CUstContainerCtl<ContentT, KeyT>::Code()
+{
+    return mCode;
+}
+
+/**
+ * \brief Handle.
+ */
+template <typename ContentT, typename KeyT>
+UstContainerHT CUstContainerCtl<ContentT, KeyT>::Handle()
+{
+    switch (mCode)
+    {
+    case UContainerList:
+        return mList->Handle();
+    case UContainerMap:
+        return mMap->Handle();
+    default:
+        return NULL;
+    }
 }
 
 /**
@@ -188,6 +214,23 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Count(UIntT *aNum)
     }
 
     return UErrFalse;
+}
+
+/**
+ * \brief Copy.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CUstContainerCtl<ContentT, KeyT>::Copy(UstContainerHT aHandle)
+{
+    switch (mCode)
+    {
+    case UContainerList:
+        return mList->Copy(aHandle);
+    case UContainerMap:
+        return mMap->Copy(aHandle);
+    default:
+        return UErrFalse;
+    }
 }
 
 /**

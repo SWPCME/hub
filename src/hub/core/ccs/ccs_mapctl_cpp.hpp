@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ccs_mapctl_cpp.hpp 2016-09 $
+ * $Id: ccs_mapctl_cpp.hpp 2017-08 $
  *
  * Project:  C with class standard library.
  * Purpose:  Map control implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-09 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -85,6 +85,25 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Init(const UContainerCodeT aCode)
         
     return UErrFalse;
 }
+
+/**
+ * \brief Code.
+ */
+template <typename ContentT, typename KeyT>
+UContainerCodeT CCcsMapCtl<ContentT, KeyT>::Code()
+{
+    return mCode;
+}
+
+/**
+ * \brief Handle.
+ */
+template <typename ContentT, typename KeyT>
+UstContainerHT CCcsMapCtl<ContentT, KeyT>::Handle()
+{
+    return (UstContainerHT) &mMap;
+}
+
 
 /**
  * \brief Add a pair of content and key.
@@ -190,6 +209,15 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Count(UIntT *aNum)
 {
     *aNum = mMap.size();
 
+    return UErrFalse;
+}
+
+/**
+ * \brief Copy.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::Copy(UstContainerHT aHandle)
+{
     return UErrFalse;
 }
 

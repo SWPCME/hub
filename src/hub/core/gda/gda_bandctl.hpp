@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_bandctl.hpp 2017-07 $
+ * $Id: gda_bandctl.hpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda band control.
@@ -32,6 +32,7 @@
 // gda
 class CGdaTypeCtl;
 class CGdaDatasetCtl;
+class CGdaBandColor;
 
 class GDA_LIB CGdaBandCtl
 {
@@ -44,8 +45,15 @@ class GDA_LIB CGdaBandCtl
     // Init.
     UErrCodeT Init();
 
+    // Attribute.
+    GdaBandHT Handle();
+
     // Framework.
     CGdaDatasetCtl *Up();
+
+    // Color.
+    CGdaBandColor *Color();
+    UErrCodeT SetColor(CGdaBandColor *aColor);
 
     // Size.
     UErrCodeT BlockSize(UIntT *aX, UIntT *aY);
@@ -71,9 +79,10 @@ class GDA_LIB CGdaBandCtl
     UErrCodeT CreateBand(UDataTCodeT aDataT, const UStringT *aOption);
     UErrCodeT LoadBand(UIntT aId);
 
-    GdaRasterBandHT mBandH;
+    GdaBandHT mBandH;
     CGdaDatasetCtl *mDs;
     CGdaTypeCtl *mType;
+    CGdaBandColor *mColor;
 };
 
 #endif  // GDA_BANDCTL_HPP_INCLUDED

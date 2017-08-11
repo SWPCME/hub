@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: vtr_ctl.hpp 2016-08 $
+ * $Id: vtr_ctl.hpp 2017 $
  *
  * Project:  Vector Info Process
  * Purpose:  Vector control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -30,13 +30,15 @@
 #ifndef VTR_CTL_HPP_INCLUDED
 #define VTR_CTL_HPP_INCLUDED
 
-#include "vtr_base.h"
+#include "vtr_base.hpp"
 
 // Module
 #include "ust_stringtype.hpp"
 #include "ust_containertype.hpp"
 
 class COgrCtl;
+class CVtrFormatCtl;
+// class CVtrUtilsCtl;
 class CVtrDatasrcCtl;
 
 typedef UContainerT<CVtrDatasrcCtl*, UStringT> MVtrDataSrcT;
@@ -47,8 +49,12 @@ class VTR_LIB CVtrCtl
     CVtrCtl();
     ~CVtrCtl();
 
-    /* Initialization */
+    // Initialization.
     UErrCodeT Init();
+
+    // Type controler.
+    CVtrFormatCtl *Format();
+
     // Cleanup driver.
     UErrCodeT CleanupAll();
 
@@ -65,6 +71,7 @@ class VTR_LIB CVtrCtl
  protected:
  private:
     /* Handle */
+    CVtrFormatCtl *mFormat;
     COgrCtl* m_ogr;
     MVtrDataSrcT* m_mDataSrc;
     int m_id;

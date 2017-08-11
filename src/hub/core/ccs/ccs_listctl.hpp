@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ccs_listctl.hpp 2016-08 $
+ * $Id: ccs_listctl.hpp 2017-07 $
  *
  * Project:  C with class standard library.
  * Purpose:  List control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -44,11 +44,17 @@ class CCS_LIB CCcsListCtl
     ~CCcsListCtl();
 
     UErrCodeT Init(UContainerCodeT aCode);
+
+    // Attribute
+    UContainerCodeT Code();
+    UstContainerHT Handle();
+
     UErrCodeT Add(const ContentT* aContent);
     UErrCodeT Find(const ContentT* aContent);
     UErrCodeT FindByKey(const UIntT* aKey);
     ContentT* Content(const UIntT* aKey);
     UErrCodeT Count(UIntT *aNum);
+    UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT Clear();
 
     // Traversal.

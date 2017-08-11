@@ -75,5 +75,6 @@ typedef enum
 
 typedef UHandleT ContentHT;
 typedef UHandleT KeyHT;
+typedef UHandleT UstContainerHT;
 
 #endif  /* UST_CONTAINERBASE_H_INCLUDED */

@@ -36,12 +36,11 @@
 // ogr
 #include "ogr_featurectl.hpp"
 
-COgrFeaturesCtl::COgrFeaturesCtl(OgrLayerHT aLayerH)
+COgrFeaturesCtl::COgrFeaturesCtl(OgrLayerHT aLayerH) : mMFeature(UContainerMap)
 {
     BMD_POINTER_INIT(mFeaturesH);
     SetHandle(aLayerH);
     BMD_POINTER_INIT(mIt);
-    mMFeature.Init(UContainerMap);
 }
 
 COgrFeaturesCtl::~COgrFeaturesCtl()

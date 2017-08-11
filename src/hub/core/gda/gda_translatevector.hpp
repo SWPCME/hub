@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_translatevector.hpp 2017-07 $
+ * $Id: gda_translatevector.hpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Translate vector definition.
@@ -28,13 +28,17 @@
 #include "gda_base.h"
 
 // ogr
-#include "ogr_base.h"
+#include "ogr/ogr_base.h"
 // ust
 #include "ust/ust_stringtype.hpp"
 
 // gda
+class CGdaTypeCtl;
+class CGdaDatasetCtl;
 class CGdaBandCtl;
 // ogr
+class COgrTypeCtl;
+class COgrDatasrcCtl;
 class COgrLayerCtl;
 
 class GDA_LIB CGdaTranslateVector
@@ -46,16 +50,43 @@ class GDA_LIB CGdaTranslateVector
     UErrCodeT Init();
 
     // To vector.
-    UErrCodeT ToVtr();
+    UErrCodeT ToVtr(const UStringT *aDstFile, COgrDatasrcCtl *aSrcDs,
+                    const GdaTranslateV2VOptT *aOpt);
 
     // To raster.
-    UErrCodeT ToRst(CGdaBandCtl *aBand, COgrLayerCtl *aLayer,
-                    const UStringT *aFieldName);
+    UErrCodeT ToRst(CGdaDatasetCtl *aDstDs, COgrDatasrcCtl *aSrcDs,
+                    const GdaV2RLoadOptT *aOpt);
+    UErrCodeT ToRst(const UStringT *aDstFile, COgrDatasrcCtl *aSrcDs,
+                    const GdaV2RCreateOptT *aOpt);
+    UErrCodeT ToRst(CGdaBandCtl *aDstBand, COgrLayerCtl *aSrcLayer,
+                    const UStringT *aSrcFieldName);
 
   protected:
   private:
-    UErrCodeT Rasterize(const UStringT *aDstDir, GdaDatasetHT aDstDsH,
-                        GdaDatasetHT aSrcDsH, const GdaRasterizeOptHT aOpt);
+    // Translate vector to vector.
+    UErrCodeT TranslateV2V(const UStringT *aDstFile, GdaDatasetHT aDstDs,
+                           GdaDatasetHT aSrcDs,
+                           const GdaTranslateV2VOptT *aOpt);
+    UErrCodeT NewV2VOpt(GdaTranslateV2VOptHT *aDst,
+                        const GdaTranslateV2VOptT *aSrc);
+    UErrCodeT DelV2VOpt(const GdaTranslateV2VOptHT aOpt);
+    UErrCodeT ToV2VOpt(UStringT *aDst, const GdaTranslateV2VOptT *aSrc);
+
+    // Translate vector to raster.
+    UErrCodeT TranslateV2R(const UStringT *aDstFile, GdaDatasetHT aDstDsH,
+                           GdaDatasetHT aSrcDsH,
+                           const GdaTranslateV2ROptT *aOpt);
+    UErrCodeT NewV2ROpt(GdaTranslateV2ROptHT *aDst,
+                        const GdaTranslateV2ROptT *aSrc);
+    UErrCodeT DelV2ROpt(const GdaTranslateV2ROptHT aOpt);
+    UErrCodeT ToV2ROpt(UStringT *aDst, const GdaTranslateV2ROptT *aSrc);
+    UErrCodeT ToV2ROpt(GdaTranslateV2ROptT *aDst,
+                       const GdaV2RCreateOptT *aSrc);
+    UErrCodeT ToV2ROpt(GdaTranslateV2ROptT *aDst,
+                       const GdaV2RLoadOptT *aSrc);
+
+    CGdaTypeCtl *mGdaType;
+    COgrTypeCtl *mOgrType;
 };
 
 #endif  // GDA_TRANSLATEVECTOR_HPP_INCLUDED

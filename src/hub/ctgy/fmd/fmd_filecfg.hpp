@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: fmd_filecfg.hpp 2017-06 $
+ * $Id: fmd_filecfg.hpp 2017-08 $
  *
  * Project:  FMD (FMD: Fire Model).
  * Purpose:  File config definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -27,16 +27,36 @@
 
 #include "fmd_base.hpp"
 
+// ust
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_filetype.hpp"
+
+// fmd
+class CFmdCfgRead;
+class CFmdCfgWrite;
+// ust
+class UFileT;
+
 class FMD_LIB CFmdFileCfg
 {
   public:
-    CFmdFileCfg();
+    CFmdFileCfg(const UStringT *aFileName, const FmdFileCfgCodeT aCfg);
     ~CFmdFileCfg();
 
     UErrCodeT Init();
+    CFmdCfgRead *Read();
+    CFmdCfgWrite *Write();
 
   protected:
   private:
+    UErrCodeT InitPointer();
+    UErrCodeT InitCfg(const UStringT *aFileName, const FmdFileCfgCodeT aCfg);
+    UErrCodeT Create(const UStringT *aFileName);
+    UErrCodeT Load(const UStringT *aFileName);
+
+    UFileT mFile;
+    CFmdCfgRead *mRead;
+    CFmdCfgWrite *mWrite;
 };
 
 #endif  // FMD_FILECFG_HPP_INCLUDED

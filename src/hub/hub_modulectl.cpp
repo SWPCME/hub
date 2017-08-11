@@ -69,12 +69,11 @@
 /**
  * \brief Constructor.
  */
-CHubModuleCtl::CHubModuleCtl()
+CHubModuleCtl::CHubModuleCtl() : mMCodeH(UContainerMap)
 {
     CBaseCtl* base = CBaseCtl::Base();
     base->Init();
 
-    mMCodeH.Init(UContainerMap);
     mState = UStateOff;
 }
 

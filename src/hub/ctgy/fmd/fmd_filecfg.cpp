@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: fmd_filecfg.hpp 2017-06 $
+ * $Id: fmd_filecfg.hpp 2017-08 $
  *
  * Project:  FMD (FMD: Fire Model).
  * Purpose:  File config implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -24,15 +24,108 @@
 
 #include "fmd_filecfg.hpp"
 
-CFmdFileCfg::CFmdFileCfg()
+// fmd
+#include "fmd_cfgread.hpp"
+#include "fmd_cfgwrite.hpp"
+
+/**
+ * \brief Constructor.
+ */
+CFmdFileCfg::CFmdFileCfg(const UStringT *aFileName, const FmdFileCfgCodeT aCfg)
 {
+    InitPointer();
+    InitCfg(aFileName, aCfg);
 }
 
+/**
+ * \brief Destructor.
+ */
 CFmdFileCfg::~CFmdFileCfg()
 {
+    BMD_CLASS_DEL(mRead);
+    BMD_CLASS_DEL(mWrite);
 }
 
+/**
+ * \brief Initialize.
+ */
 UErrCodeT CFmdFileCfg::Init()
 {
     return UErrFalse;
 }
+
+/**
+ * \brief Read.
+ */
+CFmdCfgRead *CFmdFileCfg::Read()
+{
+    BMD_CLASS_NEW_A_1(mRead, CFmdCfgRead, &mFile);
+
+    return mRead;
+}
+
+/**
+ * \brief Write.
+ */
+CFmdCfgWrite *CFmdFileCfg::Write()
+{
+    BMD_CLASS_NEW_A_1(mWrite, CFmdCfgWrite, &mFile);
+
+    return mWrite;
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT CFmdFileCfg::InitPointer()
+{
+    BMD_POINTER_INIT(mRead);
+    BMD_POINTER_INIT(mWrite);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Init config.
+ */
+UErrCodeT CFmdFileCfg::InitCfg(const UStringT *aFileName,
+                               const FmdFileCfgCodeT aCfg)
+{
+    switch(aCfg)
+    {
+    case FmdFileCfgCreate:
+        Create(aFileName);
+        break;
+    case FmdFileCfgLoad:
+        Load(aFileName);
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Create.
+ */
+UErrCodeT CFmdFileCfg::Create(const UStringT *aFileName)
+{
+    mFile.InitFile(aFileName, UstFileOperWba);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Load.
+ */
+UErrCodeT CFmdFileCfg::Load(const UStringT *aFileName)
+{
+    mFile.InitFile(aFileName, UstFileOperWba);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

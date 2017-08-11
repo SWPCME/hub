@@ -35,7 +35,7 @@
 /**
  * \brief Constructor.
  */
-CSysNetCtl::CSysNetCtl()
+CSysNetCtl::CSysNetCtl() : m_socketsCtn(UContainerList)
 {
 }
 

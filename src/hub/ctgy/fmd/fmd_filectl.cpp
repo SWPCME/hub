@@ -28,18 +28,18 @@
 #include "Farsite5.h"
 
 // Fmd.
+#include "fmd_filecfg.hpp"
 #include "fmd_fileload.hpp"
 #include "fmd_filewrite.hpp"
-// #include "fmd_filecfg.hpp"
 
 /**
  * \brief Constructor.
  */
 CFmdFileCtl::CFmdFileCtl()
 {
+    BMD_POINTER_INIT(mCfg);
     BMD_POINTER_INIT(mLoad);
     BMD_POINTER_INIT(mWrite);
-    // BMD_POINTER_INIT(mCfg);
 }
 
 /**
@@ -47,9 +47,9 @@ CFmdFileCtl::CFmdFileCtl()
  */
 CFmdFileCtl::~CFmdFileCtl()
 {
+    BMD_CLASS_DEL(mCfg);
     BMD_CLASS_DEL(mLoad);
     BMD_CLASS_DEL(mWrite);
-    // BMD_CLASS_DEL(mCfg);
 }
 
 /**
@@ -58,6 +58,17 @@ CFmdFileCtl::~CFmdFileCtl()
 UErrCodeT CFmdFileCtl::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Config file.
+ */
+CFmdFileCfg *CFmdFileCtl::Cfg(const UStringT *aFileName,
+                              const FmdFileCfgCodeT aCfg)
+{
+    BMD_CLASS_NEW_A_2(mCfg, CFmdFileCfg, aFileName, aCfg);
+
+    return mCfg;
 }
 
 /**

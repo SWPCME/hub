@@ -35,9 +35,8 @@
 /**
  * \brief Constructor.
  */
-CSysProcessCtl::CSysProcessCtl()
+CSysProcessCtl::CSysProcessCtl() : m_threadsCtn(UContainerMList)
 {
-    m_threadsCtn.Init(UContainerMList);
 }
 
 /**

@@ -30,7 +30,7 @@
 /**
  * \brief Constructor.
  */
-CCutSlistsCtl::CCutSlistsCtl()
+CCutSlistsCtl::CCutSlistsCtl() : mMSlistH(UContainerMap)
 {
 }
 

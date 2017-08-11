@@ -29,10 +29,15 @@
 
 #include "vtr_ctl.hpp"
 
-// Module
+// base
 #include "base_ctl.hpp"
+#include "base_macrodefn.hpp"
+// core
 #include "core_ctl.hpp"
+// ogr
 #include "ogr_ctl.hpp"
+// vtr
+#include "vtr_formatctl.hpp"
 #include "vtr_datasrcctl.hpp"
 
 /**
@@ -40,7 +45,8 @@
  */
 CVtrCtl::CVtrCtl()
 {
-    m_mDataSrc = new MVtrDataSrcT;
+    m_mDataSrc = new MVtrDataSrcT(UContainerMap);
+    BMD_POINTER_INIT(mFormat);
 }
 
 /**
@@ -49,6 +55,7 @@ CVtrCtl::CVtrCtl()
 CVtrCtl::~CVtrCtl()
 {
     delete m_mDataSrc;
+    BMD_CLASS_DEL(mFormat);
 }
 
 /**
@@ -61,10 +68,27 @@ UErrCodeT CVtrCtl::Init()
     CBaseCtl *baseCtl = CBaseCtl::Base();
     CCoreCtl* coreCtl = baseCtl->Core();
     m_ogr = coreCtl->Ogr();
-    m_mDataSrc->Init(UContainerMap);
 
     return UErrFalse;
 }
+
+/**
+ * \brief Format controler.
+ */
+CVtrFormatCtl *CVtrCtl::Format()
+{
+    BMD_CLASS_NEW(mFormat, CVtrFormatCtl);
+
+    return mFormat;
+}
+
+/**
+ * \brief Utils.
+ */
+// CVtrUtilsCtl *CVtrCtl::Utils()
+// {
+//     return mUtils;
+// }
 
 /**
  * \brief Cleanup All.

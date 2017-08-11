@@ -29,19 +29,23 @@
 #include "easy.h"
 // Base.
 #include "base_ctl.hpp"
+#include "base_macrodefn.hpp"
+#include "base_stringdefn.hpp"
 // Core.
 #include "core_ctl.hpp"
 // Cls.
 #include "cls_ctl.hpp"
 #include "cls_argctl.hpp"
 #include "cls_ioctl.hpp"
+#include "cls_iostreamctl.hpp"
+#include "cls_streamfile.hpp"
 // Cut.
 #include "cut_ctl.hpp"
 #include "cut_typectl.hpp"
 
 // Callback Function.
 static cut_write_callback kWriteFunc;
-static CClsIoStreamCtl *kIoStr;
+static CClsStreamFile *kFile;
 
 /***** C Definition A *****/
 
@@ -55,11 +59,7 @@ static size_t cut_write_func(char *aBuffer, size_t aSize, size_t aNumItems,
  */
 CCutEasyCtl::CCutEasyCtl(UStringT *aName)
 {
-    mType = NULL;
-    mIoStr = NULL;
-    mHandle = NULL;
-    mName = kStrNull;
-    mUrl = kStrNull;
+    InitValue();
 
     SetName(aName);
 }
@@ -70,6 +70,7 @@ CCutEasyCtl::CCutEasyCtl(UStringT *aName)
 CCutEasyCtl::~CCutEasyCtl()
 {
     Cleanup();
+    InitValue();
 }
 
 /**
@@ -85,8 +86,9 @@ UErrCodeT CCutEasyCtl::Init()
 
     CClsCtl *clsCtl = coreCtl->Cls();
     CClsIoCtl *ioCtl = clsCtl->Io();
-    mIoStr = ioCtl->Stream();
-    kIoStr = mIoStr;
+    CClsIoStreamCtl *stream = ioCtl->Stream();
+    mFile = stream->File();
+    kFile = mFile;
 
     Handle(&mHandle);
 
@@ -172,6 +174,20 @@ UErrCodeT CCutEasyCtl::Perform()
 /***** Private A *****/
 
 /**
+ * \brief Init pointer.
+ */
+UErrCodeT CCutEasyCtl::InitValue()
+{
+    mType = NULL;
+    mFile = NULL;
+    mHandle = NULL;
+    mName = kStrNull;
+    mUrl = kStrNull;
+
+    return UErrFalse;
+}
+
+/**
  * \brief Handle.
  */
 UErrCodeT CCutEasyCtl::Handle(CutEasyHT *aHandle)
@@ -239,7 +255,7 @@ static size_t cut_write_func(char *aBuffer, size_t aSize, size_t aNumItems,
     }
     else
     {
-        err = kIoStr->Write((UDataT) aBuffer, (UIntT) aSize,
+        err = kFile->Write((UDataT) aBuffer, (UIntT) aSize,
                             (UIntT) aNumItems, (UHandleT) aOutStream);
     }
 

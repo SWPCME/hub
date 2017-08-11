@@ -56,10 +56,13 @@ typedef UHandleT ClsFileHT;
 typedef enum
 {
     ClsFileOperR   = 1,          /* Read. */
-    ClsFileOperRb  = 2,          /* Read bit. */
+    ClsFileOperRt  = 2,          /* Read/Test. */
+    ClsFileOperRb  = 3,          /* Read/Bit. */
     ClsFileOperW   = 21,         /* Write. */
-    ClsFileOperWb  = 22,         /* Write bit. */
-    ClsFileOperWba = 23,         /* Write bit add. */
+    ClsFileOperWt  = 22,         /* Write/Test. */
+    ClsFileOperWta = 23,        /* Write/Text/Add. */
+    ClsFileOperWb  = 25,         /* Write/Bit. */
+    ClsFileOperWba = 26,         /* Write/Bit/Add. */
 } ClsFileOperCodeT;
 
 /* Time. */

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ccs_listctl_cpp.hpp 2016-08 $
+ * $Id: ccs_listctl_cpp.hpp 2017-07 $
  *
  * Project:  C with class standard library.
  * Purpose:  List control implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -72,6 +72,24 @@ UErrCodeT CCcsListCtl<ContentT>::Init(UContainerCodeT aCode)
 }
 
 /**
+ * \brief Code.
+ */
+template <typename ContentT>
+UContainerCodeT CCcsListCtl<ContentT>::Code()
+{
+    return mCode;
+}
+
+/**
+ * \brief Handle.
+ */
+template <typename ContentT>
+UstContainerHT CCcsListCtl<ContentT>::Handle()
+{
+    return (UstContainerHT) &mList;
+}
+
+/**
  * \brief Add content by default key.
  */
 template <typename ContentT>
@@ -109,7 +127,7 @@ ContentT* CCcsListCtl<ContentT>::Content(const UIntT *aKey)
     {
         if (i == *aKey)
         {
-            
+            return &(*mIt);
         }
     }
 
@@ -140,6 +158,23 @@ template <typename ContentT>
 UErrCodeT CCcsListCtl<ContentT>::Count(UIntT *aNum)
 {
     *aNum = mList.size();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Copy.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::Copy(UstContainerHT aHandle)
+{
+    std::list<ContentT> *list = (std::list<ContentT> *) aHandle;
+    Clear();
+    for (ListIteratorT it = list->begin(); it != list->end();
+         ++it)
+    {
+        Add(&(*it));
+    }
 
     return UErrFalse;
 }
@@ -364,7 +399,7 @@ UErrCodeT CCcsListCtl<ContentT>::Free()
 {
     for (Head(); State() == UErrFalse;)
     {
-        ContentT* content = Content();
+        // ContentT* content = Content();
         // delete *content;
     }
 

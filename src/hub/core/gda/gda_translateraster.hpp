@@ -41,17 +41,19 @@ class GDA_LIB CGdaTranslateRaster
     ~CGdaTranslateRaster();
 
     UErrCodeT Init();
-    UErrCodeT ToRst(const UStringT *aDstPath, CGdaDatasetCtl *aSrcDsCtl,
-                    const GdaTranslateRstOptT *aOpt);
+    UErrCodeT ToRst(const UStringT *aFile, CGdaDatasetCtl *aSrcDsCtl,
+                    const GdaTranslateR2ROptT *aOpt);
 
  protected:
   private:
     UErrCodeT Translate(const UStringT *aFile, GdaDatasetHT aDsH,
-                        const GdaTranslateRstOptT *aOpt);
-    UErrCodeT NewRstOpt(GdaTranslateRstOptHT *aOpt,
-                        const GdaTranslateRstOptT *aSrc);
-    UErrCodeT DelRstOpt(const GdaTranslateRstOptHT aOpt);
-    UErrCodeT ToRstOpt(UStringT *aDst, const GdaTranslateRstOptT *aSrc);
+                        const GdaTranslateR2ROptT *aOpt);
+    UErrCodeT NewR2ROpt(GdaTranslateR2ROptHT *aOpt,
+                        const GdaTranslateR2ROptT *aSrc);
+    UErrCodeT DelR2ROpt(const GdaTranslateR2ROptHT aOpt);
+    UErrCodeT ToR2ROpt(GdaTranslateR2ROptT *aDst,
+                       const GdaR2RCreateOptT *aSrc);
+    UErrCodeT ToR2ROpt(UStringT *aDst, const GdaTranslateR2ROptT *aSrc);
 
     CGdaTypeCtl *mType;
 };

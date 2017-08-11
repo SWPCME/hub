@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: vector_base.h 2016-08 $
+ * $Id: vector_base.hpp 2017-08 $
  *
  * Project:  Vector Info Process
  * Purpose:  Vector Base Info.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -33,5 +33,29 @@
 #include "hub_base.h"
 
 #define VTR_LIB HUB_LIB
+
+// typedef GdaRasterSizeT VtrRasterSizeT;
+
+/** 
+ * \brief Vector field controler container.
+ */
+// typedef UContainerT<CVtrFieldCtl>(UContainerList) VtrFieldCtlCtn;
+
+/** 
+ * \brief To translate vector to raster with format of landscape.
+ */
+// class VtrFormatToRstLcpT
+// {
+// public:
+//     VtrRasterSizeT size;        // Size of raster.
+//     VtrFieldCtlCtn fieldCtn;    // Field of controlear.
+
+//     VtrFormatToRstLcpT() : fieldCtn(UContainerList)
+//     {
+//         size = {0, 0};
+//     }
+
+//     ~VtrFormatToRstLcpT();
+// };
 
 #endif  /* VECTOR_BASE_H_INCLUDED */

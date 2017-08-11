@@ -38,9 +38,8 @@
 /**
  * \brief Constructor.
  */
-CSysSocketsCtl::CSysSocketsCtl()
+CSysSocketsCtl::CSysSocketsCtl() : m_socketCtn(UContainerList)
 {
-    m_socketCtn.Init(UContainerList);
 }
 
 /**

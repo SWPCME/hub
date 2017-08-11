@@ -37,7 +37,8 @@ class OGR_LIB COgrTypeCtl
     ~COgrTypeCtl();
 
     UErrCodeT Init();
-    UErrCodeT ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc);
+    UErrCodeT ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc,
+                       UFlagCodeT aFlag = UFlagOff);
 
   protected:
   private:

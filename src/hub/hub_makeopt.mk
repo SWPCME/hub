@@ -1,12 +1,12 @@
 ################################################################################
-# $Id: hub_makeopt.mk 2017-06 $
+# $Id: hub_makeopt.mk 2017-08 $
 #
 # Project:  Hub.
 # Purpose:  Make options.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2016-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -200,11 +200,11 @@ TARGET_DIR_INSTALL = $(foreach dir, $(SUBDIRS), $(dir)_target_install)
 #
 default:
 
-%.$(OBJ_EXT): %.c
-	$(CC) $(INCLUDE_DIR) $(C_FLAG) -c $< -o $(OBJ_DIR)/$@
+$(OBJ_DIR)/%.$(OBJ_EXT): %.c
+	$(CC) $(INCLUDE_DIR) $(C_FLAG) -c $< -o $@
 
-%.$(OBJ_EXT): %.cpp
-	$(CXX) $(INCLUDE_DIR) $(CXX_FLAG) -c $< -o $(OBJ_DIR)/$@
+$(OBJ_DIR)/%.$(OBJ_EXT): %.cpp
+	$(CXX) $(INCLUDE_DIR) $(CXX_FLAG) -c $< -o $@
 
 # Default rules for handling subdirectories.
 target_dir_default: $(TARGET_DIR_DEFAULT)
@@ -226,7 +226,7 @@ target_dir_install: $(TARGET_DIR_INSTALL)
 # Create
 #
 # Create object out
-create_obj: $(OBJ_NAME)
+create_obj: $(OBJ_FILE)
 
 # Create directory
 create_tmp:

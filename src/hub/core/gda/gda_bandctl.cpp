@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_bandctl.cpp 2017-07 $
+ * $Id: gda_bandctl.cpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda band control.
@@ -32,6 +32,8 @@
 #include "gda_ctl.hpp"
 #include "gda_datasetctl.hpp"
 #include "gda_typectl.hpp"
+#include "gda_bandcolor.hpp"
+
 // Module.
 #include "gdal.h"
 
@@ -77,9 +79,19 @@ UErrCodeT CGdaBandCtl::Init()
         return UErrTrue;
     }
 
-    GDA_TYPECTL(mType);
+    GDA_TYPE_CTL(mType);
 
     return UErrFalse;
+}
+
+/**
+ * \brief Handle.
+ *
+ * @return Handle of band.
+ */
+GdaBandHT CGdaBandCtl::Handle()
+{
+    return mBandH;
 }
 
 /**
@@ -88,6 +100,31 @@ UErrCodeT CGdaBandCtl::Init()
 CGdaDatasetCtl *CGdaBandCtl::Up()
 {
     return mDs;
+}
+
+/**
+ * \brief Color table.
+ */
+CGdaBandColor *CGdaBandCtl::Color()
+{
+    BMD_CLASS_NEW_A_1(mColor, CGdaBandColor, mBandH);
+
+    return mColor;
+}
+
+/**
+ * \brief Set color table.
+ */
+UErrCodeT CGdaBandCtl::SetColor(CGdaBandColor *aColor)
+{
+    CPLErr err = GDALSetRasterColorTable(mBandH, aColor->Handle());
+
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /**
@@ -106,7 +143,7 @@ UErrCodeT CGdaBandCtl::BlockSize(UIntT *aX, UIntT *aY)
 UErrCodeT CGdaBandCtl::Min(UFloatT *aVal)
 {
     UIntT flag;
-    *aVal = GDALGetRasterMinimum((GdaRasterBandHT) mBandH, (int *) &flag);
+    *aVal = GDALGetRasterMinimum((GdaBandHT) mBandH, (int *) &flag);
     if (flag == FALSE)
     {
         return UErrTrue;
@@ -121,7 +158,7 @@ UErrCodeT CGdaBandCtl::Min(UFloatT *aVal)
 UErrCodeT CGdaBandCtl::Max(UFloatT *aVal)
 {
     UIntT flag;
-    *aVal = GDALGetRasterMaximum((GdaRasterBandHT) mBandH, (int *)  &flag);
+    *aVal = GDALGetRasterMaximum((GdaBandHT) mBandH, (int *)  &flag);
     if (flag == FALSE)
     {
         return UErrTrue;
@@ -163,11 +200,15 @@ UErrCodeT CGdaBandCtl::Read(UIntT aXOff, UIntT aYOff, UIntT aXSize,
     GDALDataType dataType;
     mType->ToDataType(&dataType, aDataT);
     GDALRWFlag rwFlag = GF_Read;
-    GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff, aXSize,
-                 aYSize, aData, aBufXSize, aBufYSize, dataType, aPixelSpace,
-                 aLineSpace);
+    CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff,
+                              aXSize, aYSize, aData, aBufXSize, aBufYSize,
+                              dataType, aPixelSpace, aLineSpace);
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
 
-    return UErrFalse;
+    return UErrTrue;
 }
 
 /**
@@ -175,9 +216,13 @@ UErrCodeT CGdaBandCtl::Read(UIntT aXOff, UIntT aYOff, UIntT aXSize,
  */
 UErrCodeT CGdaBandCtl::ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff)
 {
-    GDALReadBlock((GDALRasterBandH) mBandH, aXOff, aYOff, aData);
+    CPLErr err = GDALReadBlock((GDALRasterBandH) mBandH, aXOff, aYOff, aData);
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
 
-    return UErrFalse;
+    return UErrTrue;
 }
 
 /**
@@ -191,11 +236,16 @@ UErrCodeT CGdaBandCtl::Write(UIntT aXOff, UIntT aYOff, UIntT aXSize,
     GDALDataType dataType;
     mType->ToDataType(&dataType, aDataT);
     GDALRWFlag rwFlag = GF_Write;
-    GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff, aXSize,
-                 aYSize, aData, aBufXSize, aBufYSize, dataType, aPixelSpace,
-                 aLineSpace);
+    CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff,
+                              aXSize, aYSize, aData, aBufXSize, aBufYSize,
+                              dataType, aPixelSpace, aLineSpace);
 
-    return UErrFalse;
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /***** Private A *****/
@@ -207,6 +257,7 @@ UErrCodeT CGdaBandCtl::InitPointer()
 {
     BMD_POINTER_INIT(mBandH);
     BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mColor);
 
     return UErrFalse;
 }
@@ -233,7 +284,7 @@ UErrCodeT CGdaBandCtl::CreateBand(UDataTCodeT aDataT,
 UErrCodeT CGdaBandCtl::LoadBand(UIntT aId)
 {
     GDALDatasetH datasetH = mDs->Handle();
-    mBandH = (GdaRasterBandHT) GDALGetRasterBand(datasetH, aId);
+    mBandH = (GdaBandHT) GDALGetRasterBand(datasetH, aId);
 
     return UErrFalse;
 }

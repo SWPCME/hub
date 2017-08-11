@@ -78,19 +78,19 @@ UErrCodeT CUiCtl::Test()
     CBsnCls *cls = mBsn->Cls();
     cls->Test();
 
-    CBsnGda *gda = mBsn->Gda();
-    gda->Test();
+    // CBsnGda *gda = mBsn->Gda();
+    // gda->Test();
 
-    CBsnOgr *ogr = mBsn->Ogr();
+    // CBsnOgr *ogr = mBsn->Ogr();
     // ogr->Test();
 
-    CBsnRtk *rtk = mBsn->Rtk();
+    // CBsnRtk *rtk = mBsn->Rtk();
     // rtk->Test();
 
     CBsnGsl *gsl = mBsn->Gsl();
     gsl->Test();
 
-    CBsnCut *cut = mBsn->Cut();
+    // CBsnCut *cut = mBsn->Cut();
     // cut->Test();
 
     CBsnUst *ust = mBsn->Ust();

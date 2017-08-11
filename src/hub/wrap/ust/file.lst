@@ -28,6 +28,7 @@ OBJ = \
       ust_ctl.o \
       ust_stringctl.o \
       ust_stringtype.o \
+      ust_filectl.o \
       ust_filetype.o \
       ust_filesctl.o \
       ust_filestype.o

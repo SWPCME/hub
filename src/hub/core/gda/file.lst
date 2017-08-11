@@ -35,6 +35,7 @@ OBJ = \
       gda_driverctl.o \
       gda_datasetctl.o \
       gda_bandctl.o \
+      gda_bandcolor.o \
       gda_ogrctl.o \
       gda_algctl.o \
       gda_algbase.o \
@@ -56,6 +57,7 @@ HEADER = \
          gda_driverctl.hpp \
          gda_datasetctl.hpp \
          gda_bandctl.hpp \
+         gda_bandcolor.hpp \
          gda_ogrctl.hpp \
          gda_algctl.hpp \
          gda_algbase.hpp \

@@ -36,15 +36,6 @@
  * \brief Constructor.
  */
 template <typename ContentT, typename KeyT>
-UContainerT<ContentT, KeyT>::UContainerT()
-{
-    mCtn = new CUstContainerCtl<ContentT, KeyT>;
-}
-
-/**
- * \brief Constructor.
- */
-template <typename ContentT, typename KeyT>
 UContainerT<ContentT, KeyT>::UContainerT(const UContainerCodeT aCode)
 {
     mCtn = new CUstContainerCtl<ContentT, KeyT>;
@@ -62,22 +53,33 @@ UContainerT<ContentT, KeyT>::~UContainerT()
 }
 
 /**
- * \brief Initialize.
- *
- * To initialize this module, if you to use the "UContainerT()";
- * Not must be to use it, if you use the "UContainerT(UContainerCodeT aCode)";
- * Others, you need to use new mode for this module.
- *
- * @param Code of container that set in this module.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
+ * \brief Container code.
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::Init(const UContainerCodeT aCode)
+UContainerCodeT UContainerT<ContentT, KeyT>::Code()
 {
-    mCtn->Init(aCode);
+    return mCtn->Code();
+}
 
-    return UErrFalse; 
+/**
+ * \brief Handle.
+ */
+template <typename ContentT, typename KeyT>
+UstContainerHT UContainerT<ContentT, KeyT>::Handle()
+{
+    return mCtn->Handle();
+}
+
+/**
+ * \brief Count.
+ */
+template <typename ContentT, typename KeyT>
+UIntT UContainerT<ContentT, KeyT>::Count()
+{
+    UIntT num = -1;
+    mCtn->Count(&num);
+
+    return num;
 }
 
 /**
@@ -86,9 +88,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Init(const UContainerCodeT aCode)
 template <typename ContentT, typename KeyT>
 UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT &aContent)
 {
-    mCtn->Add(&aContent);
-
-    return UErrFalse;
+    return mCtn->Add(&aContent);
 }
 
 /**
@@ -97,9 +97,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT &aContent)
 template <typename ContentT, typename KeyT>
 UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT *aContent, const KeyT *aKey)
 {
-    mCtn->Add(aContent, aKey);
-
-    return UErrFalse;
+    return mCtn->Add(aContent, aKey);
 }
 
 /**
@@ -108,9 +106,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT *aContent, const KeyT 
 template <typename ContentT, typename KeyT>
 UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT &aContent, const KeyT &aKey)
 {
-    mCtn->Add(&aContent, &aKey);
-
-    return UErrFalse;
+    return mCtn->Add(&aContent, &aKey);
 }
 
 /**
@@ -179,17 +175,6 @@ ContentT UContainerT<ContentT, KeyT>::Content(const KeyT &aKey)
 }
  
 /**
- * \brief Operator [].
- */
-template <typename ContentT, typename KeyT>
-ContentT UContainerT<ContentT, KeyT>::operator [](const KeyT &aKey)
-{
-    ContentT* content = mCtn->Content(&aKey);
-
-    return *content;
-}
- 
-/**
  * \brief Clear.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
@@ -201,12 +186,47 @@ UErrCodeT UContainerT<ContentT, KeyT>::Clear()
 }
 
 /**
- * \brief Count.
+ * \brief Operator [].
  */
 template <typename ContentT, typename KeyT>
-UErrCodeT UContainerT<ContentT, KeyT>::Count(UIntT *aNum)
+ContentT UContainerT<ContentT, KeyT>::operator [](const KeyT &aKey)
 {
-    return mCtn->Count(aNum);
+    ContentT* content = mCtn->Content(&aKey);
+
+    return *content;
 }
+ 
+/**
+ * \brief Operator =.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT UContainerT<ContentT, KeyT>::operator =
+(const UContainerT<ContentT, KeyT> &aCtn)
+{
+    UContainerT<ContentT,KeyT> *ctn = (UContainerT<ContentT,KeyT> *) &aCtn;
+
+    return mCtn->Copy(ctn->Handle());
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Initialize.
+ *
+ * To initialize this module, if you to use the "UContainerT()";
+ * Not must be to use it, if you use the "UContainerT(UContainerCodeT aCode)";
+ * Others, you need to use new mode for this module.
+ *
+ * @param Code of container that set in this module.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT UContainerT<ContentT, KeyT>::Init(const UContainerCodeT aCode)
+{
+    return mCtn->Init(aCode);
+}
+
+/***** Private B *****/
 
 #endif  // UST_CONTAINERTYPE_CPP_HPP_INCLUDED

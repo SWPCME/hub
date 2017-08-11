@@ -27,13 +27,12 @@
 
 #include "cut_base.hpp"
 
-// Cls.
-#include "cls/cls_iostreamctl.hpp"
 // Ust.
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_filetype.hpp"
 
 class CCutTypeCtl;
+class CClsStreamFile;
 
 class CUT_LIB CCutEasyCtl
 {
@@ -52,8 +51,9 @@ class CUT_LIB CCutEasyCtl
     // Perform.
     UErrCodeT Perform();
 
- protected:
+  protected:
   private:
+    UErrCodeT InitValue();
     UErrCodeT Handle(CutEasyHT *aHandle);
     UErrCodeT SetName(UStringT *aName);
     UErrCodeT SetOpt(CutOptCodeT aOpt, ...);
@@ -62,7 +62,7 @@ class CUT_LIB CCutEasyCtl
     // Cut.
     CCutTypeCtl *mType;
     // Cls.
-    CClsIoStreamCtl *mIoStr;
+    CClsStreamFile *mFile;
 
     UStringT mName;
     CutEasyHT mHandle;

@@ -29,6 +29,8 @@
 // fmd
 #include "fmd_ctl.hpp"
 #include "fmd_filectl.hpp"
+#include "fmd_filecfg.hpp"
+#include "fmd_cfgwrite.hpp"
 #include "fmd_fileload.hpp"
 #include "fmd_filewrite.hpp"
 #include "fmd_burnctl.hpp"
@@ -66,10 +68,60 @@ UErrCodeT CBsnFmd::Init()
 UErrCodeT CBsnFmd::Test()
 {
     CFmdFileCtl *fileCtl = mFmd->File();
-    CFmdFileLoad *fileLoad = fileCtl->Load();
-    CFmdFileWrite *fileWrite = fileCtl->Write();
-    CFmdBurnCtl *burnCtl = mFmd->Burn();
-    CFmdBurnTime *burnTime = burnCtl->Time();
+    const UStringT fileName = "../../data/geojson/tmp/forest_cfg.input";
+    CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
+    CFmdCfgWrite *cfgWrite = cfg->Write();
+
+    FmdCfgBurnTimeT time;
+    FmdCfgTimeT *begin = &(time.begin);
+    begin->year = 2017;
+    begin->mon = 8;
+    begin->mday = 1;
+    begin->hour = 9;
+    begin->min = 30;
+    FmdCfgTimeT *end = &(time.end);
+    end->year = 2017;
+    end->mon = 8;
+    end->mday = 1;
+    end->hour = 9;
+    end->min = 50;
+    time.step = 5;
+    cfgWrite->BurnTime(&time);
+
+    FmdCfgWeatherCtnT weatherCtn(UContainerList);
+    FmdCfgWeatherT weather;
+    weather.time.year = 2017;
+    weather.time.mon = 8;
+    weather.time.mday = 1;
+    weather.time.hour = 9;
+    weather.time.min = 30;
+    weather.air.temperature = 30;
+    weather.air.humidity = 80;
+    weather.cloud.precipAmount = 0;
+    weather.cloud.cover = 0.2;
+    weather.wind.speed = 100;
+    weather.wind.direction = 125;
+    weatherCtn.Add(weather);
+    cfgWrite->Weather(&weatherCtn);
+
+    UIntT elevation = 43.4;
+    cfgWrite->Elevation(elevation);
+
+    FmdCfgFuelMoisturesCtnT fmCtn(UContainerList);
+    FmdCfgFuelMoisturesT fm;
+    fm.model = 0;
+    fm.fm1 = 3;
+    fm.fm10 = 4;
+    fm.fm100 = 6;
+    fm.fmLiveHerb = 70;
+    fm.fmLiveWoody = 100;
+    fmCtn.Add(fm);
+    cfgWrite->FuelMoistures(&fmCtn);
+
+    // CFmdFileLoad *fileLoad = fileCtl->Load();
+    // CFmdFileWrite *fileWrite = fileCtl->Write();
+    // CFmdBurnCtl *burnCtl = mFmd->Burn();
+    // CFmdBurnTime *burnTime = burnCtl->Time();
 
     // fileLoad->All();
     // fileWrite->All();

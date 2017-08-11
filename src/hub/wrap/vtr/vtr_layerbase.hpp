@@ -30,7 +30,7 @@
 #ifndef VTR_LAYERBASE_HPP_INCLUDED
 #define VTR_LAYERBASE_HPP_INCLUDED
 
-#include "vtr_base.h"
+#include "vtr_base.hpp"
 
 // Module
 #include "ust_stringtype.hpp"

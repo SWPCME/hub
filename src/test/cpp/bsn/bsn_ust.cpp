@@ -80,14 +80,14 @@ UErrCodeT CBsnUst::TestString()
     CHubCtl *hubCtl = CHubCtl::Hub();
     CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
     CClsMemoryCtl *memCtl = clsCtl->Mem();
-    CClsStringCtl *strCtl = clsCtl->Str();
+    // CClsStringCtl *strCtl = clsCtl->Str();
     CUstCtl *ustCtl = (CUstCtl *) hubCtl->Module(HubMUst);
     CUstStringCtl *ustStr = ustCtl->Str();
 
-    UIntT num = 1234567;
+    // UIntT num = 1234567;
     UStringT str;
     UIntT n = 1000;
-    void *p = memCtl->Alloc(10);
+    // void *p = memCtl->Alloc(10);
     char *pChar = NULL;
     const char testStr[10] = " str";
     pChar = ustStr->MCpy(testStr);
@@ -117,15 +117,13 @@ UErrCodeT CBsnUst::NewStringArgv(UHandleT *aDst, const UStringT *aSrc)
     CClsMemoryCtl *memCtl = clsCtl->Mem();
     CClsStringCtl *strCtl = clsCtl->Str();
 
-    UContainerT<UStringT> srcS;
-    srcS.Init(UContainerList);
+    UContainerT<UStringT> srcS(UContainerList);
     const UStringT delimiters = " ";
     UStringT *src = (UStringT *) aSrc;
     src->Split(&srcS, &delimiters);
 
     UIteratorT<UStringT> *it = srcS.Iterator();
-    UIntT count;
-    srcS.Count(&count);
+    UIntT count = srcS.Count();
     char **argv = (char **) memCtl->Alloc(sizeof(char **) * (count + 1));
     argv[count] = NULL;
 
@@ -169,14 +167,12 @@ UErrCodeT CBsnUst::TestContainer()
 
 UErrCodeT CBsnUst::TestCtnList()
 {
-    UContainerT<UStringT> ctn;
-    ctn.Init(UContainerList);
+    UContainerT<UStringT> ctn(UContainerList);
     ctn.Add("abc ");
     ctn.Add("123 ");
     ctn.Add("xyz");
     UStringT numStr;
-    UIntT num;
-    ctn.Count(&num);
+    UIntT num = ctn.Count();
     numStr += num;
     numStr.ToConsole();
     UIteratorT<UStringT> *it = ctn.Iterator();
@@ -191,14 +187,12 @@ UErrCodeT CBsnUst::TestCtnList()
 
 UErrCodeT CBsnUst::TestCtnMap()
 {
-    UContainerT<UStringT, UIntT> ctn;
-    ctn.Init(UContainerMap);
+    UContainerT<UStringT, UIntT> ctn(UContainerMap);
     ctn.Add("abc ", 1);
     ctn.Add("123 ", 2);
     ctn.Add("xyz", 3);
     UStringT numStr;
-    UIntT num;
-    ctn.Count(&num);
+    UIntT num = ctn.Count();
     numStr += num;
     numStr.ToConsole();
     UIteratorT<UStringT, UIntT> *it = ctn.Iterator();

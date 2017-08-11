@@ -44,7 +44,11 @@ class GDA_LIB CGdaTypeCtl
     UErrCodeT Init();
     UErrCodeT ToAccess(GDALAccess *aDest, const UAccessCodeT aSrc);
     UErrCodeT ToDataType(GDALDataType *aDest, UDataTCodeT aSrc);
+    UErrCodeT ToDataType(UStringT *aDst, UDataTCodeT aSrc);
     UErrCodeT ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc);
+    UErrCodeT ToGdaCreateOpt(UStringT *aDst, const GdaCreateOptHT aSrc,
+                             const GdaFormatCodeT aFormat);
+    UErrCodeT ToLinearUnit(UStringT *aDst, const GdaLinearUnitCodeT aSrc);
 
     // argv
     UErrCodeT NewArgv(GdaArgvT *aDst, const UStringT *aSrc);
@@ -52,6 +56,10 @@ class GDA_LIB CGdaTypeCtl
 
   protected:
   private:
+    UErrCodeT ToLcpCreateOpt(UStringT *aDst, const GdaR2RLcpCreateOptT *aSrc);
+    UErrCodeT MergeArgv(UContainerT<UStringT> *aStrCtn,
+                        const UStringT *aToken);
+
     CClsStringCtl *mStr;
     CClsMemoryCtl *mMem;
 };

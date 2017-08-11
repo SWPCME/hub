@@ -202,6 +202,8 @@ BMathNumSignCodeT CClsStringCtl::Coll(const char *aDest, const char *aSrc)
     {
         return BMathNumSignPos;
     }
+
+    return BMathNumSignNull;
 }
 
 /**

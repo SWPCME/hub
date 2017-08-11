@@ -38,7 +38,7 @@
 /**
  * \brief Constructor.
  */
-UFilesT::UFilesT()
+UFilesT::UFilesT() : m_filesCtn(UContainerMList)
 {
     Init();
 }
@@ -48,7 +48,7 @@ UFilesT::UFilesT()
  *
  * @param aPath the path of root.
  */
-UFilesT::UFilesT(UStringT* aPath)
+UFilesT::UFilesT(UStringT* aPath) : m_filesCtn(UContainerMList)
 {
     Init();
     SetPath(aPath);
@@ -59,7 +59,7 @@ UFilesT::UFilesT(UStringT* aPath)
  *
  * @param aPath the path of root.
  */
-UFilesT::UFilesT(UStringT& aPath)
+UFilesT::UFilesT(UStringT& aPath) : m_filesCtn(UContainerMList)
 {
     Init();
     SetPath(&aPath);
@@ -185,7 +185,6 @@ UErrCodeT UFilesT::Init()
     CWrapCtl* wrapCtl = baseCtl->Wrap();
     CUstCtl* ustCtl = wrapCtl->Ust();
     m_files = ustCtl->Files();
-    m_filesCtn.Init(UContainerMList);
 
     return UErrFalse;
 }

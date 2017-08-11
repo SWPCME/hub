@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_datasetctl.hpp 2017-07 $
+ * $Id: gda_datasetctl.hpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda dataset control.
@@ -51,6 +51,7 @@ class GDA_LIB CGdaDatasetCtl
     UErrCodeT Count(UIntT *aNum);
     UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption);
     CGdaBandCtl *Band(UIntT aId);
+    UErrCodeT SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand);
     UErrCodeT XSize(UIntT *aNum);
     UErrCodeT YSize(UIntT *aNum);
 

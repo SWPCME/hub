@@ -41,10 +41,9 @@
 /**
  * \brief Constructor.
  */
-COgrCtl::COgrCtl()
+COgrCtl::COgrCtl() : mMDriver(UContainerMap)
 {
     BMD_POINTER_INIT(mType);
-    mMDriver.Init(UContainerMap);
 }
 
 /**

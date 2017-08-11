@@ -1,12 +1,12 @@
 ################################################################################
-# $Id: file.lst 2017-06 $
+# $Id: file.lst 2017-08 $
 #
 # Project:  C language standard library.
 # Purpose:  File list.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2017-06 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -34,13 +34,15 @@ OBJ = \
       cls_ioctl.o \
       cls_iocommonctl.o \
       cls_iostreamctl.o \
+      cls_streamfile.o \
       cls_streamformat.o \
       cls_formatinput.o \
       cls_formatoutput.o \
       cls_mathctl.o \
       cls_mathexpctl.o \
       cls_mathlogctl.o \
-      cls_timectl.o
+      cls_timectl.o \
+      cls_processctl.o
 
 HEADER = \
          cls_base.h \
@@ -52,10 +54,12 @@ HEADER = \
          cls_ioctl.hpp \
          cls_iocommonctl.hpp \
          cls_iostreamctl.hpp \
+         cls_streamfile.hpp \
          cls_streamformat.hpp \
          cls_formatinput.hpp \
          cls_formatoutput.hpp \
          cls_mathctl.hpp \
          cls_mathexpctl.hpp \
          cls_mathlogctl.hpp \
-         cls_timectl.hpp
+         cls_timectl.hpp \
+         cls_processctl.hpp

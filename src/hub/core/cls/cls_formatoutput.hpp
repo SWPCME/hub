@@ -34,8 +34,10 @@ class CLS_LIB CClsFormatOutput
     ~CClsFormatOutput();
 
     UErrCodeT Init();
+
     UErrCodeT ToStr(char *aStr, const char *aFormat, ...);
     UErrCodeT ToCon(const char *aFormat, ...);
+    UErrCodeT ToFile(ClsFileHT aFile, const char *aFormat, ...);
 
   protected:
   private:

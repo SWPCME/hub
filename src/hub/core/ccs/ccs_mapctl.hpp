@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ccs_mapctl.hpp 2016-09 $
+ * $Id: ccs_mapctl.hpp 2017-08 $
  *
  * Project:  C with class standard library.
  * Purpose:  Map control definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-09 ~ 2017, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,10 @@ class CCS_LIB CCcsMapCtl
     CCcsMapCtl(UContainerCodeT aCode);
     ~CCcsMapCtl();
 
+    // Attribute.
+    UContainerCodeT Code();
+    UstContainerHT Handle();
+
     UErrCodeT Init(const UContainerCodeT aCode);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
     UErrCodeT DelByKey(const KeyT *aKey);
@@ -50,6 +54,7 @@ class CCS_LIB CCcsMapCtl
     ContentT* Content(const KeyT *aKey);
     UErrCodeT Clear();
     UErrCodeT Count(UIntT *aNum);
+    UErrCodeT Copy(UstContainerHT aHandle);
 
     // Traversal.
     UErrCodeT Head(const USequenceCodeT aCode = USequenceOrder);

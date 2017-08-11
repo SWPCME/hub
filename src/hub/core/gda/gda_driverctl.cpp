@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: gda_driverctl.cpp 2017-07 $
+ * $Id: gda_driverctl.cpp 2017-08 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
  * Purpose:  Gda driver control.
@@ -33,11 +33,10 @@
 /**
  * \brief Constructor.
  */
-CGdaDriverCtl::CGdaDriverCtl(const UStringT *aName)
+CGdaDriverCtl::CGdaDriverCtl(const UStringT *aName) : mMDataset(UContainerMap)
 {
     BMD_POINTER_INIT(mDriverH);
     SetHandle(aName);
-    mMDataset.Init(UContainerMap);
 }
 
 /**

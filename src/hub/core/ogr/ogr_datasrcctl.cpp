@@ -40,11 +40,10 @@
  * \brief Constructor.
  */
 COgrDatasrcCtl::COgrDatasrcCtl(const UStringT *aFile, UFileOperCodeT aCode,
-                               const OgrDriverHT aDriverH)
+                               const OgrDriverHT aDriverH) : mMLayer(UContainerMap)
 {
     BMD_POINTER_INIT(mDsH);
     SetDs(aFile, aCode, aDriverH);
-    mMLayer.Init(UContainerMap);
 }
 
 /**

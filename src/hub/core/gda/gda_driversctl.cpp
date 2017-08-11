@@ -27,17 +27,21 @@
 // Gdal library.
 #include "gdal.h"
 
-// Module
+// base
+#include "base_ctl.hpp"
+// core
+#include "core_ctl.hpp"
+// gda
+#include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
 #include "gda_driverctl.hpp"
 
 /**
  * \brief Constructor.
  */
-CGdaDriversCtl::CGdaDriversCtl()
+CGdaDriversCtl::CGdaDriversCtl() : mMDriver(UContainerMap)
 {
-    mType = new CGdaTypeCtl();
-    mMDriver.Init(UContainerMap);
+    BMD_POINTER_INIT(mType);
 }
 
 /**
@@ -46,7 +50,7 @@ CGdaDriversCtl::CGdaDriversCtl()
 CGdaDriversCtl::~CGdaDriversCtl()
 {
     CleanupAll();
-    delete mType;
+    BMD_POINTER_INIT(mType);
 }
 
 /**
@@ -58,21 +62,11 @@ CGdaDriversCtl::~CGdaDriversCtl()
  */
 UErrCodeT CGdaDriversCtl::Init()
 {
+    GDA_TYPE_CTL(mType);
     CleanupAll();
     GdaRegisterAll();
 
     return UErrFalse;
-}
-
-/**
- * \brief Type.
- * TODO To CGdaCoreCtl.
- */
-CGdaTypeCtl *CGdaDriversCtl::Type()
-{
-    BMD_CLASS_NEW(mType, CGdaTypeCtl);
-
-    return mType;
 }
 
 /**
@@ -118,7 +112,7 @@ UErrCodeT CGdaDriversCtl::RegisterAll()
 {
     UStringT defnName[GDA_F_COUNT] =
         {
-            GDA_F_ASC, GDA_F_LCP, GDA_F_DEM, GDA_F_TIF
+            GDA_F_ASC, GDA_F_LCP, GDA_F_DEM, GDA_F_TIF, GDA_F_VRT
         };
     for (UIntT i= 0; i < GDA_F_COUNT; ++i)
     {

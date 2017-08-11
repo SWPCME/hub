@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: bsn_gda.hpp 2017-07 $
+ * $Id: bsn_gda.hpp 2017-08 $
  *
  * Project:  Business Logic library.
  * Purpose:  Test gda control api.
@@ -85,7 +85,7 @@ UErrCodeT CBsnGda::Init()
 
 UErrCodeT CBsnGda::Test()
 {
-    // TestCreart();
+    // TestCreate();
     // TestLoad();
     // TestAlg();
     TestUtils();
@@ -97,8 +97,8 @@ UErrCodeT CBsnGda::Test()
 
 UErrCodeT CBsnGda::TestCreate()
 {
-    const UStringT file = "../../data/dem/test_create.lcp";
-    CreateDataset(&file, 10, 10, 1, UDataTFloat, GdaFormatLcp);
+    const UStringT file = "../../data/dem/test_create.vrt";
+    CreateDataset(&file, 3000, 3000, 5, UDataTInt16, GdaFormatVrt);
 
     return UErrFalse;
 }
@@ -137,15 +137,15 @@ UErrCodeT CBsnGda::TestLoad()
 
 UErrCodeT CBsnGda::TestAlg()
 {
-    CGdaAlgRasterizer *rasterizer = mAlg->Rasterizer();
+    // CGdaAlgRasterizer *rasterizer = mAlg->Rasterizer();
 
-    // band
-    const UStringT tif = "../../data/geojson/tmp/forest_conver.tif";
-    CGdaBandCtl *bandCtl = Band(&tif, 1, UAccessWrite, GdaFormatTif);
+    // // band
+    // const UStringT tif = "../../data/geojson/tmp/forest_conver.tif";
+    // CGdaBandCtl *bandCtl = Band(&tif, 1, UAccessWrite, GdaFormatTif);
 
-    // layer
-    UStringT json = "../../data/geojson/tmp/forest.geojson";
-    COgrLayerCtl *layerCtl = Layer(&json, 0, OgrFormatJson);
+    // // layer
+    // UStringT json = "../../data/geojson/tmp/forest.geojson";
+    // COgrLayerCtl *layerCtl = Layer(&json, 0, OgrFormatJson);
 
     // rasterizer->ToBand(bandCtl, layerCtl);
 
@@ -154,27 +154,152 @@ UErrCodeT CBsnGda::TestAlg()
 
 UErrCodeT CBsnGda::TestUtils()
 {
+    VtrToVtr();
+    // VtrToRstEasy();
+    // VtrToRstComplex();
+    // MergeRst();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Vector to vector.
+ */
+UErrCodeT CBsnGda::VtrToVtr()
+{
+    CGdaUtilsTranslate *translate = mUtils->Translate();
+    CGdaTranslateVector *vector = translate->Vector();
+
+    GdaTranslateV2VOptT opt;
+    opt.format = OgrFormatTab;
+
+    UStringT vtr1 = "../../data/geojson/tmp/forest.geojson";
+    COgrLayerCtl *layer = Layer(&vtr1, 0, OgrFormatJson);
+    COgrDatasrcCtl *dataset = layer->Up();
+    UStringT vtr2 = "../../data/geojson/tmp/forest_tab.tab";
+    vector->ToVtr(&vtr2, dataset, &opt);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::VtrToRstEasy()
+{
     CGdaUtilsTranslate *translate = mUtils->Translate();
 
     CGdaTranslateVector *vector = translate->Vector();
+
+    // Vector to raster.
     const UStringT tif = "../../data/geojson/tmp/forest_conver.tif";
     CGdaBandCtl *band = Band(&tif, 1, UAccessWrite, GdaFormatTif);
     UStringT json = "../../data/geojson/tmp/forest.geojson";
-    // UStringT json = "/home/swpcme/file/source/swpcme/hub/data/geojson/tmp/forest.geojson";
-    // COgrLayerCtl *layer = Layer(&json, 0, OgrFormatJson);
-    // UStringT fieldName = "YU_BI_DU";
-    // vector->ToRst(band, layer, &fieldName);
+    COgrLayerCtl *layer = Layer(&json, 0, OgrFormatJson);
+    UStringT fieldName = "YU_BI_DU";
+    vector->ToRst(band, layer, &fieldName);
 
     CGdaTranslateRaster *raster = translate->Raster();
-    const UStringT asc = "../../data/geojson/tmp/forest_conver.Lcp";
+    const UStringT lcp = "../../data/geojson/tmp/forest.lcp";
     CGdaDatasetCtl *datasetCtl = band->Up();
-    GdaTranslateRstOptT opt;
-    const UIntT bandCount = 5;
-    UIntT bandList[bandCount] = {1, 1, 1, 1, 1};
+    GdaTranslateR2ROptT opt;
+    // const UIntT bandCount = 5;
+    // UIntT bandList[bandCount] = {1, 1, 1, 1, 1};
     opt.format = GdaFormatLcp;
-    opt.bandCount = bandCount;
-    opt.bandList = bandList;
-    raster->ToRst(&asc, datasetCtl, &opt);
+    opt.type = UDataTInt16;
+    // opt.bandCount = bandCount;
+    // opt.bandList = bandList;
+    GdaR2RLcpCreateOptT *lcpCreateOpt = &opt.createOpt;
+    lcpCreateOpt->latitude = 23;
+    lcpCreateOpt->linearUnit = GdaLinearUnitMeter;
+    raster->ToRst(&lcp, datasetCtl, &opt);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::VtrToRstComplex()
+{
+    CGdaUtilsTranslate *translate = mUtils->Translate();
+
+    CGdaTranslateVector *vector = translate->Vector();
+
+    // Vector to raster.
+    const UStringT kPath = "../../data/geojson/tmp/";
+    const UStringT kJson = "../../data/geojson/tmp/forest.geojson";
+    const UStringT kLcp = "../../data/geojson/tmp/forest.lcp";
+    const UStringT kTif = "../../data/geojson/tmp/forest.tif";
+    COgrLayerCtl *layer = Layer(&kJson, 0, OgrFormatJson);
+    COgrDatasrcCtl *datasrc = layer->Up();
+    const UStringT kLayerName = layer->Name();
+    const UStringT kElevation = "HAIBA";
+    const UStringT kSlope = "PODU";
+    const UStringT kAspect = "POXIANG";
+    const UStringT kFuel = "LIN_ZHONG";
+    const UStringT kCanopyCover = "YU_BI_DU";
+    const UIntT kElevationId = 1;
+    const UIntT kSlopeId = 2;
+    const UIntT kAspectId = 3;
+    const UIntT kFuelId = 4;
+    const UIntT kCanopyCoverId = 5;
+
+    GdaV2RCreateOptT createOpt;
+    createOpt.format = GdaFormatTif;
+    createOpt.type = UDataTInt16;
+    createOpt.size = {3000, 3000};
+
+    GdaV2RVtrAttrT *vtrAttr = &createOpt.vtrAttr;
+    UStringT elevation = kPath;
+    elevation += "forest_elevation.tif";
+    vtrAttr->layerName = kLayerName;
+    vtrAttr->fieldName = kElevation;
+    vector->ToRst(&elevation, datasrc, &createOpt);
+
+    // vtrAttr.fieldName = kSlope;
+    // vtrCtn->Add(vtrAttr);
+
+    // vtrAttr.fieldName = kAspect;
+    // vtrCtn->Add(vtrAttr);
+
+    // vtrAttr.fieldName = kFuel;
+    // vtrCtn->Add(vtrAttr);
+
+    // vtrAttr.fieldName = kCanopyCover;
+    // vtrCtn->Add(vtrAttr);
+
+    GdaV2RLoadOptT opt;
+    GdaV2RRstAttrCtnT *rstCtn = &opt.rstCtn;
+    GdaV2RRstAttrT rstAttr;
+    rstAttr.bandId = kElevationId;
+    rstCtn->Add(rstAttr);
+
+    rstAttr.bandId = kSlopeId;
+    rstCtn->Add(rstAttr);
+
+    rstAttr.bandId = kAspectId;
+    rstCtn->Add(rstAttr);
+
+    rstAttr.bandId = kFuelId;
+    rstCtn->Add(rstAttr);
+
+    rstAttr.bandId = kCanopyCoverId;
+    rstCtn->Add(rstAttr);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::MergeRst()
+{
+    // execlp("/bin/sh", "sh", "-c", "gdal_merge.py", NULL);
+    const UStringT tif1 = "../../data/geojson/tmp/forest_conver.tif";
+    const UStringT asc1 = "../../data/geojson/tmp/forest_conver.asc";
+    const UStringT tif2 = "../../data/geojson/tmp/forest_z.tif";
+    const UStringT tif = "../../data/geojson/tmp/forest.tif";
+    CGdaDatasetCtl *tifDr1 = LoadDataset(&tif1, UAccessWrite, GdaFormatTif);
+    // CGdaDatasetCtl *ascDr1 = LoadDataset(&asc1, UAccessRead, GdaFormatAsc);
+    CGdaDatasetCtl *tifDr2 = LoadDataset(&tif2, UAccessRead, GdaFormatTif);
+    // CGdaDatasetCtl *tifDr = LoadDataset(&tif, UAccessWrite, GdaFormatTif);
+    UIntT bandId = 1;
+    // CGdaBandCtl *band1 = tifDr1->Band(bandId);
+    CGdaBandCtl *band2 = tifDr2->Band(bandId);
+    // CGdaBandCtl *ascBand1 = ascDr1->Band(bandId);
+    tifDr1->SetBand(1, band2);
 
     return UErrFalse;
 }
@@ -185,7 +310,8 @@ CGdaDatasetCtl *CBsnGda::CreateDataset(const UStringT *aFile, UIntT aNXSize,
                                        GdaFormatCodeT aFormat)
 {
     CGdaDriverCtl *dr = mDrivers->Driver(aFormat);
-    CGdaDatasetCtl *ds = dr->Create(aFile, aNXSize, aNYSize, aNBand, aDataT, NULL);
+    CGdaDatasetCtl *ds = dr->Create(aFile, aNXSize, aNYSize, aNBand, aDataT,
+                                    NULL);
 
     return ds;
 }

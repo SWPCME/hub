@@ -29,13 +29,15 @@
 
 #include "ust_stringtype.hpp"
 
-// Module
+// base
 #include "base_ctl.hpp"
+#include "base_stringdefn.hpp"
+// wrap
 #include "wrap_ctl.hpp"
+// ust
 #include "ust_ctl.hpp"
 #include "ust_stringctl.hpp"
-
-// Cls.
+// cls
 #include "cls_argctl.hpp"
 
 /**
@@ -89,6 +91,17 @@ UStringT::UStringT(const wchar_t *aStr)
 {
     Init();
     mChar = mStr->MWToA(aStr);
+}
+
+/**
+ * \brief Constructor.
+ *
+ * @param aInt Initialize by "UIntT".
+ */
+UStringT::UStringT(const UIntT aInt)
+{
+    Init();
+    mStr->MIToA(&mChar, aInt);
 }
 
 /**
@@ -221,26 +234,42 @@ UErrCodeT UStringT::Clear()
 /**
  * \brief Split string.
  */
-UErrCodeT UStringT::Split(UContainerT<UStringT> *aStringS,
-                          const UStringT *aDelimiters)
+UErrCodeT UStringT::Split(UContainerT<UStringT> *aStrCtn,
+                          const UStringT *aDelimiters,
+                          const UStringT *aMergeTokens)
 {
-    char *dst = NULL;
-    char *src = mStr->MCpy(mChar);
-    char *delimiters = (char *) aDelimiters->ToA();
+    SplitString(aStrCtn, mChar, aDelimiters);
+    UContainerT<UStringT> strCtn(UContainerList);
+    UIteratorT<UStringT> *it = aStrCtn->Iterator();
 
-    if (mStr->Find(&dst, src, delimiters) == UErrTrue)
+    for (it->Head(); it->State() == UErrFalse; it->Next())
     {
-        mStr->MFree(src);
-        return UErrTrue;
+        UStringT str = it->Content();
+        UContainerT<UStringT> tmpStrCtn(UContainerList);
+        SplitString(&tmpStrCtn, str.ToA(), aMergeTokens);
+        UStringT tmpStr = tmpStrCtn[0];
+        if (tmpStr.Len() < str.Len())
+        {
+            str = tmpStr;
+            while (it->Next() == UErrFalse)
+            {
+                UStringT str2 = it->Content();
+                str += kStrSpace;
+
+                UContainerT<UStringT> tmpStrCtn2(UContainerList);
+                SplitString(&tmpStrCtn2, str2.ToA(), aMergeTokens);
+                UStringT tmpStr2 = tmpStrCtn2[0];
+                str += tmpStr2;
+                if (tmpStr2.Len() < str2.Len())
+                {
+                    break;
+                }
+            }
+        }
+        strCtn.Add(&str);
     }
 
-    src = NULL;
-    do
-    {
-        aStringS->Add(dst);
-    } while (mStr->Find(&dst, src, delimiters) == UErrFalse);
-
-    mStr->MFree(src);
+    *aStrCtn = strCtn;
 
     return UErrFalse;
 }
@@ -254,7 +283,38 @@ UErrCodeT UStringT::Split(UContainerT<UStringT> *aStringS,
  */
 UErrCodeT UStringT::operator =(const char *aStr)
 {
+    mStr->MFree(&mChar);
     mChar = mStr->MCpy(aStr);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "=".
+ *
+ * @param aStr String that need to instead of original string.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT UStringT::operator =(const UStringT& aStr)
+{
+    mStr->MFree(&mChar);
+    mChar = mStr->MCpy(aStr.ToA());
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "=".
+ *
+ * @param aStr String that need to instead of original string.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT UStringT::operator =(const UIntT &aInt)
+{
+    mStr->MFree(&mChar);
+    mStr->MIToA(&mChar, aInt);
 
     return UErrFalse;
 }
@@ -307,20 +367,6 @@ UErrCodeT UStringT::operator !=(const char *aStr)
     {
         return UErrTrue;
     }
-
-    return UErrFalse;
-}
-
-/**
- * \brief Overload operator of "=".
- *
- * @param aStr String that need to instead of original string.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT UStringT::operator =(const UStringT& aStr)
-{
-    mChar = mStr->MCpy(aStr.ToA());
 
     return UErrFalse;
 }
@@ -433,6 +479,31 @@ UErrCodeT UStringT::Init()
     mInt = 0;
     mFloat = 0;
     
+    return UErrFalse;
+}
+
+UErrCodeT UStringT::SplitString(UContainerT<UStringT> *aStrCtn,
+                                const char *aSrcStr,
+                                const UStringT *aDelimiters)
+{
+    char *dst = NULL;
+    char *src = mStr->MCpy(aSrcStr);
+    char *delimiters = (char *) aDelimiters->ToA();
+
+    if (mStr->Find(&dst, src, delimiters) == UErrTrue)
+    {
+        mStr->MFree(src);
+        return UErrTrue;
+    }
+
+    src = NULL;
+    do
+    {
+        aStrCtn->Add(dst);
+    } while (mStr->Find(&dst, src, delimiters) == UErrFalse);
+
+    mStr->MFree(src);
+
     return UErrFalse;
 }
 

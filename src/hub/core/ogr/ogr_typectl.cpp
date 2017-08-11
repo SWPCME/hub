@@ -49,30 +49,44 @@ UErrCodeT COgrTypeCtl::Init()
 /**
  * \brief To format.
  */
-UErrCodeT COgrTypeCtl::ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc)
+UErrCodeT COgrTypeCtl::ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc,
+                                UFlagCodeT aFlag)
 {
+    *aDst = "";
+
+    if (aFlag == UFlagOn)
+    {
+        *aDst += "\"";
+    }
+
     switch (aSrc)
     {
     case OgrFormatTab:
-        *aDst = OGR_F_TAB;
+        *aDst += OGR_F_TAB;
         break;
     case OgrFormatShp:
-        *aDst = OGR_F_SHP;
+        *aDst += OGR_F_SHP;
         break;
     case OgrFormatCsv:
-        *aDst = OGR_F_CSV;
+        *aDst += OGR_F_CSV;
         break;
     case OgrFormatXls:
-        *aDst = OGR_F_XLS;
+        *aDst += OGR_F_XLS;
         break;
     case OgrFormatXlsx:
-        *aDst = OGR_F_SQLITE;
+        *aDst += OGR_F_SQLITE;
         break;
     case OgrFormatJson:
-        *aDst = OGR_F_JSON;
+        *aDst += OGR_F_JSON;
         break;
     default:
+        *aDst = "";
         return UErrTrue;
+    }
+
+    if (aFlag == UFlagOn)
+    {
+        *aDst += "\"";
     }
 
     return UErrFalse;

@@ -26,6 +26,7 @@ PRJ = vtr
 
 OBJ = \
       vtr_ctl.o \
+      vtr_formatctl.o \
       vtr_datasrcctl.o \
       vtr_layerctl.o \
       vtr_layerbase.o \
@@ -34,6 +35,7 @@ OBJ = \
 
 HEADER = \
          vtr_base.h \
+         vtr_formatctl.hpp \
          vtr_ctl.hpp \
          vtr_datasrcctl.hpp \
          vtr_layerread.hpp \

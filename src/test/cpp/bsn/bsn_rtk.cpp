@@ -67,7 +67,7 @@ UErrCodeT CBsnRtk::Test()
     CClsCtl *cls = (CClsCtl*) mHub->Module(HubMCls);
     CClsIoCtl *ioCtl = cls->Io();
     CClsIoCommonCtl *ioCmnCtl = ioCtl->Common();
-    CGslCtl *gslCtl = (CGslCtl*) mHub->Module(HubMGsl);
+    // CGslCtl *gslCtl = (CGslCtl*) mHub->Module(HubMGsl);
 
     BGeomCsGdT gd;
     // gd.lon = 113.23;
@@ -108,10 +108,10 @@ UErrCodeT CBsnRtk::Test()
         // ioCmnCtl->PrintF("H_disp = %8.5f\n", outGd[i].h);
         if (i != 0)
         {
-            UFloatT x = (ecef[i].x - ecef[i-1].x) * 1000;
-            UFloatT y = (ecef[i].y - ecef[i-1].y) * 1000;
-            UFloatT z = (ecef[i].z - ecef[i-1].z) * 1000;
-            UFloatT a = 2 * (x * x + y * y + z * z);
+            // UFloatT x = (ecef[i].x - ecef[i-1].x) * 1000;
+            // UFloatT y = (ecef[i].y - ecef[i-1].y) * 1000;
+            // UFloatT z = (ecef[i].z - ecef[i-1].z) * 1000;
+            // UFloatT a = 2 * (x * x + y * y + z * z);
             // ioCmnCtl->PrintF("a = %lf \n", a);
         }
     }

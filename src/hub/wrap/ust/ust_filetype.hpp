@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: ust_filetype.hpp 2017-07 $
+ * $Id: ust_filetype.hpp 2017-08 $
  *
  * Project:  Universal structrue library.
  * Purpose:  File type definition.
@@ -25,23 +25,42 @@
 #ifndef UST_FILETYPE_HPP_INCLUDED
 #define UST_FILETYPE_HPP_INCLUDED
 
-#include "ust_base.h"
+#include "ust_filebase.hpp"
+
+// ust
 #include "ust_stringtype.hpp"
+
+// ust
+class CUstFileCtl;
 
 class UST_LIB UFileT
 {
   public:
     UFileT();
+    UFileT(const UStringT *aFileName, UstFileOperCodeT aOper);
     ~UFileT();
 
-    UErrCodeT Open(UStringT *aFile);
+    // Init file.
+    UErrCodeT InitFile(const UStringT *aFileName, UstFileOperCodeT aOper);
+
+    // Attribute.
     UstFileHT Handle();
-    UErrCodeT Read();
-    UErrCodeT Write();
+
+    // Read.
+    UErrCodeT ReadRow(UStringT *aStr);
+
+    // Write.
+    UErrCodeT Write(const UStringT *aStr);
+    UErrCodeT WriteRow(const UStringT *aStr);
 
   protected:
   private:
     UErrCodeT Init();
+    UErrCodeT InitPointer();
+    UErrCodeT Close();
+
+    UStringT mFileName;
+    CUstFileCtl *mFile;
     UstFileHT mFileH;
 };
 

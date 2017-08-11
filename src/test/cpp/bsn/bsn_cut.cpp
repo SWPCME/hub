@@ -31,6 +31,7 @@
 #include "cls_ioctl.hpp"
 #include "cls_iocommonctl.hpp"
 #include "cls_iostreamctl.hpp"
+#include "cls_streamfile.hpp"
 // Cut.
 #include "cut_ctl.hpp"
 #include "cut_easysctl.hpp"
@@ -74,7 +75,8 @@ UErrCodeT CBsnCut::Init()
     CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
     CClsIoCtl *ioCtl = clsCtl->Io();
     mIoCmn = ioCtl->Common();
-    mIoStr = ioCtl->Stream();
+    CClsIoStreamCtl *stream = ioCtl->Stream();
+    mFile = stream->File();
 
     kIoCmn = mIoCmn;
 
@@ -95,11 +97,11 @@ UErrCodeT CBsnCut::Test()
     // easyCtl->SetWriteFunc(&cut_write_func);
     UStringT file = "/home/swpcme/tmp/test.txt";
     ClsFileHT fileH = NULL;
-    mIoStr->Open(&fileH, &file, ClsFileOperWba);
+    mFile->Open(&fileH, &file, ClsFileOperWba);
     // easyCtl->SetWriteData(fileH);
     UErrCodeT code = easyCtl->Perform();
     mIoCmn->PrintF("%d\n", code);
-    mIoStr->Close(&fileH);
+    mFile->Close(&fileH);
 
     return UErrFalse;
 }

@@ -30,7 +30,7 @@
 /**
  * \brief Constructor.
  */
-CCutMultisCtl::CCutMultisCtl()
+CCutMultisCtl::CCutMultisCtl() : mMMultiH(UContainerMap)
 {
 }
 

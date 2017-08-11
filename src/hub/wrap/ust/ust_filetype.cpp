@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: ust_filetype.cpp 2017-07 $
+ * $Id: ust_filetype.cpp 2017-08 $
  *
  * Project:  Universal structrue library.
  * Purpose:  File type implementation.
@@ -26,13 +26,24 @@
 
 // base
 #include "base_macrodefn.hpp"
+// ust
+#include "ust_filectl.hpp"
 
 /**
  * \brief Constructor.
  */
 UFileT::UFileT()
 {
-    BMD_POINTER_INIT(mFileH);
+    Init();
+}
+
+/**
+ * \brief Constructor.
+ */
+UFileT::UFileT(const UStringT *aFileName, UstFileOperCodeT aOper)
+{
+    Init();
+    InitFile(aFileName, aOper);
 }
 
 /**
@@ -40,14 +51,22 @@ UFileT::UFileT()
  */
 UFileT::~UFileT()
 {
-    BMD_POINTER_INIT(mFileH);
+    Close();
+    BMD_CLASS_DEL(mFile);
+    InitPointer();
 }
 
 /**
- * \brief Open file.
+ * \brief Init file handle.
+ *
+ * if not ust UFileT(const UStringT *, UstFileOperCodeT), please to use this 
+ * function to init this class; else this function is not need.
  */
-UErrCodeT UFileT::Open(UStringT *aFile)
+UErrCodeT UFileT::InitFile(const UStringT *aFileName, UstFileOperCodeT aOper)
 {
+    Close();
+    mFile->Open(&mFileH, aFileName, aOper);
+
     return UErrFalse;
 }
 
@@ -62,17 +81,25 @@ UstFileHT UFileT::Handle()
 /**
  * \brief Read.
  */
-UErrCodeT UFileT::Read()
+UErrCodeT UFileT::ReadRow(UStringT *aStr)
 {
-    return UErrFalse;
+    return mFile->ReadRow(aStr, mFileH);
 }
 
 /**
  * \brief Write.
  */
-UErrCodeT UFileT::Write()
+UErrCodeT UFileT::Write(const UStringT *aStr)
 {
-    return UErrFalse;
+    return mFile->Write(aStr, mFileH);
+}
+
+/**
+ * \brief Write.
+ */
+UErrCodeT UFileT::WriteRow(const UStringT *aStr)
+{
+    return mFile->WriteRow(aStr, mFileH);
 }
 
 /***** Private A *****/
@@ -82,7 +109,29 @@ UErrCodeT UFileT::Write()
  */
 UErrCodeT UFileT::Init()
 {
+    InitPointer();
+    BMD_CLASS_NEW(mFile, CUstFileCtl);
+
     return UErrFalse;
+}
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT UFileT::InitPointer()
+{
+    BMD_POINTER_INIT(mFile);
+    BMD_POINTER_INIT(mFileH);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Close.
+ */
+UErrCodeT UFileT::Close()
+{
+    return mFile->Close(&mFileH);
 }
 
 /***** Private B *****/

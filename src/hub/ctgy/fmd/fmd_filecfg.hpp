@@ -47,6 +47,9 @@ class FMD_LIB CFmdFileCfg
     CFmdCfgRead *Read();
     CFmdCfgWrite *Write();
 
+    // Private.
+    CFmdFileCfg();
+
   protected:
   private:
     UErrCodeT InitPointer();

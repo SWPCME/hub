@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = gsl
+SUB_NAME = gsl
 
-OBJ = \
+LAYER = gsl
+
+C_OBJ = \
       gsl_ctl.o \
       gsl_typectl.o \
       gsl_vectorctl.o \
@@ -34,9 +36,12 @@ OBJ = \
       gsl_blasctl.o \
       gsl_blasvopctl.o \
       gsl_blasmvopctl.o \
-      gsl_blasmmopctl.o 
+      gsl_blasmmopctl.o \
+      gsl_sfctl.o \
+      gsl_sflegendre.o \
+      gsl_legendreassoc.o
 
-HEADER = \
+C_HEADER = \
          gsl_base.hpp \
          gsl_ctl.hpp \
          gsl_vectorctl.hpp \
@@ -46,4 +51,7 @@ HEADER = \
          gsl_blasctl.hpp \
          gsl_blasvopctl.hpp \
          gsl_blasmvopctl.hpp \
-         gsl_blasmmopctl.hpp
+         gsl_blasmmopctl.hpp \
+         gsl_sfctl.hpp \
+         gsl_sflegendre.hpp \
+         gsl_legendreassoc.hpp

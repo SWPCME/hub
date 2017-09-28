@@ -29,6 +29,15 @@
 
 /**
  * \brief Constructor.
+ * Private.
+ * Do not use this function.
+ */
+CFmdCfgRead::CFmdCfgRead()
+{
+}
+
+/**
+ * \brief Constructor.
  */
 CFmdCfgRead::CFmdCfgRead(UFileT *aFile)
 {

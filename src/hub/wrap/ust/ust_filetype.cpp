@@ -65,9 +65,10 @@ UFileT::~UFileT()
 UErrCodeT UFileT::InitFile(const UStringT *aFileName, UstFileOperCodeT aOper)
 {
     Close();
-    mFile->Open(&mFileH, aFileName, aOper);
+    mFileName = *aFileName;
+    mFileOper = aOper;
 
-    return UErrFalse;
+    return mFile->Open(&mFileH, &mFileName, mFileOper);
 }
 
 /**
@@ -76,6 +77,15 @@ UErrCodeT UFileT::InitFile(const UStringT *aFileName, UstFileOperCodeT aOper)
 UstFileHT UFileT::Handle()
 {
     return mFileH;
+}
+
+/**
+ * \brief Save file.
+ */
+UErrCodeT UFileT::Save()
+{
+    return UErrFalse;
+    // return mFile->Save();
 }
 
 /**

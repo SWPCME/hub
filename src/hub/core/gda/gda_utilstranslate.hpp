@@ -41,7 +41,7 @@ class GDA_LIB CGdaUtilsTranslate
     CGdaTranslateVector *Vector();
     CGdaTranslateRaster *Raster();
 
- protected:
+  protected:
   private:
     CGdaTranslateVector *mVector;
     CGdaTranslateRaster *mRaster;

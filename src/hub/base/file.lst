@@ -22,12 +22,14 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ =
+SUB_NAME =
 
-OBJ = \
+LAYER = .
+
+C_OBJ = \
       base_ctl.o
 
-HEADER = \
+C_HEADER = \
          base_macrodefn.hpp \
          base_mathtype.hpp \
          base_timetype.hpp \

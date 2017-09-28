@@ -1,11 +1,11 @@
 # File list.
 # For core.
 
-OBJ = \
+C_OBJ = \
       core_ctl.o \
       core_sngctl.o
 
-SUBDIRS = cls \
+SUB_DIR = cls \
         ccs \
         sys \
         ogr \

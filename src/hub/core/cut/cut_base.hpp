@@ -27,6 +27,9 @@
 
 #include "hub_base.h"
 #include "ust/ust_stringtype.hpp"
+#ifdef OS_CYGWIN
+#include "sys/select.h"
+#endif  // OS_CYGWIN
 
 #define CUT_LIB HUB_LIB
 

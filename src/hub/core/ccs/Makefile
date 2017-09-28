@@ -23,12 +23,12 @@
 ################################################################################
 
 # Options.
-HUB_DIR = ../..
+SRC_DIR = ../../..
 INCLUDE_DIR = -I$(HUB_DIR)
 
 # Include.
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
 default: create_obj
 

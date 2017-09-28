@@ -22,22 +22,23 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = 
+SUB_NAME =
 
-SUBDIRS = \
+LAYER = .
+
+SUB_DIR = \
           base \
           core \
           wrap \
           ctgy
 
-OBJ = \
+C_OBJ = \
       hub_ctl.o \
       hub_modulectl.o
 
-HEADER = \
+C_HEADER = \
          hub_base.h \
-         hub_ctl.hpp
+         hub_ctl.hpp 
 
-LIB_SO_NAME = hub
-EXTRA_LIB_DIR = -L/home/swpcme/me/usr/lib
-EXTRA_LIB_SO = -lgdal -lgsl -lcurl -lfiremod -lrtklib
+C_LIB_SO_NAME = hub
+C_EXTRA_LIB_SO = -lgdal -lgsl -lcurl -lfiremod -lrtklib

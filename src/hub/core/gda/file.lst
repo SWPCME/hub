@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = gda
+SUB_NAME = gda
 
-OBJ = \
+LAYER = gda
+
+C_OBJ = \
       gda_sngctl.o \
       gda_snglockctl.o \
       gda_snglockdriver.o \
@@ -49,7 +51,7 @@ OBJ = \
       gda_translatevector.o \
       gda_translateraster.o
 
-HEADER = \
+C_HEADER = \
          gda_base.h \
          gda_ctl.hpp \
          gda_corectl.hpp \

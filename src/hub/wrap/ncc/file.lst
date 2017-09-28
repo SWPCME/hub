@@ -22,13 +22,15 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = ncc
+SUB_NAME = ncc
 
-OBJ = \
+LAYER = ncc
+
+C_OBJ = \
       ncc_ctl.o \
       ncc_vectorctl.o \
       ncc_vectortype.o
 
-HEADER = \
+C_HEADER = \
          ncc_base.hpp \
          ncc_vectortype.hpp 

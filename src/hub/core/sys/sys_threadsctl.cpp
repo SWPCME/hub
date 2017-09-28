@@ -68,16 +68,17 @@ UErrCodeT CSysThreadsCtl::Init()
  */
 CSysThreadCtl* CSysThreadsCtl::Create(ThreadHandleT* aHandle)
 {
-    pthread_t* id = (pthread_t*) &aHandle->id;
-    pthread_attr_t* attr = (pthread_attr_t*) aHandle->attr;
-    ThreadFuncT* func = &aHandle->func;
-    ThreadFuncHT funcH = func->handle;
-    ThreadFuncAT funcA = func->arg;
-    pthread_create(id, attr, funcH, funcA);
-    CSysThreadCtl* thread = new CSysThreadCtl(aHandle);
-    m_threadCtn.Add(thread);
+    // pthread_t* id = (pthread_t*) &aHandle->id;
+    // pthread_attr_t* attr = (pthread_attr_t*) aHandle->attr;
+    // ThreadFuncT* func = &aHandle->func;
+    // ThreadFuncHT funcH = func->handle;
+    // ThreadFuncAT funcA = func->arg;
+    // pthread_create(id, attr, funcH, funcA);
+    // CSysThreadCtl* thread = new CSysThreadCtl(aHandle);
+    // m_threadCtn.Add(thread);
 
-    return thread;
+    // return thread;
+    return NULL;
 }
 
 /**

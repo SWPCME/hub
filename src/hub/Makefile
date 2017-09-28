@@ -26,8 +26,9 @@
 # Options.
 #
 # Directory.
-HUB_DIR = .
+SRC_DIR = ..
 OBJ_DIR = $(TMP_DIR)
+DOC_SRC_DIR = .
 # Search.
 INCLUDE_DIR = -I$(CURRENT_DIR) -I${BASE_DIR} -I$(CORE_DIR) -I$(CLS_DIR) \
 	-I$(CCS_DIR) -I$(SYS_DIR) -I$(OGR_DIR) -I$(GDA_DIR) -I$(GSL_DIR) \
@@ -35,8 +36,8 @@ INCLUDE_DIR = -I$(CURRENT_DIR) -I${BASE_DIR} -I$(CORE_DIR) -I$(CLS_DIR) \
 	-I$(RTK_DIR) -I$(FMD_DIR)
 
 # Include.
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
 # Target.
 default: target_dir_default create_lib
@@ -44,3 +45,5 @@ default: target_dir_default create_lib
 clean: target_dir_clean clean_lib
 
 install: default target_dir_install install_lib install_header
+
+doc: create_doc

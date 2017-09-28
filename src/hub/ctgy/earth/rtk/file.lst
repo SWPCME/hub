@@ -22,15 +22,17 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = rtk
+SUB_NAME = rtk
 
-OBJ = \
+LAYER = rtk
+
+C_OBJ = \
       rtk_ctl.o \
       rtk_typectl.o \
       rtk_convertctl.o \
       rtk_tidectl.o
 
-HEADER = \
+C_HEADER = \
          rtk_base.hpp \
          rtk_ctl.hpp \
          rtk_convertctl.hpp \

@@ -25,8 +25,8 @@
 # File list.
 # For core.
 
-OBJ = \
+C_OBJ = \
       earth_ctl.o
 
-SUBDIRS = \
+SUB_DIR = \
           rtk

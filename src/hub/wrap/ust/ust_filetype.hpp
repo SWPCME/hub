@@ -46,6 +46,9 @@ class UST_LIB UFileT
     // Attribute.
     UstFileHT Handle();
 
+    // Save file.
+    UErrCodeT Save();
+
     // Read.
     UErrCodeT ReadRow(UStringT *aStr);
 
@@ -60,6 +63,7 @@ class UST_LIB UFileT
     UErrCodeT Close();
 
     UStringT mFileName;
+    UstFileOperCodeT mFileOper;
     CUstFileCtl *mFile;
     UstFileHT mFileH;
 };

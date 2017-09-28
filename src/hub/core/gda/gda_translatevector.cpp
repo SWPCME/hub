@@ -31,6 +31,9 @@
 #include "base_ctl.hpp"
 // core
 #include "core_ctl.hpp"
+// cls
+#include "cls_ctl.hpp"
+#include "cls_processctl.hpp"
 // gda
 #include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
@@ -47,8 +50,7 @@
  */
 CGdaTranslateVector::CGdaTranslateVector()
 {
-    BMD_POINTER_INIT(mGdaType);
-    BMD_POINTER_INIT(mOgrType);
+    InitPointer();
 }
 
 /**
@@ -56,8 +58,7 @@ CGdaTranslateVector::CGdaTranslateVector()
  */
 CGdaTranslateVector::~CGdaTranslateVector()
 {
-    BMD_POINTER_INIT(mGdaType);
-    BMD_POINTER_INIT(mOgrType);
+    InitPointer();
 }
 
 /**
@@ -70,6 +71,14 @@ UErrCodeT CGdaTranslateVector::Init()
 
     return UErrFalse;
 }
+
+/**
+ * \brief To vector.
+ */
+// UErrCodeT CGdaTranslateVector::ToVtr(const UStringT *aCmdArg)
+// {
+//     return UErrFalse;
+// }
 
 /**
  * \brief To vector.
@@ -132,6 +141,17 @@ UErrCodeT CGdaTranslateVector::ToRst(CGdaBandCtl *aDstBand,
 }
 
 /***** Private A *****/
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT CGdaTranslateVector::InitPointer()
+{
+    BMD_POINTER_INIT(mGdaType);
+    BMD_POINTER_INIT(mOgrType);
+
+    return UErrFalse;
+}
 
 /**
  * \brief Translate vector to vector.

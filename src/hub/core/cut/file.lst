@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = cut
+SUB_NAME = cut
 
-OBJ = \
+LAYER = cut
+
+C_OBJ = \
       cut_ctl.o \
       cut_typectl.o \
       cut_easysctl.o \
@@ -34,7 +36,7 @@ OBJ = \
       cut_slistsctl.o \
       cut_slistctl.o
 
-HEADER = \
+C_HEADER = \
          cut_base.hpp \
          cut_ctl.hpp \
          cut_easysctl.hpp \

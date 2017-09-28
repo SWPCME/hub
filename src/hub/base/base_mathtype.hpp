@@ -25,6 +25,8 @@
 #ifndef BASE_MATHTYPE_HPP_INCLUDED
 #define BASE_MATHTYPE_HPP_INCLUDED
 
+const UIntT kSignNeg = -1;
+
 /**
  * \brief Numeric type.
  */

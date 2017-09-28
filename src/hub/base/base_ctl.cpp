@@ -91,7 +91,7 @@ CBaseCtl::CBaseCtl()
 {
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mWrap);
-    BMD_POINTER_INIT(mCore);
+    BMD_POINTER_INIT(mCtgy);
 }
 
 /**

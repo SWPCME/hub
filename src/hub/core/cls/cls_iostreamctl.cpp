@@ -33,6 +33,7 @@
  */
 CClsIoStreamCtl::CClsIoStreamCtl()
 {
+    InitPointer();
 }
 
 /**

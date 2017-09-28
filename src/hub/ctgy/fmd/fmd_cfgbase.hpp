@@ -25,6 +25,9 @@
 #ifndef FMD_CFGBASE_HPP_INCLUDED
 #define FMD_CFGBASE_HPP_INCLUDED
 
+#include "fmd_base.hpp"
+#include "ust/ust_containertype.hpp"
+
 const UIntT kNFmdCfg = 50;
 const char kFmdCfgDelimeter[kNFmdCfg] = ":";
 const char kFmdCfgVersion[kNFmdCfg] = "FARSITE INPUTS FILE VERSION 1.0";
@@ -57,59 +60,216 @@ const char kFmdCfgSpreadRate[kNFmdCfg] = "SPREADRATE";
 const char kFmdCfgIntensity[kNFmdCfg] = "INTENSITY";
 const char kFmdCfgCrownState[kNFmdCfg] = "CROWNSTATE";
 
-typedef struct
+/**
+ * \brief Fmd config for time type.
+ */
+class FMD_LIB FmdCfgTimeT
 {
-    UIntT year;
-    UIntT mon;
-    UIntT mday;
-    UIntT hour;
-    UIntT min;
-} FmdCfgTimeT;
+  public:
+    FmdCfgTimeT();
+    FmdCfgTimeT(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
+                UIntT aMin);
+    ~FmdCfgTimeT();
 
-typedef struct
-{
-    FmdCfgTimeT begin;
-    FmdCfgTimeT end;
-    UIntT step;
-} FmdCfgBurnTimeT;
+    // Set.
+    UErrCodeT SetAll(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
+                     UIntT aMin);
+    UErrCodeT SetYear(UIntT aYear);
+    UErrCodeT SetMon(UIntT aMon);
+    UErrCodeT SetMDay(UIntT aMDay);
+    UErrCodeT SetHour(UIntT aHour);
+    UErrCodeT SetMin(UIntT aMin);
 
-typedef struct
-{
-    UIntT model;
-    UIntT fm1;
-    UIntT fm10;
-    UIntT fm100;
-    UIntT fmLiveHerb;
-    UIntT fmLiveWoody;
-} FmdCfgFuelMoisturesT;
-typedef UContainerT<FmdCfgFuelMoisturesT> FmdCfgFuelMoisturesCtnT;
-typedef UIteratorT<FmdCfgFuelMoisturesT> FmdCfgFuelMoisturesItT;
+    // Get.
+    UErrCodeT All(UIntT *aYear, UIntT *aMon, UIntT *aMDay, UIntT *aHour,
+                  UIntT *aMin) const;
+    UIntT Year() const;
+    UIntT Mon() const;
+    UIntT MDay() const;
+    UIntT Hour() const;
+    UIntT Min() const;
 
-typedef struct
-{
-    UIntT speed;
-    UIntT direction;
-} FmdCfgWindT;
+    // Operator.
+    UErrCodeT operator =(const FmdCfgTimeT &aTime);
 
-typedef struct
-{
-    UIntT cover;
-    UIntT precipAmount;
-} FmdCfgCloudT;
+  protected:
+  private:
+    UErrCodeT Init();
 
-typedef struct
-{
-    UIntT temperature;
-    UIntT humidity;
-} FmdCfgAirT;
+    UIntT mYear;
+    UIntT mMon;
+    UIntT mMDay;
+    UIntT mHour;
+    UIntT mMin;
+};
 
-typedef struct
+/**
+ * \brief Fmd config for burn time type.
+ */
+class FMD_LIB FmdCfgBurnTimeT
 {
-    FmdCfgTimeT time;
-    FmdCfgWindT wind;
-    FmdCfgCloudT cloud;
-    FmdCfgAirT air;
-} FmdCfgWeatherT;
+  public:
+    FmdCfgBurnTimeT();
+    FmdCfgBurnTimeT(const FmdCfgTimeT *aBegin, const FmdCfgTimeT *aEnd,
+                    UIntT aStep);
+    ~FmdCfgBurnTimeT();
+
+    // Set.
+    UErrCodeT SetAll(const FmdCfgTimeT *aBegin, const FmdCfgTimeT *aEnd, UIntT aStep);
+    // Get.
+    UErrCodeT All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd, UIntT *aStep) const;
+    const FmdCfgTimeT *Begin() const;
+    const FmdCfgTimeT *End() const;
+    UIntT Step() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    FmdCfgTimeT mBegin;
+    FmdCfgTimeT mEnd;
+    UIntT mStep;
+};
+
+/**
+ * \brief Fmd config for fuel moisture.
+ */
+class FMD_LIB FmdCfgFuelMoistureT
+{
+  public:
+    FmdCfgFuelMoistureT();
+    FmdCfgFuelMoistureT(UIntT aModel, UIntT aFm1, UIntT aFm10, UIntT aFm100,
+                        UIntT aFmLiveHerb, UIntT aFmLiveWoody);
+    ~FmdCfgFuelMoistureT();
+
+    // Set.
+    UErrCodeT SetAll(UIntT aModel, UIntT aFm1, UIntT aFm10, UIntT aFm100,
+                     UIntT aFmLiveHerb, UIntT aFmLiveWoody);
+    // Get.
+    UErrCodeT All(UIntT *aModel, UIntT *aFm1, UIntT *aFm10, UIntT *aFm100,
+                  UIntT *aFmLiveHerb, UIntT *aFmLiveWoody) const;
+    UIntT Model() const;
+    UIntT Fm1() const;
+    UIntT Fm10() const;
+    UIntT Fm100() const;
+    UIntT FmLiveHerb() const;
+    UIntT FmLiveWoody() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UIntT mModel;
+    UIntT mFm1;
+    UIntT mFm10;
+    UIntT mFm100;
+    UIntT mFmLiveHerb;
+    UIntT mFmLiveWoody;
+};
+typedef UContainerT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureCtnT;
+typedef UIteratorT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureItT;
+
+class FMD_LIB FmdCfgWindT
+{
+  public:
+    FmdCfgWindT();
+    FmdCfgWindT(UIntT aSpeed, UIntT aDirection);
+    ~FmdCfgWindT();
+
+    // Set.
+    UErrCodeT SetAll(UIntT aSpeed, UIntT aDirection);
+
+    // Get.
+    UErrCodeT All(UIntT *aSpeed, UIntT *aDirection) const;
+    UIntT Speed() const;
+    UIntT Direction() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UIntT mSpeed;
+    UIntT mDirection;
+};
+
+class FMD_LIB FmdCfgCloudT
+{
+  public:
+    FmdCfgCloudT();
+    FmdCfgCloudT(UIntT aCover, UFloatT aPrecipAmount);
+    ~FmdCfgCloudT();
+
+    // Set value.
+    UErrCodeT SetAll(UIntT aCover, UFloatT aPrecipAmount);
+
+    // Get value.
+    UErrCodeT All(UIntT *aCover, UFloatT *aPrecipAmount) const;
+    UIntT Cover() const;
+    UFloatT PrecipAmount() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UIntT mCover;
+    UFloatT mPrecipAmount;
+};
+
+class FMD_LIB FmdCfgAirT
+{
+  public:
+    FmdCfgAirT();
+    FmdCfgAirT(UIntT aTemperature, UIntT aHumidity);
+    ~FmdCfgAirT();
+
+    // Set value.
+    UErrCodeT SetAll(UIntT aTemperature, UIntT aHumidity);
+
+    // Get value.
+    UErrCodeT All(UIntT *aTemperature, UIntT *aHumidity) const;
+    UIntT Temperature() const;
+    UIntT Humidity() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UIntT mTemperature;
+    UIntT mHumidity;
+};
+
+/**
+ * \brief Fmd config for weather.
+ */
+class FMD_LIB FmdCfgWeatherT
+{
+  public:
+    FmdCfgWeatherT();
+    FmdCfgWeatherT(const FmdCfgTimeT *aTime, const FmdCfgWindT *aWind,
+                   const FmdCfgCloudT *aCloud, const FmdCfgAirT *aAir);
+    ~FmdCfgWeatherT();
+
+    // Set value.
+    UErrCodeT SetAll(const FmdCfgTimeT *aTime, const FmdCfgWindT *aWind,
+                     const FmdCfgCloudT *aCloud, const FmdCfgAirT *aAir);
+
+    // Get value.
+    UErrCodeT All(FmdCfgTimeT *aTime, FmdCfgWindT *aWind,
+                  FmdCfgCloudT *aCloud, FmdCfgAirT *aAir) const;
+    const FmdCfgTimeT *Time() const;
+    const FmdCfgWindT *Wind() const;
+    const FmdCfgCloudT *Cloud() const;
+    const FmdCfgAirT *Air() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    FmdCfgTimeT mTime;
+    FmdCfgWindT mWind;
+    FmdCfgCloudT mCloud;
+    FmdCfgAirT mAir;
+};
 typedef UContainerT<FmdCfgWeatherT> FmdCfgWeatherCtnT;
 typedef UIteratorT<FmdCfgWeatherT> FmdCfgWeatherItT;
 

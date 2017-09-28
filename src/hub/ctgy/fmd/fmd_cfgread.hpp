@@ -38,6 +38,8 @@ class FMD_LIB CFmdCfgRead
 
     UErrCodeT Init();
 
+    // Private.
+    CFmdCfgRead();
   protected:
   private:
     UErrCodeT InitPointer();

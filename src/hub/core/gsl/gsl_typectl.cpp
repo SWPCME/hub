@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gsl_typectl.cpp 2017-05 $
+ * $Id: gsl_typectl.cpp 2017-09 $
  *
  * Project:  GSL (GSL: Gnu Scientific Library).
  * Purpose:  Type controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -77,6 +77,33 @@ UErrCodeT CGslTypeCtl::ToVector(GslVectorT *aDest, const GslVectorHT aSrc)
     aDest->data = src->data;
     ToBlock(aDest->block, (GslBlockHT) src->block);
     aDest->owner = src->owner;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To Legendre.
+ */
+UErrCodeT CGslTypeCtl::ToSfLegendreAssocCode(gsl_sf_legendre_t *aDst,
+                                             const GslSfLegendreAssocCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GslSfLegendreAssocUnstd:
+        *aDst = GSL_SF_LEGENDRE_NONE;
+        break;
+    case GslSfLegendreAssocSchmidt:
+        *aDst = GSL_SF_LEGENDRE_SCHMIDT;
+        break;
+    case GslSfLegendreAssocSpharm:
+        *aDst = GSL_SF_LEGENDRE_SPHARM;
+        break;
+    case GslSfLegendreAssocFull:
+        *aDst = GSL_SF_LEGENDRE_FULL;
+        break;
+    default:
+        break;
+    }
 
     return UErrFalse;
 }

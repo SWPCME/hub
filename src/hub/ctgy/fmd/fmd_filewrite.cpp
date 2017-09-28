@@ -94,7 +94,7 @@ UErrCodeT CFmdFileWrite::All(const UStringT *aFile, UFlagCodeT aFlag)
     return UErrFalse;
 }
 
-UErrCodeT CFmdFileWrite::MapEnv(UStringT *aFile, BTimeTmT *aTm,
+UErrCodeT CFmdFileWrite::MapEnv(const UStringT *aFile, BTimeTmT *aTm,
                                 FmdMapEnvIntervalCodeT aCode)
 {
     UIntT code;

@@ -22,31 +22,34 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = ogr
+SUB_NAME = ogr
 
-OBJ = \
-      ogr_ctl.o \
-      ogr_typectl.o \
-      ogr_driverctl.o \
-      ogr_datasrcctl.o \
-      ogr_layerctl.o \
-      ogr_featuredefnctl.o \
-      ogr_fielddefnctl.o \
-      ogr_geomfielddefnctl.o \
-      ogr_featuresctl.o \
-      ogr_featurectl.o \
-      ogr_fieldctl.o \
-      ogr_geometryctl.o 
+LAYER = ogr
 
-HEADER = \
-         ogr_base.h \
-         ogr_ctl.hpp \
-         ogr_driverctl.hpp \
-         ogr_datasrcctl.hpp \
-         ogr_layerctl.hpp \
-         ogr_fieldctl.hpp \
-         ogr_geomfielddefnctl.hpp \
-         ogr_featuresctl.hpp \
-         ogr_featurectl.hpp \
-         ogr_fieldctl.hpp \
-         ogr_geometryctl.hpp 
+C_OBJ = \
+        ogr_ctl.o \
+        ogr_typectl.o \
+        ogr_driverctl.o \
+        ogr_datasrcctl.o \
+        ogr_layerctl.o \
+        ogr_featuredefnctl.o \
+        ogr_fielddefnctl.o \
+        ogr_geomfielddefnctl.o \
+        ogr_featuresctl.o \
+        ogr_featurectl.o \
+        ogr_fieldctl.o \
+        ogr_geometryctl.o 
+
+C_HEADER = \
+           ogr_base.h \
+           ogr_ctl.hpp \
+           ogr_driverctl.hpp \
+           ogr_datasrcctl.hpp \
+           ogr_layerctl.hpp \
+           ogr_featuredefnctl.hpp \
+           ogr_fielddefnctl.hpp \
+           ogr_geomfielddefnctl.hpp \
+           ogr_featuresctl.hpp \
+           ogr_featurectl.hpp \
+           ogr_fieldctl.hpp \
+           ogr_geometryctl.hpp 

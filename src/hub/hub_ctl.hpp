@@ -32,7 +32,12 @@
 
 #include "hub_base.h"
 
+// hub
 class CHubModuleCtl;
+// core
+class COgrCtl;
+// ctgy
+class CFmdCtl;
 
 class CHubCtl
 {
@@ -45,11 +50,17 @@ class CHubCtl
     UErrCodeT DeregisterAll();
     UHandleT Module(HubCodeT aCode);
 
- protected:
- private:
+    // core
+    COgrCtl *Ogr();
+    // ctgy
+    CFmdCtl *Fmd();
+
+    // Private, not to use direct.
     CHubCtl();
     ~CHubCtl();
 
+ protected:
+ private:
     static CHubCtl* mHub;
     CHubModuleCtl* mModule;
 };

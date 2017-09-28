@@ -1,9 +1,9 @@
 # Directory list.
 # For core.
 
-SUBDIRS = \
+SUB_DIR = \
           ust \
           vtr \
           ncc
 
-OBJ = wrap_ctl.o
+C_OBJ = wrap_ctl.o

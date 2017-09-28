@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gsl_ctl.hpp 2017-05 $
+ * $Id: gsl_ctl.hpp 2017-09 $
  *
  * Project:  GSL (GSL: Gnu Scientific Library).
  * Purpose:  Gsl controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -30,6 +30,7 @@
 class CGslTypeCtl;
 class CGslVectorCtl;
 class CGslBlasCtl;
+class CGslSfCtl;
 
 class GSL_LIB CGslCtl
 {
@@ -41,12 +42,16 @@ class GSL_LIB CGslCtl
     CGslTypeCtl *Type();
     CGslVectorCtl *Vector();
     CGslBlasCtl *Blas();
+    CGslSfCtl *Sf();
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
     CGslTypeCtl *mType;
     CGslVectorCtl *mVector;
     CGslBlasCtl *mBlas;
+    CGslSfCtl *mSf;
 };
 
 #endif  // GSL_CTL_HPP_INCLUDED

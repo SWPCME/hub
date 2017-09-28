@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gsl_typectl.hpp 2017-05 $
+ * $Id: gsl_typectl.hpp 2017-09 $
  *
  * Project:  GSL (GSL: Gnu Scientific Library).
  * Purpose:  Type controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -25,8 +25,13 @@
 #ifndef GSL_TYPE_HPP_INCLUDED
 #define GSL_TYPE_HPP_INCLUDED
 
+// gsl
 #include "gsl_base.hpp"
+// base
 #include "base_mathtype.hpp"
+
+// GNU Gsl.
+#include "gsl_sf_legendre.h"
 
 class GSL_LIB CGslTypeCtl
 {
@@ -37,6 +42,8 @@ class GSL_LIB CGslTypeCtl
     UErrCodeT Init();
     UErrCodeT ToVector(GslVectorHT aDest, const GslVectorT *aSrc);
     UErrCodeT ToVector(GslVectorT *aDest, const GslVectorHT aSrc);
+    UErrCodeT ToSfLegendreAssocCode(gsl_sf_legendre_t *aDst,
+                                    const GslSfLegendreAssocCodeT aSrc);
 
   protected:
   private:

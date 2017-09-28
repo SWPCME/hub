@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gsl_base.hpp 2017-05 $
+ * $Id: gsl_base.hpp 2017-09 $
  *
  * Project:  GSL (GSL: Gnu Science Library).
  * Purpose:  Gsl base definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -25,7 +25,10 @@
 #ifndef GSL_BASE_HPP_INCLUDED
 #define GSL_BASE_HPP_INCLUDED
 
+// hub
 #include "hub_base.h"
+// base
+#include "base_macrodefn.hpp"
 
 #define GSL_LIB HUB_LIB
 
@@ -51,5 +54,28 @@ typedef struct
     int owner;
 } GslVectorT;
 typedef UHandleT GslVectorHT;
+
+/**
+ * \brief Special function legendre.
+ */
+typedef enum
+{
+    GslSfLegendreAssocUnstd   = 1,
+    GslSfLegendreAssocSchmidt = 2,
+    GslSfLegendreAssocSpharm  = 3,
+    GslSfLegendreAssocFull    = 4,
+} GslSfLegendreAssocCodeT;
+typedef UHandleT GslSfLegendreAssocCodeHT;
+
+/**
+ * \brief Gsl type controler of macro.
+ */
+#define GSL_TYPE_CTL(aCtl)                      \
+    if (aCtl == NULL)                           \
+    {                                           \
+        BMD_CORE_CTL(coreCtl);                  \
+        CGslCtl *gslCtl = coreCtl->Gsl();       \
+        aCtl = gslCtl->Type();                  \
+    }
 
 #endif  // GSL_BASE_HPP_INCLUDED

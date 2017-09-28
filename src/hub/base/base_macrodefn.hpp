@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: base_macrodefn.hpp 2017-08 $
+ * $Id: base_macrodefn.hpp 2017-09 $
  *
  * Project:  Base.
  * Purpose:  Macro definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016-08 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-08 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -25,7 +25,14 @@
 #ifndef BASE_MACRODEFN_HPP_INCLUDED
 #define BASE_MACRODEFN_HPP_INCLUDED
 
+#define BMD_CHECK_ERR(aFunc) \
+    if (aFunc == UErrTrue)   \
+    {                        \
+        return UErrTrue;     \
+    }
+
 #define BMD_MODULE(aCtl, aClass, aCode)             \
+    if (aCtl == NULL)                               \
     {                                               \
         CHubCtl *hubCtl = CHubCtl::Hub();           \
         aCtl = (aClass *) hubCtl->Module(aCode);    \
@@ -56,6 +63,24 @@
 
 #define BMD_POINTER_INIT(aName)                 \
     aName = NULL
+
+#define BMD_POINTER_NEWH(aName, aClass, aHandle) \
+    aName = (aHandle) new aClass
+
+#define BMD_POINTER_DELH(aName, aHandle) \
+    if (aName != NULL)                   \
+    {                                    \
+        delete (aHandle *) aName;        \
+        BMD_POINTER_INIT(aName);         \
+    }
+
+#define BMD_POINTER_DEL(aName)                  \
+    if (aName != NULL)                          \
+    {                                           \
+        delete aName;                           \
+        BMD_POINTER_INIT(aName);                \
+    }
+
 
 #define BMD_CLASS_H(aName, aClass) \
     ((aClass *) aName)
@@ -125,17 +150,10 @@
     BMD_CLASS_NEWH_A_3(aName, aClass, aClass, aParam1, aParam2, aParam3)
 
 #define BMD_CLASS_DELH(aName, aClass) \
-    if (aName != NULL)                \
-    {                                 \
-        delete (aClass *) aName;      \
-        BMD_POINTER_INIT(aName);      \
-    }
+    BMD_POINTER_DELH(aName, aClass)
 
-#define BMD_CLASS_DEL(aName) \
-    if (aName != NULL)       \
-    {                        \
-        delete aName;        \
-    }
+#define BMD_CLASS_DEL(aName)          \
+    BMD_POINTER_DEL(aName)
 
 #define BMD_BASE_CTL(aCtl) CBaseCtl *aCtl = CBaseCtl::Base()
 

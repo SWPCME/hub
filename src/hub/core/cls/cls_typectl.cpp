@@ -104,7 +104,9 @@ UErrCodeT CClsTypeCtl::ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc)
     aDest->wday = src->tm_wday;
     aDest->yday = src->tm_yday;
     aDest->isdst = src->tm_isdst;
+#ifdef OS_UNIX
     aDest->gmtoff = src->tm_gmtoff;
+#endif
     // aDest->zone = src->tm_zone;
 
     return UErrFalse;

@@ -70,7 +70,7 @@ class UST_LIB UContainerT
     ContentT operator [](const KeyT &aKey);
     UErrCodeT operator =(const UContainerT<ContentT, KeyT> &aCtn);
 
- protected:
+  protected:
   private:
     UErrCodeT Init(const UContainerCodeT aCode);
 

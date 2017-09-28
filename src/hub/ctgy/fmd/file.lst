@@ -22,13 +22,16 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = fmd
+SUB_NAME = fmd
 
-OBJ = \
+LAYER = fmd
+
+C_OBJ = \
       fmd_ctl.o \
       fmd_typectl.o \
       fmd_masterctl.o \
       fmd_filectl.o \
+      fmd_cfgbase.o \
       fmd_cfgread.o \
       fmd_cfgwrite.o \
       fmd_filecfg.o \
@@ -38,7 +41,7 @@ OBJ = \
       fmd_burnctl.o \
       fmd_burntime.o 
 
-HEADER = \
+C_HEADER = \
          fmd_base.hpp \
          fmd_ctl.hpp \
          fmd_masterctl.hpp \

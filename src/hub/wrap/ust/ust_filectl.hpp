@@ -46,6 +46,7 @@ class UST_LIB CUstFileCtl
     UErrCodeT Open(UstFileHT *aFileH, const UStringT *aFileName,
                    UstFileOperCodeT aOper);
     UErrCodeT Close(UstFileHT *aFileH);
+    UErrCodeT Save(UstFileHT *mFileH, const UStringT *aFileName);
 
     // Read.
     UErrCodeT ReadRow(UStringT *aStr, UstFileHT aFileH);
@@ -59,6 +60,8 @@ class UST_LIB CUstFileCtl
     UErrCodeT InitPointer();
     UErrCodeT ToFileOper(ClsFileOperCodeT *aDst,
                          const UstFileOperCodeT aSrc);
+    UErrCodeT CheckWrite();
+    UErrCodeT Reopen();
 
     CClsStreamFile *mFile;
     CClsFormatOutput *mFrmtOut;

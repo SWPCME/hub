@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = vtr
+SUB_NAME = vtr
 
-OBJ = \
+LAYER = vtr
+
+C_OBJ = \
       vtr_ctl.o \
       vtr_formatctl.o \
       vtr_datasrcctl.o \
@@ -33,8 +35,8 @@ OBJ = \
       vtr_layerread.o \
       vtr_layerwrite.o
 
-HEADER = \
-         vtr_base.h \
+C_HEADER = \
+         vtr_base.hpp \
          vtr_formatctl.hpp \
          vtr_ctl.hpp \
          vtr_datasrcctl.hpp \

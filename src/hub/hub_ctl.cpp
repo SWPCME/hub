@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: hub_ctl.cpp 2017-07 $
+ * $Id: hub_ctl.cpp 2017-08 $
  *
  * Project:  Hub.
  * Purpose:  Hub ctl.
@@ -45,14 +45,11 @@ UErrCodeT CHubCtl::Init()
 /**
  * \brief Get Hub Control.
  *
- * @return Handle of "CHubCtrl", if successful; NULL, if failed.
+ * @return Handle of "CHubCtl", if successful; NULL, if failed.
  */
 CHubCtl* CHubCtl::Hub()
 {
-    if (mHub == NULL)
-    {
-        mHub = new CHubCtl;
-    }
+    BMD_CLASS_NEW(mHub, CHubCtl);
 
     return mHub;
 }
@@ -107,6 +104,26 @@ UErrCodeT CHubCtl::DeregisterAll()
 UHandleT CHubCtl::Module(HubCodeT aCode)
 {
     return mModule->Module(aCode);
+}
+
+/**
+ * \brief Ogr handle.
+ *
+ * @return Handle of ogr, if successful; NULL, if failed.
+ */
+COgrCtl *CHubCtl::Ogr()
+{
+    return (COgrCtl *) Module(HubMOgr);
+}
+
+/**
+ * \brief Fmd handle.
+ *
+ * @return Handle of fmd, if successful; NULL, if failed.
+ */
+CFmdCtl *CHubCtl::Fmd()
+{
+    return (CFmdCtl *) Module(HubMFmd);
 }
 
 /***** Private A *****/

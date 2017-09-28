@@ -42,7 +42,7 @@ class FMD_LIB CFmdFileWrite
     UErrCodeT Init();
     UErrCodeT All(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
     // Map Environment.
-    UErrCodeT MapEnv(UStringT *aFile, BTimeTmT *aTm,
+    UErrCodeT MapEnv(const UStringT *aFile, BTimeTmT *aTm,
                      FmdMapEnvIntervalCodeT aCode);
     // Special.
     UErrCodeT Special(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);

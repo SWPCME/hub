@@ -49,7 +49,7 @@ UErrCodeT CClsProcessCtl::Init()
 /**
  * \brief System.
  */
-UErrCodeT CClsProcessCtl::System(const UStringT *aCmd)
+UErrCodeT CClsProcessCtl::Sys(const UStringT *aCmd)
 {
     system(aCmd->ToA());
 

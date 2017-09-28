@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = ust
+SUB_NAME = ust
 
-OBJ = \
+LAYER = ust
+
+C_OBJ = \
       ust_ctl.o \
       ust_stringctl.o \
       ust_stringtype.o \
@@ -33,10 +35,11 @@ OBJ = \
       ust_filesctl.o \
       ust_filestype.o
 
-HEADER = \
+C_HEADER = \
          ust_base.h \
          ust_stringbase.h \
          ust_stringtype.hpp \
+         ust_filebase.hpp \
          ust_filetype.hpp \
          ust_filestype.hpp \
          ust_containerctl.hpp \

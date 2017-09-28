@@ -97,7 +97,7 @@ UErrCodeT CClsStreamFile::Close(ClsFileHT *aFileH)
  */
 UErrCodeT CClsStreamFile::CloseAll()
 {
-    fcloseall();
+    // fcloseall();
 
     return UErrFalse;
 }

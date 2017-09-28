@@ -34,6 +34,17 @@
 
 #define VTR_LIB HUB_LIB
 
+typedef enum
+{
+    VtrFormatTab    = 1,
+    VtrFormatShp    = 2,
+    VtrFormatCsv    = 3,
+    VtrFormatXls    = 4,
+    VtrFormatXlsx   = 5,
+    VtrFormatSqlite = 6,
+    VtrFormatJson   = 7,
+} VtrFormatCodeT;
+
 // typedef GdaRasterSizeT VtrRasterSizeT;
 
 /** 

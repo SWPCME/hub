@@ -47,7 +47,11 @@ class FMD_LIB CFmdCfgWrite
     UErrCodeT BurnTime(const FmdCfgBurnTimeT *aTime);
     UErrCodeT Weather(const FmdCfgWeatherCtnT *aWeatherCtn);
     UErrCodeT Elevation(UIntT aElev);
-    UErrCodeT FuelMoistures(const FmdCfgFuelMoisturesCtnT *aFm);
+    UErrCodeT FuelMoisture(const FmdCfgFuelMoistureCtnT *aFm);
+    UErrCodeT Save();
+
+    // Private.
+    CFmdCfgWrite();
 
   protected:
   private:

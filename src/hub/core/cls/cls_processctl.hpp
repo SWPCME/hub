@@ -35,7 +35,7 @@ class CLS_LIB CClsProcessCtl
     ~CClsProcessCtl();
 
     UErrCodeT Init();
-    UErrCodeT System(const UStringT *aCmd);
+    UErrCodeT Sys(const UStringT *aCmd);
     UErrCodeT Exec(const UStringT *aFilename,
                    const UStringT *aArgv, ...);
 

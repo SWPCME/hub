@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gsl_ctl.cpp 2017-05 $
+ * $Id: gsl_ctl.cpp 2017-09 $
  *
  * Project:  GSL (GSL: Gnu Scientific Library).
  * Purpose:  Gsl controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -24,19 +24,20 @@
 
 #include "gsl_ctl.hpp"
 
-// Gsl.
+// base
+#include "base_macrodefn.hpp"
+// gsl
 #include "gsl_typectl.hpp"
 #include "gsl_vectorctl.hpp"
 #include "gsl_blasctl.hpp"
+#include "gsl_sfctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CGslCtl::CGslCtl()
 {
-    mType = NULL;
-    mVector = NULL;
-    mBlas = NULL;
+    InitPointer();
 }
 
 /**
@@ -44,20 +45,10 @@ CGslCtl::CGslCtl()
  */
 CGslCtl::~CGslCtl()
 {
-    if (mType != NULL)
-    {
-        delete mType;
-    }
-
-    if (mVector != NULL)
-    {
-        delete mVector;
-    }
-
-    if (mBlas != NULL)
-    {
-        delete mBlas;
-    }
+    BMD_CLASS_DEL(mType);
+    BMD_CLASS_DEL(mVector);
+    BMD_CLASS_DEL(mBlas);
+    BMD_CLASS_DEL(mSf);
 }
 
 /**
@@ -73,11 +64,7 @@ UErrCodeT CGslCtl::Init()
  */
 CGslTypeCtl *CGslCtl::Type()
 {
-    if (mType == NULL)
-    {
-        mType = new CGslTypeCtl;
-        mType->Init();
-    }
+    BMD_CLASS_NEW(mType, CGslTypeCtl);
 
     return mType;
 }
@@ -87,11 +74,7 @@ CGslTypeCtl *CGslCtl::Type()
  */
 CGslVectorCtl *CGslCtl::Vector()
 {
-    if (mVector == NULL)
-    {
-        mVector = new CGslVectorCtl;
-        mVector->Init();
-    }
+    BMD_CLASS_NEW(mVector, CGslVectorCtl);
 
     return mVector;
 }
@@ -101,15 +84,34 @@ CGslVectorCtl *CGslCtl::Vector()
  */
 CGslBlasCtl *CGslCtl::Blas()
 {
-    if (mBlas == NULL)
-    {
-        mBlas = new CGslBlasCtl;
-        mBlas->Init();
-    }
+    BMD_CLASS_NEW(mBlas, CGslBlasCtl);
 
     return mBlas;
 }
 
+/**
+ * \brief Special Functions.
+ */
+CGslSfCtl *CGslCtl::Sf()
+{
+    BMD_CLASS_NEW(mSf, CGslSfCtl);
+
+    return mSf;
+}
+
 /***** Private A *****/
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT CGslCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mVector);
+    BMD_POINTER_INIT(mBlas);
+    BMD_POINTER_INIT(mSf);
+
+    return UErrFalse;
+}
 
 /***** Private B *****/

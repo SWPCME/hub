@@ -26,6 +26,7 @@
 
 // base
 #include "base_ctl.hpp"
+#include "base_macrodefn.hpp"
 // core
 #include "core_ctl.hpp"
 // cls
@@ -70,7 +71,7 @@ UErrCodeT CUstFileCtl::Init()
 }
 
 /**
- * \brief Create.
+ * \brief Create file.
  */
 UErrCodeT CUstFileCtl::Open(UstFileHT *aFileH, const UStringT *aFileName,
                             UstFileOperCodeT aOper)
@@ -82,11 +83,19 @@ UErrCodeT CUstFileCtl::Open(UstFileHT *aFileH, const UStringT *aFileName,
 }
 
 /**
- * \brief Close.
+ * \brief Close file.
  */
 UErrCodeT CUstFileCtl::Close(UstFileHT *aFileH)
 {
     return mFile->Close(aFileH);
+}
+
+/**
+ * \brief Save file.
+ */
+UErrCodeT CUstFileCtl::Save(UstFileHT *mFileH, const UStringT *aFileName)
+{
+    return UErrTrue;
 }
 
 /**
@@ -127,12 +136,38 @@ UErrCodeT CUstFileCtl::InitPointer()
 }
 
 /**
- * \brief 
+ * \brief To file operation.
  */
 UErrCodeT CUstFileCtl::ToFileOper(ClsFileOperCodeT *aDst,
                                   const UstFileOperCodeT aSrc)
 {
     *aDst = (ClsFileOperCodeT) aSrc;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Check file operation of write.
+ */
+UErrCodeT CUstFileCtl::CheckWrite()
+{
+    // UstFileOperCodeT oper;
+    // if ((oper == UstFileOperW) || (oper == UstFileOperWt)
+    //     || (oper == UstFileOperWta) || (oper == UstFileOperWb)
+    //     || (oper == UstFileOperWba))
+    // {
+    //     return UErrFalse;
+    // }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Reopen file.
+ */
+UErrCodeT CUstFileCtl::Reopen()
+{
+    BMD_CHECK_ERR(CheckWrite());
 
     return UErrFalse;
 }

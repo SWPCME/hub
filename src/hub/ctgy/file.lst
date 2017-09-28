@@ -25,9 +25,9 @@
 # File list.
 # For core.
 
-OBJ = \
+C_OBJ = \
       ctgy_ctl.o
 
-SUBDIRS = \
+SUB_DIR = \
           earth \
           fmd 

@@ -47,9 +47,9 @@ UErrCodeT CRstUtilMerge::Init()
 }
 
 /**
- * \brief Add raster band.
+ * \brief Merge to raster.
  */
-UErrCodeT CRstUtilMerge::Add()
+UErrCodeT CRstUtilMerge::ToRst(const RstMergeToRstOptT *aRstOpt)
 {
     return UErrFalse;
 }

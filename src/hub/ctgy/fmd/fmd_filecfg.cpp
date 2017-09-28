@@ -28,6 +28,16 @@
 #include "fmd_cfgread.hpp"
 #include "fmd_cfgwrite.hpp"
 
+
+/**
+ * \brief Constructor.
+ * Private.
+ * Do not use this function.
+ */
+CFmdFileCfg::CFmdFileCfg()
+{
+}
+
 /**
  * \brief Constructor.
  */
@@ -113,7 +123,7 @@ UErrCodeT CFmdFileCfg::InitCfg(const UStringT *aFileName,
  */
 UErrCodeT CFmdFileCfg::Create(const UStringT *aFileName)
 {
-    mFile.InitFile(aFileName, UstFileOperWba);
+    mFile.InitFile(aFileName, UstFileOperWta);
 
     return UErrFalse;
 }
@@ -123,7 +133,7 @@ UErrCodeT CFmdFileCfg::Create(const UStringT *aFileName)
  */
 UErrCodeT CFmdFileCfg::Load(const UStringT *aFileName)
 {
-    mFile.InitFile(aFileName, UstFileOperWba);
+    mFile.InitFile(aFileName, UstFileOperWta);
 
     return UErrFalse;
 }

@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = cls
+SUB_NAME = cls
 
-OBJ = \
+LAYER = cls
+
+C_OBJ = \
       cls_ctl.o \
       cls_typectl.o \
       cls_stringctl.o \
@@ -44,7 +46,7 @@ OBJ = \
       cls_timectl.o \
       cls_processctl.o
 
-HEADER = \
+C_HEADER = \
          cls_base.h \
          cls_ctl.hpp \
          cls_stringctl.hpp \

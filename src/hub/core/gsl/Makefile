@@ -23,13 +23,13 @@
 ################################################################################
 
 # Options.
-HUB_DIR = ../..
-INCLUDE_DIR = -I$(HUB_DIR) -I${BASE_DIR} -I${CORE_DIR} -I$(CLS_DIR) \
-	-I$(CCS_DIR) -I$(UST_DIR) -I${INSTALL_H_DIR}/gsl/unix
+SRC_DIR = ../../..
+INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
+	-I$(CCS_DIR) -I$(UST_DIR) -I$(INSTALL_H_DIR)/gsl/$(OS)
 
 # Include.
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
 default: create_obj
 

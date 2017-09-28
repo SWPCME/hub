@@ -23,14 +23,14 @@
 ################################################################################
 
 # Options.
-HUB_DIR = ../../..
+SRC_DIR = ../../../..
 INCLUDE_DIR = -I$(HUB_DIR) -I${BASE_DIR} -I$(CLS_DIR) -I$(CCS_DIR) -I$(WRAP_DIR)\
 	-I$(UST_DIR) -I$(CTGY_DIR) -I$(EARTH_DIR) \
-	-I$(INSTALL_H_DIR)/ctgy/earth/rtklib/unix
+	-I$(INSTALL_H_DIR)/ctgy/earth/rtklib/${OS}
 
 # Include.
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
 default: create_obj
 

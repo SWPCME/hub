@@ -173,6 +173,15 @@ ContentT UContainerT<ContentT, KeyT>::Content(const KeyT &aKey)
 
     return *content;
 }
+
+/**
+ * \brief Key.
+ */
+template <typename ContentT, typename KeyT>
+const KeyT UContainerT<ContentT, KeyT>::Key(const ContentT &aContent)
+{
+    return NULL;
+}
  
 /**
  * \brief Clear.

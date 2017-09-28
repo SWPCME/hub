@@ -31,6 +31,15 @@
 
 /**
  * \brief Constructor.
+ * Private.
+ * Do not use this function.
+ */
+CFmdCfgWrite::CFmdCfgWrite()
+{
+}
+
+/**
+ * \brief Constructor.
  */
 CFmdCfgWrite::CFmdCfgWrite(UFileT *aFile)
 {
@@ -61,11 +70,11 @@ UErrCodeT CFmdCfgWrite::BurnTime(const FmdCfgBurnTimeT *aTime)
 {
     UStringT begin;
     UFlagCodeT flag = UFlagOn;
-    ToTime(&begin, &aTime->begin, flag);
+    ToTime(&begin, aTime->Begin(), flag);
     UStringT end;
-    ToTime(&end, &aTime->end, flag);
+    ToTime(&end, aTime->End(), flag);
     UStringT step;
-    step = aTime->step;
+    step = aTime->Step();
 
     const UStringT kBegin = kFmdCfgStartTime;
     Field(&begin, &kBegin);
@@ -95,20 +104,20 @@ UErrCodeT CFmdCfgWrite::Weather(const FmdCfgWeatherCtnT *aWeatherCtn)
     {
         FmdCfgWeatherT tWeather = it->Content();
         UStringT time;
-        ToTime(&time, &(tWeather.time));
+        ToTime(&time, tWeather.Time());
         weather = time;
         weather += kSpace;
-        weather += tWeather.air.temperature;
+        weather += tWeather.Air()->Temperature();
         weather += kSpace;
-        weather += tWeather.air.humidity;
+        weather += tWeather.Air()->Humidity();
         weather += kSpace;
-        weather += tWeather.cloud.precipAmount;
+        weather += tWeather.Cloud()->PrecipAmount();
         weather += kSpace;
-        weather += tWeather.wind.speed;
+        weather += tWeather.Wind()->Speed();
         weather += kSpace;
-        weather += tWeather.wind.direction;
+        weather += tWeather.Wind()->Direction();
         weather += kSpace;
-        weather += tWeather.cloud.cover;
+        weather += tWeather.Cloud()->Cover();
         Field(&weather);
     }
 
@@ -130,35 +139,43 @@ UErrCodeT CFmdCfgWrite::Elevation(UIntT aElev)
 /**
  * \brief Set Fuel moistures data.
  */
-UErrCodeT CFmdCfgWrite::FuelMoistures(const FmdCfgFuelMoisturesCtnT *aFmCtn)
+UErrCodeT CFmdCfgWrite::FuelMoisture(const FmdCfgFuelMoistureCtnT *aFmCtn)
 {
     const UStringT kSpace = kStrSpace;
     UStringT fm;
-    FmdCfgFuelMoisturesCtnT *fmCtn = (FmdCfgFuelMoisturesCtnT *) aFmCtn;
+    FmdCfgFuelMoistureCtnT *fmCtn = (FmdCfgFuelMoistureCtnT *) aFmCtn;
     UIntT count = fmCtn->Count();
     fm = count;
     const UStringT kFm = kFmdCfgFuelMoisturesData;
     Field(&fm, &kFm);
 
-    FmdCfgFuelMoisturesItT *it = fmCtn->Iterator();
+    FmdCfgFuelMoistureItT *it = fmCtn->Iterator();
     for (it->Head(); it->State() == UErrFalse; it->Next())
     {
-        FmdCfgFuelMoisturesT tFm = it->Content();
-        fm = tFm.model;
+        FmdCfgFuelMoistureT tFm = it->Content();
+        fm = tFm.Model();
         fm += kSpace;
-        fm += tFm.fm1;
+        fm += tFm.Fm1();
         fm += kSpace;
-        fm += tFm.fm10;
+        fm += tFm.Fm10();
         fm += kSpace;
-        fm += tFm.fm100;
+        fm += tFm.Fm100();
         fm += kSpace;
-        fm += tFm.fmLiveHerb;
+        fm += tFm.FmLiveHerb();
         fm += kSpace;
-        fm += tFm.fmLiveWoody;
+        fm += tFm.FmLiveWoody();
         Field(&fm);
     }
 
     return UErrFalse;
+}
+
+/**
+ * \brief Save.
+ */
+UErrCodeT CFmdCfgWrite::Save()
+{
+    return mFile->Save();
 }
 
 /***** Private A *****/
@@ -202,39 +219,39 @@ UErrCodeT CFmdCfgWrite::ToTime(UStringT *aDst, const FmdCfgTimeT *aSrc,
     const UStringT kZero = "0";
     if (aFlag == UFlagOff)
     {
-        *aDst = aSrc->year;
+        *aDst = aSrc->Year();
         *aDst += kStrSpace;
     }
 
-    if (aSrc->mon < 10)
+    if (aSrc->Mon() < 10)
     {
         *aDst += kZero;
     }
-    *aDst += aSrc->mon;
+    *aDst += aSrc->Mon();
 
     *aDst += kStrSpace;
-    if (aSrc->mday < 10)
+    if (aSrc->MDay() < 10)
     {
         *aDst += kZero;
     }
-    *aDst += aSrc->mday;
+    *aDst += aSrc->MDay();
 
     *aDst += kStrSpace;
-    if (aSrc->hour < 10)
+    if (aSrc->Hour() < 10)
     {
         *aDst += kZero;
     }
-    *aDst += aSrc->hour;
-    if (aSrc->min < 10)
+    *aDst += aSrc->Hour();
+    if (aSrc->Min() < 10)
     {
         *aDst += kZero;
     }
-    *aDst += aSrc->min;
+    *aDst += aSrc->Min();
 
     if (aFlag == UFlagOn)
     {
         *aDst += kStrSpace;
-        *aDst += aSrc->year;
+        *aDst += aSrc->Year();
     }
 
     return UErrFalse;

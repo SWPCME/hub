@@ -22,9 +22,11 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = sys
+SUB_NAME = sys
 
-OBJ = \
+LAYER = sys
+
+C_OBJ = \
       sys_ctl.o \
       sys_processctl.o \
       sys_threadsctl.o \
@@ -37,7 +39,7 @@ OBJ = \
       sys_socketsctl.o \
       sys_socketctl.o
 
-HEADER = \
+C_HEADER = \
          sys_base.h \
          sys_ctl.hpp \
          sys_processctl.hpp \

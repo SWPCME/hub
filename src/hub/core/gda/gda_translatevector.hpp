@@ -63,6 +63,9 @@ class GDA_LIB CGdaTranslateVector
 
   protected:
   private:
+    // Init pointer.
+    UErrCodeT InitPointer();
+
     // Translate vector to vector.
     UErrCodeT TranslateV2V(const UStringT *aDstFile, GdaDatasetHT aDstDs,
                            GdaDatasetHT aSrcDs,

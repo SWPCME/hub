@@ -34,6 +34,7 @@ class RST_LIB CRstUtilMerge
     ~CRstUtilMerge();
 
     UErrCodeT Init();
+    UErrCodeT Create();
 
   protected:
   private:

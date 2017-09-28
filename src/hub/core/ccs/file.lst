@@ -22,13 +22,15 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PRJ = ccs
+SUB_NAME = ccs
 
-OBJ = \
+LAYER = ccs
+
+C_OBJ = \
       ccs_ctl.o \
       ccs_typectl.o
 
-HEADER = \
+C_HEADER = \
          ccs_base.h \
          ccs_ctl.hpp \
          ccs_listctl.hpp \

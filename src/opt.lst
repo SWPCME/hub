@@ -1,0 +1,69 @@
+################################################################################
+# $Id: hub_makeopt.mk 2017-08 $
+#
+# Project:  Hub.
+# Purpose:  Make options.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016-08 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+# Project name
+NAME = hub
+
+# Mode
+OS = unix
+DEBUG = yes
+
+# Version
+VERSION = 0.01
+
+# Directory
+HOME_DIR = /home/swpcme
+WORK_DIR = $(HOME_DIR)/file/source/swpcme/hub
+MK_DIR = $(HOME_DIR)/me/usr/share/prj/mk
+
+# Makefile
+INSTALL_DIR = $(SRC_DIR)/..
+INSTALL_H_DIR = $(INSTALL_DIR)/include
+DOC_API_CFG_FILE = $(INSTALL_DIR)/doc/api/doc_cfg
+OUT_DIR = $(INSTALL_DIR)/out
+TMP_DIR = $(OUT_DIR)/cpp/.tmp
+
+# CXX
+CXX_SUFFIX = cpp
+C_EXTRA_LIB_DIR = -L$(HOME)/me/usr/lib
+
+# SWIG
+SWIG_NAME = whub
+SWIG_SRC_LANG = c++
+SWIG_DST_LANG = java
+SWIG_EXT = i
+SWIG_OBJ_EXT = cxx
+SWIG_OUT_DIR = $(TMP_DIR)/swig
+SWIG_OBJ_DIR = $(TMP_DIR)/swig/cxx
+
+# JAVA
+JAVA_JDK_DIR = /opt/icedtea-bin-3.4.0
+JAVA_OS = linux
+JAVA_CODE_EXT = java
+JAVA_OBJ_EXT = class
+
+# File
+DIR_LIST = $(SRC_DIR)/dir.lst
+OPTCTL_MK = $(MK_DIR)/prj_optctl.mk
+include $(OPTCTL_MK)

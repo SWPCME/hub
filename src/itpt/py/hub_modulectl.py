@@ -1,13 +1,13 @@
 # !python
 ################################################################################
-# $Id: hub_ctl.sh 2016-08 $
+# $Id: hub_ctl.sh 2017-09 $
 #
 # Project:  Hub of shell.
 # Purpose:  Hub ctl.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2017-09 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -24,8 +24,4 @@
 ################################################################################
 
 ##
-# \brief Class HubCtl.
-class HubCtl:
-    def Init():
-        return UErrFalse;
-    
+# \brief 

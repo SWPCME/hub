@@ -5,8 +5,7 @@
 # Options.
 #
 # Directory.
-WORK_DIR = /home/swpcme/file/source/swpcme/hub/src/test/cpp
-HUB_DIR = $(WORK_DIR)/../../hub
+SRC_DIR = $(WORK_DIR)/src
 OBJ_DIR = $(TMP_DIR)/main
 UI_DIR = $(HUB_DIR)/../test/cpp/ui
 BSN_DIR = $(HUB_DIR)/../test/cpp/bsn
@@ -16,8 +15,8 @@ INCLUDE_DIR = -I$(UI_DIR) -I$(BSN_DIR) -I$(HUB_DIR) -I$(CCS_DIR) -I$(UST_DIR)
 #
 # Include.
 #
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LST = ../../opt.lst
+include $(OPT_LST)
 
 default: bin_file
 

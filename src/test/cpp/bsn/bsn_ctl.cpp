@@ -161,6 +161,7 @@ UErrCodeT CBsnCtl::InitPointer()
     BMD_POINTER_INIT(mUst);
     BMD_POINTER_INIT(mNcc);
     BMD_POINTER_INIT(mRtk);
+    BMD_POINTER_INIT(mFmd);
     BMD_POINTER_INIT(mUniqueId);
 
     return UErrFalse;

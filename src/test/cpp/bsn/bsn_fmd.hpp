@@ -40,6 +40,9 @@ class BSN_LIB CBsnFmd
 
   protected:
   private:
+    UErrCodeT TestConfig();
+    UErrCodeT TestWrite();
+
     CFmdCtl *mFmd;
 };
 

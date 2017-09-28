@@ -5,7 +5,7 @@
 # Options.
 #
 # Directory.
-HUB_DIR = hub
+SRC_DIR = .
 OBJ_DIR = $(TMP_DIR)/main
 UI_DIR = $(HUB_DIR)/../ui
 BSN_DIR = $(HUB_DIR)/../bsn
@@ -15,8 +15,8 @@ INCLUDE_DIR = -I$(UI_DIR) -I$(BSN_DIR) -I$(HUB_DIR) -I$(CCS_DIR) -I$(UST_DIR)
 #
 # Include.
 #
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
 default: bin_file
 

@@ -1,4 +1,4 @@
-OBJ = \
+C_OBJ = \
       bsn_ctl.o \
       bsn_cls.o \
       bsn_gda.o \
@@ -11,4 +11,4 @@ OBJ = \
       bsn_fmd.o \
       bsn_uniqueid.o
 
-LIB_SO_NAME = bsn
+C_LIB_SO_NAME = bsn

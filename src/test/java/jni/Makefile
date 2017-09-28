@@ -1,13 +1,12 @@
-# !python
 ################################################################################
-# $Id: hub_ctl.sh 2016-08 $
+# $Id: Makefile 2017-08 $
 #
-# Project:  Hub of shell.
-# Purpose:  Hub ctl.
+# Project:  SWIG.
+# Purpose:  Makefile.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2017-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -23,9 +22,17 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-##
-# \brief Class HubCtl.
-class HubCtl:
-    def Init():
-        return UErrFalse;
-    
+# Directory.
+SRC_DIR = ../../..
+INCLUDE_DIR = -I$(JAVA_JDK_DIR)/include -I$(JAVA_JDK_DIR)/include/$(JAVA_OS) \
+	-I$(INSTALL_H_DIR)/hub -I.
+
+# Include.
+OPT_LST = $(SRC_DIR)/opt.lst
+include $(OPT_LST)
+
+default: create_swig_$(SWIG_DST_LANG)
+
+clean: clean_swig_obj
+
+install: install_lib_$(SWIG_DST_LANG)

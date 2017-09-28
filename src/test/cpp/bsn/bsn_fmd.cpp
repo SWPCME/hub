@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_fmd.hpp 2017-06 $
+ * $Id: bsn_fmd.hpp 2017-08 $
  *
  * Project:  Business Logic library.
  * Purpose:  Test fmd control api implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -35,6 +35,8 @@
 #include "fmd_filewrite.hpp"
 #include "fmd_burnctl.hpp"
 #include "fmd_burntime.hpp"
+#include "fmd_masterctl.hpp"
+#include "fmd_typectl.hpp"
 
 /**
  * \brief Constructor.
@@ -67,64 +69,93 @@ UErrCodeT CBsnFmd::Init()
  */
 UErrCodeT CBsnFmd::Test()
 {
+    // TestConfig();
+    TestWrite();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Test config.
+ */
+UErrCodeT CBsnFmd::TestConfig()
+{
     CFmdFileCtl *fileCtl = mFmd->File();
     const UStringT fileName = "../../data/geojson/tmp/forest_cfg.input";
     CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
     CFmdCfgWrite *cfgWrite = cfg->Write();
 
     FmdCfgBurnTimeT time;
-    FmdCfgTimeT *begin = &(time.begin);
-    begin->year = 2017;
-    begin->mon = 8;
-    begin->mday = 1;
-    begin->hour = 9;
-    begin->min = 30;
-    FmdCfgTimeT *end = &(time.end);
-    end->year = 2017;
-    end->mon = 8;
-    end->mday = 1;
-    end->hour = 9;
-    end->min = 50;
-    time.step = 5;
+    FmdCfgTimeT begin;
+    begin.SetAll(2017, 8, 1, 9, 30);
+    FmdCfgTimeT end;
+    end.SetAll(2017, 8, 1, 10, 50);
+    time.SetAll(&begin, &end, 1);
     cfgWrite->BurnTime(&time);
 
     FmdCfgWeatherCtnT weatherCtn(UContainerList);
     FmdCfgWeatherT weather;
-    weather.time.year = 2017;
-    weather.time.mon = 8;
-    weather.time.mday = 1;
-    weather.time.hour = 9;
-    weather.time.min = 30;
-    weather.air.temperature = 30;
-    weather.air.humidity = 80;
-    weather.cloud.precipAmount = 0;
-    weather.cloud.cover = 0.2;
-    weather.wind.speed = 100;
-    weather.wind.direction = 125;
+    FmdCfgTimeT weatherTime;
+    weatherTime.SetAll(2017, 8, 1, 9, 30);
+    FmdCfgWindT weatherWind;
+    weatherWind.SetAll(100, 125);
+    FmdCfgCloudT weatherCloud;
+    weatherCloud.SetAll(0, 0.2);
+    FmdCfgAirT weatherAir;
+    weatherAir.SetAll(30, 80);
+    weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
     weatherCtn.Add(weather);
     cfgWrite->Weather(&weatherCtn);
 
     UIntT elevation = 43.4;
     cfgWrite->Elevation(elevation);
 
-    FmdCfgFuelMoisturesCtnT fmCtn(UContainerList);
-    FmdCfgFuelMoisturesT fm;
-    fm.model = 0;
-    fm.fm1 = 3;
-    fm.fm10 = 4;
-    fm.fm100 = 6;
-    fm.fmLiveHerb = 70;
-    fm.fmLiveWoody = 100;
+    FmdCfgFuelMoistureCtnT fmCtn(UContainerList);
+    FmdCfgFuelMoistureT fm;
+    fm.SetAll(0, 3, 4, 6, 70, 100);
     fmCtn.Add(fm);
-    cfgWrite->FuelMoistures(&fmCtn);
+    cfgWrite->FuelMoisture(&fmCtn);
 
-    // CFmdFileLoad *fileLoad = fileCtl->Load();
-    // CFmdFileWrite *fileWrite = fileCtl->Write();
-    // CFmdBurnCtl *burnCtl = mFmd->Burn();
-    // CFmdBurnTime *burnTime = burnCtl->Time();
+    return UErrFalse;
+}
 
-    // fileLoad->All();
-    // fileWrite->All();
+/**
+ * \brief Test write.
+ */
+UErrCodeT CBsnFmd::TestWrite()
+{
+    CFmdFileCtl *fileCtl = mFmd->File();
+
+    // Load.
+    CFmdFileLoad *fileLoad = fileCtl->Load();
+    const UStringT cfgFile = "../../data/geojson/tmp/forest_cfg.input";
+
+    // const UStringT lcpFile = "../../data/geojson/tmp/forest.lcp";
+    // const UStringT ignitionFile = "../../data/geojson/tmp/forest_ignition.shp";
+    // const UStringT barrierFile = "../../data/geojson/tmp/forest_barrier.shp";
+
+    const UStringT lcpFile = "../../data/geojson/tmp/fmd_test/fmd_test_2.lcp";
+    const UStringT ignitionFile = "../../data/geojson/tmp/fmd_test/fmd_testignition_2.shp";
+    const UStringT barrierFile = "../../data/geojson/tmp/fmd_test/fmd_testbarrier.shp";
+
+    fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
+
+    // Master.
+    CFmdMasterCtl *masterCtl = mFmd->Master();
+    masterCtl->Launch();
+
+    // Write.
+    CFmdFileWrite *fileWrite = fileCtl->Write();
+    CFmdBurnTime *burnTime = mFmd->Burn()->Time();
+    CFmdTypeCtl *typeCtl = mFmd->Type();
+    const UStringT outFile = "../../data/geojson/tmp/forest/test";
+    UFloatT sTime;
+    burnTime->Simulate(&sTime);
+    BTimeTmT tm;
+    typeCtl->ToTm(&tm, sTime);
+    // fileWrite->MapEnv(&outFile, &tm, FmdMapEnvIntervalOneH);
+    fileWrite->PerimetersShape(&outFile);
+    // fileWrite->All(&outFile);
 
     return UErrFalse;
 }

@@ -1,13 +1,12 @@
-# !bash --posix
 ################################################################################
-# $Id: hub_makeopt.mk 2016-08 $
+# $Id: prj_ctl.mk 2017-08 $
 #
-# Project:  Hub.
-# Purpose:  Hub make operator.
+# Project:  Prj.
+# Purpose:  Project controler.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2016-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -24,16 +23,13 @@
 ################################################################################
 
 #
-# Options.
+# Make option.
 #
-# Mode
-DEBUG = yes
-UNIX = yes
-CYGWIN = 
-# Version
-VERSION = 0.01
+include $(PRJ_HEADER_FILE)
 
+#
 # Tools.
+#
 # Compile tools.
 ifeq ($(UNIX), yes)
 CC = gcc
@@ -67,8 +63,8 @@ OBJ_EXT = o
 
 # Compile flags.
 # Diff:-fPIC, -fpic and -fPIE.
-C_FLAG = -fpic -Wall
-C_CXX_FLAG = $(C_FLAG)
+C_CXX_FLAG = -fpic -Wall
+C_FLAG = $(C_CXX_FLAG)
 CXX_STD = -std=c++11
 CXX_WARNING = -Wno-delete-incomplete
 CXX_FLAG = $(C_CXX_FLAG) $(CXX_STD) $(CXX_WARNING)
@@ -77,7 +73,7 @@ C_FLAG += -g
 CXX_FLAG += -g
 endif
 INCLUDE_PATH_FLAG = -I
-LIB_PATH_FLAG = -L
+PRJ_LIB_PATH_FLAG = -L
 LD_FLAG = -shared -fpic
 STATIC_FLAG = -Wl,-Bstatic
 DYNAMIC_FLAG = -Wl,-Bdynamic
@@ -87,30 +83,18 @@ ifeq ($(WORK_DIR),)
 WORK_DIR = .
 endif
 CURRENT_DIR = .
-ifeq ($(HUB_DIR),)
-HUB_DIR = .
+ifeq ($(PRJ_DIR),)
+PRJ_DIR = .
 endif
 # Options file.
 ifeq ($(FILE_DIR),)
 FILE_DIR = .
 endif
 # Install directory.
-INSTALL_DIR = $(HUB_DIR)/../..
 INSTALL_H_DIR = $(INSTALL_DIR)/include
 INSTALL_L_DIR = $(INSTALL_DIR)/lib
-INSTALL_O_DIR = $(INSTALL_DIR)/output
+INSTALL_O_DIR = $(INSTALL_DIR)/out/cpp
 INSTALL_O_TO_SRC_DIR = ../src
-# Module directory.
-# Core directory.
-CORE_DIR = $(HUB_DIR)/core
-CLS_DIR = $(CORE_DIR)/cls
-CCS_DIR = $(CORE_DIR)/ccs
-SYS_DIR = $(CORE_DIR)/sys
-OGR_DIR = $(CORE_DIR)/ogr
-# Wrap directory.
-WRAP_DIR = $(HUB_DIR)/wrap
-UST_DIR = $(WRAP_DIR)/ust
-VTR_DIR = $(WRAP_DIR)/vtr
 
 # Include
 FILE_LIST = $(FILE_DIR)/file.lst
@@ -119,39 +103,43 @@ include $(FILE_LIST)
 endif
 
 # Temporary directory.
-TMP_DIR = $(HUB_DIR)/.tmp
+TMP_DIR = $(INSTALL_O_DIR)/.tmp
 
 # Compile.
 # Generic library rules.
 ifeq ($(OBJ_DIR),)
 OBJ_DIR = $(TMP_DIR)
 endif
-OBJ_NAME = $(OBJ:.o=.$(OBJ_EXT))
+OBJ_NAME = $(PRJ_OBJ:.o=.$(OBJ_EXT))
 OBJ_FILE = $(foreach file, $(OBJ_NAME), $(OBJ_DIR)/$(file))
-ifeq ($(LIB_NAME),)
-LIB_NAME =
+ifeq ($(PRJ_LIB_NAME),)
+PRJ_LIB_NAME =
 endif
-LIB_PREFIX = lib
+PRJ_LIB_PREFIX = lib
 # Static library.
-LIB_A_NAME_TMP = $(foreach name, $(LIB_A_NAME), \
-	$(addprefix $(LIB_PREFIX), $(name)))
-LIB_A_SUFFIX = a
-LIB_A = $(foreach lib, $(LIB_A_NAME_TMP), \
-	$(addsuffix .$(LIB_A_SUFFIX), $(lib)))
-IMPORT_LIB_A = $(foreach lib_a, $(LIB_A), \
+PRJ_LIB_A_NAME_TMP = $(foreach name, $(PRJ_LIB_A_NAME), \
+	$(addprefix $(PRJ_LIB_PREFIX), $(name)))
+PRJ_LIB_A_SUFFIX = a
+PRJ_LIB_A = $(foreach lib, $(PRJ_LIB_A_NAME_TMP), \
+	$(addsuffix .$(PRJ_LIB_A_SUFFIX), $(lib)))
+PRJ_LIB_A_ABS = $(foreach lib, $(PRJ_LIB_A), \
+	$(addprefix $(TMP_DIR)/, $(lib)))
+IMPORT_LIB_A = $(foreach lib_a, $(PRJ_LIB_A), \
 	$(STATIC_FLAG) $(lib_a))
 # Dynamic library.
-LIB_SO_NAME_TMP = $(foreach name, $(LIB_SO_NAME), \
-	$(addprefix $(LIB_PREFIX), $(name)))
+PRJ_LIB_SO_NAME_TMP = $(foreach name, $(PRJ_LIB_SO_NAME), \
+	$(addprefix $(PRJ_LIB_PREFIX), $(name)))
 ifeq ($(UNIX), yes)
-LIB_SO_SUFFIX = so
+PRJ_LIB_SO_SUFFIX = so
 else
-LIB_SO_SUFFIX = dll
+PRJ_LIB_SO_SUFFIX = dll
 endif
-LIB_SO = $(foreach lib, $(LIB_SO_NAME_TMP), \
-	$(addsuffix .$(LIB_SO_SUFFIX), $(lib)))
+PRJ_LIB_SO = $(foreach lib, $(PRJ_LIB_SO_NAME_TMP), \
+	$(addsuffix .$(PRJ_LIB_SO_SUFFIX), $(lib)))
+PRJ_LIB_SO_ABS = $(foreach lib, $(PRJ_LIB_SO), \
+	$(addprefix $(TMP_DIR)/, $(lib)))
 ifeq ($(UNIX), yes)
-IMPORT_LIB_SO = $(foreach lib_so, $(LIB_SO), \
+IMPORT_LIB_SO = $(foreach lib_so, $(PRJ_LIB_SO), \
 	$(DYNAMIC_FLAG) $(lib_so))
 else
 IMPORT_LIB_SO = -L. -lgdal
@@ -159,21 +147,21 @@ endif
 
 # Test for library.
 ifneq ($(UNIX), yes)
-LIB_OFF = yes
+PRJ_LIB_OFF = yes
 else # ifneq ($(UNIX), yes)
-ifneq ($(LIB_A_NAME),)
-ifneq ($(LIB_SO_NAME),)
-LIB_A_SO_ON = yes
-else # ifneq ($(LIB_A_NAME),)
-LIB_A_ON = yes
-endif # ifneq ($(LIB_SO_NAME),)
-else # ifneq ($(LIB_A_NAME),)
-ifneq ($(LIB_SO_NAME),)
-LIB_SO_ON = yes
-else # ifneq ($(LIB_SO_NAME),)
-LIB_OFF = yes
-endif # ifneq ($(LIB_SO_NAME),)
-endif # ifneq ($(LIB_A_NAME),)
+ifneq ($(PRJ_LIB_A_NAME),)
+ifneq ($(PRJ_LIB_SO_NAME),)
+PRJ_LIB_A_SO_ON = yes
+else # ifneq ($(PRJ_LIB_A_NAME),)
+PRJ_LIB_A_ON = yes
+endif # ifneq ($(PRJ_LIB_SO_NAME),)
+else # ifneq ($(PRJ_LIB_A_NAME),)
+ifneq ($(PRJ_LIB_SO_NAME),)
+PRJ_LIB_SO_ON = yes
+else # ifneq ($(PRJ_LIB_SO_NAME),)
+PRJ_LIB_OFF = yes
+endif # ifneq ($(PRJ_LIB_SO_NAME),)
+endif # ifneq ($(PRJ_LIB_A_NAME),)
 endif # ifneq ($(UNIX), yes)
 
 # Subdirectories.
@@ -186,11 +174,11 @@ TARGET_DIR_INSTALL = $(foreach dir, $(SUBDIRS), $(dir)_target_install)
 #
 default:
 
-%.$(OBJ_EXT): %.c
-	$(CC) $(INCLUDE_DIR) $(C_FLAG) -c $< -o $(OBJ_DIR)/$@
+$(OBJ_DIR)/%.$(OBJ_EXT): %.c
+	$(CC) $(INCLUDE_DIR) $(C_FLAG) -c $< -o $@
 
-%.$(OBJ_EXT): %.cpp
-	$(CXX) $(INCLUDE_DIR) $(CXX_FLAG) -c $< -o $(OBJ_DIR)/$@
+$(OBJ_DIR)/%.$(OBJ_EXT): %.cpp
+	$(CXX) $(INCLUDE_DIR) $(CXX_FLAG) -c $< -o $@
 
 # Default rules for handling subdirectories.
 target_dir_default: $(TARGET_DIR_DEFAULT)
@@ -212,7 +200,7 @@ target_dir_install: $(TARGET_DIR_INSTALL)
 # Create
 #
 # Create object out
-create_obj: $(OBJ_NAME)
+create_obj: $(OBJ_FILE)
 
 # Create directory
 create_tmp:
@@ -228,59 +216,67 @@ clean_tmp: clean_obj
 	$(RMDIR) $(TMP_DIR)
 
 clean_lib: clean_obj
-	$(RM) -f $(LIB_A)
-	$(RM) -f $(LIB_SO)
+	$(RM) -f $(PRJ_LIB_A)
+	$(RM) -f $(PRJ_LIB_SO)
 
 #
 # Library.
 #
-ifeq ($(LIB_A_SO_ON),yes)
+ifeq ($(PRJ_LIB_A_SO_ON),yes)
 create_lib: create_tmp lib_a lib_so
 endif
-ifeq ($(LIB_A_ON),yes)
+ifeq ($(PRJ_LIB_A_ON),yes)
 create_lib: create_tmp lib_a
 endif
-ifeq ($(LIB_SO_ON),yes)
+ifeq ($(PRJ_LIB_SO_ON),yes)
 create_lib: create_tmp lib_so
 endif
-ifeq ($(LIB_OFF),yes)
+ifeq ($(PRJ_LIB_OFF),yes)
 create_lib:
 endif
 
 lib_a: create_obj
-	$(AR) r $(LIB_A) $(OBJ_DIR)/*.$(OBJ_EXT)
-	$(RANLIB) $(LIB_A)
+	$(AR) r $(PRJ_LIB_A) $(OBJ_DIR)/*.$(OBJ_EXT)
+	$(RANLIB) $(PRJ_LIB_A_ABS)
 
 lib_so: create_obj
-	$(LD) $(LD_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) -o $(LIB_SO)
+	$(LD) $(LD_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) $(PRJ_EXTRA_LIB_DIR) $(PRJ_EXTRA_LIB_SO) \
+		  -o $(PRJ_LIB_SO_ABS)
 
 #
 # Install
 #
-ifeq ($(LIB_A_SO_ON),yes)
+
+# Library.
+ifeq ($(PRJ_LIB_A_SO_ON),yes)
 install_lib: install_a_lib install_so_lib
 endif
-ifeq ($(LIB_A_ON),yes)
+ifeq ($(PRJ_LIB_A_ON),yes)
 install_lib: install_a_lib
 endif
-ifeq ($(LIB_SO_ON),yes)
+ifeq ($(PRJ_LIB_SO_ON),yes)
 install_lib: install_so_lib
 endif
-ifeq ($(LIB_OFF),yes)
+ifeq ($(PRJ_LIB_OFF),yes)
 install_lib: copy_obj
 endif
 
 install_a_lib: create_lib
-	($(CP) $(LIB_A) $(INSTALL_O_DIR))
+	($(CP) $(PRJ_LIB_A_ABS) $(INSTALL_O_DIR))
 
 install_so_lib: create_lib
-	($(CP) $(LIB_SO) $(INSTALL_O_DIR))
+	($(CP) $(PRJ_LIB_SO_ABS) $(INSTALL_O_DIR))
 
 copy_obj: create_obj
 	($(CP) $(OBJ_DIR)/*.$(OBJ_EXT) $(INSTALL_O_DIR))
 
-install_include:
-	($(CP) $(INSTALL_INCLUDE_FILE))
+# Include.
+PRJ_INSTALL_H_DIR = $(INSTALL_H_DIR)/$(PRJ_NAME)
+SUB_INSTALL_H_DIR = $(HUB_INSTALL_H_DIR)/$(SUB_NAME)
+install_header:
+	$(shell if [ ! -d $(PRJ_INSTALL_H_DIR) ]; then $(MKDIR) $(PRJ_INSTALL_H_DIR); fi)
+	$(shell if [ ! -d $(SUB_INSTALL_H_DIR) ]; then $(MKDIR) $(SUB_INSTALL_H_DIR); fi)
+	$(shell for file in $(PRJ_HEADER); do $(CP) $$file $(SUB_INSTALL_H_DIR); done)
 
 #
 # Binary file.
@@ -289,11 +285,11 @@ ifeq ($(UNIX), yes)
 bin_file: create_tmp create_obj target_dir_install
 	($(CD) $(INSTALL_O_DIR); \
 		$(CXX) $(CXX_FLAG) $(OBJ_DIR)/*.$(OBJ_EXT) \
-		-o $(BIN_FILE) $(IMPORT_LIB_A) $(IMPORT_LIB_SO))
+		-o $(BIN_FILE) -L$(PRJ_LIB_DIR) $(IMPORT_LIB_A) $(IMPORT_LIB_SO))
 else
 bin_file: create_tmp create_obj target_dir_install
 	($(CP) $(OBJ_DIR)/*.$(OBJ_EXT) $(INSTALL_O_DIR))
 	($(CD) $(INSTALL_O_DIR); \
-		$(CXX) $(CXX_FLAG) *.$(OBJ_EXT) $(IMPORT_LIB_A) $(IMPORT_LIB_SO) \
-		-o $(BIN_FILE))
+		$(CXX) $(CXX_FLAG) *.$(OBJ_EXT) -L$(PRJ_LIB_DIR) $(IMPORT_LIB_A) \
+		$(IMPORT_LIB_SO) -o $(BIN_FILE))
 endif

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_gsl.cpp 2017-06 $
+ * $Id: bsn_gsl.cpp 2017-09 $
  *
  * Project:  Business Logic library.
  * Purpose:  Test gsl control api implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2017-06 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -26,12 +26,19 @@
 
 // Hub.
 #include "hub_ctl.hpp"
-// Gsl.
+// gsl
 #include "gsl_ctl.hpp"
+// gsl.vector
 #include "gsl_vectorctl.hpp"
 #include "gsl_vectorbasectl.hpp"
 #include "gsl_vectormemctl.hpp"
 #include "gsl_vectoroperctl.hpp"
+// gsl.sf
+#include "gsl_sfctl.hpp"
+#include "gsl_sflegendre.hpp"
+#include "gsl_legendreassoc.hpp"
+// ust
+#include "ust_stringtype.hpp"
 
 /**
  * \brief Constructor.
@@ -64,6 +71,19 @@ UErrCodeT CBsnGsl::Init()
  */
 UErrCodeT CBsnGsl::Test()
 {
+    TestVector();
+    TestSf();
+
+    return UErrFalse;
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Test vector.
+ */
+UErrCodeT CBsnGsl::TestVector()
+{
     CGslVectorCtl *vectorCtl = mGsl->Vector();
     CGslVectorMemCtl *memCtl = vectorCtl->Mem();
     CGslVectorBaseCtl *baseCtl = vectorCtl->Base();
@@ -90,3 +110,25 @@ UErrCodeT CBsnGsl::Test()
 
     return UErrFalse;
 }
+
+/**
+ * \brief Test special function.
+ */
+UErrCodeT CBsnGsl::TestSf()
+{
+    CGslSfCtl *sfCtl = mGsl->Sf();
+    CGslSfLegendre *legendre = sfCtl->Legendre();
+    CGslLegendreAssoc *spharm = legendre->Assoc(GslSfLegendreAssocSpharm);
+    UIntT lMax = 1;
+    UFloatT x = 0;
+    UIntT arrayN = 0;
+    spharm->ArrayN(&arrayN, lMax);
+    UFloatT resultArray[arrayN];
+    UStringT strArrayN = arrayN;
+    strArrayN.ToConsole();
+    spharm->Array(resultArray, lMax, x);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

@@ -81,8 +81,8 @@ UErrCodeT CUiCtl::Test()
     // CBsnGda *gda = mBsn->Gda();
     // gda->Test();
 
-    // CBsnOgr *ogr = mBsn->Ogr();
-    // ogr->Test();
+    CBsnOgr *ogr = mBsn->Ogr();
+    ogr->Test();
 
     // CBsnRtk *rtk = mBsn->Rtk();
     // rtk->Test();

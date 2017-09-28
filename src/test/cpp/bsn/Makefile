@@ -5,7 +5,7 @@
 # Options.
 #
 # Directory.
-HUB_DIR = ../../../hub
+SRC_DIR = ../../..
 OBJ_DIR = $(TMP_DIR)/bsn
 # Search.
 INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
@@ -14,8 +14,8 @@ INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
 	-I$(FMD_DIR)
 
 # Include.
-HUB_MAKEOPT = $(HUB_DIR)/hub_makeopt.mk
-include $(HUB_MAKEOPT)
+OPT_LST = $(SRC_DIR)/opt.lst
+include $(OPT_LST)
 
 default: create_lib
 

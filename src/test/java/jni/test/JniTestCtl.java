@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: TestCtl.java 2017-01 $
+ * $Id: TestJavaCtl.java 2017-09 $
  *
  * Project:  Test of java.
- * Purpose:  Test control.
+ * Purpose:  Test java control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017.08 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,20 +22,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-import hub.HubCtl;
-import hub.HubBase;
+import jnitest.*;
 
-public class TestCtl
+public class JniTestCtl
 {
-    public void TestCtl()
-    {
-    }
-
     public static void main(String[] aArgs)
     {
-        HubCtl hubCtl = new HubCtl();
-        if (hubCtl.init() == HubBase.err.t())
-        {
-        }
+        System.out.println(System.getProperty("java.library.path"));
+        CJniTest test = new CJniTest();
+        test.Test();
     }
 }

@@ -1,13 +1,12 @@
-# !python
 ################################################################################
-# $Id: hub_ctl.sh 2016-08 $
+# $Id: Makefile 2017-08 $
 #
-# Project:  Hub of shell.
-# Purpose:  Hub ctl.
+# Project:  BsnGis (Category Of Business Logic: Gis).
+# Purpose:  Main makefile.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2017-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -23,9 +22,24 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-##
-# \brief Class HubCtl.
-class HubCtl:
-    def Init():
-        return UErrFalse;
-    
+#
+# Options.
+#
+# Directory.
+SRC_DIR = ../..
+# Name
+JAVA_NAME = JniTest
+JAVA_OBJ_DIR = $(TMP_DIR)/test/java
+JAVA_OUT_DIR = $(OUT_DIR)/cpp
+JAVA_JAR = $(JAVA_OUT_DIR)/jnitest.jar
+
+# include
+OPT_LST = $(SRC_DIR)/opt.lst
+include $(OPT_LST)
+
+# Target
+default: create_java_obj
+
+install: install_java_obj
+
+clean: clean_java_obj

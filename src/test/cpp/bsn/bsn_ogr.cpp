@@ -85,7 +85,7 @@ UErrCodeT CBsnOgr::Test()
     UIntT fieldId = 0;
     fieldCtl->Value(&value, fieldId);
     value.ToConsole();
-    mOgr->DeregisterAll();
+    // mOgr->DeregisterAll();
 
     return UErrFalse;
 }

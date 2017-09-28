@@ -1,12 +1,12 @@
-SUBDIRS = hub \
+SUB_DIR = hub \
         bsn \
         ui
 
-OBJ = main.o
+C_OBJ = main.o
 
 # Library name
-LIB_A_NAME =
-LIB_SO_NAME = ui \
+C_LIB_A_NAME =
+C_LIB_SO_NAME = ui \
     bsn \
     hub \
     gdal

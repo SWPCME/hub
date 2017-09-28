@@ -1,13 +1,12 @@
-# !python
 ################################################################################
-# $Id: hub_ctl.sh 2016-08 $
+# $Id: file.lst 2017-08 $
 #
-# Project:  Hub of shell.
-# Purpose:  Hub ctl.
+# Project:  BsnGis Makefile.
+# Purpose:  File list.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2016 ~ 2017 Weiwei Huang
+# Copyright (c) 2017-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -23,9 +22,16 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-##
-# \brief Class HubCtl.
-class HubCtl:
-    def Init():
-        return UErrFalse;
-    
+SWIG_OBJ = \
+           whub_ctl.o \
+           whub_ustctl.o \
+           whub_ogrctl.o \
+           whub_gdactl.o \
+           whub_fmdctl.o
+
+C_LIB_SO_NAME = whub
+C_EXTRA_LIB_DIR = -L/home/swpcme/me/usr/lib
+C_EXTRA_LIB_SO = -lhub
+ifeq ($(OS), cygwin)
+C_EXTRA_LIB_SO += -lgdal -lcurl -lgsl -lfiremod -lrtklib
+endif

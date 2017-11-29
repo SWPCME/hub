@@ -45,7 +45,7 @@ class UST_LIB UContainerT
     // Attribute
     UContainerCodeT Code();
     UstContainerHT Handle();
-    UIntT Count();
+    UIntT Count() const;
 
     UErrCodeT Add(const ContentT &aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
@@ -60,7 +60,7 @@ class UST_LIB UContainerT
     UErrCodeT SortByKey();
 
     // Iterator.
-    UIteratorT<ContentT, KeyT> *Iterator();
+    UIteratorT<ContentT, KeyT> *Iterator() const;
 
     // Get content and key by each other.
     ContentT Content(const KeyT &aKey);

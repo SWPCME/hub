@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: hub_ctl.cpp 2017-08 $
+ * $Id: hub_ctl.cpp 2017-09 $
  *
  * Project:  Hub.
  * Purpose:  Hub ctl.
@@ -52,6 +52,32 @@ CHubCtl* CHubCtl::Hub()
     BMD_CLASS_NEW(mHub, CHubCtl);
 
     return mHub;
+}
+
+/**
+ * \brief Register module.
+ *
+ * @return Handle of module, if successful; NULL, if failed.
+ */
+CHubModuleCtl *CHubCtl::RegModule()
+{
+    CHubModuleCtl *module;
+    BMD_POINTER_INIT(module);
+    BMD_CLASS_NEW(module, CHubModuleCtl);
+
+    return mModule;
+}
+
+/**
+ * \brief Deregister module.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CHubCtl::DeregModule(CHubModuleCtl *aModule)
+{
+    BMD_CLASS_DEL(aModule);
+
+    return UErrFalse;
 }
 
 /**

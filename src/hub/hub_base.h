@@ -147,6 +147,7 @@ typedef enum
     HubMGda = 5,                /* Geospatial Data Absraction. */
     HubMGsl = 6,                /* Gnu Scientific Library. */
     HubMCut = 7,                /* Client-side URL Transfer. */
+    HubMPlp = 8,                /* PLplot. */
 
     /* Wrap module */
     HubMUst = 1001,             /* Universal struct type library. */
@@ -157,6 +158,9 @@ typedef enum
     HubMRtk = 2001,             /* Real time kinematic library. */
     // Fire
     HubMFmd = 2002,             /* Firemod library. */
+    // Astronomy
+    HubMEra = 2003,             /* Essential routines of fundamental 
+                                   astronomy */
 } HubCodeT;
 
 /* Universal error code type. */

@@ -66,6 +66,8 @@ UErrCodeT CFmdFileCfg::Init()
 
 /**
  * \brief Read.
+ *
+ * @return Handle of read, if successful; NULL, if failed.
  */
 CFmdCfgRead *CFmdFileCfg::Read()
 {
@@ -76,6 +78,8 @@ CFmdCfgRead *CFmdFileCfg::Read()
 
 /**
  * \brief Write.
+ *
+ * @return Handle of write, if successful; NULL, if failed.
  */
 CFmdCfgWrite *CFmdFileCfg::Write()
 {
@@ -88,6 +92,8 @@ CFmdCfgWrite *CFmdFileCfg::Write()
 
 /**
  * \brief Init pointer.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT CFmdFileCfg::InitPointer()
 {
@@ -99,6 +105,8 @@ UErrCodeT CFmdFileCfg::InitPointer()
 
 /**
  * \brief Init config.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT CFmdFileCfg::InitCfg(const UStringT *aFileName,
                                const FmdFileCfgCodeT aCfg)

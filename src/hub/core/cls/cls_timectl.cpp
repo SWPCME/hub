@@ -72,6 +72,24 @@ UErrCodeT CClsTimeCtl::Current(BTimeTmT *aTm)
     return UErrFalse;
 }
 
+/**
+ * \brief Diff time.
+ */
+UErrCodeT CClsTimeCtl::Diff(UFloatT *aElapse, const BTimeTmT *aBegin, const BTimeTmT *aEnd)
+{
+    time_t begin = 0;
+    time_t end = 0;
+    tm beginTm;
+    tm endTm;
+    mType->ToTimeTm((ClsTmHT) &beginTm, aBegin);
+    mType->ToTimeTm((ClsTmHT) &endTm, aEnd);
+    TimeGm((UIntT *) &begin, (ClsTmHT) &beginTm);
+    TimeGm((UIntT *) &end, (ClsTmHT) &endTm);
+    *aElapse = difftime(end, begin);
+
+    return UErrFalse;
+}
+
 /***** Private A *****/
 
 /**
@@ -92,6 +110,26 @@ UErrCodeT CClsTimeCtl::GmTime(ClsTmHT *aTm)
     time_t time_s;
     Time((ClsTimeHT) &time_s);
     *aTm = (ClsTmHT) gmtime(&time_s);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Convert tm to time_t.
+ */
+UErrCodeT CClsTimeCtl::MkTime(UIntT *aTime, const ClsTmHT aTm)
+{
+    *aTime = mktime((tm *) aTm);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Convert tm to time_t, for UTC.
+ */
+UErrCodeT CClsTimeCtl::TimeGm(UIntT *aTime, const ClsTmHT aTm)
+{
+    *aTime = timegm((tm *) aTm);
 
     return UErrFalse;
 }

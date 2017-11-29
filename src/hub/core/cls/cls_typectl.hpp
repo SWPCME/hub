@@ -41,6 +41,7 @@ class CLS_LIB CClsTypeCtl
     UErrCodeT Init();
     UErrCodeT ToFileOper(UStringT *aDest, const ClsFileOperCodeT aSrc);
     UErrCodeT ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc);
+    UErrCodeT ToTimeTm(ClsTmHT aDst, const BTimeTmT *aSrc);
 
   protected:
   private:

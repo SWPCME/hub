@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_mathlogctl.cpp 2017-06 $
+ * $Id: cls_mathitrig.hpp 2017-11 $
  *
  * Project:  C language standard library.
- * Purpose:  Math logarithms controler implementation.
+ * Purpose:  Math inverse trigonometry definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-11 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,39 +22,24 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#include "cls_mathlogctl.hpp"
+#ifndef CLS_MATHITRIG_HPP_INCLUDED
+#define CLS_MATHITRIG_HPP_INCLUDED
 
-// GLibC module.
-#include "math.h"
+#include "cls_base.h"
 
-/**
- * \brief Constructor.
- */
-CClsMathLogCtl::CClsMathLogCtl()
+class CLS_LIB CClsMathITrig
 {
-}
+  public:
+    CClsMathITrig();
+    ~CClsMathITrig();
 
-/**
- * \brief Destructor.
- */
-CClsMathLogCtl::~CClsMathLogCtl()
-{
-}
+    UErrCodeT Init();
+    UErrCodeT ASin(UFloatT *aY, const UFloatT aX);
+    UErrCodeT ACos(UFloatT *aY, const UFloatT aX);
+    UErrCodeT ATan(UFloatT *aY, const UFloatT aX);
 
-/**
- * \brief Initialize.
- */
-UErrCodeT CClsMathLogCtl::Init()
-{
-    return UErrFalse;
-}
+  protected:
+  private:
+};
 
-/**
- * \brief Log.
- */
-UErrCodeT CClsMathLogCtl::LogE(UFloatT *aY, const UFloatT aX)
-{
-    *aY = log(aX);
-
-    return UErrFalse;
-}
+#endif  // CLS_MATHITRIG_HPP_INCLUDED

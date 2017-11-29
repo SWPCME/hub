@@ -267,7 +267,7 @@ FmdCfgBurnTimeT::~FmdCfgBurnTimeT()
  *
  * @param aBegin Time of begin.
  * @param aEnd Time of end.
- * @param aStep Time of step.
+ * @param aStep Time of step (min).
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgBurnTimeT::SetAll(const FmdCfgTimeT *aBegin,
@@ -286,7 +286,7 @@ UErrCodeT FmdCfgBurnTimeT::SetAll(const FmdCfgTimeT *aBegin,
  *
  * @param aBegin Time of begin.
  * @param aEnd Time of end.
- * @param aStep Time of step.
+ * @param aStep Time of step (min).
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgBurnTimeT::All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd,
@@ -324,7 +324,7 @@ const FmdCfgTimeT *FmdCfgBurnTimeT::End() const
 /**
  * \brief Get time of step.
  *
- * @param aStep Time of step.
+ * @param aStep Time of step (min).
  * @return Time of step, if successful; NULL, if failed.
  */
 UIntT FmdCfgBurnTimeT::Step() const

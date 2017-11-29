@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: hub_ctl.hpp 2017-07 $
+ * $Id: hub_ctl.hpp 2017-09 $
  *
  * Project:  Hub Library.
  * Purpose:  Hub control, for all library.
@@ -43,6 +43,11 @@ class CHubCtl
 {
  public:
     static CHubCtl* Hub();
+
+    // Register module.
+    CHubModuleCtl *RegModule();
+    UErrCodeT DeregModule(CHubModuleCtl *aModule);
+
     UErrCodeT Init();
     UErrCodeT Register(HubCodeT aCode);
     UErrCodeT RegisterAll();

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_mathexpctl.cpp 2017-06 $
+ * $Id: plp_typectl.hpp 2017-11 $
  *
- * Project:  C language standard library.
- * Purpose:  Math exponentiation controler implementation.
+ * Project:  PLP (PLP: PL plot).
+ * Purpose:  Plp type controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-11 ~ 2017, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -20,45 +20,51 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- *****************************************************************************/
+ ****************************************************************************/
 
-#include "cls_mathexpctl.hpp"
-
-// GLibC module.
-#include "math.h"
+#include "plp_typectl.hpp"
 
 /**
  * \brief Constructor.
  */
-CClsMathExpCtl::CClsMathExpCtl()
+CPlpTypeCtl::CPlpTypeCtl()
 {
 }
 
 /**
  * \brief Destructor.
  */
-CClsMathExpCtl::~CClsMathExpCtl()
+CPlpTypeCtl::~CPlpTypeCtl()
 {
 }
 
 /**
  * \brief Initialize.
  */
-UErrCodeT CClsMathExpCtl::Init()
+UErrCodeT CPlpTypeCtl::Init()
 {
     return UErrFalse;
 }
 
 /**
- * \brief aY = Sqrt(aX).
+ * \brief Device code.
  */
-UErrCodeT CClsMathExpCtl::Sqrt(UFloatT *aY, const UFloatT aX)
+UErrCodeT CPlpTypeCtl::DevCodeToName(UStringT *aName, const PlpDevCodeT aCode)
 {
-    *aY = sqrt(aX);
+    switch (aCode)
+    {
+    case PlpDevPng:
+        *aName = "png";
+        break;
+    case PlpDevJpeg:
+        *aName = "jpeg";
+        break;
+    case PlpDevGif:
+        *aName = "gif";
+        break;
+    default:
+        return UErrTrue;
+    }
 
     return UErrFalse;
 }
-
-/**
- * \brief
- */

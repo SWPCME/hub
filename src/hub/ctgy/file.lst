@@ -30,4 +30,5 @@ C_OBJ = \
 
 SUB_DIR = \
           earth \
-          fmd 
+          fmd \
+          era

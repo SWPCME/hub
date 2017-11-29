@@ -74,7 +74,7 @@ UstContainerHT UContainerT<ContentT, KeyT>::Handle()
  * \brief Count.
  */
 template <typename ContentT, typename KeyT>
-UIntT UContainerT<ContentT, KeyT>::Count()
+UIntT UContainerT<ContentT, KeyT>::Count() const
 {
     UIntT num = -1;
     mCtn->Count(&num);
@@ -158,7 +158,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::FindByKey(const KeyT &aKey)
  * \brief Iterator.
  */
 template <typename ContentT, typename KeyT>
-UIteratorT<ContentT,KeyT> *UContainerT<ContentT, KeyT>::Iterator()
+UIteratorT<ContentT,KeyT> *UContainerT<ContentT, KeyT>::Iterator() const
 {
     return ((UIteratorT<ContentT,KeyT> *) mCtn->Iterator());
 }

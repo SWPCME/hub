@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_mathlogctl.hpp 2017-06 $
+ * $Id: cls_mathtype.hpp 2017-11 $
  *
  * Project:  C language standard library.
- * Purpose:  Math logarithms controler definition.
+ * Purpose:  Math type translate implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-11 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,22 +22,49 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef CLS_MATHLOGCTL_HPP_INCLUDED
-#define CLS_MATHLOGCTL_HPP_INCLUDED
+#include "cls_mathtype.hpp"
+// base
+#include "base_ctl.hpp"
+#include "base_macrodefn.hpp"
+// core
+#include "core_ctl.hpp"
+// cls
+#include "cls_ctl.hpp"
+#include "cls_mathctl.hpp"
+#include "cls_mathconst.hpp"
 
-#include "cls_base.h"
-
-class CLS_LIB CClsMathLogCtl
+/**
+ * \brief Constructor.
+ */
+CClsMathType::CClsMathType()
 {
-  public:
-    CClsMathLogCtl();
-    ~CClsMathLogCtl();
+    BMD_POINTER_INIT(mConst);
+}
 
-    UErrCodeT Init();
-    UErrCodeT LogE(UFloatT *aY, const UFloatT aX);
+/**
+ * \brief Destructor.
+ */
+CClsMathType::~CClsMathType()
+{
+}
 
-  protected:
-  private:
-};
+/**
+ * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CClsMathType::Init()
+{
+    return UErrFalse;
+}
 
-#endif  // CLS_MATHLOGCTL_HPP_INCLUDED
+/**
+ * \brief Degree to radian.
+ */
+UErrCodeT CClsMathType::DegToRad(UFloatT *aRad, const UFloatT aDeg)
+{
+    UFloatT pi = mConst->Pi();
+    *aRad = aDeg * pi / 180;
+
+    return UErrFalse;
+}

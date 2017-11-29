@@ -27,8 +27,13 @@
 
 #include "cls_base.h"
 
-class CClsMathExpCtl;
-class CClsMathLogCtl;
+class CClsMathConst;
+class CClsMathArith;
+class CClsMathTrig;
+class CClsMathITrig;
+class CClsMathExp;
+class CClsMathLog;
+class CClsMathType;
 
 class CLS_LIB CClsMathCtl
 {
@@ -37,13 +42,23 @@ class CLS_LIB CClsMathCtl
     ~CClsMathCtl();
 
     UErrCodeT Init();
-    CClsMathExpCtl *Exp();
-    CClsMathLogCtl *Log();
+    CClsMathConst *Const();
+    CClsMathArith *Arith();
+    CClsMathTrig *Trig();
+    CClsMathITrig *ITrig();
+    CClsMathExp *Exp();
+    CClsMathLog *Log();
+    CClsMathType *Type();
 
   protected:
   private:
-    CClsMathLogCtl *mLog;
-    CClsMathExpCtl *mExp;
+    CClsMathConst *mConst;
+    CClsMathArith *mArith;
+    CClsMathTrig *mTrig;
+    CClsMathITrig *mITrig;
+    CClsMathLog *mLog;
+    CClsMathExp *mExp;
+    CClsMathType *mType;
 };
 
 #endif  // CLS_MATHCTL_HPP_INCLUDED

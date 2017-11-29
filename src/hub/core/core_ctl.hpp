@@ -41,6 +41,7 @@ class CGdaCtl;
 class COgrCtl;
 class CGslCtl;
 class CCutCtl;
+class CPlpCtl;
 
 class CORE_LIB CCoreCtl
 {
@@ -58,6 +59,7 @@ class CORE_LIB CCoreCtl
     COgrCtl *Ogr();
     CGslCtl *Gsl();
     CCutCtl *Cut();
+    CPlpCtl *Plp();
 
   protected:
   private:
@@ -73,6 +75,7 @@ class CORE_LIB CCoreCtl
     COgrCtl *mOgr;
     CGslCtl *mGsl;
     CCutCtl *mCut;
+    CPlpCtl *mPlp;
 };
 
 #endif  // CORE_CTL_HPP_INCLUDED

@@ -41,8 +41,14 @@ C_OBJ = \
       cls_formatinput.o \
       cls_formatoutput.o \
       cls_mathctl.o \
-      cls_mathexpctl.o \
-      cls_mathlogctl.o \
+      cls_mathtype.o \
+      cls_mathconst.o \
+      cls_matharith.o \
+      cls_arithround.o \
+      cls_mathtrig.o \
+      cls_mathitrig.o \
+      cls_mathexp.o \
+      cls_mathlog.o \
       cls_timectl.o \
       cls_processctl.o
 
@@ -61,7 +67,13 @@ C_HEADER = \
          cls_formatinput.hpp \
          cls_formatoutput.hpp \
          cls_mathctl.hpp \
-         cls_mathexpctl.hpp \
-         cls_mathlogctl.hpp \
+         cls_mathtype.hpp \
+         cls_mathconst.hpp \
+         cls_matharith.hpp \
+         cls_arithround.hpp \
+         cls_mathtrig.hpp \
+         cls_mathitrig.hpp \
+         cls_mathexp.hpp \
+         cls_mathlog.hpp \
          cls_timectl.hpp \
          cls_processctl.hpp

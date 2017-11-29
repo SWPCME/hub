@@ -40,11 +40,15 @@ class CLS_LIB CClsTimeCtl
 
     UErrCodeT Init();
     UErrCodeT Current(BTimeTmT *aTm);
+    UErrCodeT Diff(UFloatT *aElapse, const BTimeTmT *aTm1,
+                   const BTimeTmT *aTm2);
 
-  protected:
+ protected:
   private:
     UErrCodeT Time(ClsTimeHT aTime);
     UErrCodeT GmTime(ClsTmHT *aTm);
+    UErrCodeT MkTime(UIntT *aTimeT, const ClsTmHT aTm);
+    UErrCodeT TimeGm(UIntT *aTimeT, const ClsTmHT aTm);
 
     CClsTypeCtl *mType;
 };

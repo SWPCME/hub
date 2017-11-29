@@ -107,7 +107,34 @@ UErrCodeT CClsTypeCtl::ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc)
 #ifdef OS_UNIX
     aDest->gmtoff = src->tm_gmtoff;
 #endif
-    // aDest->zone = src->tm_zone;
+    aDest->zone = src->tm_zone;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To tm.
+ */
+UErrCodeT CClsTypeCtl::ToTimeTm(ClsTmHT aDst, const BTimeTmT *aSrc)
+{
+    const UIntT yearOffset = -1900;
+    const UIntT monOffset = -1;
+    tm *dst = (tm *) aDst;
+    const BTimeTmT *src = aSrc;
+    
+    dst->tm_sec = src->sec;
+    dst->tm_min = src->min;
+    dst->tm_hour = src->hour;
+    dst->tm_mday = src->mday;
+    dst->tm_mon = src->mon + monOffset;
+    dst->tm_year = src->year + yearOffset;
+    dst->tm_wday = src->wday;
+    dst->tm_yday = src->yday;
+    dst->tm_isdst = src->isdst;
+#ifdef OS_UNIX
+    dst->tm_gmtoff = src->gmtoff;
+#endif
+    dst->tm_zone = src->zone;
 
     return UErrFalse;
 }

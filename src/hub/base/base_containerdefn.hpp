@@ -25,12 +25,23 @@
 #ifndef BASE_CONTAINERDEFN_HPP_INCLUDED
 #define BASE_CONTAINERDEFN_HPP_INCLUDED
 
+// ust
 #include "ust/ust_containertype.hpp"
 #include "ust/ust_stringtype.hpp"
+// base
+#include "base_mathtype.hpp"
 
+// common
 typedef UContainerT<UIntT> BCtnIntT;
 typedef UIteratorT<UIntT> BCtnItIntT;
 typedef UContainerT<UFloatT> BCtnFloatT;
+
+// ust
 typedef UContainerT<UStringT> BCtnStringT;
+typedef UIteratorT<UStringT> BItStringT;
+
+// math
+typedef UContainerT<BMathCsC2dT> BCtnMathCsC2dT;
+typedef UIteratorT<BMathCsC2dT> BItMathCsC2dT;
 
 #endif  // BASE_CONTAINERDEFN_HPP_INCLUDED

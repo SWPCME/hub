@@ -105,6 +105,17 @@ UStringT::UStringT(const UIntT aInt)
 }
 
 /**
+ * \brief Constructor.
+ *
+ * @param aInt Initialize by "UFloatT".
+ */
+// UStringT::UStringT(const UIntT aFloat)
+// {
+//     Init();
+//     mStr->MFToA(&mChar, aFloat);
+// }
+
+/**
  * \brief Destructor.
  */
 UStringT::~UStringT()

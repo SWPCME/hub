@@ -31,6 +31,7 @@
 #include "gsl_vectorctl.hpp"
 #include "gsl_blasctl.hpp"
 #include "gsl_sfctl.hpp"
+#include "gsl_phyctl.hpp"
 
 /**
  * \brief Constructor.
@@ -49,6 +50,7 @@ CGslCtl::~CGslCtl()
     BMD_CLASS_DEL(mVector);
     BMD_CLASS_DEL(mBlas);
     BMD_CLASS_DEL(mSf);
+    BMD_CLASS_DEL(mPhy);
 }
 
 /**
@@ -99,6 +101,16 @@ CGslSfCtl *CGslCtl::Sf()
     return mSf;
 }
 
+/**
+ * \brief Physical controler.
+ */
+CGslPhyCtl *CGslCtl::Phy()
+{
+    BMD_CLASS_NEW(mPhy, CGslPhyCtl);
+
+    return mPhy;
+}
+
 /***** Private A *****/
 
 /**
@@ -110,6 +122,7 @@ UErrCodeT CGslCtl::InitPointer()
     BMD_POINTER_INIT(mVector);
     BMD_POINTER_INIT(mBlas);
     BMD_POINTER_INIT(mSf);
+    BMD_POINTER_INIT(mPhy);
 
     return UErrFalse;
 }

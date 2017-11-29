@@ -31,6 +31,7 @@ class CGslTypeCtl;
 class CGslVectorCtl;
 class CGslBlasCtl;
 class CGslSfCtl;
+class CGslPhyCtl;
 
 class GSL_LIB CGslCtl
 {
@@ -43,6 +44,7 @@ class GSL_LIB CGslCtl
     CGslVectorCtl *Vector();
     CGslBlasCtl *Blas();
     CGslSfCtl *Sf();
+    CGslPhyCtl *Phy();
 
   protected:
   private:
@@ -52,6 +54,7 @@ class GSL_LIB CGslCtl
     CGslVectorCtl *mVector;
     CGslBlasCtl *mBlas;
     CGslSfCtl *mSf;
+    CGslPhyCtl *mPhy;
 };
 
 #endif  // GSL_CTL_HPP_INCLUDED

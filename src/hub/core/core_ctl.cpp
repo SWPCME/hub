@@ -40,6 +40,7 @@
 #include "ogr_ctl.hpp"
 #include "gsl_ctl.hpp"
 #include "cut_ctl.hpp"
+#include "plp_ctl.hpp"
 
 /**
  * \brief Constructor.
@@ -136,6 +137,16 @@ CCutCtl *CCoreCtl::Cut()
     return mCut;
 }
 
+/**
+ * \brief Plp.
+ */
+CPlpCtl *CCoreCtl::Plp()
+{
+    BMD_CLASS_NEW(mPlp, CPlpCtl);
+
+    return mPlp
+}
+
 /***** Private A *****/
 
 /**
@@ -153,6 +164,7 @@ UErrCodeT CCoreCtl::InitPointer()
     BMD_POINTER_INIT(mGda);
     BMD_POINTER_INIT(mGsl);
     BMD_POINTER_INIT(mCut);
+    BMD_POINTER_INIT(mPlp);
 
     return UErrFalse;
 }

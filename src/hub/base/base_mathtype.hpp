@@ -86,4 +86,14 @@ typedef struct
     UFloatT z;
 } BMathCsC3dT;
 
+/**
+ * \brief Spherical coordinate system.
+ */
+typedef struct
+{
+    UFloatT r;  // radial distance
+    UFloatT p;  // polar angle
+    UFloatT a;  // azimuthal angle
+} BMathCsST;
+
 #endif  // BASE_MATHTYPE_HPP_INCLUDED

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_mathexpctl.hpp 2017-06 $
+ * $Id: cls_mathtype.hpp 2017-11 $
  *
  * Project:  C language standard library.
- * Purpose:  Math exponentiation controler definition.
+ * Purpose:  Math type translate definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2017-11 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,22 +22,25 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef CLS_MATHEXPCTL_HPP_INCLUDED
-#define CLS_MATHEXPCTL_HPP_INCLUDED
+#ifndef CLS_MATHTYPE_HPP_INCLUDED
+#define CLS_MATHTYPE_HPP_INCLUDED
 
 #include "cls_base.h"
 
-class CLS_LIB CClsMathExpCtl
+class CClsMathConst;
+
+class CLS_LIB CClsMathType
 {
   public:
-    CClsMathExpCtl();
-    ~CClsMathExpCtl();
+    CClsMathType();
+    ~CClsMathType();
 
     UErrCodeT Init();
-    UErrCodeT Sqrt(UFloatT *aY, const UFloatT aX);
+    UErrCodeT DegToRad(UFloatT *aRad, const UFloatT aDeg);
 
   protected:
   private:
+    CClsMathConst *mConst;
 };
 
-#endif  // CLS_MATHEXPCTL_HPP_INCLUDED
+#endif  // CLS_MATHTYPE_HPP_INCLUDED

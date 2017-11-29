@@ -68,5 +68,6 @@ typedef enum
 /* Time. */
 typedef UHandleT ClsTimeHT;
 typedef UHandleT ClsTmHT;
+typedef UHandleT ClsTimeTHT;
 
 #endif  /* CLS_BASE_H_INCLUDED */

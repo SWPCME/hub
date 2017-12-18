@@ -37,7 +37,7 @@
 // ogr
 #include "ogr_ctl.hpp"
 // vtr
-#include "vtr_formatctl.hpp"
+#include "vtr_frmtctl.hpp"
 #include "vtr_datasrcctl.hpp"
 
 /**
@@ -46,7 +46,7 @@
 CVtrCtl::CVtrCtl()
 {
     m_mDataSrc = new MVtrDataSrcT(UContainerMap);
-    BMD_POINTER_INIT(mFormat);
+    BMD_POINTER_INIT(mFrmt);
 }
 
 /**
@@ -55,7 +55,7 @@ CVtrCtl::CVtrCtl()
 CVtrCtl::~CVtrCtl()
 {
     delete m_mDataSrc;
-    BMD_CLASS_DEL(mFormat);
+    BMD_CLASS_DEL(mFrmt);
 }
 
 /**
@@ -75,11 +75,11 @@ UErrCodeT CVtrCtl::Init()
 /**
  * \brief Format controler.
  */
-CVtrFormatCtl *CVtrCtl::Format()
+CVtrFrmtCtl *CVtrCtl::Frmt()
 {
-    BMD_CLASS_NEW(mFormat, CVtrFormatCtl);
+    BMD_CLASS_NEW(mFrmt, CVtrFrmtCtl);
 
-    return mFormat;
+    return mFrmt;
 }
 
 /**

@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: base_mathtype.hpp 2016-08 $
+ * $Id: base_mathtype.hpp 2017-11 $
  *
  * Project:  Base.
  * Purpose:  Base math type.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017 Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2017 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -24,6 +24,9 @@
 
 #ifndef BASE_MATHTYPE_HPP_INCLUDED
 #define BASE_MATHTYPE_HPP_INCLUDED
+
+// hub
+#include "hub_base.h"
 
 const UIntT kSignNeg = -1;
 
@@ -70,21 +73,74 @@ typedef struct
 /**
  * \brief Coordinate system with surface.
  */
-typedef struct
+class HUB_LIB BMathCsC2dT
 {
-    UFloatT x;
-    UFloatT y;
-} BMathCsC2dT;
+  public:
+    BMathCsC2dT();
+    BMathCsC2dT(const UFloatT aX, const UFloatT aY);
+    ~BMathCsC2dT();
+
+    UErrCodeT SetAll(const UFloatT aX, const UFloatT aY);
+    UErrCodeT SetX(const UFloatT aX);
+    UErrCodeT SetY(const UFloatT aY);
+
+    UErrCodeT All(UFloatT *aX, UFloatT *aY) const;
+    UFloatT X() const;
+    UFloatT Y() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UFloatT mX;
+    UFloatT mY;
+};
 
 /**
  * \brief Coordinate system with space.
  */
-typedef struct
+class HUB_LIB BMathCsC3dT
 {
-    UFloatT x;
-    UFloatT y;
-    UFloatT z;
-} BMathCsC3dT;
+  public:
+    BMathCsC3dT();
+    BMathCsC3dT(const UFloatT aX, const UFloatT aY, const UFloatT aZ);
+    ~BMathCsC3dT();
+
+    UErrCodeT SetAll(const UFloatT aX, const UFloatT aY, const UFloatT aZ);
+    UErrCodeT SetX(const UFloatT aX);
+    UErrCodeT SetY(const UFloatT aY);
+    UErrCodeT SetZ(const UFloatT aZ);
+
+    UErrCodeT All(UFloatT *aX, UFloatT *aY, UFloatT *aZ) const;
+    UFloatT X() const;
+    UFloatT Y() const;
+    UFloatT Z() const;
+
+  protected:
+  private:
+    UErrCodeT Init();
+
+    UFloatT mX;
+    UFloatT mY;
+    UFloatT mZ;
+};
+
+/**
+ * \brief Set region for 2d.
+ */
+// class HUB_LIB BMathRegion2dT
+// {
+//   public:
+//     BMathRegion2dT();
+//     ~BMathRegion2dT();
+
+//     UErrCodeT SetAll(const BMathCsC2dT *aBegin, const BMathCsC2dT *aEnd);
+
+//     UErrCodeT All(BMathCsC2dT *aBegin, BMathCsC2dT *aEnd);
+
+//   protected:
+//   private:
+// }
 
 /**
  * \brief Spherical coordinate system.

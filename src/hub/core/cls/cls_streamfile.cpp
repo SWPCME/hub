@@ -93,6 +93,19 @@ UErrCodeT CClsStreamFile::Close(ClsFileHT *aFileH)
 }
 
 /**
+ * \brief End of file.
+ */
+UErrCodeT CClsStreamFile::Eof(ClsFileHT aFileH)
+{
+    if (feof((FILE *) aFileH) == 0)
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
  * \brief Close all file.
  */
 UErrCodeT CClsStreamFile::CloseAll()
@@ -118,13 +131,13 @@ CClsFileChar *CClsStreamFile::Char()
 //     return mStr;
 // }
 
-// /**
-//  * \brief Line-oriented.
-//  */
-// CClsFileLine *CClsStreamFile::Line()
-// {
-//     return mLine;
-// }
+/**
+ * \brief Line-oriented.
+ */
+CClsFileLine *CClsStreamFile::Line()
+{
+    return mLine;
+}
 
 // /**
 //  * \brief Block.

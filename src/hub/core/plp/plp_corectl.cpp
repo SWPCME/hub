@@ -60,11 +60,20 @@ UErrCodeT CPlpCoreCtl::Init()
 }
 
 /**
- * \brief Initialize options.
+ * \brief Initialize PLplot, passing windows/page settings, and the device name.
  */
-UErrCodeT CPlpCoreCtl::InitOpt()
+UErrCodeT CPlpCoreCtl::InitOpt(const UIntT aNX, const UIntT aNY, const PlpDevCodeT aCode)
 {
-    plinit();
+    if (aCode == PlpDevNull)
+    {
+        plstar(aNX, aNY);
+
+        return UErrFalse;
+    }
+
+    UStringT name;
+    mType->DevCodeToName(&name, aCode);
+    plstart(name.ToA(), aNX, aNY);
 
     return UErrFalse;
 }
@@ -138,6 +147,16 @@ UErrCodeT CPlpCoreCtl::CpStrm(const UIntT aStrm, const UIntT aMode)
 UErrCodeT CPlpCoreCtl::EndCurStrm()
 {
     plend1();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief End a plotting session for all open streams.
+ */
+UErrCodeT CPlpCoreCtl::EndAllStrm()
+{
+    plend();
 
     return UErrFalse;
 }

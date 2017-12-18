@@ -29,9 +29,14 @@ LAYER = rst
 C_OBJ = \
         rst_ctl.o \
         rst_utilctl.o \
-        rst_utilmerge.o
+        rst_utilmerge.o \
+        rst_frmtctl.o \
+        rst_frmtlcp.o \
 
 C_HEADER = \
            rst_base.hpp \
+           rst_ctl.hpp \
            rst_utilctl.hpp \
-           rst_utilmerge.hpp
+           rst_utilmerge.hpp \
+           rst_frmtctl.hpp \
+           rst_frmtlcp.hpp

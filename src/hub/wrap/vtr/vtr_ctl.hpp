@@ -37,7 +37,7 @@
 #include "ust_containertype.hpp"
 
 class COgrCtl;
-class CVtrFormatCtl;
+class CVtrFrmtCtl;
 // class CVtrUtilsCtl;
 class CVtrDatasrcCtl;
 
@@ -53,7 +53,7 @@ class VTR_LIB CVtrCtl
     UErrCodeT Init();
 
     // Type controler.
-    CVtrFormatCtl *Format();
+    CVtrFrmtCtl *Frmt();
 
     // Cleanup driver.
     UErrCodeT CleanupAll();
@@ -71,7 +71,7 @@ class VTR_LIB CVtrCtl
  protected:
  private:
     /* Handle */
-    CVtrFormatCtl *mFormat;
+    CVtrFrmtCtl *mFrmt;
     COgrCtl* m_ogr;
     MVtrDataSrcT* m_mDataSrc;
     int m_id;

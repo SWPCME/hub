@@ -34,47 +34,98 @@
 // base
 #include "base_macrodefn.hpp"
 // ogr
+#include "ogr_layerctl.hpp"
 #include "ogr_featurectl.hpp"
 
-COgrFeaturesCtl::COgrFeaturesCtl(OgrLayerHT aLayerH) : mMFeature(UContainerMap)
+/**
+ * \brief Constructor.
+ */
+COgrFeaturesCtl::COgrFeaturesCtl(COgrLayerCtl *aLayer) : mMFeature(UContainerMap)
 {
+    BMD_POINTER_INIT(mLayer);
     BMD_POINTER_INIT(mFeaturesH);
-    SetHandle(aLayerH);
-    BMD_POINTER_INIT(mIt);
+    SetHandle(aLayer);
 }
 
+/**
+ * \brief Destructor.
+ */
 COgrFeaturesCtl::~COgrFeaturesCtl()
 {
     CloseAll();
-    BMD_CLASS_DEL(mIt);
     BMD_POINTER_INIT(mFeaturesH);
 }
 
+/**
+ * \brief Initialize.
+ */
 UErrCodeT COgrFeaturesCtl::Init()
 {
     return UErrFalse;
 }
 
 /**
+ * \brief Handle.
+ */
+OgrFeaturesHT COgrFeaturesCtl::Handle()
+{
+    return mFeaturesH;
+}
+
+/**
+ * \brief Up.
+ */
+COgrLayerCtl *COgrFeaturesCtl::Up()
+{
+    return mLayer;
+}
+
+/**
  * \brief Create feature.
+ *
+ * This feature is lonely, not belong to any layer.
  *
  * @return Handle of feature control, if successful; NULL, if failed.
  */
 COgrFeatureCtl *COgrFeaturesCtl::Create()
 {
-    return FeatureCtl(0);
+    UFileOperCodeT oper = UFileOperCreate;
+
+    return FeatureCtl(oper);
+}
+
+/**
+ * \brief Add feature for this layer.
+ */
+UErrCodeT COgrFeaturesCtl::Add(COgrFeatureCtl *aFeature)
+{
+    OGRFeatureH featureH = (OGRFeatureH) aFeature->Handle();
+    if (featureH == NULL)
+    {
+        return UErrTrue;
+    }
+
+    OGRErr err = OGR_L_CreateFeature((OGRLayerH) mFeaturesH, featureH);
+    if (err != OGRERR_NONE)
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
 }
 
 /**
  * \brief Load feature.
  *
- * @param aRow The row in this features.
+ * @param aRow The row in this features, begin from 0.
  *
  * @return Handle of feature control, if successful; NULL, if failed.
  */
 COgrFeatureCtl *COgrFeaturesCtl::Load(UIntT aRow)
 {
-    return FeatureCtl(aRow);
+    UFileOperCodeT oper = UFileOperLoad;
+
+    return FeatureCtl(oper, aRow);
 }
 
 /**
@@ -84,6 +135,9 @@ COgrFeatureCtl *COgrFeaturesCtl::Load(UIntT aRow)
  */
 UErrCodeT COgrFeaturesCtl::Close(COgrFeatureCtl *aFeature)
 {
+    mMFeature.Del(aFeature);
+    BMD_CLASS_DEL(aFeature);
+
     return UErrFalse;
 }
 
@@ -92,6 +146,12 @@ UErrCodeT COgrFeaturesCtl::Close(COgrFeatureCtl *aFeature)
  */
 UErrCodeT COgrFeaturesCtl::CloseAll()
 {
+    MFeatureItT *it = mMFeature.Iterator();
+    for (it->Head(); it->State() == UErrFalse; it->Next())
+    {
+        Close(it->Content());
+    }
+
     return UErrFalse;
 }
 
@@ -106,24 +166,15 @@ UIntT COgrFeaturesCtl::Count()
     return count;
 }
 
-/**
- * \brief Iterator Type.
- */
-COgrFeatureItCtl *COgrFeaturesCtl::Iterator()
-{
-    // BMD_CLASS_NEW(COgrFeatureItCtl);
-
-    return mIt;
-}
-
 /***** Private A *****/
 
 /**
  * \brief Set handle.
  */
-UErrCodeT COgrFeaturesCtl::SetHandle(OgrLayerHT aLayerH)
+UErrCodeT COgrFeaturesCtl::SetHandle(COgrLayerCtl *aLayer)
 {
-    mFeaturesH = aLayerH;
+    mLayer = aLayer;
+    mFeaturesH = (OgrFeaturesHT) mLayer->Handle();
 
     return UErrFalse;
 }
@@ -131,7 +182,8 @@ UErrCodeT COgrFeaturesCtl::SetHandle(OgrLayerHT aLayerH)
 /**
  * \brief Featrue controler.
  */
-COgrFeatureCtl *COgrFeaturesCtl::FeatureCtl(UIntT aRow)
+COgrFeatureCtl *COgrFeaturesCtl::FeatureCtl(const UFileOperCodeT aOper,
+                                            const UIntT aRow)
 {
     MFeatureItT *it = mMFeature.Iterator();
     if (it->Goto(aRow) == UErrFalse)
@@ -140,7 +192,7 @@ COgrFeatureCtl *COgrFeaturesCtl::FeatureCtl(UIntT aRow)
     }
 
     COgrFeatureCtl *featureCtl = NULL;
-    BMD_CLASS_NEW_A_2(featureCtl, COgrFeatureCtl, aRow, mFeaturesH);
+    BMD_CLASS_NEW_A_3(featureCtl, COgrFeatureCtl, aOper, aRow, this);
     if (featureCtl != NULL)
     {
         mMFeature.Add(featureCtl, aRow);

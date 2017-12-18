@@ -35,38 +35,43 @@
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_containertype.hpp"
 
+// ogr
+class COgrLayerCtl;
 class COgrFeatureCtl;
-class COgrFeatureItCtl;
 
 class OGR_LIB COgrFeaturesCtl
 {
   public:
-    COgrFeaturesCtl(OgrLayerHT aLayerH);
+    COgrFeaturesCtl(COgrLayerCtl *aLayer);
     ~COgrFeaturesCtl();
 
     UErrCodeT Init();
+    OgrFeaturesHT Handle();
+    COgrLayerCtl *Up();
+
     COgrFeatureCtl *Create();
+    UErrCodeT Add(COgrFeatureCtl *aFeature);
     COgrFeatureCtl *Load(UIntT aRow);
     UIntT Count();
     UErrCodeT CloseAll();
     UErrCodeT Close(COgrFeatureCtl *aFeature);
-    COgrFeatureItCtl *Iterator();
 
   protected:
   private:
     typedef UContainerT<COgrFeatureCtl*, UIntT> MFeatureT;
     typedef UIteratorT<COgrFeatureCtl*, UIntT> MFeatureItT;
 
-    UErrCodeT SetHandle(OgrLayerHT aLayerH);
-    COgrFeatureCtl *FeatureCtl(UIntT aRow);
+    UErrCodeT SetHandle(COgrLayerCtl *aLayer);
+    COgrFeatureCtl *FeatureCtl(const UFileOperCodeT aOper, const UIntT aRow = 0);
     OgrLayerHT mLayerH;
 
     // Handle
     OgrFeaturesHT mFeaturesH;
     MFeatureT mMFeature;
 
+    // ogr
+    COgrLayerCtl *mLayer;
     COgrFeatureCtl *mFeature;
-    COgrFeatureItCtl *mIt;
 };
 
 #endif  // OGR_FEATURESCTL_HPP_INCLUDED

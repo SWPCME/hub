@@ -29,6 +29,7 @@
 #include "gda_datasetctl.hpp"
 // Module
 #include "gdal.h"
+#include "cpl_string.h"
 
 /**
  * \brief Constructor.
@@ -87,6 +88,26 @@ CGdaDatasetCtl *CGdaDriverCtl::Create(const UStringT *aFile, UIntT aXSize,
     attr.option = aOption;
 
     return DatasetCtl(aFile, UFileOperCreate, &attr, NULL);
+}
+
+/**
+ * \brief Create a copy of dataset, and set the option.
+ */
+CGdaDatasetCtl *CGdaDriverCtl::CreateCopy(const UStringT *aDst,
+                                          CGdaDatasetCtl *aSrc,
+                                          BCtnStringT *aOpt)
+{
+    CGdaDatasetCtl *dst = NULL;
+    char **opt = NULL;
+    BItStringT *it = aOpt->Iterator();
+    for (it->Head(); it->State() == UErrFalse; it->Next())
+    {
+        opt = CSLAddString(opt, it->Content().ToA());
+    }
+    GDALCreateCopy((GDALDriverH) mDriverH, aDst->ToA(),
+                   (GDALDatasetH) aSrc->Handle(), 0, opt, NULL, NULL);
+
+    return dst;
 }
 
 /**

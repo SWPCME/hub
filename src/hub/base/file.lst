@@ -27,10 +27,13 @@ SUB_NAME =
 LAYER = .
 
 C_OBJ = \
-      base_ctl.o
+      base_ctl.o \
+      base_tmpctl.o \
+      base_mathtype.o \
 
 C_HEADER = \
          base_macrodefn.hpp \
+         base_containerdefn.hpp \
          base_mathtype.hpp \
          base_timetype.hpp \
          base_geomtype.hpp 

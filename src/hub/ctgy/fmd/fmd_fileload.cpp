@@ -27,11 +27,30 @@
 // Firemod.
 #include "Farsite5.h"
 
-// Base.
+// base
 #include "base_ctl.hpp"
-// Ctgy.
+// core
+#include "core_ctl.hpp"
+// gda
+#include "gda_ctl.hpp"
+#include "gda_bandctl.hpp"
+#include "gda_utilsctl.hpp"
+#include "gda_utilstr.hpp"
+#include "gda_trvtr.hpp"
+#include "gda_trvtrtovtrtype.hpp"
+// ogr
+#include "ogr_ctl.hpp"
+#include "ogr_driverctl.hpp"
+#include "ogr_datasrcctl.hpp"
+// wrap
+#include "wrap_ctl.hpp"
+// vtr
+#include "vtr_ctl.hpp"
+#include "vtr_frmtctl.hpp"
+#include "vtr_frmtgjson.hpp"
+// ctgy
 #include "ctgy_ctl.hpp"
-// Fmd.
+// fmd
 #include "fmd_ctl.hpp"
 #include "fmd_filectl.hpp"
 
@@ -40,7 +59,6 @@
  */
 CFmdFileLoad::CFmdFileLoad()
 {
-    BMD_POINTER_INIT(mFarsiteH);
 }
 
 /**
@@ -48,7 +66,6 @@ CFmdFileLoad::CFmdFileLoad()
  */
 CFmdFileLoad::~CFmdFileLoad()
 {
-    BMD_POINTER_INIT(mFarsiteH);
 }
 
 /**
@@ -57,7 +74,15 @@ CFmdFileLoad::~CFmdFileLoad()
 UErrCodeT CFmdFileLoad::Init()
 {
     FMD_FARSITE_H(mFarsiteH);
-    
+
+    CGdaUtilsCtl *utils = NULL;
+    GDA_UTILS_CTL(utils);
+    mTr = utils->Tr();
+
+    OGR_CTL(mOgr);
+
+    VTR_CTL(mVtr);
+
     return UErrFalse;
 }
 
@@ -116,6 +141,18 @@ UErrCodeT CFmdFileLoad::Ignition(const UStringT *aFile)
 }
 
 /**
+ * \brief Load ignition file, but get value with GeoJson.
+ */
+UErrCodeT CFmdFileLoad::IgnitionGjson(const UStringT *aGjson)
+{
+    UStringT file = mTmpDir;
+    file += "ignition.shp";
+    StrGjsonToShp(&file, aGjson);
+
+    return Ignition(&file);
+}
+
+/**
  * \brief Load barrier file.
  *
  * \param aFile, barrier file.
@@ -127,7 +164,32 @@ UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
     return UErrFalse;
 }
 
+/**
+ * \brief Load barrier file, but get value with GeoJson.
+ */
+UErrCodeT CFmdFileLoad::BarrierGjson(const UStringT *aGjson)
+{
+    UStringT file = mTmpDir;
+    file += "ignition.shp";
+    StrGjsonToShp(&file, aGjson);
+
+    return Barrier(&file);
+}
+
 /***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CFmdFileLoad::InitPointer()
+{
+    BMD_POINTER_INIT(mTr);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mVtr);
+    BMD_POINTER_INIT(mFarsiteH);
+
+    return UErrFalse;
+}
 
 /**
  * \brief Load input error.
@@ -139,6 +201,38 @@ UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 UErrCodeT CFmdFileLoad::InputErr(UIntT aErr)
 {
     FMD_FARSITE(mFarsiteH)->LoadInputError(aErr);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief String of geojson to shp.
+ */
+UErrCodeT CFmdFileLoad::StrGjsonToShp(const UStringT *aDst,
+                                      const UStringT *aSrc)
+{
+    UStringT file = mTmpDir;
+    file += "strgjsontoshp.geojson";
+
+    // String to file.
+    CVtrFrmtCtl *frmtCtl = mVtr->Frmt();
+    CVtrFrmtGjson *gjson = frmtCtl->Gjson();
+    gjson->ToFile(&file, aSrc);
+
+    // Open file.
+    OgrFormatCodeT frmt = OgrFormatJson;
+    mOgr->Register(frmt);
+    COgrDriverCtl *dr = mOgr->Driver(frmt);
+    COgrDatasrcCtl *ds = dr->Load(&file);
+    OgrCtnDatasrcT dsCtn(UContainerList);
+    dsCtn.Add(ds);
+
+    // Translate.
+    CGdaTrVtr *trVtr = mTr->Vtr();
+    BCtnStringT strV2vOpt(UContainerList);
+    GdaTrVtrToVtrT r2rOpt;
+    r2rOpt.SetAll(frmt, &strV2vOpt);
+    trVtr->ToVtr(aDst, &dsCtn, &r2rOpt);
 
     return UErrFalse;
 }

@@ -48,13 +48,14 @@ class CCS_LIB CCcsMapCtl
 
     UErrCodeT Init(const UContainerCodeT aCode);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
+    UErrCodeT Add(UstContainerHT aHandle);
+    UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT DelByKey(const KeyT *aKey);
     UErrCodeT Find(const ContentT *aContent);
     UErrCodeT FindByKey(const KeyT *aKey);
     ContentT* Content(const KeyT *aKey);
     UErrCodeT Clear();
     UErrCodeT Count(UIntT *aNum);
-    UErrCodeT Copy(UstContainerHT aHandle);
 
     // Traversal.
     UErrCodeT Head(const USequenceCodeT aCode = USequenceOrder);

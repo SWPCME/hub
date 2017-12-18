@@ -133,6 +133,14 @@ UHandleT CHubCtl::Module(HubCodeT aCode)
 }
 
 /**
+ * \brief Gda handle.
+ */
+CGdaCtl *CHubCtl::Gda()
+{
+    return (CGdaCtl *) Module(HubMGda);
+}
+
+/**
  * \brief Ogr handle.
  *
  * @return Handle of ogr, if successful; NULL, if failed.

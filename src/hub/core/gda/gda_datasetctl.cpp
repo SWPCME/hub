@@ -130,7 +130,6 @@ UErrCodeT CGdaDatasetCtl::AddBand(UDataTCodeT aDataT, UStringT *aOption)
     mType->ToDataType(&dataType, aDataT);
     char** option = NULL;
     GDALAddBand((GDALDatasetH) mDatasetH, dataType, option);
-    *aOption = *option;
 
     return UErrFalse;
 }
@@ -270,7 +269,7 @@ UErrCodeT CGdaDatasetCtl::GdaClose()
         return UErrTrue;
     }
 
-    // GDALClose((GDALDatasetH) mDatasetH);
+    GDALClose((GDALDatasetH) mDatasetH);
 
     return UErrFalse;
 }

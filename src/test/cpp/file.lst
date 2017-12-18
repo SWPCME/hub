@@ -13,9 +13,11 @@ C_LIB_SO_NAME = \
               hub \
               gdal \
               gsl \
+              gslcblas \
               curl \
               rtklib \
-              firemod
+              firemod \
+              erfa
 
 # Binary file name.
 BIN_FILE = test_cpp

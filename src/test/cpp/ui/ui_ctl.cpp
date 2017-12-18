@@ -36,10 +36,13 @@
 #include "bsn_ogr.hpp"
 #include "bsn_gsl.hpp"
 #include "bsn_cut.hpp"
+#include "bsn_plp.hpp"
 #include "bsn_ust.hpp"
+#include "bsn_rst.hpp"
 #include "bsn_ncc.hpp"
 #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
+#include "bsn_era.hpp"
 #include "bsn_uniqueid.hpp"
 
 CUiCtl::CUiCtl()
@@ -66,7 +69,7 @@ UErrCodeT CUiCtl::Main()
     return UErrFalse;
 }
 
-UErrCodeT CUiCtl::Test()
+UErrCodeT CUiCtl::TestAll()
 {
     CBsnUniqueId *uniqueId = mBsn->UniqueId();
     BsnUniqueIdPathT uniqueIdPath;
@@ -93,14 +96,43 @@ UErrCodeT CUiCtl::Test()
     // CBsnCut *cut = mBsn->Cut();
     // cut->Test();
 
+    CBsnPlp *plp = mBsn->Plp();
+    plp->Test();
+
     CBsnUst *ust = mBsn->Ust();
     ust->Test();
+
+    CBsnRst *rst = mBsn->Rst();
+    rst->Test();
 
     CBsnNcc *ncc = mBsn->Ncc();
     ncc->Test();
 
     CBsnFmd *fmd = mBsn->Fmd();
     fmd->Test();
+
+    CBsnEra *era = mBsn->Era();
+    era->Test();
+
+    return UErrFalse;
+}
+
+UErrCodeT CUiCtl::Test()
+{
+    // CBsnGda *gda = mBsn->Gda();
+    // gda->Test();
+
+    CBsnFmd *fmd = mBsn->Fmd();
+    fmd->Test();
+
+    // CBsnOgr *ogr = mBsn->Ogr();
+    // ogr->Test();
+
+    // CBsnPlp *plp = mBsn->Plp();
+    // plp->Test();
+
+    // CBsnRst *rst = mBsn->Rst();
+    // rst->Test();
 
     return UErrFalse;
 }

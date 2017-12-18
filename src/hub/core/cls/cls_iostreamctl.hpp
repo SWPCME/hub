@@ -27,8 +27,9 @@
 
 #include "cls_base.h"
 
-class CClsStreamFormat;
 class CClsStreamFile;
+class CClsStreamLine;
+class CClsStreamFormat;
 
 class CLS_LIB CClsIoStreamCtl
 {
@@ -39,8 +40,9 @@ class CLS_LIB CClsIoStreamCtl
     UErrCodeT Init();
 
     // Controler.
-    CClsStreamFormat *Format();
+    CClsStreamLine *Line();
     CClsStreamFile *File();
+    CClsStreamFormat *Format();
 
   protected:
   private:
@@ -48,6 +50,7 @@ class CLS_LIB CClsIoStreamCtl
 
     CClsStreamFormat *mFormat;
     CClsStreamFile *mFile;
+    CClsStreamLine *mLine;
 };
 
 #endif  // CLS_IOSTREAMCTL_HPP_INCLUDED

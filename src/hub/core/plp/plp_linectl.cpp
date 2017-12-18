@@ -62,8 +62,8 @@ UErrCodeT CPlpLineCtl::Line(const BCtnMathCsC2dT *aPtrs)
     it->Head();
     for (UIntT i = 0; i < n; ++i, it->Next())
     {
-        x[i] = it->Content().x;
-        y[i] = it->Content().y;
+        x[i] = it->Content().X();
+        y[i] = it->Content().Y();
     }
     plline(n, x, y);
 

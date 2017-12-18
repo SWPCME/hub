@@ -110,6 +110,18 @@ UErrCodeT UContainerT<ContentT, KeyT>::Add(const ContentT &aContent, const KeyT 
 }
 
 /**
+ * \brief Add content and key.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT UContainerT<ContentT, KeyT>::Add
+(const UContainerT<ContentT, KeyT> *aCtn)
+{
+    UContainerT<ContentT,KeyT> *ctn = (UContainerT<ContentT,KeyT> *) aCtn;
+
+    return mCtn->Add(ctn->Handle());
+}
+
+/**
  * \brief Delete item by content.
  */
 template <typename ContentT, typename KeyT>

@@ -24,14 +24,18 @@
 
 #include "rst_ctl.hpp"
 
+// base
+#include "base_macrodefn.hpp"
 // rst
-#include "rst_utilsctl.hpp"
+#include "rst_utilctl.hpp"
+#include "rst_frmtctl.hpp"
 
 /**
  * \brief Constructor.
  */
 CRstCtl::CRstCtl()
 {
+    InitPointer();
 }
 
 /**
@@ -39,6 +43,8 @@ CRstCtl::CRstCtl()
  */
 CRstCtl::~CRstCtl()
 {
+    BMD_CLASS_DEL(mUtil);
+    BMD_CLASS_DEL(mFrmt);
 }
 
 /**
@@ -54,5 +60,32 @@ UErrCodeT CRstCtl::Init()
  */
 CRstUtilCtl *CRstCtl::Util()
 {
+    BMD_CLASS_NEW(mUtil, CRstUtilCtl);
+
     return mUtil;
 }
+
+/**
+ * \brief Format controler.
+ */
+CRstFrmtCtl *CRstCtl::Frmt()
+{
+    BMD_CLASS_NEW(mFrmt, CRstFrmtCtl);
+
+    return mFrmt;
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CRstCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mUtil);
+    BMD_POINTER_INIT(mFrmt);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

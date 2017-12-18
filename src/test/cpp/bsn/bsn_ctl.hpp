@@ -37,10 +37,16 @@ class CBsnGda;
 class CBsnOgr;
 class CBsnGsl;
 class CBsnCut;
+class CBsnPlp;
+
 class CBsnUst;
+class CBsnRst;
 class CBsnNcc;
+
 class CBsnRtk;
 class CBsnFmd;
+class CBsnEra;
+
 class CBsnUniqueId;
 
 class BSN_LIB CBsnCtl
@@ -50,15 +56,22 @@ class BSN_LIB CBsnCtl
     ~CBsnCtl();
 
     UErrCodeT Init();
+
     CBsnCls *Cls();
     CBsnGda *Gda();
     CBsnOgr *Ogr();
     CBsnGsl *Gsl();
     CBsnCut *Cut();
+    CBsnPlp *Plp();
+
     CBsnUst *Ust();
+    CBsnRst *Rst();
     CBsnNcc *Ncc();
+
     CBsnRtk *Rtk();
     CBsnFmd *Fmd();
+    CBsnEra *Era();
+
     CBsnUniqueId *UniqueId();
 
  protected:
@@ -66,15 +79,22 @@ class BSN_LIB CBsnCtl
     UErrCodeT InitPointer();
 
     CHubCtl *mHub;
+
     CBsnCls *mCls;
     CBsnGda *mGda;
     CBsnOgr *mOgr;
     CBsnGsl *mGsl;
     CBsnCut *mCut;
+    CBsnPlp *mPlp;
+
     CBsnUst *mUst;
+    CBsnRst *mRst;
     CBsnNcc *mNcc;
+
     CBsnRtk *mRtk;
     CBsnFmd *mFmd;
+    CBsnEra *mEra;
+
     CBsnUniqueId *mUniqueId;
 };
 

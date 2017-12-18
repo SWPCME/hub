@@ -9,4 +9,6 @@
     Description: LCP.
     Long name: FARSITE v.4 Landscape File (.lcp).
     File: frmt/raw/lcpdataset.cpp.
+*** band
+**** fuel model
 * ogr format

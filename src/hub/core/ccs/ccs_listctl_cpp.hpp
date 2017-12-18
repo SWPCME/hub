@@ -101,6 +101,34 @@ UErrCodeT CCcsListCtl<ContentT>::Add(const ContentT *aContent)
 }
 
 /**
+ * \brief Add content with another list.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::Add(UstContainerHT aHandle)
+{
+    std::list<ContentT> *list = (std::list<ContentT> *) aHandle;
+    for (ListIteratorT it = list->begin(); it != list->end();
+         ++it)
+    {
+        Add(&(*it));
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Copy.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::Copy(UstContainerHT aHandle)
+{
+    Clear();
+    Add(aHandle);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Find content with key.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
@@ -158,23 +186,6 @@ template <typename ContentT>
 UErrCodeT CCcsListCtl<ContentT>::Count(UIntT *aNum)
 {
     *aNum = mList.size();
-
-    return UErrFalse;
-}
-
-/**
- * \brief Copy.
- */
-template <typename ContentT>
-UErrCodeT CCcsListCtl<ContentT>::Copy(UstContainerHT aHandle)
-{
-    std::list<ContentT> *list = (std::list<ContentT> *) aHandle;
-    Clear();
-    for (ListIteratorT it = list->begin(); it != list->end();
-         ++it)
-    {
-        Add(&(*it));
-    }
 
     return UErrFalse;
 }

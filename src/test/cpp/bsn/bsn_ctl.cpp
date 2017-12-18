@@ -44,12 +44,15 @@
 #include "bsn_ogr.hpp"
 #include "bsn_gsl.hpp"
 #include "bsn_cut.hpp"
+#include "bsn_plp.hpp"
 // Wrap.
 #include "bsn_ust.hpp"
+#include "bsn_rst.hpp"
 #include "bsn_ncc.hpp"
 // Ctgy.
 #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
+#include "bsn_era.hpp"
 
 CBsnCtl::CBsnCtl()
 {
@@ -66,9 +69,15 @@ CBsnCtl::~CBsnCtl()
     BMD_CLASS_DEL(mGda);
     BMD_CLASS_DEL(mGsl);
     BMD_CLASS_DEL(mCut);
+    BMD_CLASS_DEL(mPlp);
+
     BMD_CLASS_DEL(mUst);
+    BMD_CLASS_DEL(mRst);
     BMD_CLASS_DEL(mNcc);
+
     BMD_CLASS_DEL(mRtk);
+    BMD_CLASS_DEL(mEra);
+
     BMD_CLASS_DEL(mUniqueId);
 
     mHub->DeregisterAll();
@@ -114,11 +123,25 @@ CBsnCut *CBsnCtl::Cut()
     return mCut;
 }
 
+CBsnPlp *CBsnCtl::Plp()
+{
+    BMD_CLASS_NEW(mPlp, CBsnPlp);
+
+    return mPlp;
+}
+
 CBsnUst *CBsnCtl::Ust()
 {
     BMD_CLASS_NEW(mUst, CBsnUst);
 
     return mUst;
+}
+
+CBsnRst *CBsnCtl::Rst()
+{
+    BMD_CLASS_NEW(mRst, CBsnRst);
+
+    return mRst;
 }
 
 CBsnNcc *CBsnCtl::Ncc()
@@ -149,6 +172,13 @@ CBsnFmd *CBsnCtl::Fmd()
     return mFmd;
 }
 
+CBsnEra *CBsnCtl::Era()
+{
+    BMD_CLASS_NEW(mEra, CBsnEra);
+
+    return mEra;
+}
+
 /***** Private A *****/
 
 UErrCodeT CBsnCtl::InitPointer()
@@ -162,6 +192,7 @@ UErrCodeT CBsnCtl::InitPointer()
     BMD_POINTER_INIT(mNcc);
     BMD_POINTER_INIT(mRtk);
     BMD_POINTER_INIT(mFmd);
+    BMD_POINTER_INIT(mEra);
     BMD_POINTER_INIT(mUniqueId);
 
     return UErrFalse;

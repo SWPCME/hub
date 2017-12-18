@@ -162,6 +162,23 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Add(const ContentT *aContent, const 
 }
 
 /**
+ * \brief Add.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CUstContainerCtl<ContentT, KeyT>::Add(UstContainerHT aHandle)
+{
+    switch (mCode)
+    {
+    case UContainerList:
+        return mList->Add(aHandle);
+    case UContainerMap:
+        return mMap->Add(aHandle);
+    default:
+        return UErrFalse;
+    }
+}
+
+/**
  * \brief Find by key.
  */
 template <typename ContentT, typename KeyT>

@@ -31,6 +31,10 @@
 // Ust.
 #include "ust/ust_stringtype.hpp"
 
+// class
+class CGdaUtilsTr;
+class COgrCtl;
+class CVtrCtl;
 class CFmdTypeCtl;
 
 class FMD_LIB CFmdFileWrite
@@ -60,7 +64,9 @@ class FMD_LIB CFmdFileWrite
     // Common.
     UErrCodeT Common(const UStringT *aFile);
     UErrCodeT IgnitionGrid(const UStringT *aFile);
-    UErrCodeT PerimetersShape(const UStringT *aFile);
+    UErrCodeT PerimetersShape(const UStringT *aFile,
+                              const UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT PerimetersGjson(UStringT *aStr);
     UErrCodeT SpotGrid(const UStringT *aFile);
     UErrCodeT SpotData(const UStringT *aFile);
     UErrCodeT SpotShape(const UStringT *aFile);
@@ -68,8 +74,15 @@ class FMD_LIB CFmdFileWrite
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
+    CGdaUtilsTr *mTr;
+    COgrCtl *mOgr;
+    CVtrCtl *mVtr;
+
     FmdFarsiteHT mFarsiteH;
     CFmdTypeCtl *mType;
+    UStringT mTmpDir;
 };
 
 #endif  // FMD_FILEWRITE_HPP_INCLUDED

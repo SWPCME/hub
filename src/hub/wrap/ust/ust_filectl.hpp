@@ -34,7 +34,9 @@
 
 // cls
 class CClsStreamFile;
+class CClsStreamLine;
 class CClsFormatOutput;
+class CClsFormatInput;
 
 class UST_LIB CUstFileCtl
 {
@@ -55,6 +57,9 @@ class UST_LIB CUstFileCtl
     UErrCodeT Write(const UStringT *aStr, UstFileHT aFileH);
     UErrCodeT WriteRow(const UStringT *aStr, UstFileHT aFileH);
 
+    // Status.
+    UErrCodeT Eof(UstFileHT aFileH);
+
   protected:
   private:
     UErrCodeT InitPointer();
@@ -64,7 +69,9 @@ class UST_LIB CUstFileCtl
     UErrCodeT Reopen();
 
     CClsStreamFile *mFile;
+    CClsStreamLine *mLine;
     CClsFormatOutput *mFrmtOut;
+    CClsFormatInput *mFrmtIn;
 };
 
 #endif  // UST_FILECTL_HPP_INCLUDED

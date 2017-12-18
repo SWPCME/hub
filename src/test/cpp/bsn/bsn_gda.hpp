@@ -59,17 +59,20 @@ class BSN_LIB CBsnGda
 
   protected:
   private:
-    UErrCodeT TestCreate();
-    UErrCodeT TestLoad();
+    // core
+    UErrCodeT TestCore();
+    UErrCodeT CoreCreate();
+    UErrCodeT CoreLoad();
+    UErrCodeT CoreWrite();
+
+    // alg
     UErrCodeT TestAlg();
+
+    // utils
     UErrCodeT TestUtils();
-
-    // Tranlsate
     UErrCodeT VtrToVtr();
-    UErrCodeT VtrToRstEasy();
-    UErrCodeT VtrToRstComplex();
-
-    // Merge
+    UErrCodeT RstToRst();
+    UErrCodeT Dem();
     UErrCodeT MergeRst();
 
     // rst
@@ -78,8 +81,8 @@ class BSN_LIB CBsnGda
                                   UDataTCodeT aDataT, GdaFormatCodeT aFormat);
     CGdaDatasetCtl *LoadDataset(const UStringT *aFile, UAccessCodeT aAccess,
                                 GdaFormatCodeT aFormat);
-    CGdaBandCtl *Band(const UStringT *aFile, UIntT aBandId,
-                      UAccessCodeT aAccess, GdaFormatCodeT aFormat);
+    CGdaBandCtl *LoadBand(const UStringT *aFile, UIntT aBandId,
+                          UAccessCodeT aAccess, GdaFormatCodeT aFormat);
     // vtr
     COgrLayerCtl *Layer(const UStringT *aFile, UIntT aLayerId,
                         OgrFormatCodeT aFormat);

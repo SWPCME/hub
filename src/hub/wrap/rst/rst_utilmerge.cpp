@@ -49,7 +49,7 @@ UErrCodeT CRstUtilMerge::Init()
 /**
  * \brief Merge to raster.
  */
-UErrCodeT CRstUtilMerge::ToRst(const RstMergeToRstOptT *aRstOpt)
-{
-    return UErrFalse;
-}
+// UErrCodeT CRstUtilMerge::ToRst(const RstMergeToRstOptT *aRstOpt)
+// {
+//     return UErrFalse;
+// }

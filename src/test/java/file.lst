@@ -22,6 +22,9 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+JAVA_PKG = TestJava
+
 JAVA_OBJ = \
-           TestJavaCtl.class \
-           TestJavaFmd.class
+           TestCtl.class \
+           TestOgr.class \
+           TestFmd.class 

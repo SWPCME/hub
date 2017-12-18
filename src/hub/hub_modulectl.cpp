@@ -28,6 +28,7 @@
  * \brief Base module.
  */
 #include "base_ctl.hpp"
+#include "base_tmpctl.hpp"
 
 /**
  * \brief Core module.
@@ -40,12 +41,14 @@
 #include "gda_ctl.hpp"
 #include "gsl_ctl.hpp"
 #include "cut_ctl.hpp"
+#include "plp_ctl.hpp"
 
 /**
  * \brief Wrap module.
  */
 #include "wrap_ctl.hpp"
 #include "ust_ctl.hpp"
+#include "rst_ctl.hpp"
 #include "vtr_ctl.hpp"
 
 /**
@@ -67,8 +70,8 @@
  */
 CHubModuleCtl::CHubModuleCtl() : mMCodeH(UContainerMap)
 {
-    CBaseCtl* base = CBaseCtl::Base();
-    base->Init();
+    mBase = CBaseCtl::Base();
+    mBase->Init();
 
     mState = UStateOff;
 }
@@ -104,6 +107,8 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         return UErrFalse;
     }
 
+    CBaseTmpCtl *tmp = mBase->Tmp();
+    tmp->MkDir(aCode);
     switch (aCode)
     {
         // core
@@ -114,8 +119,10 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         HUB_REGISTER(HubMGda, CGdaCtl);
         HUB_REGISTER(HubMGsl, CGslCtl);
         HUB_REGISTER(HubMCut, CCutCtl);
+        HUB_REGISTER(HubMPlp, CPlpCtl);
         // wrap
         HUB_REGISTER(HubMUst, CUstCtl);
+        HUB_REGISTER(HubMRst, CRstCtl);
         HUB_REGISTER(HubMVtr, CVtrCtl);
         // ctgy
         HUB_REGISTER(HubMRtk, CRtkCtl);
@@ -166,8 +173,10 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         HUB_DEREGISTER(HubMGda, CGdaCtl);
         HUB_DEREGISTER(HubMGsl, CGslCtl);
         HUB_DEREGISTER(HubMCut, CCutCtl);
+        HUB_DEREGISTER(HubMPlp, CPlpCtl);
         // wrap
         HUB_DEREGISTER(HubMUst, CUstCtl);
+        HUB_DEREGISTER(HubMRst, CRstCtl);
         HUB_DEREGISTER(HubMVtr, CVtrCtl);
         // ctgy
         HUB_DEREGISTER(HubMRtk, CRtkCtl);

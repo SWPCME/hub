@@ -34,8 +34,10 @@
 #include "cls_ioctl.hpp"
 #include "cls_iostreamctl.hpp"
 #include "cls_streamfile.hpp"
+#include "cls_streamline.hpp"
 #include "cls_streamformat.hpp"
 #include "cls_formatoutput.hpp"
+#include "cls_formatinput.hpp"
 
 /**
  * \brief Constructor.
@@ -62,10 +64,14 @@ UErrCodeT CUstFileCtl::Init()
     CCoreCtl *coreCtl = baseCtl->Core();
     CClsCtl *clsCtl = coreCtl->Cls();
     CClsIoCtl *ioCtl = clsCtl->Io();
+
     CClsIoStreamCtl *streamCtl = ioCtl->Stream();
     mFile = streamCtl->File();
+    mLine = streamCtl->Line();
+
     CClsStreamFormat *format = streamCtl->Format();
     mFrmtOut = format->Output();
+    mFrmtIn = format->Input();
 
     return UErrFalse;
 }
@@ -103,7 +109,11 @@ UErrCodeT CUstFileCtl::Save(UstFileHT *mFileH, const UStringT *aFileName)
  */
 UErrCodeT CUstFileCtl::ReadRow(UStringT *aStr, UstFileHT aFileH)
 {
-    return UErrFalse;
+    // char str[kNMax];
+    // mFrmtIn->FromFile(aFileH, "%[^\n]", str);
+    // *aStr = str;
+
+    return mLine->Line(aStr, (ClsFileHT) aFileH);
 }
 
 /**
@@ -122,6 +132,14 @@ UErrCodeT CUstFileCtl::WriteRow(const UStringT *aStr, UstFileHT aFileH)
     return mFrmtOut->ToFile(aFileH, "%s\n", aStr->ToA());
 }
 
+/**
+ * \brief End of file.
+ */
+UErrCodeT CUstFileCtl::Eof(UstFileHT aFileH)
+{
+    return mFile->Eof(aFileH);
+}
+
 /***** Private A *****/
 
 /**
@@ -130,6 +148,8 @@ UErrCodeT CUstFileCtl::WriteRow(const UStringT *aStr, UstFileHT aFileH)
 UErrCodeT CUstFileCtl::InitPointer()
 {
     BMD_POINTER_INIT(mFile);
+    BMD_POINTER_INIT(mLine);
+    BMD_POINTER_INIT(mFrmtIn);
     BMD_POINTER_INIT(mFrmtOut);
 
     return UErrFalse;

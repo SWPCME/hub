@@ -151,7 +151,8 @@ typedef enum
 
     /* Wrap module */
     HubMUst = 1001,             /* Universal struct type library. */
-    HubMVtr = 1002,             /* Vector library. */
+    HubMRst = 1002,             /* Raster library. */
+    HubMVtr = 1003,             /* Vector library. */
 
     /* Ctgy module */
     // Earth
@@ -192,11 +193,12 @@ typedef enum
 /* Universal data type code type. */
 typedef enum
 {
-    UDataTNone   = 0,
-    UDataTString = 1,
-    UDataTInt    = 2,
-    UDataTInt16  = 3,
-    UDataTFloat  = 4,
+    UDataTNone     = 0,
+    UDataTString   = 1,
+    UDataTInt      = 2,
+    UDataTInt16    = 3,
+    UDataTFloat    = 4,
+    UDataTFloat32  = 5,
 } UDataTCodeT;
 
 /* Universal file oper code type. */

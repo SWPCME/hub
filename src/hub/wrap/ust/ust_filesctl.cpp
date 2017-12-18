@@ -36,7 +36,6 @@
 #include "core_ctl.hpp"
 // Cls control.
 #include "cls_ctl.hpp"
-#include "cls_unictl.hpp"
 // Sys control.
 #include "sys_ctl.hpp"
 #include "sys_filectl.hpp"
@@ -68,7 +67,7 @@ UErrCodeT CUstFilesCtl::Init()
 
     // Cls control.
     CClsCtl* clsCtl = coreCtl->Cls();
-    m_uni = clsCtl->Uni();
+    // m_uni = clsCtl->Uni();
 
     // System control.
     CSysCtl* sysCtl = coreCtl->Sys();
@@ -93,5 +92,6 @@ UErrCodeT CUstFilesCtl::Ftw(UStringT* aPath)
  */
 UErrCodeT CUstFilesCtl::Cwd(UStringT* aPath)
 {
-    return m_uni->Cwd(aPath);
+    // return m_uni->Cwd(aPath);
+    return UErrFalse;
 }

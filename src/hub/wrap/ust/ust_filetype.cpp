@@ -105,11 +105,19 @@ UErrCodeT UFileT::Write(const UStringT *aStr)
 }
 
 /**
- * \brief Write.
+ * \brief Write a row, and go to next row.
  */
 UErrCodeT UFileT::WriteRow(const UStringT *aStr)
 {
     return mFile->WriteRow(aStr, mFileH);
+}
+
+/**
+ * \brief End of file.
+ */
+UErrCodeT UFileT::Eof()
+{
+    return mFile->Eof(mFileH);
 }
 
 /***** Private A *****/

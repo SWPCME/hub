@@ -144,7 +144,7 @@ CPlpCtl *CCoreCtl::Plp()
 {
     BMD_CLASS_NEW(mPlp, CPlpCtl);
 
-    return mPlp
+    return mPlp;
 }
 
 /***** Private A *****/

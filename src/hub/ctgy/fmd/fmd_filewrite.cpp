@@ -24,16 +24,34 @@
 
 #include "fmd_filewrite.hpp"
 
-// Base.
+// base
 #include "base_ctl.hpp"
-// Ctgy.
+#include "base_tmpctl.hpp"
+// core
+#include "core_ctl.hpp"
+// gda
+#include "gda_ctl.hpp"
+#include "gda_bandctl.hpp"
+#include "gda_utilsctl.hpp"
+#include "gda_utilstr.hpp"
+#include "gda_trvtr.hpp"
+#include "gda_trvtrtovtrtype.hpp"
+// ogr
+#include "ogr_ctl.hpp"
+#include "ogr_driverctl.hpp"
+#include "ogr_datasrcctl.hpp"
+// wrap
+#include "wrap_ctl.hpp"
+// vtr
+#include "vtr_ctl.hpp"
+#include "vtr_frmtctl.hpp"
+#include "vtr_frmtgjson.hpp"
+// ctgy
 #include "ctgy_ctl.hpp"
-// Fmd.
+// fmd
 #include "fmd_ctl.hpp"
 #include "fmd_typectl.hpp"
 #include "fmd_filectl.hpp"
-// Ust.
-#include "ust_stringtype.hpp"
 
 // Firemod.
 #include "Farsite5.h"
@@ -55,8 +73,7 @@ static const UStringT kSCsv = "csv";
  */
 CFmdFileWrite::CFmdFileWrite()
 {
-    BMD_POINTER_INIT(mFarsiteH);
-    BMD_POINTER_INIT(mType);
+    InitPointer();
 }
 
 /**
@@ -64,8 +81,7 @@ CFmdFileWrite::CFmdFileWrite()
  */
 CFmdFileWrite::~CFmdFileWrite()
 {
-    BMD_POINTER_INIT(mFarsiteH);
-    BMD_POINTER_INIT(mType);
+    InitPointer();
 }
 
 /**
@@ -73,6 +89,18 @@ CFmdFileWrite::~CFmdFileWrite()
  */
 UErrCodeT CFmdFileWrite::Init()
 {
+    CBaseCtl *base = CBaseCtl::Base();
+    CBaseTmpCtl *tmp = base->Tmp();
+    mTmpDir = tmp->Dir(HubMFmd);
+
+    CGdaUtilsCtl *utils = NULL;
+    GDA_UTILS_CTL(utils);
+    mTr = utils->Tr();
+
+    OGR_CTL(mOgr);
+
+    VTR_CTL(mVtr);
+
     FMD_FARSITE_H(mFarsiteH);
     FMD_TYPE_CTL(mType);
 
@@ -323,12 +351,50 @@ UErrCodeT CFmdFileWrite::IgnitionGrid(const UStringT *aFile)
 /**
  * \brief Write perimeters shape file.
  */
-UErrCodeT CFmdFileWrite::PerimetersShape(const UStringT *aFile)
+UErrCodeT CFmdFileWrite::PerimetersShape(const UStringT *aFile, const UFlagCodeT aFlag)
 {
-    const UStringT suffix = "_perimetersshape";
     UStringT file(aFile);
-    file = file + suffix + kSDot + kSShp;
+    if (aFlag == UFlagOff)
+    {
+        const UStringT suffix = "_perimetersshape";
+        file = file + suffix + kSDot + kSShp;
+    }
     FMD_FARSITE(mFarsiteH)->WritePerimetersShapeFile((char *) file.ToA());
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Write perimeters with geojson format string.
+ */
+UErrCodeT CFmdFileWrite::PerimetersGjson(UStringT *aStr)
+{
+    UStringT src = mTmpDir;
+    src += "/tmp_perimetersgjson.shp";
+    PerimetersShape(&src, UFlagOn);
+    UStringT dst = mTmpDir;
+    dst += "/tmp_perimetersgjson.geojson";
+
+    // Open file.
+    OgrFormatCodeT frmt = OgrFormatShp;
+    mOgr->Register(frmt);
+    COgrDriverCtl *dr = mOgr->Driver(frmt);
+    COgrDatasrcCtl *ds = dr->Load(&src);
+    OgrCtnDatasrcT dsCtn(UContainerList);
+    dsCtn.Add(ds);
+
+    // Translate.
+    frmt = OgrFormatJson;
+    CGdaTrVtr *trVtr = mTr->Vtr();
+    BCtnStringT strV2vOpt(UContainerList);
+    GdaTrVtrToVtrT r2rOpt;
+    r2rOpt.SetAll(frmt, &strV2vOpt);
+    trVtr->ToVtr(&dst, &dsCtn, &r2rOpt);
+
+    // String to file.
+    CVtrFrmtCtl *frmtCtl = mVtr->Frmt();
+    CVtrFrmtGjson *gjson = frmtCtl->Gjson();
+    gjson->ToStr(aStr, &dst);
 
     return UErrFalse;
 }
@@ -384,3 +450,21 @@ UErrCodeT CFmdFileWrite::Timings(const UStringT *aFile)
 
     return UErrFalse;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CFmdFileWrite::InitPointer()
+{
+    BMD_POINTER_INIT(mTr);
+    BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mVtr);
+    BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mType);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

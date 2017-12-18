@@ -49,7 +49,7 @@ class GDA_LIB CGdaDatasetCtl
 
     UErrCodeT Save();
     UErrCodeT Count(UIntT *aNum);
-    UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption);
+    UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption = NULL);
     CGdaBandCtl *Band(UIntT aId);
     UErrCodeT SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand);
     UErrCodeT XSize(UIntT *aNum);

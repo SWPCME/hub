@@ -39,6 +39,8 @@ class OGR_LIB COgrTypeCtl
     UErrCodeT Init();
     UErrCodeT ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc,
                        UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT ToGeomT(OgrGeomTCodeT *aDst, const OgrGeomTHT aSrc);
+    UErrCodeT ToGeomT(OgrGeomTHT aDst, const OgrGeomTCodeT aSrc);
 
   protected:
   private:

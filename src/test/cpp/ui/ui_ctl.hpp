@@ -40,7 +40,9 @@ class UI_LIB CUiCtl
 
     UErrCodeT Init();
     UErrCodeT Main();
+    UErrCodeT TestAll();
     UErrCodeT Test();
+
  protected:
  private:
     CBsnCtl* mBsn;

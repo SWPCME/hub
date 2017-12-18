@@ -28,6 +28,7 @@
 #include "core_ctl.hpp"
 #include "wrap_ctl.hpp"
 #include "ctgy_ctl.hpp"
+#include "base_tmpctl.hpp"
 
 // Base.
 #include "base_macrodefn.hpp"
@@ -82,6 +83,16 @@ CCtgyCtl *CBaseCtl::Ctgy()
     return mCtgy;
 }
 
+/**
+ * \brief Temporary controler.
+ */
+CBaseTmpCtl *CBaseCtl::Tmp()
+{
+    BMD_CLASS_NEW(mTmp, CBaseTmpCtl);
+
+    return mTmp;
+}
+
 /***** Private A ******/
 
 /**
@@ -92,6 +103,7 @@ CBaseCtl::CBaseCtl()
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mWrap);
     BMD_POINTER_INIT(mCtgy);
+    BMD_POINTER_INIT(mTmp);
 }
 
 /**
@@ -102,6 +114,7 @@ CBaseCtl::~CBaseCtl()
     BMD_CLASS_DEL(mCore);
     BMD_CLASS_DEL(mWrap);
     BMD_CLASS_DEL(mCtgy);
+    BMD_CLASS_DEL(mTmp);
 }
 
 /***** Private B ******/

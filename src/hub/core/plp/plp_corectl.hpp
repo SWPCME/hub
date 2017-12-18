@@ -40,7 +40,9 @@ class PLP_LIB CPlpCoreCtl
     ~CPlpCoreCtl();
 
     UErrCodeT Init();
-    UErrCodeT InitOpt();
+
+    UErrCodeT InitOpt(const UIntT aNX = 1, const UIntT aNY = 1,
+                      const PlpDevCodeT aCode = PlpDevNull);
 
     UErrCodeT SetDev(const PlpDevCodeT aCode);
 
@@ -51,6 +53,7 @@ class PLP_LIB CPlpCoreCtl
     UErrCodeT MkStrm(UIntT *aStrm);
     UErrCodeT CpStrm(const UIntT aStrm, const UIntT aMode);
     UErrCodeT EndCurStrm();
+    UErrCodeT EndAllStrm();
 
     UErrCodeT RePlot();
 

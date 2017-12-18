@@ -25,8 +25,8 @@
 # Options.
 SRC_DIR = ../../..
 INCLUDE_DIR = -I$(HUB_DIR) -I${BASE_DIR} -I$(CORE_DIR) -I$(CLS_DIR) \
-	-I$(CCS_DIR) -I$(WRAP_DIR) -I$(UST_DIR) -I$(CTGY_DIR) \
-	-I$(INSTALL_H_DIR)/ctgy/firemod/${OS}
+	-I$(CCS_DIR) -I$(GDA_DIR) -I$(OGR_DIR) -I$(WRAP_DIR) -I$(UST_DIR) \
+	-I$(VTR_DIR) -I$(CTGY_DIR) -I$(INSTALL_H_DIR)/ctgy/firemod/${OS}
 
 # Include.
 OPT_LIST = $(SRC_DIR)/opt.lst

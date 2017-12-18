@@ -33,11 +33,15 @@
 #include "cls_stringctl.hpp"
 #include "cls_memoryctl.hpp"
 
+// gda
+#include "gda_banddatactl.hpp"
+
 /**
  * \brief Constructor.
  */
 CGdaTypeCtl::CGdaTypeCtl()
 {
+    BMD_POINTER_INIT(mBandData);
 }
 
 /**
@@ -45,6 +49,7 @@ CGdaTypeCtl::CGdaTypeCtl()
  */
 CGdaTypeCtl::~CGdaTypeCtl()
 {
+    BMD_CLASS_DEL(mBandData);
 }
 
 /**
@@ -52,27 +57,36 @@ CGdaTypeCtl::~CGdaTypeCtl()
  */
 UErrCodeT CGdaTypeCtl::Init()
 {
-    CBaseCtl *baseCtl = CBaseCtl::Base();
-    CCoreCtl *coreCtl = baseCtl->Core();
-    CClsCtl *clsCtl = coreCtl->Cls();
-    mMem = clsCtl->Mem();
-    mStr = clsCtl->Str();
+    CClsCtl *cls = NULL;
+    CLS_CTL(cls);
+    mMem = cls->Mem();
+    mStr = cls->Str();
 
     return UErrFalse;
 }
 
 /**
+ * \brief Band data type controler.
+ */
+CGdaBandDataCtl *CGdaTypeCtl::BandData()
+{
+    BMD_CLASS_NEW(mBandData, CGdaBandDataCtl);
+
+    return mBandData;
+}
+
+/**
  * \brief Translate UAccessCodeT to GDALAccess.
  */
-UErrCodeT CGdaTypeCtl::ToAccess(GDALAccess *aDest, const UAccessCodeT aSrc)
+UErrCodeT CGdaTypeCtl::ToAccess(GDALAccess *aDst, const UAccessCodeT aSrc)
 {
     switch (aSrc)
     {
     case UAccessRead:
-        *aDest = GA_ReadOnly;
+        *aDst = GA_ReadOnly;
         break;
     case UAccessWrite:
-        *aDest = GA_Update;
+        *aDst = GA_Update;
         break;
     default:
         return UErrTrue;
@@ -84,15 +98,41 @@ UErrCodeT CGdaTypeCtl::ToAccess(GDALAccess *aDest, const UAccessCodeT aSrc)
 /**
  * \brief Translate UDataTCodeT to GDALDataType.
  */
-UErrCodeT CGdaTypeCtl::ToDataType(GDALDataType *aDest, UDataTCodeT aSrc)
+UErrCodeT CGdaTypeCtl::ToDataType(GDALDataType *aDst, const UDataTCodeT aSrc)
 {
     switch (aSrc)
     {
     case UDataTFloat:
-        *aDest = GDT_Float64;
+        *aDst = GDT_Float64;
+        break;
+    case UDataTFloat32:
+        *aDst = GDT_Float32;
         break;
     case UDataTInt16:
-        *aDest = GDT_Int16;
+        *aDst = GDT_Int16;
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Translate GDALDataType to UDataTCodeT.
+ */
+UErrCodeT CGdaTypeCtl::ToDataType(UDataTCodeT *aDst, const GDALDataType aSrc)
+{
+    switch (aSrc)
+    {
+    case GDT_Float64:
+        *aDst = UDataTFloat;
+        break;
+    case GDT_Float32:
+        *aDst = UDataTFloat32;
+        break;
+    case GDT_Int16:
+        *aDst = UDataTInt16;
         break;
     default:
         return UErrTrue;
@@ -104,19 +144,23 @@ UErrCodeT CGdaTypeCtl::ToDataType(GDALDataType *aDest, UDataTCodeT aSrc)
 /**
  * \brief Translate UDataTCodeT to GDALDataType with string.
  */
-UErrCodeT CGdaTypeCtl::ToDataType(UStringT *aDst, UDataTCodeT aSrc)
+UErrCodeT CGdaTypeCtl::ToDataType(UStringT *aDst, const UDataTCodeT aSrc)
 {
-    switch (aSrc)
-    {
-    case UDataTFloat:
-        *aDst = "Float64";
-        break;
-    case UDataTInt16:
-        *aDst = "Int16";
-        break;
-    default:
-        return UErrTrue;
-    }
+    GDALDataType src;
+    ToDataType(&src, aSrc);
+    *aDst = GDALGetDataTypeName(src);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Translate GDALDataType with string to UDataTCodeT
+ */
+UErrCodeT CGdaTypeCtl::ToDataType(UDataTCodeT *aDst, const UStringT *aSrc)
+{
+    GDALDataType src;
+    src = GDALGetDataTypeByName(aSrc->ToA());
+    ToDataType(aDst, src);
 
     return UErrFalse;
 }
@@ -160,7 +204,6 @@ UErrCodeT CGdaTypeCtl::ToGdaCreateOpt(UStringT *aDst,
     switch (aFormat)
     {
     case GdaFormatLcp:
-        ToLcpCreateOpt(aDst, (GdaR2RLcpCreateOptT *) aSrc);
         break;
     default:
         return UErrTrue;
@@ -197,19 +240,38 @@ UErrCodeT CGdaTypeCtl::ToLinearUnit(UStringT *aDst,
 }
 
 /**
- * \brief To argument value.
- * Need to free.
+ * \brief To gda dem processing format.
  */
-UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
+UErrCodeT CGdaTypeCtl::ToDemProcFrmt(UStringT *aDst,
+                                     const GdaDemProcFrmtCodeT aSrc)
 {
-    UContainerT<UStringT> srcS(UContainerList);
-    const UStringT delimiters = " ";
-    const UStringT token = "\"";
-    UStringT *src = (UStringT *) aSrc;
-    src->Split(&srcS, &delimiters, &token);
+    switch (aSrc)
+    {
+    case GdaDemProcFrmtSlope:
+        *aDst = "slope";
+        break;
+    case GdaDemProcFrmtAspect:
+        *aDst = "aspect";
+        break;
+    default:
+        return UErrTrue;
+    }
 
-    UIteratorT<UStringT> *it = srcS.Iterator();
-    UIntT count = srcS.Count();
+    return UErrFalse;
+}
+
+/**
+ * \brief To argument value.
+ */
+UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const BCtnStringT *aSrc)
+{
+    if (aSrc == NULL)
+    {
+        return UErrFalse;
+    }
+
+    BItStringT *it = aSrc->Iterator();
+    UIntT count = aSrc->Count();
     char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 1));
     argv[count] = NULL;
 
@@ -227,11 +289,33 @@ UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
 }
 
 /**
+ * \brief To argument value.
+ * Need to free.
+ */
+UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
+{
+    BCtnStringT srcS(UContainerList);
+    const UStringT delimiters = " ";
+    const UStringT token = "\"";
+    UStringT *src = (UStringT *) aSrc;
+    src->Split(&srcS, &delimiters, &token);
+
+    NewArgv(aDst, &srcS);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Free Argv.
  */
 UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
 {
     char **argv = (char **) aArgv;
+    if (argv == NULL)
+    {
+        return UErrFalse;
+    }
+
     while (*argv != NULL)
     {
         mMem->Free((UHandleT) *argv);
@@ -242,47 +326,4 @@ UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
 }
 
 /***** Private A *****/
-
-/**
- * \brief To lcp create options.
- */
-UErrCodeT CGdaTypeCtl::ToLcpCreateOpt(UStringT *aDst,
-                                      const GdaR2RLcpCreateOptT *aSrc)
-{
-    // Band.
-    const UStringT kBand = " -b ";
-    const GdaLcpBandT *bandValue = &aSrc->band;
-    *aDst += kBand;
-    *aDst += bandValue->elevation;
-    *aDst += kBand;
-    *aDst += bandValue->slope;
-    *aDst += kBand;
-    *aDst += bandValue->aspect;
-    *aDst += kBand;
-    *aDst += bandValue->fuelModels;
-    *aDst += kBand;
-    *aDst += bandValue->canopyCover;
-
-    // Latitude.
-    const UStringT kLatitude = " -co LATITUDE=";
-    if ((aSrc->latitude > 90) || (aSrc->latitude < -90))
-    {
-        return UErrTrue;
-    }
-    *aDst += kLatitude;
-    *aDst += aSrc->latitude;
-
-    // Linear unit.
-    const UStringT kLinear = " -co LINEAR_UNIT=";
-    UStringT linearUnit;
-    ToLinearUnit(&linearUnit, aSrc->linearUnit);
-    *aDst += kLinear;
-    *aDst += linearUnit;
-
-    // End.
-    *aDst += " ";
-
-    return UErrFalse;
-}
-
 /***** Private B *****/

@@ -28,6 +28,7 @@
 #include "gda_base.h"
 
 // Hub.
+#include "base_containerdefn.hpp"
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_containertype.hpp"
 
@@ -43,8 +44,10 @@ class GDA_LIB CGdaDriverCtl
     UErrCodeT Init();
     CGdaDatasetCtl *Create(const UStringT *aFile, UIntT aXSize, UIntT aYSize,
                            UIntT aNBands, UDataTCodeT aDataT, char **aOption);
-    UErrCodeT Copy(const UStringT *aDest, const UStringT *aSrc);
-    CGdaDatasetCtl *Load(const UStringT *aFile, const UAccessCodeT aAccess);
+    CGdaDatasetCtl *CreateCopy(const UStringT *aDst, CGdaDatasetCtl *aSrc,
+                               BCtnStringT *aOpt);
+    CGdaDatasetCtl *Load(const UStringT *aFile,
+                         const UAccessCodeT aAccess = UAccessRead);
     UErrCodeT Close(const UStringT *aFile);
     UErrCodeT Delete(const UStringT *aFile);
 

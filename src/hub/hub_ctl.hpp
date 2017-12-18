@@ -35,11 +35,12 @@
 // hub
 class CHubModuleCtl;
 // core
+class CGdaCtl;
 class COgrCtl;
 // ctgy
 class CFmdCtl;
 
-class CHubCtl
+class HUB_LIB CHubCtl
 {
  public:
     static CHubCtl* Hub();
@@ -56,6 +57,7 @@ class CHubCtl
     UHandleT Module(HubCodeT aCode);
 
     // core
+    CGdaCtl *Gda();
     COgrCtl *Ogr();
     // ctgy
     CFmdCtl *Fmd();

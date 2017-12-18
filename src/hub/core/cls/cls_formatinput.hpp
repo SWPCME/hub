@@ -34,6 +34,7 @@ class CLS_LIB CClsFormatInput
     ~CClsFormatInput();
 
     UErrCodeT Init();
+    UErrCodeT FromFile(ClsFileHT aFile, const char *aFormat, ...);
 
   protected:
   private:

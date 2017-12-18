@@ -32,6 +32,8 @@ C_OBJ = \
       gda_snglockdriver.o \
       gda_ctl.o \
       gda_typectl.o \
+      gda_banddatactl.o \
+      gda_banddatatype.o \
       gda_corectl.o \
       gda_driversctl.o \
       gda_driverctl.o \
@@ -47,13 +49,22 @@ C_OBJ = \
       gda_alggridding.o \
       gda_utilsctl.o \
       gda_utilsinfo.o \
-      gda_utilstranslate.o \
-      gda_translatevector.o \
-      gda_translateraster.o
+      gda_utilstr.o \
+      gda_trvtr.o \
+      gda_trvtrprocctl.o \
+      gda_trvtrtorsttype.o \
+      gda_trvtrtovtrtype.o \
+      gda_trrst.o \
+      gda_trrstprocctl.o \
+      gda_trrsttorsttype.o \
+      gda_utilsdem.o \
+      gda_demprocctl.o \
+      gda_demproctype.o
 
 C_HEADER = \
          gda_base.h \
          gda_ctl.hpp \
+         gda_banddatatype.hpp \
          gda_corectl.hpp \
          gda_driversctl.hpp \
          gda_driverctl.hpp \
@@ -70,5 +81,10 @@ C_HEADER = \
          gda_utilsctl.hpp \
          gda_utilsinfo.hpp \
          gda_utilstranslate.hpp \
-         gda_translatevector.hpp \
-         gda_translateraster.hpp
+         gda_trvtr.hpp \
+         gda_trvtrtovtrtype.hpp \
+         gda_trvtrtorsttype.hpp \
+         gda_trrst.hpp \
+         gda_trrsttorsttype.hpp \
+         gda_utilsdem.hpp \
+         gda_demproctype.hpp

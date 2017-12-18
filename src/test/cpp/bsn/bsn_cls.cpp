@@ -30,6 +30,9 @@
 #include "cls_ioctl.hpp"
 #include "cls_iocommonctl.hpp"
 
+// ust
+#include "ust_stringtype.hpp"
+
 /**
  * \brief Constructor.
  */
@@ -72,6 +75,27 @@ UErrCodeT CBsnCls::Test()
                    tm.year, tm.mon, tm.mday);
     cmnCtl->PrintF("hour = %d, min = %d, sec = %d\n",
                    tm.hour, tm.min, tm.sec);
+
+    BTimeTmT begin;
+    begin.sec = 0;
+    begin.min = 0;
+    begin.hour = 0;
+    begin.mday = 1;
+    begin.mon = 1;
+    begin.year = 2016;
+
+    BTimeTmT end;
+    end.sec = 0;
+    end.min = 0;
+    end.hour = 0;
+    end.mday = 1;
+    end.mon = 1;
+    end.year = 2017;
+
+    UFloatT sec = 1.0;
+    timeCtl->Diff(&sec, &begin, &end);
+    UStringT secStr(sec / 24 / 3600);
+    secStr.ToConsole();
 
     return UErrFalse;
 }

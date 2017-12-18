@@ -52,6 +52,7 @@ class UST_LIB CUstContainerCtl
     // Contenter.
     UErrCodeT Add(const ContentT *aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
+    UErrCodeT Add(UstContainerHT aHandle);
     UErrCodeT FindByKey(const KeyT *aKey);
     ContentT *Content(const KeyT *aKey);
     UErrCodeT Count(UIntT *aNum);

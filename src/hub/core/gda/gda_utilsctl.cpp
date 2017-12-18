@@ -26,7 +26,8 @@
 
 // gda
 #include "gda_utilsinfo.hpp"
-#include "gda_utilstranslate.hpp"
+#include "gda_utilstr.hpp"
+#include "gda_utilsdem.hpp"
 
 /**
  * \brief Constructor.
@@ -34,7 +35,8 @@
 CGdaUtilsCtl::CGdaUtilsCtl()
 {
     BMD_POINTER_INIT(mInfo);
-    BMD_POINTER_INIT(mTranslate);
+    BMD_POINTER_INIT(mTr);
+    BMD_POINTER_INIT(mDem);
 }
 
 /**
@@ -43,7 +45,8 @@ CGdaUtilsCtl::CGdaUtilsCtl()
 CGdaUtilsCtl::~CGdaUtilsCtl()
 {
     BMD_CLASS_DEL(mInfo);
-    BMD_CLASS_DEL(mTranslate);
+    BMD_CLASS_DEL(mTr);
+    BMD_CLASS_DEL(mDem);
 }
 
 /**
@@ -67,9 +70,19 @@ CGdaUtilsInfo *CGdaUtilsCtl::Info()
 /**
  * \brief Translate controler.
  */
-CGdaUtilsTranslate *CGdaUtilsCtl::Translate()
+CGdaUtilsTr *CGdaUtilsCtl::Tr()
 {
-    BMD_CLASS_NEW(mTranslate, CGdaUtilsTranslate);
+    BMD_CLASS_NEW(mTr, CGdaUtilsTr);
 
-    return mTranslate;
+    return mTr;
+}
+
+/**
+ * \brief Dem(digital elevation model) controler.
+ */
+CGdaUtilsDem *CGdaUtilsCtl::Dem()
+{
+    BMD_CLASS_NEW(mDem, CGdaUtilsDem);
+
+    return mDem;
 }

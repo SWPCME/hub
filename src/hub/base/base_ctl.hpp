@@ -26,13 +26,13 @@
 #define BASE_CTL_HPP_INCLUDED
 
 #include "hub_base.h"
-#define BASE_LIB HUB_LIB
 
 class CCoreCtl;
 class CWrapCtl;
 class CCtgyCtl;
+class CBaseTmpCtl;
 
-class BASE_LIB CBaseCtl
+class HUB_LIB CBaseCtl
 {
   public:
     static CBaseCtl *Base();
@@ -41,6 +41,7 @@ class BASE_LIB CBaseCtl
     CCoreCtl *Core();
     CWrapCtl *Wrap();
     CCtgyCtl *Ctgy();
+    CBaseTmpCtl *Tmp();
 
   protected:
   private:
@@ -51,6 +52,7 @@ class BASE_LIB CBaseCtl
     CCoreCtl *mCore;
     CWrapCtl *mWrap;
     CCtgyCtl *mCtgy;
+    CBaseTmpCtl *mTmp;
 };
 
 #endif  // BASE_CTL_HPP_INCLUDED

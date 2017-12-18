@@ -51,5 +51,6 @@ UErrCodeT CRstUtilCtl::Init()
  */
 CRstUtilMerge *CRstUtilCtl::Merge()
 {
-    return mMerge;
+    return NULL;
+    // return mMerge;
 }

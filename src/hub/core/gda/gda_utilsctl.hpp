@@ -28,7 +28,8 @@
 #include "gda_base.h"
 
 class CGdaUtilsInfo;
-class CGdaUtilsTranslate;
+class CGdaUtilsTr;
+class CGdaUtilsDem;
 
 class GDA_LIB CGdaUtilsCtl
 {
@@ -38,12 +39,14 @@ class GDA_LIB CGdaUtilsCtl
 
     UErrCodeT Init();
     CGdaUtilsInfo *Info();
-    CGdaUtilsTranslate *Translate();
+    CGdaUtilsTr *Tr();
+    CGdaUtilsDem *Dem();
 
   protected:
   private:
     CGdaUtilsInfo *mInfo;
-    CGdaUtilsTranslate *mTranslate;
+    CGdaUtilsTr *mTr;
+    CGdaUtilsDem *mDem;
 };
 
 #endif  // GDA_UTILSCTL_CTL_HPP

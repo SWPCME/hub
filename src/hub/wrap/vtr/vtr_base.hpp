@@ -45,28 +45,11 @@ typedef enum
     VtrFormatJson   = 7,
 } VtrFormatCodeT;
 
-// typedef GdaRasterSizeT VtrRasterSizeT;
-
-/** 
- * \brief Vector field controler container.
- */
-// typedef UContainerT<CVtrFieldCtl>(UContainerList) VtrFieldCtlCtn;
-
-/** 
- * \brief To translate vector to raster with format of landscape.
- */
-// class VtrFormatToRstLcpT
-// {
-// public:
-//     VtrRasterSizeT size;        // Size of raster.
-//     VtrFieldCtlCtn fieldCtn;    // Field of controlear.
-
-//     VtrFormatToRstLcpT() : fieldCtn(UContainerList)
-//     {
-//         size = {0, 0};
-//     }
-
-//     ~VtrFormatToRstLcpT();
-// };
+#define VTR_CTL(aCtl)                           \
+    if (aCtl == NULL)                           \
+    {                                           \
+        BMD_WRAP_CTL(wrapCtl);                  \
+        aCtl = wrapCtl->Vtr();                  \
+    }
 
 #endif  /* VECTOR_BASE_H_INCLUDED */

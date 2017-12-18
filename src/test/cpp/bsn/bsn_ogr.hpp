@@ -40,6 +40,9 @@ class BSN_LIB CBsnOgr
 
   protected:
   private:
+    UErrCodeT TestRead();
+    UErrCodeT TestWrite();
+
     COgrCtl *mOgr;
 };
 

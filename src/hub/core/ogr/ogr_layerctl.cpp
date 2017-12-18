@@ -35,7 +35,7 @@
 #include "base_macrodefn.hpp"
 // ogr
 #include "ogr_datasrcctl.hpp"
-#include "ogr_featuredefnctl.hpp"
+#include "ogr_featuredefn.hpp"
 #include "ogr_featuresctl.hpp"
 
 /**
@@ -109,9 +109,9 @@ COgrDatasrcCtl *COgrLayerCtl::Up()
  *
  * @return Handle of field definition
  */
-COgrFeatureDefnCtl* COgrLayerCtl::FeatureDefn()
+COgrFeatureDefn* COgrLayerCtl::FeatureDefn()
 {
-    BMD_CLASS_NEW_A_1(mFeatureDefn, COgrFeatureDefnCtl, mLayerH);
+    BMD_CLASS_NEW_A_1(mFeatureDefn, COgrFeatureDefn, this);
 
     return mFeatureDefn;
 }
@@ -123,7 +123,7 @@ COgrFeatureDefnCtl* COgrLayerCtl::FeatureDefn()
  */
 COgrFeaturesCtl* COgrLayerCtl::Features()
 {
-    BMD_CLASS_NEW_A_1(mFeatures, COgrFeaturesCtl, mLayerH);
+    BMD_CLASS_NEW_A_1(mFeatures, COgrFeaturesCtl, this);
 
     return mFeatures;
 }

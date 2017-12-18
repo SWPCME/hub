@@ -29,6 +29,10 @@
 // ust
 #include "ust/ust_stringtype.hpp"
 
+class CGdaUtilsTr;
+class COgrCtl;
+class CVtrCtl;
+
 class FMD_LIB CFmdFileLoad
 {
   public:
@@ -45,15 +49,26 @@ class FMD_LIB CFmdFileLoad
     UErrCodeT Lcp(const UStringT *aFile);
     // Set ignition file.
     UErrCodeT Ignition(const UStringT *aFile);
+    UErrCodeT IgnitionGjson(const UStringT *aGjson);
     // Set barrier file.
     UErrCodeT Barrier(const UStringT *aFile);
+    UErrCodeT BarrierGjson(const UStringT *aGjson);
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
     // Load input error.
     UErrCodeT InputErr(UIntT aErr);
 
+    UErrCodeT StrGjsonToShp(const UStringT *aDst, const UStringT *aSrc);
+
+    CGdaUtilsTr *mTr;
+    COgrCtl *mOgr;
+    CVtrCtl *mVtr;
+
     FmdFarsiteHT mFarsiteH;
+    UStringT mTmpDir;
 };
 
 #endif  // FMD_FILELOAD_HPP_INCLUDED

@@ -34,18 +34,23 @@
 // base
 #include "base_macrodefn.hpp"
 // ogr
+#include "ogr_layerctl.hpp"
+#include "ogr_featuresctl.hpp"
+#include "ogr_featuredefn.hpp"
 #include "ogr_fieldctl.hpp"
-#include "ogr_geometryctl.hpp"
+#include "ogr_geomsctl.hpp"
 
 /**
  * \brief Constructor.
  */
-COgrFeatureCtl::COgrFeatureCtl(UIntT aId, OgrLayerHT aLayerH)
+COgrFeatureCtl::COgrFeatureCtl(const UFileOperCodeT aOper, const UIntT aId,
+                               COgrFeaturesCtl *aFeatures)
 {
+    BMD_POINTER_INIT(mFeatures);
     BMD_POINTER_INIT(mFeatureH);
-    SetHandle(aId, aLayerH);
+    SetHandle(aOper, aId, aFeatures);
     BMD_POINTER_INIT(mField);
-    BMD_POINTER_INIT(mGeometry);
+    BMD_POINTER_INIT(mGeoms);
 }
 
 
@@ -56,7 +61,7 @@ COgrFeatureCtl::~COgrFeatureCtl()
 {
     BMD_POINTER_INIT(mFeatureH);
     BMD_CLASS_DEL(mField);
-    BMD_CLASS_DEL(mGeometry);
+    BMD_CLASS_DEL(mGeoms);
 }
 
 /**
@@ -75,9 +80,17 @@ UErrCodeT COgrFeatureCtl::Init()
 }
 
 /**
+ * \brief Handle.
+ */
+OgrFeatureHT COgrFeatureCtl::Handle()
+{
+    return mFeatureH;
+}
+
+/**
  * \brief Handle of field constrol.
  */
-COgrFieldCtl* COgrFeatureCtl::Field()
+COgrFieldCtl *COgrFeatureCtl::Field()
 {
     BMD_CLASS_NEW_A_1(mField, COgrFieldCtl, mFeatureH);
 
@@ -85,13 +98,13 @@ COgrFieldCtl* COgrFeatureCtl::Field()
 }
 
 /**
- * \brief Handle of geometry control.
+ * \brief Handle of geometry set control.
  */
-COgrGeometryCtl* COgrFeatureCtl::Geometry()
+COgrGeomsCtl *COgrFeatureCtl::Geoms()
 {
-    BMD_CLASS_NEW_A_1(mGeometry, COgrGeometryCtl, mFeatureH);
+    BMD_CLASS_NEW_A_1(mGeoms, COgrGeomsCtl, mFeatureH);
 
-    return mGeometry;
+    return mGeoms;
 }
 
 /***** Private A *****/
@@ -99,20 +112,23 @@ COgrGeometryCtl* COgrFeatureCtl::Geometry()
 /**
  * \brief Set handle.
  */
-UErrCodeT COgrFeatureCtl::SetHandle(UIntT aId, OgrLayerHT aLayerH)
+UErrCodeT COgrFeatureCtl::SetHandle(const UFileOperCodeT aOper,
+                                    const UIntT aId,
+                                    COgrFeaturesCtl *aFeatures)
 {
-    if (aId == 0)
+    mFeatures = aFeatures;
+    COgrLayerCtl *layerCtl = mFeatures->Up();
+    mFeatureDefn = layerCtl->FeatureDefn();
+
+    if (aOper == UFileOperCreate)
     {
-        OGRErr err = OGR_L_CreateFeature((OGRLayerH) aLayerH, (OGRFeatureH) mFeatureH);
-        if (err != OGRERR_NONE)
-        {
-            mFeatureH = NULL;
-        }
+        mFeatureH = (OgrFeatureHT) OGR_F_Create(
+            (OGRFeatureDefnH) mFeatureDefn->Handle());
     }
-    else if (aId > 0)
+    else if (aOper == UFileOperLoad)
     {
         mFeatureH = (OgrFeatureHT) OGR_L_GetFeature
-            ((OGRLayerH) aLayerH, (GIntBig) aId);
+            ((OGRLayerH) mFeatures->Handle(), (GIntBig) aId);
     }
 
     return UErrTrue;

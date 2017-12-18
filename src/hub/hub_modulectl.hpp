@@ -31,6 +31,9 @@
 // base
 #include "base_macrodefn.hpp"
 
+// base
+class CBaseCtl;
+
 class HUB_LIB CHubModuleCtl
 {
  public:
@@ -53,6 +56,8 @@ class HUB_LIB CHubModuleCtl
 
     UStateCodeT mState;
     MHandleCodeT mMCodeH;     /* Register handle. */
+
+    CBaseCtl *mBase;
 };
 
 #endif  /* MODULE_CTL_H_INCLUDED */

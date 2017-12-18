@@ -44,6 +44,7 @@ CFmdCtl::CFmdCtl()
     BMD_POINTER_INIT(mMaster);
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mFile);
+    BMD_POINTER_INIT(mBurn);
 }
 
 /**
@@ -55,6 +56,7 @@ CFmdCtl::~CFmdCtl()
     BMD_CLASS_DEL(mMaster);
     BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mFile);
+    BMD_CLASS_DEL(mBurn);
 }
 
 /**

@@ -24,6 +24,12 @@
 
 #include "cls_formatinput.hpp"
 
+// GNU C Library
+#include <stdio.h>
+
+// cls
+#include "cls_argctl.hpp"
+
 /**
  * \brief Constructor.
  */
@@ -43,5 +49,18 @@ CClsFormatInput::~CClsFormatInput()
  */
 UErrCodeT CClsFormatInput::Init()
 {
+    return UErrFalse;
+}
+
+/**
+ * \brief From file.
+ */
+UErrCodeT CClsFormatInput::FromFile(ClsFileHT aFile, const char *aFormat, ...)
+{
+    ClsArgListT list;
+    cls_arg_start(list, aFormat);
+    vfscanf((FILE *) aFile, aFormat, list);
+    cls_arg_end(list);
+
     return UErrFalse;
 }

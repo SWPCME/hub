@@ -119,6 +119,27 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Add(const ContentT *aContent, const KeyT *
 }
 
 /**
+ * \brief Add.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::Add(UstContainerHT aHandle)
+{
+    return UErrFalse;
+}
+
+/**
+ * \brief Copy.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CCcsMapCtl<ContentT, KeyT>::Copy(UstContainerHT aHandle)
+{
+    Clear();
+    Add(aHandle);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Delete a pair of content and key with key.
  *
  * @return Content.
@@ -209,15 +230,6 @@ UErrCodeT CCcsMapCtl<ContentT, KeyT>::Count(UIntT *aNum)
 {
     *aNum = mMap.size();
 
-    return UErrFalse;
-}
-
-/**
- * \brief Copy.
- */
-template <typename ContentT, typename KeyT>
-UErrCodeT CCcsMapCtl<ContentT, KeyT>::Copy(UstContainerHT aHandle)
-{
     return UErrFalse;
 }
 

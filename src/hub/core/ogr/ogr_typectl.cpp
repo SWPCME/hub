@@ -24,6 +24,9 @@
 
 #include "ogr_typectl.hpp"
 
+// GDAL/OGR
+#include "ogr_api.h"
+
 /**
  * \brief Constructor.
  */
@@ -87,6 +90,63 @@ UErrCodeT COgrTypeCtl::ToFormat(UStringT *aDst, const OgrFormatCodeT aSrc,
     if (aFlag == UFlagOn)
     {
         *aDst += "\"";
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To geometry type.
+ */
+UErrCodeT COgrTypeCtl::ToGeomT(OgrGeomTCodeT *aDst, const OgrGeomTHT aSrc)
+{
+    OGRwkbGeometryType *src = (OGRwkbGeometryType *) aSrc;
+
+    switch (*src)
+    {
+    case wkbUnknown:
+        *aDst = OgrGeomTUnknown;
+        break;
+    case wkbPoint:
+        *aDst = OgrGeomTPoint;
+        break;
+    case wkbLineString:
+        *aDst = OgrGeomTLineString;
+        break;
+    case wkbPolygon:
+        *aDst = OgrGeomTPolygon;
+        break;
+    default:
+        *aDst = OgrGeomTUnknown;
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To geometry type.
+ */
+UErrCodeT COgrTypeCtl::ToGeomT(OgrGeomTHT aDst, const OgrGeomTCodeT aSrc)
+{
+    OGRwkbGeometryType *dst = (OGRwkbGeometryType *) aDst;
+    switch (aSrc)
+    {
+    case OgrGeomTUnknown:
+        *dst = wkbUnknown;
+        break;
+    case OgrGeomTPoint:
+        *dst = wkbPoint;
+        break;
+    case OgrGeomTLineString:
+        *dst = wkbLineString;
+        break;
+    case OgrGeomTPolygon:
+        *dst = wkbPolygon;
+        break;
+    default:
+        *dst = wkbUnknown;
+        return UErrTrue;
     }
 
     return UErrFalse;

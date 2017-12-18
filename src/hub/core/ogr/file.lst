@@ -32,13 +32,16 @@ C_OBJ = \
         ogr_driverctl.o \
         ogr_datasrcctl.o \
         ogr_layerctl.o \
-        ogr_featuredefnctl.o \
-        ogr_fielddefnctl.o \
-        ogr_geomfielddefnctl.o \
+        ogr_featuredefn.o \
+        ogr_fielddefn.o \
+        ogr_geomfielddefn.o \
         ogr_featuresctl.o \
         ogr_featurectl.o \
         ogr_fieldctl.o \
-        ogr_geometryctl.o 
+        ogr_geomsctl.o \
+        ogr_geomctl.o \
+        ogr_geombasic.o \
+        ogr_geomvertex.o
 
 C_HEADER = \
            ogr_base.h \
@@ -46,10 +49,13 @@ C_HEADER = \
            ogr_driverctl.hpp \
            ogr_datasrcctl.hpp \
            ogr_layerctl.hpp \
-           ogr_featuredefnctl.hpp \
-           ogr_fielddefnctl.hpp \
-           ogr_geomfielddefnctl.hpp \
+           ogr_featuredefn.hpp \
+           ogr_fielddefn.hpp \
+           ogr_geomfielddefn.hpp \
            ogr_featuresctl.hpp \
            ogr_featurectl.hpp \
            ogr_fieldctl.hpp \
-           ogr_geometryctl.hpp 
+           ogr_geomsctl.hpp \
+           ogr_geomctl.hpp \
+           ogr_geombasic.hpp \
+           ogr_geomvertex.hpp

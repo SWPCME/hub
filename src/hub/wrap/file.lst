@@ -3,7 +3,8 @@
 
 SUB_DIR = \
           ust \
+          rst \
           vtr \
-          ncc
+          ncc 
 
 C_OBJ = wrap_ctl.o

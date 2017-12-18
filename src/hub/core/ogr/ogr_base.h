@@ -32,7 +32,17 @@
 
 #include "hub_base.h"
 
+// base.
+#include "base_containerdefn.hpp"
+
 #define OGR_LIB HUB_LIB
+
+/**
+ * \brief Container.
+ */
+class COgrDatasrcCtl;
+typedef UContainerT<COgrDatasrcCtl*> OgrCtnDatasrcT;
+typedef UIteratorT<COgrDatasrcCtl*> OgrItDatasrcT;
 
 /** 
  * Ogr vector formats.
@@ -55,14 +65,32 @@
 #define OGR_F_JSON_SUFFIX "json"
 typedef enum
 {
-    OgrFormatTab    = 1,
-    OgrFormatShp    = 2,
-    OgrFormatCsv    = 3,
-    OgrFormatXls    = 4,
-    OgrFormatXlsx   = 5,
-    OgrFormatSqlite = 6,
-    OgrFormatJson   = 7,
+    // 0 ~ 99 for raster format.
+    OgrFormatNone   = 100,
+    OgrFormatTab    = 101,
+    OgrFormatShp    = 102,
+    OgrFormatCsv    = 103,
+    OgrFormatXls    = 104,
+    OgrFormatXlsx   = 105,
+    OgrFormatSqlite = 106,
+    OgrFormatJson   = 107,
 } OgrFormatCodeT;
+
+/* Geometry type code. */
+typedef enum
+{
+    OgrGeomTUnknown    = 0,
+
+    // Single.
+    OgrGeomTPoint      = 1,
+    OgrGeomTLineString = 2,
+    OgrGeomTPolygon    = 3,
+
+    // Multi
+    OgrGeomTMPoint      = 11,
+    OgrGeomTMLineString = 21,
+    OgrGeomTMPloygon    = 22,
+} OgrGeomTCodeT;
 
 /* Handle */
 #define OgrDriverHT UHandleT
@@ -74,19 +102,24 @@ typedef enum
 #define OgrGeomFieldDefnHT UHandleT
 #define OgrFeatureHT UHandleT
 #define OgrFieldHT UHandleT
-#define OgrGeometryHT UHandleT
+#define OgrGeomsHT UHandleT
+#define OgrGeomHT UHandleT
+#define OgrGeomTHT UHandleT
 
 /* Macro */
 #define OGR_CTL(aCtl)                           \
-    BMD_CORE_CTL(coreCtl);                      \
-    COgrCtl *aCtl = coreCtl->Ogr()
+    {                                           \
+        BMD_CORE_CTL(coreCtl);                  \
+        aCtl = coreCtl->Ogr();                  \
+    }
 
 /* Macro */
 #define OGR_TYPE_CTL(aCtl)                       \
     if (aCtl == NULL)                            \
     {                                            \
+        COgrCtl *ogrCtl = NULL;                  \
         OGR_CTL(ogrCtl);                         \
         aCtl = ogrCtl->Type();                   \
     }
 
-#endif  /* GDAL_BASE_H_INCLUDED */
+#endif  /* OGR_BASE_H_INCLUDED */

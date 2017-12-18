@@ -26,8 +26,11 @@
 #define GDA_BANDCTL_HPP_INCLUDED
 
 #include "gda_base.h"
+
 // base
 #include "ust/ust_stringtype.hpp"
+// gda
+#include "gda_banddatatype.hpp"
 
 // gda
 class CGdaTypeCtl;
@@ -45,11 +48,18 @@ class GDA_LIB CGdaBandCtl
     // Init.
     UErrCodeT Init();
 
-    // Attribute.
+    // Handle.
     GdaBandHT Handle();
 
     // Framework.
     CGdaDatasetCtl *Up();
+
+    // Data attribute.
+    UDataTCodeT DataT();
+    UDataTCodeT UnitT();
+    UErrCodeT SetUnitT(UDataTCodeT aUnitT);
+    UFloatT NoDataVal(UErrCodeT *aErr = NULL);
+    UErrCodeT SetNoDataVal(const UFloatT aVal);
 
     // Color.
     CGdaBandColor *Color();
@@ -63,21 +73,16 @@ class GDA_LIB CGdaBandCtl
     UErrCodeT YSize(UIntT *aSize);
 
     // Read and write.
-    UErrCodeT Read(UIntT aXOff, UIntT aYOff, UIntT aXSize,
-                   UIntT aYSize, void *aData, UIntT aBufXSize,
-                   UIntT aBufYSize, UDataTCodeT aDataT,
-                   UIntT aPixelSpace, UIntT aLineSpace);
+    UErrCodeT Read(GdaBandDataT *aData);
     UErrCodeT ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff);
-    UErrCodeT Write(UIntT aXOff, UIntT aYOff, UIntT aXSize,
-                    UIntT aYSize, void *aData, UIntT aBufXSize,
-                    UIntT aBufYSize, UDataTCodeT aDataT,
-                    UIntT aPixelSpace, UIntT aLineSpace);
+    UErrCodeT Write(GdaBandDataT *aData);
 
   protected:
   private:
     UErrCodeT InitPointer();
     UErrCodeT CreateBand(UDataTCodeT aDataT, const UStringT *aOption);
     UErrCodeT LoadBand(UIntT aId);
+    UErrCodeT Io(GdaBandDataT *aData, const UAccessCodeT aAccess);
 
     GdaBandHT mBandH;
     CGdaDatasetCtl *mDs;

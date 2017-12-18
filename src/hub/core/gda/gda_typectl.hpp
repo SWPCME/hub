@@ -28,12 +28,18 @@
 #include "gda_base.h"
 // GDAL
 #include "gdal.h"
+
+// base
+#include "base_containerdefn.hpp"
 // ust
 #include "ust/ust_stringtype.hpp"
 
 // cls
 class CClsStringCtl;
 class CClsMemoryCtl;
+
+// gda
+class CGdaBandDataCtl;
 
 class GDA_LIB CGdaTypeCtl
 {
@@ -42,26 +48,37 @@ class GDA_LIB CGdaTypeCtl
     ~CGdaTypeCtl();
 
     UErrCodeT Init();
-    UErrCodeT ToAccess(GDALAccess *aDest, const UAccessCodeT aSrc);
-    UErrCodeT ToDataType(GDALDataType *aDest, UDataTCodeT aSrc);
-    UErrCodeT ToDataType(UStringT *aDst, UDataTCodeT aSrc);
+    CGdaBandDataCtl *BandData();
+
+    UErrCodeT ToAccess(GDALAccess *aDst, const UAccessCodeT aSrc);
+    UErrCodeT ToDataType(GDALDataType *aDst, const UDataTCodeT aSrc);
+    UErrCodeT ToDataType(UDataTCodeT *aDst, const GDALDataType aSrc);
+    UErrCodeT ToDataType(UStringT *aDst, const UDataTCodeT aSrc);
+    UErrCodeT ToDataType(UDataTCodeT *aDst, const UStringT *aSrc);
     UErrCodeT ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc);
     UErrCodeT ToGdaCreateOpt(UStringT *aDst, const GdaCreateOptHT aSrc,
                              const GdaFormatCodeT aFormat);
     UErrCodeT ToLinearUnit(UStringT *aDst, const GdaLinearUnitCodeT aSrc);
 
+    // Utils
+    UErrCodeT ToDemProcFrmt(UStringT *aDst,
+                            const GdaDemProcFrmtCodeT aSrc);
+
     // argv
     UErrCodeT NewArgv(GdaArgvT *aDst, const UStringT *aSrc);
+    UErrCodeT NewArgv(GdaArgvT *aDst, const BCtnStringT *aSrc);
     UErrCodeT DelArgv(GdaArgvT aArgv);
 
   protected:
   private:
-    UErrCodeT ToLcpCreateOpt(UStringT *aDst, const GdaR2RLcpCreateOptT *aSrc);
     UErrCodeT MergeArgv(UContainerT<UStringT> *aStrCtn,
                         const UStringT *aToken);
 
     CClsStringCtl *mStr;
     CClsMemoryCtl *mMem;
+
+    // gda
+    CGdaBandDataCtl *mBandData;
 };
 
 #endif  // GDA_TYPECTL_HPP_INCLUDED

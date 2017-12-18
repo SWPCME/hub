@@ -37,7 +37,7 @@ class CClsTypeCtl;
 class CClsStringCtl;
 class CClsMemoryCtl;
 class CClsIoCtl;
-class CClsUniCtl;
+class CClsFilesCtl;
 class CClsMathCtl;
 class CClsTimeCtl;
 
@@ -52,7 +52,7 @@ class CLS_LIB CClsCtl
     CClsStringCtl *Str(void);
     CClsMemoryCtl *Mem(void);
     CClsIoCtl *Io(void);
-    CClsUniCtl *Uni(void);
+    CClsFilesCtl *Files(void);
     CClsMathCtl *Math(void);
     CClsTimeCtl *Time(void);
 
@@ -62,7 +62,7 @@ class CLS_LIB CClsCtl
     CClsStringCtl *mStr;
     CClsMemoryCtl *mMem;
     CClsIoCtl *mIo;
-    CClsUniCtl *mUni;
+    CClsFilesCtl *mFiles;
     CClsMathCtl *mMath;
     CClsTimeCtl *mTime;
 };

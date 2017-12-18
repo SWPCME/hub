@@ -56,6 +56,9 @@ class UST_LIB UFileT
     UErrCodeT Write(const UStringT *aStr);
     UErrCodeT WriteRow(const UStringT *aStr);
 
+    // Status.
+    UErrCodeT Eof();
+
   protected:
   private:
     UErrCodeT Init();

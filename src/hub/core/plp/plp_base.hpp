@@ -48,6 +48,8 @@ typedef enum
 
 typedef enum
 {
+    PlpDevNull = 0,
+
     // libgd
     PlpDevPng  = 1,
     PlpDevJpeg = 2,

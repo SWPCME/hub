@@ -39,13 +39,16 @@
 /* Macro. */
 
 #define CLS_CTL(aCtl)                           \
-    BMD_CORE_CTL(coreCtl);                      \
-    CClsCtl *aCtl = coreCtl->Cls();
+    {                                           \
+        BMD_CORE_CTL(coreCtl);                  \
+        aCtl = coreCtl->Cls();                  \
+    }
 
 #define CLS_TYPE_CTL(aCtl)                      \
     {                                           \
-        CLS_CTL(clsCtl);                        \
-        aCtl = clsCtl->Type();                  \
+        CClsCtl *cls = NULL;                    \
+        CLS_CTL(cls);                           \
+        aCtl = cls->Type();                     \
     }
 
 

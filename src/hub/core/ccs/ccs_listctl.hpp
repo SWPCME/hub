@@ -50,11 +50,12 @@ class CCS_LIB CCcsListCtl
     UstContainerHT Handle();
 
     UErrCodeT Add(const ContentT* aContent);
+    UErrCodeT Add(UstContainerHT aHandle);
+    UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT Find(const ContentT* aContent);
     UErrCodeT FindByKey(const UIntT* aKey);
     ContentT* Content(const UIntT* aKey);
     UErrCodeT Count(UIntT *aNum);
-    UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT Clear();
 
     // Traversal.

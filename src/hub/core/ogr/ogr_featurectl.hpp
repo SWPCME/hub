@@ -32,27 +32,36 @@
 
 #include "ogr_base.h"
 
+class COgrFeaturesCtl;
 class COgrFieldCtl;
-class COgrGeometryCtl;
+class COgrGeomsCtl;
+class COgrFeatureDefn;
 
 class OGR_LIB COgrFeatureCtl
 {
   public:
-    COgrFeatureCtl(UIntT aId, OgrLayerHT aLayerH);
+    COgrFeatureCtl(const UFileOperCodeT aCode, const UIntT aId,
+                   COgrFeaturesCtl *aFeatures);
     ~COgrFeatureCtl();
 
     UErrCodeT Init();
+    OgrFeatureHT Handle();
+
     COgrFieldCtl *Field();
-    COgrGeometryCtl *Geometry();
+    COgrGeomsCtl *Geoms();
 
   protected:
   private:
-    UErrCodeT SetHandle(UIntT aId, OgrLayerHT aLayerH);
+    UErrCodeT SetHandle(const UFileOperCodeT aOper, const UIntT aId,
+                        COgrFeaturesCtl *aFeatures);
 
     OgrFeatureHT mFeatureH;
 
-    COgrFieldCtl* mField;
-    COgrGeometryCtl* mGeometry;
+    COgrFeaturesCtl *mFeatures;
+    COgrFieldCtl *mField;
+    COgrGeomsCtl *mGeoms;
+
+    COgrFeatureDefn *mFeatureDefn;
 };
 
 #endif  // OGR_FEATURECTL_HPP_INCLUDED

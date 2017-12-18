@@ -36,7 +36,7 @@
 #include "cls_stringctl.hpp"
 #include "cls_memoryctl.hpp"
 #include "cls_ioctl.hpp"
-#include "cls_unictl.hpp"
+#include "cls_filesctl.hpp"
 #include "cls_mathctl.hpp"
 #include "cls_timectl.hpp"
 
@@ -49,7 +49,7 @@ CClsCtl::CClsCtl()
     BMD_POINTER_INIT(mStr);
     BMD_POINTER_INIT(mMem);
     BMD_POINTER_INIT(mIo);
-    BMD_POINTER_INIT(mUni);
+    BMD_POINTER_INIT(mFiles);
     BMD_POINTER_INIT(mMath);
     BMD_POINTER_INIT(mTime);
 }
@@ -63,7 +63,7 @@ CClsCtl::~CClsCtl()
     BMD_CLASS_DEL(mStr);
     BMD_CLASS_DEL(mMem);
     BMD_CLASS_DEL(mIo);
-    BMD_CLASS_DEL(mUni);
+    BMD_CLASS_DEL(mFiles);
     BMD_CLASS_DEL(mMath);
     BMD_CLASS_DEL(mTime);
 }
@@ -125,15 +125,15 @@ CClsIoCtl *CClsCtl::Io()
 }
 
 /**
- * \brief Universal control.
+ * \brief File system control.
  *
  * @return Handle of universal control.
  */
-CClsUniCtl *CClsCtl::Uni()
+CClsFilesCtl *CClsCtl::Files()
 {
-    BMD_CLASS_NEW(mUni, CClsUniCtl);
+    BMD_CLASS_NEW(mFiles, CClsFilesCtl);
 
-    return mUni;
+    return mFiles;
 }
 
 /**

@@ -11,4 +11,5 @@ SUB_DIR = cls \
         ogr \
         gda \
         gsl \
-        cut
+        cut \
+        plp

@@ -50,6 +50,7 @@ class UST_LIB UContainerT
     UErrCodeT Add(const ContentT &aContent);
     UErrCodeT Add(const ContentT *aContent, const KeyT *aKey);
     UErrCodeT Add(const ContentT &aContent, const KeyT &aKey);
+    UErrCodeT Add(const UContainerT<ContentT, KeyT> *aCtn);
     UErrCodeT Del(const ContentT &aContent);
     UErrCodeT DelByKey(const KeyT &aKey);
     UErrCodeT Clear();

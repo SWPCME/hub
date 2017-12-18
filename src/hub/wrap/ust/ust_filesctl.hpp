@@ -34,7 +34,7 @@
 #include "ust_stringtype.hpp"
 
 // Cls control.
-class CClsUniCtl;
+// class CClsUniCtl;
 // Sys control.
 class CSysFileTwCtl;
 
@@ -51,7 +51,7 @@ class UST_LIB CUstFilesCtl
  protected:
  private:
     // Cls control.
-    CClsUniCtl* m_uni;
+    // CClsUniCtl* m_uni;
 
     // Sys control.
     CSysFileTwCtl* m_ftw;

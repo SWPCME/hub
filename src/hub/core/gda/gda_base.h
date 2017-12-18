@@ -37,6 +37,13 @@
 
 #define GDA_LIB HUB_LIB
 
+/**
+ * \brief Container.
+ */
+class CGdaDatasetCtl;
+typedef UContainerT<CGdaDatasetCtl*> GdaCtnDatasetT;
+typedef UIteratorT<CGdaDatasetCtl*> GdaItDatasetT;
+
 /** 
  * \brief Handle.
  */
@@ -52,6 +59,9 @@
 #define GdaTranslateV2VOptHT UHandleT
 #define GdaTranslateV2ROptHT UHandleT
 #define GdaArgvT UHandleT
+#define GdaDemProcHT UHandleT
+#define GdaTrVtrProcHT UHandleT
+#define GdaTrRstProcHT UHandleT
 
 /** 
  * Gda raster formats. 
@@ -76,13 +86,31 @@
 
 typedef enum
 {
-    GdaFormatNone = 0,          /* None. */
+    // 0 ~ 99 for raster format.
+    GdaFormatNRst = 0,          /* None raster. */
     GdaFormatAsc  = 1,          /* Arc/Info ASCII Grid. */
     GdaFormatLcp  = 2,          /* FARSITE v.4 Landscape File. */
     GdaFormatDem  = 3,          /* USGSDEM. */
     GdaFormatTif  = 4,          /* GTiff. */
     GdaFormatVrt  = 5,          /* Virtual Raster. */
+
+    // 100 ~ 199 for vector formt.
+    GdaFormatNVtr   = 100,      /* None vector. */
+    GdaFormatTab    = 101,
+    GdaFormatShp    = 102,
+    GdaFormatCsv    = 103,
+    GdaFormatXls    = 104,
+    GdaFormatXlsx   = 105,
+    GdaFormatSqlite = 106,
+    GdaFormatJson   = 107,
 } GdaFormatCodeT;
+
+typedef enum
+{
+    GdaFrmtFlagNone = 0,        /* None. */
+    GdaFrmtFlagRst  = 1,        /* Raster format. */
+    GdaFrmtFlagVtr  = 2,        /* Vector format. */
+} GdaFrmtFlagCodeT;
 
 /** 
  *  Dataset of attribute.
@@ -107,34 +135,14 @@ typedef enum
     GdaLinearUnitKilometer = 4,
 } GdaLinearUnitCodeT;
 
-/** 
- * \brief Translate vector to vector option.
+/**
+ * \brief Gdal utils dem processing format.
  */
-typedef struct
+typedef enum
 {
-    OgrFormatCodeT format;
-} GdaTranslateV2VOptT;
-
-/** 
- * \brief Vector to raster with attribute of vector.
- */
-typedef struct
-{
-    UStringT layerName;         /* layer name */
-    UStringT fieldName;         /* field name */
-} GdaV2RVtrAttrT;
-typedef UContainerT<GdaV2RVtrAttrT> GdaV2RVtrAttrCtnT;
-typedef UIteratorT<GdaV2RVtrAttrT> GdaV2RVtrAttrItT;
-
-/** 
- * \brief Vector to raster with attribute of raster.
- */
-typedef struct
-{
-    UIntT bandId;               /* band index */
-} GdaV2RRstAttrT;
-typedef UContainerT<GdaV2RRstAttrT> GdaV2RRstAttrCtnT;
-typedef UIteratorT<GdaV2RRstAttrT> GdaV2RRstAttrItT;
+    GdaDemProcFrmtSlope  = 1,
+    GdaDemProcFrmtAspect = 2,
+} GdaDemProcFrmtCodeT;
 
 /** 
  * \brief Size of raster.
@@ -145,120 +153,35 @@ typedef struct
     UIntT height;
 } GdaRasterSizeT;
 
-/** 
- * \brief Translate vector to raster options.
- */
-class GdaTranslateV2ROptT
-{
-  public:
-    GdaFormatCodeT format;
-    UDataTCodeT type;
-    GdaRasterSizeT size;      /* Output size with width and height. */
-    GdaV2RVtrAttrCtnT vtrCtn; /* Vector attribute container. */
-    GdaV2RRstAttrCtnT rstCtn; /* Raster attribute container. */
-
-    GdaTranslateV2ROptT() : vtrCtn(UContainerList), rstCtn(UContainerList)
-    {
-        format = GdaFormatNone;
-        type = UDataTNone;
-        size.width = 0;
-        size.height = 0;
-    }
-
-    ~GdaTranslateV2ROptT() {}
-};
-
-/** 
- * \brief Translate vector to raster options with load.
- */
-class GdaV2RLoadOptT
-{
-  public:
-    GdaV2RVtrAttrCtnT vtrCtn;   /* Vector attribute container. */
-    GdaV2RRstAttrCtnT rstCtn;   /* Raster attribute container. */
-
-    GdaV2RLoadOptT() : vtrCtn(UContainerList), rstCtn(UContainerList) {}
-    ~GdaV2RLoadOptT() {}
-};
-
-/** 
- * \brief Translate vector to raster options with create.
- */
-class GdaV2RCreateOptT
-{
-  public:
-    GdaFormatCodeT format;
-    UDataTCodeT type;
-    GdaRasterSizeT size;      /* Output size with width and height. */
-    GdaV2RVtrAttrT vtrAttr;   /* Vector attribute. */
-
-    GdaV2RCreateOptT()
-    {
-        format = GdaFormatNone;
-        type = UDataTNone;
-        size.width = 0;
-        size.height = 0;
-    }
-
-    ~GdaV2RCreateOptT() {}
-};
-
-/** 
- * \brief Landscape band.
- */
-typedef struct
-{
-    UIntT elevation;
-    UIntT slope;
-    UIntT aspect;
-    UIntT fuelModels;
-    UIntT canopyCover;
-} GdaLcpBandT;
-
-/** 
- * \brief Landscape create options.
- */
-typedef struct
-{
-    GdaLcpBandT band;
-
-    /* Create operation. */
-    UIntT latitude;
-    GdaLinearUnitCodeT linearUnit;
-} GdaR2RLcpCreateOptT;
-
-/** 
- * \brief Translate raster to raster options.
- */
-typedef struct
-{
-    GdaFormatCodeT format;
-    UDataTCodeT type;
-    union
-    {
-        GdaR2RLcpCreateOptT createOpt;
-    };
-} GdaTranslateR2ROptT;
-
-/** 
- * \brief Translate raster.
- */
-typedef struct
-{
-    GdaFormatCodeT format;
-    UDataTCodeT outType;
-    union
-    {
-        GdaR2RLcpCreateOptT createOpt;
-    };
-} GdaR2RCreateOptT;
-
-#define GDA_TYPE_CTL(aCtl)                      \
+#define GDA_CTL(aCtl)                           \
     if (aCtl == NULL)                           \
     {                                           \
         BMD_CORE_CTL(coreCtl);                  \
-        CGdaCtl *gdaCtl = coreCtl->Gda();       \
-        aCtl = gdaCtl->Type();                  \
+        aCtl = coreCtl->Gda();                  \
+    }
+
+#define GDA_TYPE_CTL(aCtl)                       \
+    if (aCtl == NULL)                            \
+    {                                            \
+        CGdaCtl *gdaCtl = NULL;                  \
+        GDA_CTL(gdaCtl);                         \
+        aCtl = gdaCtl->Type();                   \
+    }
+
+#define GDA_CORE_CTL(aCtl)                      \
+    if (aCtl == NULL)                           \
+    {                                           \
+        CGdaCtl *gdaCtl = NULL;                 \
+        GDA_CTL(gdaCtl);                        \
+        aCtl = gdaCtl->Core();                  \
+    }
+
+#define GDA_UTILS_CTL(aCtl)                     \
+    if (aCtl == NULL)                           \
+    {                                           \
+        CGdaCtl *gdaCtl = NULL;                 \
+        GDA_CTL(gdaCtl);                        \
+        aCtl = gdaCtl->Utils();                 \
     }
 
 #endif  /* GDA_BASE_H_INCLUDED */

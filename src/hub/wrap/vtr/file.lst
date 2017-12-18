@@ -28,7 +28,8 @@ LAYER = vtr
 
 C_OBJ = \
       vtr_ctl.o \
-      vtr_formatctl.o \
+      vtr_frmtctl.o \
+      vtr_frmtgjson.o \
       vtr_datasrcctl.o \
       vtr_layerctl.o \
       vtr_layerbase.o \
@@ -37,8 +38,9 @@ C_OBJ = \
 
 C_HEADER = \
          vtr_base.hpp \
-         vtr_formatctl.hpp \
          vtr_ctl.hpp \
+         vtr_frmtctl.hpp \
+         vtr_frmtgjson.hpp \
          vtr_datasrcctl.hpp \
          vtr_layerread.hpp \
          vtr_layerwrite.hpp

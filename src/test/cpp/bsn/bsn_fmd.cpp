@@ -128,15 +128,15 @@ UErrCodeT CBsnFmd::TestWrite()
 
     // Load.
     CFmdFileLoad *fileLoad = fileCtl->Load();
-    const UStringT cfgFile = "../../data/geojson/tmp/forest_cfg.input";
+    const UStringT cfgFile = "../../data/ctgy/fmd/1/1.input";
 
-    // const UStringT lcpFile = "../../data/geojson/tmp/forest.lcp";
-    // const UStringT ignitionFile = "../../data/geojson/tmp/forest_ignition.shp";
-    // const UStringT barrierFile = "../../data/geojson/tmp/forest_barrier.shp";
+    const UStringT lcpFile = "../../data/ctgy/fmd/3/1.lcp";
+    const UStringT ignitionFile = "../../data/ctgy/fmd/3/i1.shp";
+    const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
 
-    const UStringT lcpFile = "../../data/geojson/tmp/fmd_test/fmd_test_2.lcp";
-    const UStringT ignitionFile = "../../data/geojson/tmp/fmd_test/fmd_testignition_2.shp";
-    const UStringT barrierFile = "../../data/geojson/tmp/fmd_test/fmd_testbarrier.shp";
+    // const UStringT lcpFile = "../../data/geojson/tmp/fmd_test/fmd_test_2.lcp";
+    // const UStringT ignitionFile = "../../data/geojson/tmp/fmd_test/fmd_testignition_2.shp";
+    // const UStringT barrierFile = "../../data/geojson/tmp/fmd_test/fmd_testbarrier.shp";
 
     fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
 
@@ -148,13 +148,15 @@ UErrCodeT CBsnFmd::TestWrite()
     CFmdFileWrite *fileWrite = fileCtl->Write();
     CFmdBurnTime *burnTime = mFmd->Burn()->Time();
     CFmdTypeCtl *typeCtl = mFmd->Type();
-    const UStringT outFile = "../../data/geojson/tmp/forest/test";
+    const UStringT outFile = "../../data/ctgy/fmd/3/o1";
     UFloatT sTime;
     burnTime->Simulate(&sTime);
     BTimeTmT tm;
     typeCtl->ToTm(&tm, sTime);
     // fileWrite->MapEnv(&outFile, &tm, FmdMapEnvIntervalOneH);
     fileWrite->PerimetersShape(&outFile);
+    UStringT strGjson;
+    fileWrite->PerimetersGjson(&strGjson);
     // fileWrite->All(&outFile);
 
     return UErrFalse;

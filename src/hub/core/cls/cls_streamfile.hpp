@@ -51,6 +51,9 @@ class CLS_LIB CClsStreamFile
     UErrCodeT Close(ClsFileHT *aFileH);
     UErrCodeT CloseAll();
 
+    // File status.
+    UErrCodeT Eof(ClsFileHT aFileH);
+
     // File operator controler.
     CClsFileChar *Char();
     CClsFileStr *Str();

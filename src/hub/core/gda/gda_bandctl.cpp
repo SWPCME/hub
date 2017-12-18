@@ -103,6 +103,84 @@ CGdaDatasetCtl *CGdaBandCtl::Up()
 }
 
 /**
+ * \brief Get data type.
+ */
+UDataTCodeT CGdaBandCtl::DataT()
+{
+    UDataTCodeT dst;
+    GDALDataType src = GDALGetRasterDataType((GDALRasterBandH) mBandH);
+    mType->ToDataType(&dst, src);
+
+    return dst;
+}
+
+/**
+ * \brief Unit type.
+ */
+UDataTCodeT CGdaBandCtl::UnitT()
+{
+    UStringT strUnitT = GDALGetRasterUnitType((GDALRasterBandH) mBandH);
+    strUnitT.ToConsole();
+    UDataTCodeT unitT;
+    mType->ToDataType(&unitT, &strUnitT);
+
+    return unitT;
+}
+
+/**
+ * \brief Set unit type.
+ */
+UErrCodeT CGdaBandCtl::SetUnitT(UDataTCodeT aUnitT)
+{
+    UStringT unitT;
+    mType->ToDataType(&unitT, aUnitT);
+    CPLErr err = GDALSetRasterUnitType((GDALRasterBandH) mBandH, unitT.ToA());
+
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Get no data value.
+ */
+UFloatT CGdaBandCtl::NoDataVal(UErrCodeT *aErr)
+{
+    UErrCodeT err = UErrTrue;
+    int gdalErr;
+    UFloatT val = GDALGetRasterNoDataValue((GDALRasterBandH) mBandH, &gdalErr);
+    if (err == CE_None)
+    {
+        err = UErrFalse;
+    }
+
+    if (aErr != NULL)
+    {
+        *aErr = err;
+    }
+
+    return val;
+}
+
+/**
+ * \brief Set no data value.
+ */
+UErrCodeT CGdaBandCtl::SetNoDataVal(const UFloatT aVal)
+{
+    UIntT err = GDALSetRasterNoDataValue((GDALRasterBandH) mBandH, aVal);
+
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
  * \brief Color table.
  */
 CGdaBandColor *CGdaBandCtl::Color()
@@ -117,7 +195,8 @@ CGdaBandColor *CGdaBandCtl::Color()
  */
 UErrCodeT CGdaBandCtl::SetColor(CGdaBandColor *aColor)
 {
-    CPLErr err = GDALSetRasterColorTable(mBandH, aColor->Handle());
+    CPLErr err = GDALSetRasterColorTable((GDALRasterBandH) mBandH,
+                                         aColor->Handle());
 
     if (err == CE_None)
     {
@@ -188,27 +267,13 @@ UErrCodeT CGdaBandCtl::YSize(UIntT *aSize)
 }
 
 /**
-f * \brief Read a region of image data for this band.
- *
- * @param aXOff 
+ * \brief Read a region of image data for this band.
  */
-UErrCodeT CGdaBandCtl::Read(UIntT aXOff, UIntT aYOff, UIntT aXSize,
-                            UIntT aYSize, void *aData, UIntT aBufXSize,
-                            UIntT aBufYSize, UDataTCodeT aDataT,
-                            UIntT aPixelSpace, UIntT aLineSpace)
+UErrCodeT CGdaBandCtl::Read(GdaBandDataT *aData)
 {
-    GDALDataType dataType;
-    mType->ToDataType(&dataType, aDataT);
-    GDALRWFlag rwFlag = GF_Read;
-    CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff,
-                              aXSize, aYSize, aData, aBufXSize, aBufYSize,
-                              dataType, aPixelSpace, aLineSpace);
-    if (err == CE_None)
-    {
-        return UErrFalse;
-    }
+    UAccessCodeT access = UAccessRead;
 
-    return UErrTrue;
+    return Io(aData, access);
 }
 
 /**
@@ -228,24 +293,11 @@ UErrCodeT CGdaBandCtl::ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff)
 /**
  * \brief Write a region of image data for this band.
  */
-UErrCodeT CGdaBandCtl::Write(UIntT aXOff, UIntT aYOff, UIntT aXSize,
-                             UIntT aYSize, void *aData, UIntT aBufXSize,
-                             UIntT aBufYSize, UDataTCodeT aDataT,
-                             UIntT aPixelSpace, UIntT aLineSpace)
+UErrCodeT CGdaBandCtl::Write(GdaBandDataT *aData)
 {
-    GDALDataType dataType;
-    mType->ToDataType(&dataType, aDataT);
-    GDALRWFlag rwFlag = GF_Write;
-    CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, aXOff, aYOff,
-                              aXSize, aYSize, aData, aBufXSize, aBufYSize,
-                              dataType, aPixelSpace, aLineSpace);
+    UAccessCodeT access = UAccessWrite;
 
-    if (err == CE_None)
-    {
-        return UErrFalse;
-    }
-
-    return UErrTrue;
+    return Io(aData, access);
 }
 
 /***** Private A *****/
@@ -287,6 +339,41 @@ UErrCodeT CGdaBandCtl::LoadBand(UIntT aId)
     mBandH = (GdaBandHT) GDALGetRasterBand(datasetH, aId);
 
     return UErrFalse;
+}
+
+/**
+ * \brief Input and output.
+ */
+UErrCodeT CGdaBandCtl::Io(GdaBandDataT *aData, const UAccessCodeT aAccess)
+{
+    UDataTCodeT type = aData->Type();
+    BMathCsC2dT *begin = aData->Begin();
+    BMathCsC2dT *end = aData->End();
+    UIntT xOff = begin->X();
+    UIntT yOff = begin->Y();
+    UIntT xSize = end->X() - begin->X();
+    UIntT ySize = end->Y() - begin->Y();
+    UDataT data = aData->Handle();
+    UIntT bufXSize = xSize;
+    UIntT bufYSize = ySize;
+    UIntT pixelSpace = 0;
+    UIntT lineSpace = 0;
+    GDALDataType dataType;
+    mType->ToDataType(&dataType, type);
+    GDALRWFlag rwFlag = GF_Read;
+    if (aAccess == UAccessWrite)
+    {
+        rwFlag = GF_Write;
+    }
+    CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, xOff, yOff,
+                              xSize, ySize, data, bufXSize, bufYSize,
+                              dataType, pixelSpace, lineSpace);
+    if (err == CE_None)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /***** Private B *****/

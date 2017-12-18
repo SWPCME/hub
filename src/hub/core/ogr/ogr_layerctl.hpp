@@ -36,7 +36,7 @@
 #include "ust/ust_stringtype.hpp"
 
 class COgrDatasrcCtl;
-class COgrFeatureDefnCtl;
+class COgrFeatureDefn;
 class COgrFeaturesCtl;
 
 class OGR_LIB COgrLayerCtl
@@ -57,8 +57,8 @@ class OGR_LIB COgrLayerCtl
     COgrDatasrcCtl *Up();
 
     // Handle.
-    COgrFeatureDefnCtl* FeatureDefn();
-    COgrFeaturesCtl* Features();
+    COgrFeatureDefn *FeatureDefn();
+    COgrFeaturesCtl *Features();
 
   protected:
   private:
@@ -67,7 +67,7 @@ class OGR_LIB COgrLayerCtl
     OgrLayerHT mLayerH;
 
     COgrDatasrcCtl *mDs;
-    COgrFeatureDefnCtl *mFeatureDefn;
+    COgrFeatureDefn *mFeatureDefn;
     COgrFeaturesCtl *mFeatures;
 };
 

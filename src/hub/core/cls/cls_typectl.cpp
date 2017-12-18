@@ -107,7 +107,7 @@ UErrCodeT CClsTypeCtl::ToTimeTm(BTimeTmT *aDest, const ClsTmHT aSrc)
 #ifdef OS_UNIX
     aDest->gmtoff = src->tm_gmtoff;
 #endif
-    aDest->zone = src->tm_zone;
+    // aDest->zone = src->tm_zone;
 
     return UErrFalse;
 }
@@ -134,7 +134,7 @@ UErrCodeT CClsTypeCtl::ToTimeTm(ClsTmHT aDst, const BTimeTmT *aSrc)
 #ifdef OS_UNIX
     dst->tm_gmtoff = src->gmtoff;
 #endif
-    dst->tm_zone = src->zone;
+    // dst->tm_zone = src->zone;
 
     return UErrFalse;
 }

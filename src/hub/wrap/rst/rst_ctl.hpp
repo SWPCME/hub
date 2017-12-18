@@ -28,6 +28,7 @@
 #include "rst_base.hpp"
 
 class CRstUtilCtl;
+class CRstFrmtCtl;
 
 class RST_LIB CRstCtl
 {
@@ -37,10 +38,14 @@ class RST_LIB CRstCtl
 
     UErrCodeT Init();
     CRstUtilCtl *Util();
+    CRstFrmtCtl *Frmt();
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
     CRstUtilCtl *mUtil;
+    CRstFrmtCtl *mFrmt;
 };
 
 #endif  // RST_CTL_HPP_INCLUDED

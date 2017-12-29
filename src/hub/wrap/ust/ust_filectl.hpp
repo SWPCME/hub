@@ -46,9 +46,10 @@ class UST_LIB CUstFileCtl
 
     UErrCodeT Init();
     UErrCodeT Open(UstFileHT *aFileH, const UStringT *aFileName,
-                   UstFileOperCodeT aOper);
+                   const UstFileOperCodeT aOper);
     UErrCodeT Close(UstFileHT *aFileH);
-    UErrCodeT Save(UstFileHT *mFileH, const UStringT *aFileName);
+    UErrCodeT Save(UstFileHT *aFileH, const UStringT *aFileName,
+                   const UstFileOperCodeT aOper);
 
     // Read.
     UErrCodeT ReadRow(UStringT *aStr, UstFileHT aFileH);

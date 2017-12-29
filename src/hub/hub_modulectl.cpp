@@ -55,7 +55,7 @@
  * \brief Ctgy module.
  */
 #include "ctgy_ctl.hpp"
-#include "rtk_ctl.hpp"
+// #include "rtk_ctl.hpp"
 #include "fmd_ctl.hpp"
 #include "era_ctl.hpp"
 
@@ -125,7 +125,7 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         HUB_REGISTER(HubMRst, CRstCtl);
         HUB_REGISTER(HubMVtr, CVtrCtl);
         // ctgy
-        HUB_REGISTER(HubMRtk, CRtkCtl);
+        // HUB_REGISTER(HubMRtk, CRtkCtl);
         HUB_REGISTER(HubMFmd, CFmdCtl);
         HUB_REGISTER(HubMEra, CEraCtl);
     default:
@@ -179,7 +179,7 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         HUB_DEREGISTER(HubMRst, CRstCtl);
         HUB_DEREGISTER(HubMVtr, CVtrCtl);
         // ctgy
-        HUB_DEREGISTER(HubMRtk, CRtkCtl);
+        // HUB_DEREGISTER(HubMRtk, CRtkCtl);
         HUB_DEREGISTER(HubMFmd, CFmdCtl);
         HUB_DEREGISTER(HubMEra, CEraCtl);
     default:

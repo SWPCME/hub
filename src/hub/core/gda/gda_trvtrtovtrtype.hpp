@@ -34,6 +34,7 @@
 class CGdaTrVtrProcCtl;
 // ogr
 class COgrTypeCtl;
+class GdaOgrSrsT;
 
 class GDA_LIB GdaTrVtrToVtrT
 {
@@ -43,16 +44,20 @@ class GDA_LIB GdaTrVtrToVtrT
 
     // Set.
     UErrCodeT SetAll(const OgrFormatCodeT aFrmt, const BCtnStringT *aOpt);
+    UErrCodeT SetOpt(const BCtnStringT *aOpt);
     UErrCodeT SetFrmt(const OgrFormatCodeT aFrmt);
+    UErrCodeT SetSrs(const GdaOgrSrsT *aSrs);
 
     // Get.
     OgrFormatCodeT Frmt() const;
+    GdaOgrSrsT *Srs() const;
     GdaTrVtrProcHT Handle() const;
 
   protected:
   private:
     UErrCodeT Init();
     UErrCodeT InitPointer();
+    UErrCodeT Save();
     UErrCodeT Clear();
 
     CGdaTrVtrProcCtl *mProc;
@@ -61,7 +66,10 @@ class GDA_LIB GdaTrVtrToVtrT
     GdaTrVtrProcHT mProcH;
     OgrFormatCodeT mFrmt;
     GdaFrmtFlagCodeT mFrmtFlag;
+    GdaOgrSrsT *mSrs;
     BCtnStringT mLOpt;
+
+    UStateCodeT mState;
 };
 
 #endif  // GDA_TRVTRTOVTRTYPE_HPP_INCLUDED

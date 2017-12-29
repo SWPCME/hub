@@ -31,8 +31,6 @@
 #include "ust/ust_containertype.hpp"
 %}
 
-%include "whub_ctl.i"
-
 typedef enum
 {
     /** 
@@ -66,6 +64,7 @@ class UStringT
     UStringT(const char *aStr);
     ~UStringT();
 
+    const char *ToA() const;
     UErrCodeT ToConsole();
 };
 
@@ -102,7 +101,18 @@ class UContainerT
 };
 
 /**
+ * \brief Template.
+ * typedef must be pair in "'%{' with '%}'" and out of "'%{' with '%}'".
+ */
+/**
  * \brief UContainerT for fmd.
  */
+%{
+#include "fmd/fmd_cfgwrite.hpp"
+typedef UContainerT<FmdCfgWeatherT> FmdCfgWeatherCtnT;
+typedef UContainerT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureCtnT;
+%}
+typedef UContainerT<FmdCfgWeatherT> FmdCfgWeatherCtnT;
+typedef UContainerT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureCtnT;
 %template(FmdCfgWeatherCtnT) UContainerT<FmdCfgWeatherT>;
 %template(FmdCfgFuelMoistureCtnT) UContainerT<FmdCfgFuelMoistureT>;

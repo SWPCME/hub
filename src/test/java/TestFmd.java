@@ -41,6 +41,8 @@ public class TestFmd
         hubCtl.Register(HubCodeT.HubMFmd);
         mFmd = hubCtl.Fmd();
         TestConfig();
+        TestConfigSimple();
+        TestWrite();
 
         return UErrCodeT.UErrFalse;
     }
@@ -58,7 +60,7 @@ public class TestFmd
         FmdCfgTimeT end = time.End();
         end.SetAll(2017, 8, 1, 10, 45);
         time.SetAll(begin, end, 1);
-        cfgWrite.BurnTime(time);
+        cfgWrite.SetBurnTime(time);
 
         FmdCfgWeatherCtnT weatherCtn =
             new FmdCfgWeatherCtnT(UContainerCodeT.UContainerList);
@@ -66,24 +68,88 @@ public class TestFmd
         FmdCfgTimeT weatherTime = new FmdCfgTimeT();
         weatherTime.SetAll(2017, 8, 1, 9, 30);
         FmdCfgWindT weatherWind = new FmdCfgWindT();
-        weatherWind.SetAll(100, 125);
+        weatherWind.SetAll(2, 180);
         FmdCfgCloudT weatherCloud = new FmdCfgCloudT();
         weatherCloud.SetAll(0, 0.2);
         FmdCfgAirT weatherAir = new FmdCfgAirT();
         weatherAir.SetAll(30, 80);
         weather.SetAll(weatherTime, weatherWind, weatherCloud, weatherAir);
         weatherCtn.Add(weather);
-        // cfgWrite.Weather(weatherCtn);
+        cfgWrite.SetWeather(weatherCtn);
 
         double elevation = 43.4;
-        cfgWrite.Elevation(elevation);
+        cfgWrite.SetElevation(elevation);
 
         FmdCfgFuelMoistureCtnT fmCtn =
             new FmdCfgFuelMoistureCtnT(UContainerCodeT.UContainerList);
         FmdCfgFuelMoistureT fm = new FmdCfgFuelMoistureT();
-        fm.SetAll(0, 3, 4, 6, 70, 100);
+        fm.SetAll(0, 2, 2, 2, 2, 2);
         fmCtn.Add(fm);
-        // cfgWrite.FuelMoisture(fmCtn);
+        cfgWrite.SetFuelMoisture(fmCtn);
+
+        cfgWrite.Save();
+
+        return UErrCodeT.UErrFalse;
+    }
+
+    private UErrCodeT TestConfigSimple()
+    {
+        CFmdFileCtl fileCtl = mFmd.File();
+        UStringT fileName = new UStringT("../../data/geojson/tmp/forest_cfg.input");
+        CFmdFileCfg cfg = fileCtl.Cfg(fileName, FmdFileCfgCodeT.FmdFileCfgCreate);
+        CFmdCfgWrite cfgWrite = cfg.Write();
+
+        FmdCfgBurnTimeT time = new FmdCfgBurnTimeT();
+        FmdCfgTimeT begin = time.Begin();
+        begin.SetAll(2017, 1, 1, 0, 0);
+        FmdCfgTimeT end = time.End();
+        end.SetAll(2017, 1, 1, 1, 0);
+        time.SetAll(begin, end, 1);
+        cfgWrite.SetBurnTime(time);
+
+        FmdCfgWeatherCtnT weatherCtn =
+            new FmdCfgWeatherCtnT(UContainerCodeT.UContainerList);
+        FmdCfgWeatherT weather = new FmdCfgWeatherT();
+        FmdCfgTimeT weatherTime = new FmdCfgTimeT();
+        weatherTime.SetAll(2017, 1, 1, 0, 0);
+        weather.SetTime(weatherTime);
+        FmdCfgWindT weatherWind = new FmdCfgWindT();
+        weatherWind.SetAll(2, 180);
+        weather.SetWind(weatherWind);
+        weatherCtn.Add(weather);
+        cfgWrite.SetWeather(weatherCtn);
+
+        cfgWrite.Save();
+
+        return UErrCodeT.UErrFalse;
+    }
+
+    private UErrCodeT TestWrite()
+    {
+        CFmdFileCtl fileCtl = mFmd.File();
+
+        // Load.
+        CFmdFileLoad fileLoad = fileCtl.Load();
+        UStringT cfgFile = new UStringT("../../data/ctgy/fmd/1/1.input");
+
+        UStringT lcpFile = new UStringT("../../data/ctgy/fmd/3/1.lcp");
+        UStringT ignitionFile =
+            new UStringT("{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }");
+        UStringT barrierFile = new UStringT("");
+
+        fileLoad.Cfg(cfgFile);
+        fileLoad.Lcp(lcpFile);
+        fileLoad.IgnitionGjson(ignitionFile);
+        fileLoad.BarrierGjson(barrierFile);
+
+        // Master.
+        CFmdMasterCtl masterCtl = mFmd.Master();
+        masterCtl.Launch();
+
+        // Write.
+        CFmdFileWrite fileWrite = fileCtl.Write();
+        UStringT strGjson = new UStringT("");
+        fileWrite.PerimetersGjson(strGjson);
 
         return UErrCodeT.UErrFalse;
     }

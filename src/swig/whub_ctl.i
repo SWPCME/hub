@@ -27,8 +27,14 @@
 #include "hub_ctl.hpp"
 %}
 
-%include "whub_ogrctl.i"
+// The template obj must be at the bottom,
+// for example, to process "whub_ustctl.i" must be after "whub_fmdctl.i".
+%include "whub_base.i"
 %include "whub_fmdctl.i"
+%include "whub_ustctl.i"
+%include "whub_gdactl.i"
+%include "whub_ogrctl.i"
+%include "whub_rstctl.i"
 
 %pragma(java) jniclasscode=%{
      private static boolean available = false;
@@ -49,11 +55,27 @@
      }
 %}
 
+%pragma(java) jniclassimports=%{
+import whub.*;
+%}
+
+%pragma(java) moduleimports=%{
+import whub.*;
+%}
+
 typedef enum
 {
     UErrFalse = 0,
     UErrTrue  = 1,
 } UErrCodeT;
+
+typedef enum
+{
+    UFileOperCreate = 1,
+    UFileOperLoad   = 2,
+    UFileOperClose  = 3,
+    UFileOperDelete = 4,
+} UFileOperCodeT;
 
 /* typedef int UHandleT; */
 typedef int UHandleT;
@@ -74,13 +96,12 @@ typedef enum
 
     /* Wrap module */
     HubMUst = 1001,             /* Universal struct type library. */
-    HubMVtr = 1002,             /* Vector library. */
+    HubMRst = 1002,             /* Raster library. */
+    HubMVtr = 1003,             /* Vector library. */
 
     /* Ctgy module */
-    // Earth
-    HubMRtk = 2001,             /* Real time kinematic library. */
     // Fire
-    HubMFmd = 2002,             /* Firemod library. */
+    HubMFmd = 2001,             /* Firemod library. */
 } HubCodeT;
 
 class CHubCtl
@@ -92,6 +113,8 @@ class CHubCtl
     UErrCodeT RegisterAll();
     UErrCodeT Deregister(HubCodeT aCode);
     UErrCodeT DeregisterAll();
+    CGdaCtl *Gda();
     COgrCtl *Ogr();
+    CRstCtl *Rst();
     CFmdCtl *Fmd();
 };

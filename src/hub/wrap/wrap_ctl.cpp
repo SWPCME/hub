@@ -29,8 +29,11 @@
 
 #include "wrap_ctl.hpp"
 
-// Module.
+// base
+#include "base_macrodefn.hpp"
+// wrap
 #include "ust_ctl.hpp"
+#include "rst_ctl.hpp"
 #include "vtr_ctl.hpp"
 #include "ncc_ctl.hpp"
 
@@ -39,9 +42,10 @@
  */
 CWrapCtl::CWrapCtl()
 {
-    mUst = NULL;
-    mVtr = NULL;
-    mNcc = NULL;
+    BMD_POINTER_INIT(mUst);
+    BMD_POINTER_INIT(mRst);
+    BMD_POINTER_INIT(mVtr);
+    BMD_POINTER_INIT(mNcc);
 }
 
 /**
@@ -49,20 +53,10 @@ CWrapCtl::CWrapCtl()
  */
 CWrapCtl::~CWrapCtl()
 {
-    if (mUst != NULL)
-    {
-        delete mUst;
-    }
-
-    if (mVtr != NULL)
-    {
-        delete mVtr;
-    }
-
-    if (mNcc != NULL)
-    {
-        delete mNcc;
-    }
+    BMD_CLASS_DEL(mUst);
+    BMD_CLASS_DEL(mRst);
+    BMD_CLASS_DEL(mVtr);
+    BMD_CLASS_DEL(mNcc);
 }
 
 /**
@@ -78,13 +72,19 @@ UErrCodeT CWrapCtl::Init()
  */
 CUstCtl *CWrapCtl::Ust()
 {
-    if (mUst == NULL)
-    {
-        mUst = new CUstCtl;
-        mUst->Init();
-    }
+    BMD_CLASS_NEW(mUst, CUstCtl);
 
     return mUst;
+}
+
+/**
+ * \brief Rst controler.
+ */
+CRstCtl *CWrapCtl::Rst()
+{
+    BMD_CLASS_NEW(mRst, CRstCtl);
+
+    return mRst;
 }
 
 /**
@@ -92,11 +92,7 @@ CUstCtl *CWrapCtl::Ust()
  */
 CVtrCtl *CWrapCtl::Vtr()
 {
-    if (mVtr == NULL)
-    {
-        mVtr = new CVtrCtl;
-        mVtr->Init();
-    }
+    BMD_CLASS_NEW(mVtr, CVtrCtl);
 
     return mVtr;
 }
@@ -106,11 +102,7 @@ CVtrCtl *CWrapCtl::Vtr()
  */
 CNccCtl *CWrapCtl::Ncc()
 {
-    if (mNcc == NULL)
-    {
-        mNcc = new CNccCtl;
-        mNcc->Init();
-    }
+    BMD_CLASS_NEW(mNcc, CNccCtl);
 
     return mNcc;
 }

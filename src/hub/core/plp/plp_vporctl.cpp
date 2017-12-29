@@ -50,6 +50,15 @@ UErrCodeT CPlpVporCtl::Init()
 }
 
 /**
+ * \brief Viewport.
+ */
+// UErrCodeT CPlpVporCtl::Vpor(const UFloatT aXMin, const UFloatT aXMax,
+//                             const UFloatT aYMin, const UFloatT aYMax)
+// {
+//     return UErrFalse;
+// }
+
+/**
  * \brief Simple interface for defining viewport and window.
  */
 UErrCodeT CPlpVporCtl::Env(const UFloatT aXMin, const UFloatT aXMax,

@@ -208,6 +208,14 @@ const wchar_t* UStringT::ToW()
 }
 
 /**
+ * \brief Count the string of character.
+ */
+// UErrCodeT UStringT::Count()
+// {
+//     return mStr->Len(mChar);
+// }
+
+/**
  * \brief This string is null.
  */
 UErrCodeT UStringT::IsNull() const

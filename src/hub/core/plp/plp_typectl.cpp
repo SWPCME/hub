@@ -47,6 +47,29 @@ UErrCodeT CPlpTypeCtl::Init()
 }
 
 /**
+ * \brief Option code to name.
+ */
+UErrCodeT CPlpTypeCtl::ToOpt(UStringT *aName, const PlpOptCodeT aCode)
+{
+    switch (aCode)
+    {
+    case PlpOptDev:
+        *aName = "dev";
+        break;
+    case PlpOptFile:
+        *aName = "o";
+        break;
+    case PlpOptBg:
+        *aName = "bg";
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/**
  * \brief Device code.
  */
 UErrCodeT CPlpTypeCtl::DevCodeToName(UStringT *aName, const PlpDevCodeT aCode)

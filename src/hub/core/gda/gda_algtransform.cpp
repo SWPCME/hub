@@ -24,11 +24,15 @@
 
 #include "gda_algtransform.hpp"
 
+// gda
+#include "gda_algtrreprj.hpp"
+
 /**
  * \brief Constructor.
  */
 CGdaAlgTransform::CGdaAlgTransform()
 {
+    BMD_POINTER_INIT(mReprj);
 }
 
 /**
@@ -36,6 +40,7 @@ CGdaAlgTransform::CGdaAlgTransform()
  */
 CGdaAlgTransform::~CGdaAlgTransform()
 {
+    BMD_CLASS_DEL(mReprj);
 }
 
 /**
@@ -44,4 +49,14 @@ CGdaAlgTransform::~CGdaAlgTransform()
 UErrCodeT CGdaAlgTransform::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Geo to geo reprojection transformer.
+ */
+CGdaAlgTrReprj *CGdaAlgTransform::Reprj()
+{
+    BMD_CLASS_NEW(mReprj, CGdaAlgTrReprj);
+
+    return mReprj;
 }

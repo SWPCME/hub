@@ -30,9 +30,11 @@
 class CPlpTypeCtl;
 class CPlpCoreCtl;
 class CPlpArgsCtl;
+class CPlpColCtl;
 class CPlpVporCtl;
 class CPlpSymCtl;
 class CPlpLineCtl;
+class CPlpLegendCtl;
 
 class PLP_LIB CPlpCtl
 {
@@ -44,18 +46,22 @@ class PLP_LIB CPlpCtl
     CPlpTypeCtl *Type();
     CPlpCoreCtl *Core();
     CPlpArgsCtl *Args();
+    CPlpColCtl *Col();
     CPlpVporCtl *Vpor();
     CPlpSymCtl *Sym();
     CPlpLineCtl *Line();
+    CPlpLegendCtl *Legend();
 
   protected:
   private:
     CPlpTypeCtl *mType;
     CPlpCoreCtl *mCore;
     CPlpArgsCtl *mArgs;
+    CPlpColCtl *mCol;
     CPlpVporCtl *mVpor;
     CPlpSymCtl *mSym;
     CPlpLineCtl *mLine;
+    CPlpLegendCtl *mLegend;
 };
 
 #endif  // PLP_CTL_HPP_INCLUDED

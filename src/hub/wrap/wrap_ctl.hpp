@@ -34,6 +34,7 @@
 
 // Class.
 class CUstCtl;
+class CRstCtl;
 class CVtrCtl;
 class CNccCtl;
 
@@ -45,12 +46,14 @@ class WRAP_LIB CWrapCtl
 
     UErrCodeT Init();
     CUstCtl *Ust();
+    CRstCtl *Rst();
     CVtrCtl *Vtr();
     CNccCtl *Ncc();
 
   protected:
   private:
     CUstCtl *mUst;
+    CRstCtl *mRst;
     CVtrCtl *mVtr;
     CNccCtl *mNcc;
 };

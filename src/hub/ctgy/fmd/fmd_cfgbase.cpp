@@ -40,8 +40,9 @@ FmdCfgTimeT::FmdCfgTimeT()
 /**
  * \brief Constructor.
  */
-FmdCfgTimeT::FmdCfgTimeT(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
-                         UIntT aMin)
+FmdCfgTimeT::FmdCfgTimeT(const UIntT aYear, const UIntT aMon,
+                         const UIntT aMDay, const UIntT aHour,
+                         const UIntT aMin)
 {
     Init();
     SetAll(aYear, aMon, aMDay, aHour, aMin);
@@ -55,16 +56,29 @@ FmdCfgTimeT::~FmdCfgTimeT()
 }
 
 /**
+ * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT FmdCfgTimeT::Init()
+{
+    SetAll(0, 0, 0, 0, 0);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set all value.
  */
-UErrCodeT FmdCfgTimeT::SetAll(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
-                              UIntT aMin)
+UErrCodeT FmdCfgTimeT::SetAll(const UIntT aYear, const UIntT aMon,
+                              const UIntT aMDay, const UIntT aHour,
+                              const UIntT aMin)
 {
-    mYear = aYear;
-    mMon = aMon;
-    mMDay = aMDay;
-    mHour = aHour;
-    mMin = aMin;
+    SetYear(aYear);
+    SetMon(aMon);
+    SetMDay(aMDay);
+    SetHour(aHour);
+    SetMin(aMin);
         
     return UErrFalse;
 }
@@ -75,7 +89,7 @@ UErrCodeT FmdCfgTimeT::SetAll(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
  * @param aYear Year.
  * @retrun UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgTimeT::SetYear(UIntT aYear)
+UErrCodeT FmdCfgTimeT::SetYear(const UIntT aYear)
 {
     mYear = aYear;
 
@@ -88,7 +102,7 @@ UErrCodeT FmdCfgTimeT::SetYear(UIntT aYear)
  * @param aMon Month in one year.
  * @retrun UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgTimeT::SetMon(UIntT aMon)
+UErrCodeT FmdCfgTimeT::SetMon(const UIntT aMon)
 {
     mMon = aMon;
 
@@ -101,7 +115,7 @@ UErrCodeT FmdCfgTimeT::SetMon(UIntT aMon)
  * @param aDay Day of month.
  * @retrun UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgTimeT::SetMDay(UIntT aMDay)
+UErrCodeT FmdCfgTimeT::SetMDay(const UIntT aMDay)
 {
     mMDay = aMDay;
 
@@ -114,7 +128,7 @@ UErrCodeT FmdCfgTimeT::SetMDay(UIntT aMDay)
  * @param aHour Hour in one day.
  * @retrun UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgTimeT::SetHour(UIntT aHour)
+UErrCodeT FmdCfgTimeT::SetHour(const UIntT aHour)
 {
     mHour = aHour;
 
@@ -127,7 +141,7 @@ UErrCodeT FmdCfgTimeT::SetHour(UIntT aHour)
  * @param aMinute Minute in one hour.
  * @retrun UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgTimeT::SetMin(UIntT aMin)
+UErrCodeT FmdCfgTimeT::SetMin(const UIntT aMin)
 {
     mMin = aMin;
 
@@ -218,19 +232,6 @@ UErrCodeT FmdCfgTimeT::operator =(const FmdCfgTimeT &aTime)
 }
 
 /***** FmdCfgTimeT Private A *****/
-
-/**
- * \brief Initialize.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT FmdCfgTimeT::Init()
-{
-    SetAll(kSignNeg, kSignNeg, kSignNeg, kSignNeg, kSignNeg);
-
-    return UErrFalse;
-}
-
 /***** FmdCfgTimeT Private B *****/
 /***** FmdCfgTimeT B *****/
 
@@ -249,9 +250,10 @@ FmdCfgBurnTimeT::FmdCfgBurnTimeT()
  */
 FmdCfgBurnTimeT::FmdCfgBurnTimeT(const FmdCfgTimeT *aBegin,
                                  const FmdCfgTimeT *aEnd,
-                                 UIntT aStep)
+                                 const UFloatT aStep)
 {
     Init();
+    SetAll(aBegin, aEnd, aStep);
 }
 
 
@@ -260,6 +262,20 @@ FmdCfgBurnTimeT::FmdCfgBurnTimeT(const FmdCfgTimeT *aBegin,
  */
 FmdCfgBurnTimeT::~FmdCfgBurnTimeT()
 {
+}
+
+/**
+ * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT FmdCfgBurnTimeT::Init()
+{
+    mBegin.Init();
+    mEnd.SetAll(0, 0, 0, 0, 1);
+    mStep = 1;
+
+    return UErrFalse;
 }
 
 /**
@@ -272,10 +288,40 @@ FmdCfgBurnTimeT::~FmdCfgBurnTimeT()
  */
 UErrCodeT FmdCfgBurnTimeT::SetAll(const FmdCfgTimeT *aBegin,
                                   const FmdCfgTimeT *aEnd,
-                                  UIntT aStep)
+                                  const UFloatT aStep)
+{
+    SetBegin(aBegin);
+    SetEnd(aEnd);
+    SetStep(aStep);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set begin time.
+ */
+UErrCodeT FmdCfgBurnTimeT::SetBegin(const FmdCfgTimeT *aBegin)
 {
     mBegin = *aBegin;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set end time.
+ */
+UErrCodeT FmdCfgBurnTimeT::SetEnd(const FmdCfgTimeT *aEnd)
+{
     mEnd = *aEnd;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set step.
+ */
+UErrCodeT FmdCfgBurnTimeT::SetStep(const UFloatT aStep)
+{
     mStep = aStep;
 
     return UErrFalse;
@@ -290,7 +336,7 @@ UErrCodeT FmdCfgBurnTimeT::SetAll(const FmdCfgTimeT *aBegin,
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgBurnTimeT::All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd,
-                               UIntT *aStep) const
+                               UFloatT *aStep) const
 {
     *aBegin = mBegin;
     *aEnd = mEnd;
@@ -327,23 +373,12 @@ const FmdCfgTimeT *FmdCfgBurnTimeT::End() const
  * @param aStep Time of step (min).
  * @return Time of step, if successful; NULL, if failed.
  */
-UIntT FmdCfgBurnTimeT::Step() const
+UFloatT FmdCfgBurnTimeT::Step() const
 {
     return mStep;
 }
 
 /***** FmdCfgBurnTimeT Private A *****/
-
-/**
- * \brief Initialize.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT FmdCfgBurnTimeT::Init()
-{
-    return UErrFalse;
-}
-
 /***** FmdCfgBurnTimeT Private B *****/
 /***** FmdCfgBurnTimeT B *****/
 
@@ -360,9 +395,10 @@ FmdCfgFuelMoistureT::FmdCfgFuelMoistureT()
 /**
  * \brief Constructor.
  */
-FmdCfgFuelMoistureT::FmdCfgFuelMoistureT(UIntT aModel, UIntT aFm1,
-                                         UIntT aFm10, UIntT aFm100,
-                                         UIntT aFmLiveHerb, UIntT aFmLiveWoody)
+FmdCfgFuelMoistureT::FmdCfgFuelMoistureT(const UIntT aModel, const UIntT aFm1,
+                                         const UIntT aFm10, const UIntT aFm100,
+                                         const UIntT aFmLiveHerb,
+                                         const UIntT aFmLiveWoody)
 {
     Init();
     SetAll(aModel, aFm1, aFm10, aFm100, aFmLiveHerb, aFmLiveWoody);
@@ -376,6 +412,16 @@ FmdCfgFuelMoistureT::~FmdCfgFuelMoistureT()
 }
 
 /**
+ * \brief Initialize.
+ */
+UErrCodeT FmdCfgFuelMoistureT::Init()
+{
+    SetAll(0, 2, 2, 2, 2, 2);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set all value.
  *
  * @param aModel Model.
@@ -386,15 +432,76 @@ FmdCfgFuelMoistureT::~FmdCfgFuelMoistureT()
  * @param aFmLiveWoody Live woody.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgFuelMoistureT::SetAll(UIntT aModel, UIntT aFm1, UIntT aFm10,
-                                       UIntT aFm100, UIntT aFmLiveHerb,
-                                       UIntT aFmLiveWoody)
+UErrCodeT FmdCfgFuelMoistureT::SetAll(const UIntT aModel, const UIntT aFm1,
+                                      const UIntT aFm10, const UIntT aFm100,
+                                      const UIntT aFmLiveHerb,
+                                      const UIntT aFmLiveWoody)
+{
+    SetModel(aModel);
+    SetFm1(aFm1);
+    SetFm10(aFm10);
+    SetFm100(aFm100);
+    SetFmLiveHerb(aFmLiveHerb);
+    SetFmLiveWoody(aFmLiveWoody);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set modle.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetModel(const UIntT aModel)
 {
     mModel = aModel;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set fuel moistures 1.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetFm1(const UIntT aFm1)
+{
     mFm1 = aFm1;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set fuel moistures 10.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetFm10(const UIntT aFm10)
+{
     mFm10 = aFm10;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set fuel moistures 100.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetFm100(const UIntT aFm100)
+{
     mFm100 = aFm100;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set fuel moistures live herb.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetFmLiveHerb(const UIntT aFmLiveHerb)
+{
     mFmLiveHerb = aFmLiveHerb;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set fuel moistures live woody.
+ */
+UErrCodeT FmdCfgFuelMoistureT::SetFmLiveWoody(const UIntT aFmLiveWoody)
+{
     mFmLiveWoody = aFmLiveWoody;
 
     return UErrFalse;
@@ -412,8 +519,8 @@ UErrCodeT FmdCfgFuelMoistureT::SetAll(UIntT aModel, UIntT aFm1, UIntT aFm10,
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgFuelMoistureT::All(UIntT *aModel, UIntT *aFm1, UIntT *aFm10,
-                                    UIntT *aFm100, UIntT *aFmLiveHerb,
-                                    UIntT *aFmLiveWoody) const
+                                   UIntT *aFm100, UIntT *aFmLiveHerb,
+                                   UIntT *aFmLiveWoody) const
 {
     *aModel = mModel;
     *aFm1 = mFm1;
@@ -486,12 +593,6 @@ UIntT FmdCfgFuelMoistureT::FmLiveWoody() const
 }
 
 /***** FmdCfgFuelMoistureT Private A *****/
-
-UErrCodeT FmdCfgFuelMoistureT::Init()
-{
-    return UErrFalse;
-}
-
 /***** FmdCfgFuelMoistureT Private B *****/
 /***** FmdCfgFuelMoistureT B *****/
 
@@ -508,7 +609,7 @@ FmdCfgWindT::FmdCfgWindT()
 /**
  * \brief Constructor.
  */
-FmdCfgWindT::FmdCfgWindT(UIntT aSpeed, UIntT aDirection)
+FmdCfgWindT::FmdCfgWindT(const UFloatT aSpeed, const UIntT aDirection)
 {
     Init();
     SetAll(aSpeed, aDirection);
@@ -522,15 +623,45 @@ FmdCfgWindT::~FmdCfgWindT()
 }
 
 /**
+ * \brief Initialize.
+ */
+UErrCodeT FmdCfgWindT::Init()
+{
+    SetAll(0, 0);
+
+    return UErrFalse;
+}       
+
+/**
  * \brief Set all value.
  *
  * @param aSpeed Speed of wind.
  * @param aDirection Direction of wind.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgWindT::SetAll(UIntT aSpeed, UIntT aDirection)
+UErrCodeT FmdCfgWindT::SetAll(const UFloatT aSpeed, const UIntT aDirection)
+{
+    SetSpeed(aSpeed);
+    SetDirection(aDirection);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set speed.
+ */
+UErrCodeT FmdCfgWindT::SetSpeed(const UFloatT aSpeed)
 {
     mSpeed = aSpeed;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set direction.
+ */
+UErrCodeT FmdCfgWindT::SetDirection(const UIntT aDirection)
+{
     mDirection = aDirection;
 
     return UErrFalse;
@@ -543,7 +674,7 @@ UErrCodeT FmdCfgWindT::SetAll(UIntT aSpeed, UIntT aDirection)
  * @param aDirection Direction of wind.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgWindT::All(UIntT *aSpeed, UIntT *aDirection) const
+UErrCodeT FmdCfgWindT::All(UFloatT *aSpeed, UIntT *aDirection) const
 {
     *aSpeed = mSpeed;
     *aDirection = mDirection;
@@ -556,7 +687,7 @@ UErrCodeT FmdCfgWindT::All(UIntT *aSpeed, UIntT *aDirection) const
  *
  * @return Speed of wind, if successful; kSignNeg, if failed.
  */
-UIntT FmdCfgWindT::Speed() const
+UFloatT FmdCfgWindT::Speed() const
 {
     return mSpeed;
 }
@@ -572,12 +703,6 @@ UIntT FmdCfgWindT::Direction() const
 }
 
 /***** FmdCfgWindT Private A *****/
-
-UErrCodeT FmdCfgWindT::Init()
-{
-    return UErrFalse;
-}       
-
 /***** FmdCfgWindT Private B *****/
 /***** FmdCfgWindT B *****/
 
@@ -594,7 +719,7 @@ FmdCfgCloudT::FmdCfgCloudT()
 /**
  * \brief Constructor.
  */
-FmdCfgCloudT::FmdCfgCloudT(UIntT aCover, UFloatT aPrecipAmount)
+FmdCfgCloudT::FmdCfgCloudT(const UIntT aCover, const UFloatT aPrecipAmount)
 {
     Init();
     SetAll(aCover, aPrecipAmount);
@@ -608,15 +733,45 @@ FmdCfgCloudT::~FmdCfgCloudT()
 }
 
 /**
+ * \brief Initialize.
+ */
+UErrCodeT FmdCfgCloudT::Init()
+{
+    SetAll(0, 0);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set all value.
  *
  * @param aCover Cover of cloud.
  * @param aPrecipAmount Precipitation amount.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgCloudT::SetAll(UIntT aCover, UFloatT aPrecipAmount)
+UErrCodeT FmdCfgCloudT::SetAll(const UIntT aCover, const UFloatT aPrecipAmount)
+{
+    SetCover(aCover);
+    SetPrecipAmount(aPrecipAmount);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set cover.
+ */
+UErrCodeT FmdCfgCloudT::SetCover(const UIntT aCover)
 {
     mCover = aCover;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set precipitation amount.
+ */
+UErrCodeT FmdCfgCloudT::SetPrecipAmount(const UFloatT aPrecipAmount)
+{
     mPrecipAmount = aPrecipAmount;
 
     return UErrFalse;
@@ -654,12 +809,6 @@ UFloatT FmdCfgCloudT::PrecipAmount() const
 }
 
 /***** FmdCfgCloudT Private A *****/
-
-UErrCodeT FmdCfgCloudT::Init()
-{
-    return UErrFalse;
-}
-
 /***** FmdCfgCloudT Private B *****/
 /***** FmdCfgCloudT B *****/
 
@@ -675,7 +824,7 @@ FmdCfgAirT::FmdCfgAirT()
 /**
  * \brief Constructor.
  */
-FmdCfgAirT::FmdCfgAirT(UIntT aTemperature, UIntT aHumidity)
+FmdCfgAirT::FmdCfgAirT(const UFloatT aTemperature, const UIntT aHumidity)
 {
     Init();
     SetAll(aTemperature, aHumidity);
@@ -689,15 +838,45 @@ FmdCfgAirT::~FmdCfgAirT()
 }
 
 /**
+ * \brief Initialize.
+ */
+UErrCodeT FmdCfgAirT::Init()
+{
+    SetAll(0, 0);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set all value.
  *
  * @param aTemperature Temperature of air.
  * @param aHumidity Humidity of air.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgAirT::SetAll(UIntT aTemperature, UIntT aHumidity)
+UErrCodeT FmdCfgAirT::SetAll(const UFloatT aTemperature, const UIntT aHumidity)
+{
+    SetTemperature(aTemperature);
+    SetHumidity(aHumidity);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set temperature.
+ */
+UErrCodeT FmdCfgAirT::SetTemperature(const UFloatT aTemperature)
 {
     mTemperature = aTemperature;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set humidity.
+ */
+UErrCodeT FmdCfgAirT::SetHumidity(const UIntT aHumidity)
+{
     mHumidity = aHumidity;
 
     return UErrFalse;
@@ -710,7 +889,7 @@ UErrCodeT FmdCfgAirT::SetAll(UIntT aTemperature, UIntT aHumidity)
  * @param aHumidity Humidity of air.
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT FmdCfgAirT::All(UIntT *aTemperature, UIntT *aHumidity) const
+UErrCodeT FmdCfgAirT::All(UFloatT *aTemperature, UIntT *aHumidity) const
 {
     *aTemperature = mTemperature;
     *aHumidity = mHumidity;
@@ -721,7 +900,7 @@ UErrCodeT FmdCfgAirT::All(UIntT *aTemperature, UIntT *aHumidity) const
 /**
  * \brief Temperature.
  */
-UIntT FmdCfgAirT::Temperature() const
+UFloatT FmdCfgAirT::Temperature() const
 {
     return mTemperature;
 }
@@ -735,15 +914,6 @@ UIntT FmdCfgAirT::Humidity() const
 }
 
 /***** FmdCfgAirT Private A *****/
-
-/**
- * \brief Initialize.
- */
-UErrCodeT FmdCfgAirT::Init()
-{
-    return UErrFalse;
-}
-
 /***** FmdCfgAirT Private B *****/
 /***** FmdCfgAirT B *****/
 
@@ -775,6 +945,19 @@ FmdCfgWeatherT::~FmdCfgWeatherT()
 }
 
 /**
+ * \brief Initialize.
+ */
+UErrCodeT FmdCfgWeatherT::Init()
+{
+    mTime.Init();
+    mWind.Init();
+    mCloud.Init();
+    mAir.Init();
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set all value.
  *
  * @param aTime Time of weather.
@@ -788,10 +971,70 @@ UErrCodeT FmdCfgWeatherT::SetAll(const FmdCfgTimeT *aTime,
                                  const FmdCfgCloudT *aCloud,
                                  const FmdCfgAirT *aAir)
 {
-    mTime = *aTime;
-    mWind = *aWind;
-    mCloud = *aCloud;
-    mAir = *aAir;
+    SetTime(aTime);
+    SetWind(aWind);
+    SetCloud(aCloud);
+    SetAir(aAir);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set time.
+ */
+UErrCodeT FmdCfgWeatherT::SetTime(const FmdCfgTimeT *aTime)
+{
+    mTime.Init();
+
+    if (aTime != NULL)
+    {
+        mTime = *aTime;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set wind.
+ */
+UErrCodeT FmdCfgWeatherT::SetWind(const FmdCfgWindT *aWind)
+{
+    mWind.Init();
+
+    if (aWind != NULL)
+    {
+        mWind = *aWind;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set cloud.
+ */
+UErrCodeT FmdCfgWeatherT::SetCloud(const FmdCfgCloudT *aCloud)
+{
+    mCloud.Init();
+
+    if (aCloud != NULL)
+    {
+        mCloud = *aCloud;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set air.
+ */
+UErrCodeT FmdCfgWeatherT::SetAir(const FmdCfgAirT *aAir)
+{
+    mAir.Init();
+
+    if (aAir != NULL)
+    {
+        mAir = *aAir;
+    }
 
     return UErrFalse;
 }
@@ -857,14 +1100,5 @@ const FmdCfgAirT *FmdCfgWeatherT::Air() const
 }
 
 /***** FmdCfgWeatherT Private A *****/
-
-/**
- * \brief Initialize.
- */
-UErrCodeT FmdCfgWeatherT::Init()
-{
-    return UErrFalse;
-}
-
 /***** FmdCfgWeatherT Private B *****/
 /***** FmdCfgWeatherT B *****/

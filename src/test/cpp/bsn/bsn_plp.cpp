@@ -29,7 +29,9 @@
 
 // plp
 #include "plp_ctl.hpp"
+#include "plp_argsctl.hpp"
 #include "plp_corectl.hpp"
+#include "plp_colctl.hpp"
 #include "plp_vporctl.hpp"
 #include "plp_symctl.hpp"
 #include "plp_linectl.hpp"
@@ -77,13 +79,22 @@ UErrCodeT CBsnPlp::Test()
  */
 UErrCodeT CBsnPlp::ExportFile()
 {
+    CPlpArgsCtl *argsCtl = mPlp->Args();
     CPlpCoreCtl *coreCtl = mPlp->Core();
     CPlpVporCtl *vporCtl = mPlp->Vpor();
     CPlpSymCtl *symCtl = mPlp->Sym();
     CPlpLineCtl *lineCtl = mPlp->Line();
+    CPlpColCtl *colCtl = mPlp->Col();
 
     PlpDevCodeT dev = PlpDevPng;
-    coreCtl->InitOpt();
+    coreCtl->SetDev(dev);
+    UStringT fileName = "../../data/core/plp/1.png";
+    coreCtl->SetFName(&fileName);
+    coreCtl->InitOpt(1, 1, dev);
+
+    BGraphRgbaT rgba;
+    rgba.SetAll(255, 255, 255, 0.0);
+    colCtl->SetBg(&rgba);
 
     UFloatT xMin = 0;
     UFloatT xMax = 1;
@@ -98,7 +109,13 @@ UErrCodeT CBsnPlp::ExportFile()
     UStringT tLabel = "Test";
     symCtl->Lab(&xLabel, &yLabel, &tLabel);
 
-    // lineCtl->Line();
+    BCtnMathCsC2dT line(UContainerList);
+    BMathCsC2dT pt;
+    pt.SetAll(0, 1);
+    line.Add(pt);
+    pt.SetAll(3, 14);
+    line.Add(pt);
+    lineCtl->Line(&line);
 
     UIntT curStrm = 0;
     coreCtl->CurStrm(&curStrm);
@@ -106,7 +123,7 @@ UErrCodeT CBsnPlp::ExportFile()
     UIntT strm = 0;
     coreCtl->MkStrm(&strm);
 
-    UStringT fileName = "../../data/core/plp/1.png";
+    fileName = "../../data/core/plp/2.png";
     coreCtl->SetFName(&fileName);
 
     coreCtl->SetDev(dev);

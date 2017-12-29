@@ -22,12 +22,14 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+# The template obj must be at the bottom,
+# for example, generate "whub_ustctl.cxx" must be after "whub_fmdctl.cxx".
 SWIG_OBJ = \
            whub_ctl.o \
-           whub_ustctl.o \
-           whub_ogrctl.o \
-           whub_gdactl.o \
-           whub_fmdctl.o
+           # whub_base.o \
+           # whub_ustctl.o \
+           # whub_gdactl.o \
+           # whub_ogrctl.o \
 
 C_LIB_SO_NAME = whub
 C_EXTRA_LIB_DIR = -L/home/swpcme/me/usr/lib

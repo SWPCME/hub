@@ -30,6 +30,8 @@
 // base
 #include "base_containerdefn.hpp"
 
+class CPlpTypeCtl;
+
 class PLP_LIB CPlpArgsCtl
 {
   public:
@@ -38,10 +40,18 @@ class PLP_LIB CPlpArgsCtl
 
     UErrCodeT Init();
     UErrCodeT ParseOpts(BCtnStringT *aStrCtn, const PlpParseCodeT aCode);
-    UErrCodeT SetOpt(const UStringT *aOpt, const UStringT *aArg);
+    UErrCodeT SetOpt(const PlpOptCodeT aOpt, const UStringT *aVal);
+
+    UErrCodeT SetDev(const PlpDevCodeT aDev);
+    UErrCodeT SetFile(const UStringT *aFile);
+    UErrCodeT SetBg(const UIntT aRed, const UIntT aGreen, const UIntT aBlue,
+                    const UFloatT aAlfa);
 
   protected:
   private:
+    UErrCodeT SetOpt(const UStringT *aOpt, const UStringT *aVal);
+
+    CPlpTypeCtl *mType;
 };
 
 #endif  // PLP_ARGSCTL_HPP_INCLUDED

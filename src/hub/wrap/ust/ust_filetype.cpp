@@ -84,8 +84,7 @@ UstFileHT UFileT::Handle()
  */
 UErrCodeT UFileT::Save()
 {
-    return UErrFalse;
-    // return mFile->Save();
+    return mFile->Save(&mFileH, &mFileName, mFileOper);
 }
 
 /**

@@ -37,6 +37,8 @@ class CHubModuleCtl;
 // core
 class CGdaCtl;
 class COgrCtl;
+// wrap
+class CRstCtl;
 // ctgy
 class CFmdCtl;
 
@@ -59,6 +61,8 @@ class HUB_LIB CHubCtl
     // core
     CGdaCtl *Gda();
     COgrCtl *Ogr();
+    // wrap
+    CRstCtl *Rst();
     // ctgy
     CFmdCtl *Fmd();
 

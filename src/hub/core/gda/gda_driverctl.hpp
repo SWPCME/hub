@@ -42,6 +42,10 @@ class GDA_LIB CGdaDriverCtl
     ~CGdaDriverCtl();
 
     UErrCodeT Init();
+
+    // Attribute.
+    GdaDriverHT Handle() const;
+
     CGdaDatasetCtl *Create(const UStringT *aFile, UIntT aXSize, UIntT aYSize,
                            UIntT aNBands, UDataTCodeT aDataT, char **aOption);
     CGdaDatasetCtl *CreateCopy(const UStringT *aDst, CGdaDatasetCtl *aSrc,

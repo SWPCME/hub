@@ -25,7 +25,7 @@
 #include "ctgy_ctl.hpp"
 
 // Module.
-#include "earth_ctl.hpp"
+// #include "earth_ctl.hpp"
 #include "fmd_ctl.hpp"
 
 /**
@@ -66,11 +66,11 @@ UErrCodeT CCtgyCtl::Init()
  */
 CEarthCtl *CCtgyCtl::Earth()
 {
-    if (mEarth == NULL)
-    {
-        mEarth = new CEarthCtl;
-        mEarth->Init();
-    }
+    // if (mEarth == NULL)
+    // {
+    //     mEarth = new CEarthCtl;
+    //     mEarth->Init();
+    // }
 
     return mEarth;
 }

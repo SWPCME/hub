@@ -134,6 +134,8 @@ UHandleT CHubCtl::Module(HubCodeT aCode)
 
 /**
  * \brief Gda handle.
+ *
+ * @return Handle of gda, if successful; NULL, if failed.
  */
 CGdaCtl *CHubCtl::Gda()
 {
@@ -148,6 +150,16 @@ CGdaCtl *CHubCtl::Gda()
 COgrCtl *CHubCtl::Ogr()
 {
     return (COgrCtl *) Module(HubMOgr);
+}
+
+/**
+ * \brief Rst handle.
+ *
+ * @return Handle of rst, if successful; NULL, if failed.
+ */
+CRstCtl *CHubCtl::Rst()
+{
+    return (CRstCtl *) Module(HubMRst);
 }
 
 /**

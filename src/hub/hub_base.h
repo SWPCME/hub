@@ -156,11 +156,11 @@ typedef enum
 
     /* Ctgy module */
     // Earth
-    HubMRtk = 2001,             /* Real time kinematic library. */
+    /* HubMRtk = 2001,             /\* Real time kinematic library. *\/ */
     // Fire
-    HubMFmd = 2002,             /* Firemod library. */
+    HubMFmd = 2001,             /* Firemod library. */
     // Astronomy
-    HubMEra = 2003,             /* Essential routines of fundamental 
+    HubMEra = 2002,             /* Essential routines of fundamental 
                                    astronomy */
 } HubCodeT;
 

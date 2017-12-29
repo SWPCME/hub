@@ -34,14 +34,16 @@
  * Private.
  * Do not use this function.
  */
-CFmdCfgWrite::CFmdCfgWrite()
+CFmdCfgWrite::CFmdCfgWrite() : mWeather(UContainerList),
+                               mFm(UContainerList)
 {
 }
 
 /**
  * \brief Constructor.
  */
-CFmdCfgWrite::CFmdCfgWrite(UFileT *aFile)
+CFmdCfgWrite::CFmdCfgWrite(UFileT *aFile) : mWeather(UContainerList),
+                                            mFm(UContainerList)
 {
     InitPointer();
     mFile = aFile;
@@ -60,21 +62,156 @@ CFmdCfgWrite::~CFmdCfgWrite()
  */
 UErrCodeT CFmdCfgWrite::Init()
 {
+    InitBurnTime();
+    InitWeather();
+    InitFuelMoisture();
+    mElev = 0.0;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set all.
+ */
+UErrCodeT CFmdCfgWrite::SetAll(const FmdCfgBurnTimeT *aTime,
+                               const FmdCfgWeatherCtnT *aWeatherCtn,
+                               const UFloatT aElev,
+                               const FmdCfgFuelMoistureCtnT *aFmCtn)
+{
+    SetBurnTime(aTime);
+    SetWeather(aWeatherCtn);
+    SetElevation(aElev);
+    SetFuelMoisture(aFmCtn);
+
     return UErrFalse;
 }
 
 /**
  * \brief Set burn time.
  */
-UErrCodeT CFmdCfgWrite::BurnTime(const FmdCfgBurnTimeT *aTime)
+UErrCodeT CFmdCfgWrite::SetBurnTime(const FmdCfgBurnTimeT *aTime)
+{
+    InitBurnTime();
+
+    if (aTime != NULL)
+    {
+        mTime = *aTime;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set weather.
+ */
+UErrCodeT CFmdCfgWrite::SetWeather(const FmdCfgWeatherCtnT *aWeatherCtn)
+{
+    InitWeather();
+
+    if (aWeatherCtn != NULL)
+    {
+        mWeather = *aWeatherCtn;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set elevation.
+ */
+UErrCodeT CFmdCfgWrite::SetElevation(UFloatT aElev)
+{
+    mElev = aElev;
+
+    return UErrFalse;
+}
+ 
+/**
+ * \brief Set Fuel moistures data.
+ */
+UErrCodeT CFmdCfgWrite::SetFuelMoisture(const FmdCfgFuelMoistureCtnT *aFmCtn)
+{
+    InitFuelMoisture();
+
+    if (aFmCtn != NULL)
+    {
+        mFm = *aFmCtn;
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Save.
+ */
+UErrCodeT CFmdCfgWrite::Save()
+{
+    WriteBurnTime();
+    WriteWeather();
+    WriteElevation();
+    WriteFuelMoisture();
+
+    return mFile->Save();
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT CFmdCfgWrite::InitPointer()
+{
+    BMD_POINTER_INIT(mFile);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Init burn time.
+ */
+UErrCodeT CFmdCfgWrite::InitBurnTime()
+{
+    mTime.Init();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Init weather.
+ */
+UErrCodeT CFmdCfgWrite::InitWeather()
+{
+    mWeather.Clear();
+    FmdCfgWeatherT weather;
+    mWeather.Add(weather);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set Fuel moistures data.
+ */
+UErrCodeT CFmdCfgWrite::InitFuelMoisture()
+{
+    mFm.Clear();
+    FmdCfgFuelMoistureT fm;
+    mFm.Add(fm);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Write burn time.
+ */
+UErrCodeT CFmdCfgWrite::WriteBurnTime()
 {
     UStringT begin;
     UFlagCodeT flag = UFlagOn;
-    ToTime(&begin, aTime->Begin(), flag);
+    ToTime(&begin, mTime.Begin(), flag);
     UStringT end;
-    ToTime(&end, aTime->End(), flag);
+    ToTime(&end, mTime.End(), flag);
     UStringT step;
-    step = aTime->Step();
+    step = mTime.Step();
 
     const UStringT kBegin = kFmdCfgStartTime;
     Field(&begin, &kBegin);
@@ -87,13 +224,13 @@ UErrCodeT CFmdCfgWrite::BurnTime(const FmdCfgBurnTimeT *aTime)
 }
 
 /**
- * \brief Set weather.
+ * \brief Write weather.
  */
-UErrCodeT CFmdCfgWrite::Weather(const FmdCfgWeatherCtnT *aWeatherCtn)
+UErrCodeT CFmdCfgWrite::WriteWeather()
 {
     const UStringT kSpace = kStrSpace;
     UStringT weather;
-    FmdCfgWeatherCtnT *weatherCtn = (FmdCfgWeatherCtnT *)aWeatherCtn;
+    FmdCfgWeatherCtnT *weatherCtn = &mWeather;
     UIntT count = weatherCtn->Count();
     weather = count;
     const UStringT kWeather = kFmdCfgRaws;
@@ -125,11 +262,11 @@ UErrCodeT CFmdCfgWrite::Weather(const FmdCfgWeatherCtnT *aWeatherCtn)
 }
 
 /**
- * \brief Set elevation.
+ * \brief Write elevation.
  */
-UErrCodeT CFmdCfgWrite::Elevation(UIntT aElev)
+UErrCodeT CFmdCfgWrite::WriteElevation()
 {
-    UStringT elev = aElev;
+    UStringT elev = mElev;
     const UStringT kElev = kFmdCfgElevation;
     Field(&elev, &kElev);
 
@@ -139,17 +276,15 @@ UErrCodeT CFmdCfgWrite::Elevation(UIntT aElev)
 /**
  * \brief Set Fuel moistures data.
  */
-UErrCodeT CFmdCfgWrite::FuelMoisture(const FmdCfgFuelMoistureCtnT *aFmCtn)
+UErrCodeT CFmdCfgWrite::WriteFuelMoisture()
 {
     const UStringT kSpace = kStrSpace;
-    UStringT fm;
-    FmdCfgFuelMoistureCtnT *fmCtn = (FmdCfgFuelMoistureCtnT *) aFmCtn;
-    UIntT count = fmCtn->Count();
-    fm = count;
+    UIntT count = mFm.Count();
+    UStringT fm = count;
     const UStringT kFm = kFmdCfgFuelMoisturesData;
     Field(&fm, &kFm);
 
-    FmdCfgFuelMoistureItT *it = fmCtn->Iterator();
+    FmdCfgFuelMoistureItT *it = mFm.Iterator();
     for (it->Head(); it->State() == UErrFalse; it->Next())
     {
         FmdCfgFuelMoistureT tFm = it->Content();
@@ -166,26 +301,6 @@ UErrCodeT CFmdCfgWrite::FuelMoisture(const FmdCfgFuelMoistureCtnT *aFmCtn)
         fm += tFm.FmLiveWoody();
         Field(&fm);
     }
-
-    return UErrFalse;
-}
-
-/**
- * \brief Save.
- */
-UErrCodeT CFmdCfgWrite::Save()
-{
-    return mFile->Save();
-}
-
-/***** Private A *****/
-
-/**
- * \brief Init pointer.
- */
-UErrCodeT CFmdCfgWrite::InitPointer()
-{
-    BMD_POINTER_INIT(mFile);
 
     return UErrFalse;
 }

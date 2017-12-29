@@ -27,4 +27,5 @@ JAVA_PKG = TestJava
 JAVA_OBJ = \
            TestCtl.class \
            TestOgr.class \
-           TestFmd.class 
+           TestFmd.class \
+           TestRst.class

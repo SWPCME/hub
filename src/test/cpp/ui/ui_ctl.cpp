@@ -18,7 +18,7 @@
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+2 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -122,6 +122,9 @@ UErrCodeT CUiCtl::Test()
     // CBsnGda *gda = mBsn->Gda();
     // gda->Test();
 
+    // CBsnRst *rst = mBsn->Rst();
+    // rst->Test();
+
     CBsnFmd *fmd = mBsn->Fmd();
     fmd->Test();
 
@@ -130,9 +133,6 @@ UErrCodeT CUiCtl::Test()
 
     // CBsnPlp *plp = mBsn->Plp();
     // plp->Test();
-
-    // CBsnRst *rst = mBsn->Rst();
-    // rst->Test();
 
     return UErrFalse;
 }

@@ -9,7 +9,6 @@ C_OBJ = \
       bsn_ust.o \
       bsn_rst.o \
       bsn_ncc.o \
-      bsn_rtk.o \
       bsn_fmd.o \
       bsn_era.o \
       bsn_uniqueid.o

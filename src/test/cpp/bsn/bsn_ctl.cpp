@@ -50,7 +50,7 @@
 #include "bsn_rst.hpp"
 #include "bsn_ncc.hpp"
 // Ctgy.
-#include "bsn_rtk.hpp"
+// #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
 #include "bsn_era.hpp"
 
@@ -75,7 +75,8 @@ CBsnCtl::~CBsnCtl()
     BMD_CLASS_DEL(mRst);
     BMD_CLASS_DEL(mNcc);
 
-    BMD_CLASS_DEL(mRtk);
+    BMD_CLASS_DEL(mFmd);
+    // BMD_CLASS_DEL(mRtk);
     BMD_CLASS_DEL(mEra);
 
     BMD_CLASS_DEL(mUniqueId);
@@ -160,7 +161,7 @@ CBsnUniqueId *CBsnCtl::UniqueId()
 
 CBsnRtk *CBsnCtl::Rtk()
 {
-    BMD_CLASS_NEW(mRtk, CBsnRtk);
+    // BMD_CLASS_NEW(mRtk, CBsnRtk);
 
     return mRtk;
 }

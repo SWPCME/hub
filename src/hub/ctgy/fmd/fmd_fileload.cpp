@@ -29,21 +29,34 @@
 
 // base
 #include "base_ctl.hpp"
+#include "base_tmpctl.hpp"
 // core
 #include "core_ctl.hpp"
 // gda
 #include "gda_ctl.hpp"
+#include "gda_corectl.hpp"
+#include "gda_driversctl.hpp"
+#include "gda_driverctl.hpp"
+#include "gda_datasetctl.hpp"
 #include "gda_bandctl.hpp"
+#include "gda_warpctl.hpp"
+#include "gda_warpreproj.hpp"
+#include "gda_warpreprojimagetype.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_utilstr.hpp"
 #include "gda_trvtr.hpp"
 #include "gda_trvtrtovtrtype.hpp"
+#include "gda_trrsttorsttype.hpp"
 // ogr
 #include "ogr_ctl.hpp"
 #include "ogr_driverctl.hpp"
 #include "ogr_datasrcctl.hpp"
 // wrap
 #include "wrap_ctl.hpp"
+// rst
+#include "rst_ctl.hpp"
+#include "rst_frmtctl.hpp"
+#include "rst_frmtlcp.hpp"
 // vtr
 #include "vtr_ctl.hpp"
 #include "vtr_frmtctl.hpp"
@@ -59,6 +72,7 @@
  */
 CFmdFileLoad::CFmdFileLoad()
 {
+    InitPointer();
 }
 
 /**
@@ -75,12 +89,22 @@ UErrCodeT CFmdFileLoad::Init()
 {
     FMD_FARSITE_H(mFarsiteH);
 
+    CBaseCtl *base = CBaseCtl::Base();
+    CBaseTmpCtl *tmp = base->Tmp();
+    mTmpDir = tmp->Dir(HubMFmd);
+
+    CGdaCoreCtl *core = NULL;
+    GDA_CORE_CTL(core);
+    mDrs = core->Drivers();
+
+    GDA_WARP_CTL(mWarp);
+
     CGdaUtilsCtl *utils = NULL;
     GDA_UTILS_CTL(utils);
     mTr = utils->Tr();
 
     OGR_CTL(mOgr);
-
+    RST_CTL(mRst);
     VTR_CTL(mVtr);
 
     return UErrFalse;
@@ -123,6 +147,17 @@ UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
  */
 UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
 {
+    // UStringT file = mTmpDir;
+    // file += "/fmdfileload_file.lcp";
+    // GdaProjCsCodeT code = GdaProjCsXian1980;
+    // CRstFrmtCtl *frmtCtl = mRst->Frmt();
+    // CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
+    // GdaTrRstToRstT trR2r;
+    // GdaOgrSrsT srs;
+    // srs.SetProjCs(code);
+    // trR2r.SetSrs(&srs);
+    // frmtLcp->Tr(&file, aFile, &trR2r);
+    // FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) file.ToA());
     FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
 
     return UErrFalse;
@@ -135,7 +170,11 @@ UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
  */
 UErrCodeT CFmdFileLoad::Ignition(const UStringT *aFile)
 {
-    FMD_FARSITE(mFarsiteH)->SetIgnitionFileName((char *) aFile->ToA());
+    UStringT file = mTmpDir;
+    file += "/ignition.shp";
+    GdaProjCsCodeT code = GdaProjCsXian1980;
+    ToVtrProjCs(&file, aFile, code);
+    FMD_FARSITE(mFarsiteH)->SetIgnitionFileName((char *) file.ToA());
 
     return UErrFalse;
 }
@@ -146,7 +185,7 @@ UErrCodeT CFmdFileLoad::Ignition(const UStringT *aFile)
 UErrCodeT CFmdFileLoad::IgnitionGjson(const UStringT *aGjson)
 {
     UStringT file = mTmpDir;
-    file += "ignition.shp";
+    file += "/ignition_tmp.shp";
     StrGjsonToShp(&file, aGjson);
 
     return Ignition(&file);
@@ -159,7 +198,11 @@ UErrCodeT CFmdFileLoad::IgnitionGjson(const UStringT *aGjson)
  */
 UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 {
-    FMD_FARSITE(mFarsiteH)->SetBarrierFileName((char *) aFile->ToA());
+    UStringT file = mTmpDir;
+    file += "/barrier.shp";
+    GdaProjCsCodeT code = GdaProjCsXian1980;
+    ToVtrProjCs(&file, aFile, code);
+    FMD_FARSITE(mFarsiteH)->SetBarrierFileName((char *) file.ToA());
 
     return UErrFalse;
 }
@@ -170,7 +213,7 @@ UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 UErrCodeT CFmdFileLoad::BarrierGjson(const UStringT *aGjson)
 {
     UStringT file = mTmpDir;
-    file += "ignition.shp";
+    file += "/barrier_tmp.shp";
     StrGjsonToShp(&file, aGjson);
 
     return Barrier(&file);
@@ -183,8 +226,11 @@ UErrCodeT CFmdFileLoad::BarrierGjson(const UStringT *aGjson)
  */
 UErrCodeT CFmdFileLoad::InitPointer()
 {
+    BMD_POINTER_INIT(mDrs);
+    BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mTr);
     BMD_POINTER_INIT(mOgr);
+    BMD_POINTER_INIT(mRst);
     BMD_POINTER_INIT(mVtr);
     BMD_POINTER_INIT(mFarsiteH);
 
@@ -211,8 +257,15 @@ UErrCodeT CFmdFileLoad::InputErr(UIntT aErr)
 UErrCodeT CFmdFileLoad::StrGjsonToShp(const UStringT *aDst,
                                       const UStringT *aSrc)
 {
+    if (aSrc->IsNull() == UErrFalse)
+    {
+        aDst = NULL;
+
+        return UErrFalse;
+    }
+
     UStringT file = mTmpDir;
-    file += "strgjsontoshp.geojson";
+    file += "/strgjsontoshp.geojson";
 
     // String to file.
     CVtrFrmtCtl *frmtCtl = mVtr->Frmt();
@@ -228,11 +281,44 @@ UErrCodeT CFmdFileLoad::StrGjsonToShp(const UStringT *aDst,
     dsCtn.Add(ds);
 
     // Translate.
+    frmt = OgrFormatShp;
     CGdaTrVtr *trVtr = mTr->Vtr();
     BCtnStringT strV2vOpt(UContainerList);
     GdaTrVtrToVtrT r2rOpt;
     r2rOpt.SetAll(frmt, &strV2vOpt);
     trVtr->ToVtr(aDst, &dsCtn, &r2rOpt);
+    dr->Close(&file);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief To projected coordinate system with vector.
+ */
+UErrCodeT CFmdFileLoad::ToVtrProjCs(const UStringT *aDst, const UStringT *aSrc,
+                                    const GdaProjCsCodeT aCode)
+{
+    // Open file.
+    OgrFormatCodeT frmt = OgrFormatShp;
+    mOgr->Register(frmt);
+    COgrDriverCtl *dr = mOgr->Driver(frmt);
+    COgrDatasrcCtl *ds = dr->Load(aSrc);
+    if (ds == NULL)
+    {
+        return UErrFalse;
+    }
+    OgrCtnDatasrcT dsCtn(UContainerList);
+    dsCtn.Add(ds);
+
+    // Translate.
+    GdaOgrSrsT srs;
+    srs.SetProjCs(aCode);
+    CGdaTrVtr *trVtr = mTr->Vtr();
+    GdaTrVtrToVtrT r2rOpt;
+    r2rOpt.SetFrmt(frmt);
+    r2rOpt.SetSrs(&srs);
+    trVtr->ToVtr(aDst, &dsCtn, &r2rOpt);
+    dr->Close(aSrc);
 
     return UErrFalse;
 }

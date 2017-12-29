@@ -22,11 +22,18 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
+#ifdef OS_WINDOWS
+// This header file must be at the top.
+#include <windows.h>
+#endif  // OS_WINDOWS
+
 #include "cls_filescreate.hpp"
 
 // LIBC
+#ifdef OS_UNIX
 #include <sys/stat.h>
 #include <unistd.h>
+#endif  // OS_UNIX
 
 /**
  * \brief Constructor.
@@ -55,8 +62,14 @@ UErrCodeT CClsFilesCreate::Init()
  */
 UErrCodeT CClsFilesCreate::Dir(const UStringT *aDir)
 {
+#ifdef OS_UNIX
     mode_t mode = 0777;
     mkdir(aDir->ToA(), mode);
+#endif  // OS_UNIX
+
+#ifdef OS_WINDOWS
+    CreateDirectory(aDir->ToA(), NULL);
+#endif  // OS_WINDOWS
 
     return UErrFalse;
 }
@@ -66,7 +79,13 @@ UErrCodeT CClsFilesCreate::Dir(const UStringT *aDir)
  */
 UErrCodeT CClsFilesCreate::Copy(const UStringT *aDst, const UStringT *aSrc)
 {
+#ifdef OS_UNIX
     link(aSrc->ToA(), aDst->ToA());
+#endif  // OS_UNIX
+
+#ifdef OS_WINDOWS
+    CopyFile(aSrc->ToA(), aDst->ToA(), FALSE);
+#endif  // OS_WINDOWS
 
     return UErrFalse;
 }

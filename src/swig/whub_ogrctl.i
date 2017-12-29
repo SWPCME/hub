@@ -28,14 +28,19 @@
 #include "ogr/ogr_driverctl.hpp"
 #include "ogr/ogr_datasrcctl.hpp"
 #include "ogr/ogr_layerctl.hpp"
-#include "ogr/ogr_featuredefnctl.hpp"
+#include "ogr/ogr_featuredefn.hpp"
 #include "ogr/ogr_featuresctl.hpp"
 #include "ogr/ogr_featurectl.hpp"
 #include "ogr/ogr_fieldctl.hpp"
+#include "ogr/ogr_geomsctl.hpp"
+#include "ogr/ogr_geomctl.hpp"
+#include "ogr/ogr_geombasic.hpp"
+#include "ogr/ogr_geomvertex.hpp"
 %}
 
-%include "whub_ctl.i"
-%include "whub_ustctl.i"
+%pragma(java) jniclassimports=%{
+import whub.*;
+%}
 
 typedef enum
 {
@@ -47,6 +52,21 @@ typedef enum
     OgrFormatSqlite = 6,
     OgrFormatJson   = 7,
 } OgrFormatCodeT;
+
+typedef enum
+{
+    OgrGeomTUnknown    = 0,
+
+    // Single.
+    OgrGeomTPoint      = 1,
+    OgrGeomTLineString = 2,
+    OgrGeomTPolygon    = 3,
+
+    // Multi
+    OgrGeomTMPoint      = 11,
+    OgrGeomTMLineString = 21,
+    OgrGeomTMPloygon    = 22,
+} OgrGeomTCodeT;
 
 class COgrCtl
 {
@@ -128,46 +148,54 @@ class COgrLayerCtl
     COgrDatasrcCtl *Up();
 
     // Handle.
-    COgrFeatureDefnCtl* FeatureDefn();
+    COgrFeatureDefn* FeatureDefn();
     COgrFeaturesCtl* Features();
 };
 
-class COgrFeatureDefnCtl
+class COgrFeatureDefn
 {
   public:
-    COgrFeatureDefnCtl(OgrLayerHT aLayerH);
-    ~COgrFeatureDefnCtl();
+    COgrFeatureDefn(COgrLayerCtl *aLayer);
+    ~COgrFeatureDefn();
 
     UErrCodeT Init();
 
-    COgrFieldDefnCtl* FieldDefn();
-    COgrGeomFieldDefnCtl* GeomFieldDefn();
+    OgrFeatureDefnHT Handle();
+
+    COgrFieldDefn* FieldDefn();
+    COgrGeomFieldDefn* GeomFieldDefn();
 };
 
 class COgrFeaturesCtl
 {
   public:
-    COgrFeaturesCtl(OgrLayerHT aLayerH);
+    COgrFeaturesCtl(COgrLayerCtl *aLayer);
     ~COgrFeaturesCtl();
 
     UErrCodeT Init();
+    OgrFeaturesHT Handle();
+    COgrLayerCtl *Up();
+
     COgrFeatureCtl *Create();
+    UErrCodeT Add(COgrFeatureCtl *aFeature);
     COgrFeatureCtl *Load(UIntT aRow);
     UIntT Count();
     UErrCodeT CloseAll();
     UErrCodeT Close(COgrFeatureCtl *aFeature);
-    COgrFeatureItCtl *Iterator();
 };
 
 class COgrFeatureCtl
 {
   public:
-    COgrFeatureCtl(UIntT aId, OgrLayerHT aLayerH);
+    COgrFeatureCtl(const UFileOperCodeT aOper, const UIntT aId,
+                   COgrFeaturesCtl *aFeatures);
     ~COgrFeatureCtl();
 
     UErrCodeT Init();
+    OgrFeatureHT Handle();
+
     COgrFieldCtl *Field();
-    COgrGeometryCtl *Geometry();
+    COgrGeomsCtl *Geoms();
 };
 
 class COgrFieldCtl
@@ -180,4 +208,68 @@ class COgrFieldCtl
     UErrCodeT Value(UStringT* aValue, UIntT aColumn);
     UErrCodeT Value(UStringT* aValue, UStringT* aName);
     UErrCodeT SetValue(UStringT* aValue, UIntT aColumn);
+};
+
+class COgrGeomsCtl
+{
+  public:
+    COgrGeomsCtl(OgrFeaturesHT aFeatureH);
+    ~COgrGeomsCtl();
+
+    UErrCodeT Init();
+
+    COgrGeomCtl *Create(const OgrGeomTCodeT aCode);
+    UErrCodeT Set(COgrGeomCtl *aGeom);
+    COgrGeomCtl *Load();
+    UErrCodeT Close(COgrGeomCtl *aGeom);
+    UErrCodeT CloseAll();
+};
+
+class COgrGeomCtl
+{
+  public:
+    COgrGeomCtl(const UFileOperCodeT aOper, const OgrGeomTCodeT aGeomT,
+                OgrGeomsHT aGeomsH);
+    ~COgrGeomCtl();
+
+    UErrCodeT Init();
+    OgrGeomHT Handle();
+
+    COgrGeomBasic *Basic();
+    COgrGeomVertex *Vertex();
+};
+
+class COgrGeomBasic
+{
+  public:
+    COgrGeomBasic(OgrGeomHT aGeomH);
+    ~COgrGeomBasic();
+
+    UErrCodeT Init();
+
+    UErrCodeT Type(OgrGeomTCodeT *aCode);
+};
+
+class COgrGeomVertex
+{
+  public:
+    COgrGeomVertex(OgrGeomHT aGeomH);
+    ~COgrGeomVertex();
+
+    UErrCodeT Init();
+
+    // Count.
+    UErrCodeT PointCount(UIntT *aCount);
+
+    // Get point.
+    UErrCodeT Point2D(BMathCsC2dT *aPt, const UIntT aId);
+    UErrCodeT Point3D(BMathCsC3dT *aPt, const UIntT aId);
+
+    // Set point.
+    UErrCodeT SetPoint2D(const BMathCsC2dT *aPt, const UIntT aId);
+    UErrCodeT SetPoint3D(const BMathCsC3dT *aPt, const UIntT aId);
+
+    // Add point.
+    UErrCodeT AddPoint2D(const BMathCsC2dT *aPt);
+    UErrCodeT AddPoint3D(const BMathCsC3dT *aPt);
 };

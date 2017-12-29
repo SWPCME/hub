@@ -80,7 +80,7 @@ UErrCodeT CUstFileCtl::Init()
  * \brief Create file.
  */
 UErrCodeT CUstFileCtl::Open(UstFileHT *aFileH, const UStringT *aFileName,
-                            UstFileOperCodeT aOper)
+                            const UstFileOperCodeT aOper)
 {
     ClsFileOperCodeT oper;
     ToFileOper(&oper, aOper);
@@ -99,9 +99,22 @@ UErrCodeT CUstFileCtl::Close(UstFileHT *aFileH)
 /**
  * \brief Save file.
  */
-UErrCodeT CUstFileCtl::Save(UstFileHT *mFileH, const UStringT *aFileName)
+UErrCodeT CUstFileCtl::Save(UstFileHT *aFileH, const UStringT *aFileName,
+                            const UstFileOperCodeT aOper)
 {
-    return UErrTrue;
+    UstFileOperCodeT oper = UstFileOperWta;
+    if (aOper < UstFileOperWt)
+    {
+        return UErrTrue;
+    }
+    else if (aOper >= UstFileOperWb)
+    {
+        oper = UstFileOperWba;
+    }
+
+    Close(aFileH);
+
+    return Open(aFileH, aFileName, oper);
 }
 
 /**

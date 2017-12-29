@@ -24,6 +24,14 @@
 
 #include "plp_argsctl.hpp"
 
+// base
+#include "base_ctl.hpp"
+// core
+#include "core_ctl.hpp"
+// plp
+#include "plp_ctl.hpp"
+#include "plp_typectl.hpp"
+
 // PLPLOT
 #include "plplot.h"
 
@@ -48,6 +56,8 @@ CPlpArgsCtl::~CPlpArgsCtl()
  */
 UErrCodeT CPlpArgsCtl::Init()
 {
+    PLP_TYPE_CTL(mType);
+
     return UErrFalse;
 }
 
@@ -72,11 +82,48 @@ UErrCodeT CPlpArgsCtl::ParseOpts(BCtnStringT *aStrCtn, const PlpParseCodeT aCode
 }
 
 /**
- * \brief Set option.
+ * \brief Set option with code.
  */
-UErrCodeT CPlpArgsCtl::SetOpt(const UStringT *aOpt, const UStringT *aArg)
+UErrCodeT CPlpArgsCtl::SetOpt(const PlpOptCodeT aOpt, const UStringT *aVal)
 {
-    plsetopt(aOpt->ToA(), aArg->ToA());
+    UStringT opt;
+    mType->ToOpt(&opt, aOpt);
+
+    return SetOpt(&opt, aVal);
+}
+
+/**
+ * \brief Set output file.
+ */
+UErrCodeT CPlpArgsCtl::SetFile(const UStringT *aFile)
+{
+    PlpOptCodeT opt = PlpOptFile;
+
+    return SetOpt(opt, aFile);
+}
+
+/**
+ * \brief Set device.
+ */
+UErrCodeT CPlpArgsCtl::SetDev(const PlpDevCodeT aDev)
+{
+    PlpOptCodeT opt = PlpOptDev;
+    UStringT dev;
+    mType->DevCodeToName(&dev, aDev);
+
+    return SetOpt(opt, &dev);
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Set option with string.
+ */
+UErrCodeT CPlpArgsCtl::SetOpt(const UStringT *aOpt, const UStringT *aVal)
+{
+    plsetopt(aOpt->ToA(), aVal->ToA());
 
     return UErrFalse;
 }
+
+/***** Private B *****/

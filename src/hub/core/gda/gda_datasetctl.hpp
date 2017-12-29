@@ -26,9 +26,13 @@
 #define GDA_DATASETCTL_HPP_INCLUDED
 
 #include "gda_base.h"
+// ust
 #include "ust/ust_containertype.hpp"
 #include "ust/ust_stringtype.hpp"
+// gda
+#include "gda_ogrsrstype.hpp"
 
+// gda
 class CGdaTypeCtl;
 class CGdaBandCtl;
 
@@ -46,6 +50,7 @@ class GDA_LIB CGdaDatasetCtl
     // Attribute
     GdaDatasetHT Handle();
     UStringT Description();
+    GdaOgrSrsT *Srs();
 
     UErrCodeT Save();
     UErrCodeT Count(UIntT *aNum);
@@ -72,6 +77,7 @@ class GDA_LIB CGdaDatasetCtl
     GdaDatasetHT mDatasetH;
     CGdaTypeCtl *mType;
     MBandT mMBand;
+    GdaOgrSrsT mSrs;
 };
 
 #endif  // GDA_DATASETCTL_HPP_INCLUDED

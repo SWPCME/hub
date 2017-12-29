@@ -31,15 +31,21 @@ C_OBJ = \
         plp_typectl.o \
         plp_corectl.o \
         plp_argsctl.o \
+        plp_colctl.o \
         plp_vporctl.o \
         plp_symctl.o \
-        plp_linectl.o
+        plp_linectl.o \
+        plp_legendctl.o \
+        plp_legendannottype.o
 
 C_HEADER = \
            plp_base.hpp \
            plp_ctl.hpp \
            plp_corectl.hpp \
            plp_argsctl.hpp \
+           plp_colctl.hpp \
            plp_vporctl.hpp \
            plp_symctl.hpp \
-           plp_linectl.hpp
+           plp_linectl.hpp \
+           plp_legendctl.hpp \
+           plp_legendannottype.hpp

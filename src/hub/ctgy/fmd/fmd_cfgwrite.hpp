@@ -44,10 +44,16 @@ class FMD_LIB CFmdCfgWrite
     ~CFmdCfgWrite();
 
     UErrCodeT Init();
-    UErrCodeT BurnTime(const FmdCfgBurnTimeT *aTime);
-    UErrCodeT Weather(const FmdCfgWeatherCtnT *aWeatherCtn);
-    UErrCodeT Elevation(UIntT aElev);
-    UErrCodeT FuelMoisture(const FmdCfgFuelMoistureCtnT *aFm);
+
+    UErrCodeT SetAll(const FmdCfgBurnTimeT *aTime,
+                     const FmdCfgWeatherCtnT *aWeatherCtn, const UFloatT aElev,
+                     const FmdCfgFuelMoistureCtnT *aFmCtn);
+
+    UErrCodeT SetBurnTime(const FmdCfgBurnTimeT *aTime);
+    UErrCodeT SetWeather(const FmdCfgWeatherCtnT *aWeatherCtn);
+    UErrCodeT SetElevation(const UFloatT aElev);
+    UErrCodeT SetFuelMoisture(const FmdCfgFuelMoistureCtnT *aFmCtn);
+
     UErrCodeT Save();
 
     // Private.
@@ -56,9 +62,25 @@ class FMD_LIB CFmdCfgWrite
   protected:
   private:
     UErrCodeT InitPointer();
+
+    UErrCodeT InitBurnTime();
+    UErrCodeT InitWeather();
+    UErrCodeT InitElevation();
+    UErrCodeT InitFuelMoisture();
+
+    UErrCodeT WriteBurnTime();
+    UErrCodeT WriteWeather();
+    UErrCodeT WriteElevation();
+    UErrCodeT WriteFuelMoisture();
+
     UErrCodeT Field(const UStringT *aValue, const UStringT *aFiled = NULL);
     UErrCodeT ToTime(UStringT *aDst, const FmdCfgTimeT *aSrc,
                      const UFlagCodeT aFlag = UFlagOff);
+
+    FmdCfgBurnTimeT mTime;
+    FmdCfgWeatherCtnT mWeather;
+    UFloatT mElev;
+    FmdCfgFuelMoistureCtnT mFm;
 
     UFileT *mFile;
 };

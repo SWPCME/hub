@@ -69,7 +69,7 @@ UErrCodeT CBsnFmd::Init()
  */
 UErrCodeT CBsnFmd::Test()
 {
-    // TestConfig();
+    TestConfig();
     TestWrite();
 
     return UErrFalse;
@@ -81,7 +81,7 @@ UErrCodeT CBsnFmd::Test()
 UErrCodeT CBsnFmd::TestConfig()
 {
     CFmdFileCtl *fileCtl = mFmd->File();
-    const UStringT fileName = "../../data/geojson/tmp/forest_cfg.input";
+    const UStringT fileName = "../../data/ctgy/fmd/3/1.input";
     CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
     CFmdCfgWrite *cfgWrite = cfg->Write();
 
@@ -89,32 +89,37 @@ UErrCodeT CBsnFmd::TestConfig()
     FmdCfgTimeT begin;
     begin.SetAll(2017, 8, 1, 9, 30);
     FmdCfgTimeT end;
-    end.SetAll(2017, 8, 1, 10, 50);
-    time.SetAll(&begin, &end, 1);
-    cfgWrite->BurnTime(&time);
+    end.SetAll(2017, 8, 1, 13, 50);
+    time.SetAll(&begin, &end, 10);
+    cfgWrite->SetBurnTime(&time);
 
     FmdCfgWeatherCtnT weatherCtn(UContainerList);
     FmdCfgWeatherT weather;
     FmdCfgTimeT weatherTime;
     weatherTime.SetAll(2017, 8, 1, 9, 30);
     FmdCfgWindT weatherWind;
-    weatherWind.SetAll(100, 125);
+    weatherWind.SetAll(10, 125);
     FmdCfgCloudT weatherCloud;
-    weatherCloud.SetAll(0, 0.2);
+    weatherCloud.SetAll(0, 0);
     FmdCfgAirT weatherAir;
-    weatherAir.SetAll(30, 80);
+    weatherAir.SetAll(0, 0);
+    weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
+    weatherTime.SetAll(2017, 8, 1, 13, 30);
+    weatherCtn.Add(weather);
     weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
     weatherCtn.Add(weather);
-    cfgWrite->Weather(&weatherCtn);
+    cfgWrite->SetWeather(&weatherCtn);
 
-    UIntT elevation = 43.4;
-    cfgWrite->Elevation(elevation);
+    UFloatT elevation = 0.0;
+    cfgWrite->SetElevation(elevation);
 
     FmdCfgFuelMoistureCtnT fmCtn(UContainerList);
     FmdCfgFuelMoistureT fm;
-    fm.SetAll(0, 3, 4, 6, 70, 100);
+    // fm.SetAll(0, 3, 4, 6, 70, 100);
+    fm.SetAll(0, 2, 2, 2, 2, 2);
     fmCtn.Add(fm);
-    cfgWrite->FuelMoisture(&fmCtn);
+    cfgWrite->SetFuelMoisture(&fmCtn);
+    cfgWrite->Save();
 
     return UErrFalse;
 }
@@ -128,17 +133,33 @@ UErrCodeT CBsnFmd::TestWrite()
 
     // Load.
     CFmdFileLoad *fileLoad = fileCtl->Load();
-    const UStringT cfgFile = "../../data/ctgy/fmd/1/1.input";
+    const UStringT cfgFile = "../../data/ctgy/fmd/3/1.input";
 
     const UStringT lcpFile = "../../data/ctgy/fmd/3/1.lcp";
     const UStringT ignitionFile = "../../data/ctgy/fmd/3/i1.shp";
-    const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
+    // const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
 
-    // const UStringT lcpFile = "../../data/geojson/tmp/fmd_test/fmd_test_2.lcp";
-    // const UStringT ignitionFile = "../../data/geojson/tmp/fmd_test/fmd_testignition_2.shp";
-    // const UStringT barrierFile = "../../data/geojson/tmp/fmd_test/fmd_testbarrier.shp";
+//     const UStringT ignitionFile =
+//       "{\
+// \"type\": \"FeatureCollection\",\
+//                                  \                                                                                              \  
+// \"features\": [\
+// { \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } }\
+// ]\
+// }\
+// ";
+    // const UStringT ignitionFile =
+    //   "{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }";
+    // const UStringT ignitionFile =
+    //   "{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }";
+    const UStringT barrierFile = "";
 
-    fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
+    // fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
+    fileLoad->Cfg(&cfgFile);
+    fileLoad->Lcp(&lcpFile);
+    fileLoad->Ignition(&ignitionFile);
+    // fileLoad->IgnitionGjson(&ignitionFile);
+    fileLoad->BarrierGjson(&barrierFile);
 
     // Master.
     CFmdMasterCtl *masterCtl = mFmd->Master();

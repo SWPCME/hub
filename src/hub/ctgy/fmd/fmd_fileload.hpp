@@ -26,11 +26,16 @@
 #define FMD_FILELOAD_HPP_INCLUDED
 
 #include "fmd_base.hpp"
+// gda
+#include "gda/gda_base.h"
 // ust
 #include "ust/ust_stringtype.hpp"
 
+class CGdaDriversCtl;
+class CGdaWarpCtl;
 class CGdaUtilsTr;
 class COgrCtl;
+class CRstCtl;
 class CVtrCtl;
 
 class FMD_LIB CFmdFileLoad
@@ -62,9 +67,16 @@ class FMD_LIB CFmdFileLoad
     UErrCodeT InputErr(UIntT aErr);
 
     UErrCodeT StrGjsonToShp(const UStringT *aDst, const UStringT *aSrc);
+    UErrCodeT ToRstProjCs(const UStringT *aDst, const UStringT *aSrc,
+                          const GdaProjCsCodeT aCode);
+    UErrCodeT ToVtrProjCs(const UStringT *aDst, const UStringT *aSrc,
+                          const GdaProjCsCodeT aCode);
 
+    CGdaDriversCtl *mDrs;
+    CGdaWarpCtl *mWarp;
     CGdaUtilsTr *mTr;
     COgrCtl *mOgr;
+    CRstCtl *mRst;
     CVtrCtl *mVtr;
 
     FmdFarsiteHT mFarsiteH;

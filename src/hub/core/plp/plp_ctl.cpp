@@ -31,9 +31,11 @@
 #include "plp_typectl.hpp"
 #include "plp_corectl.hpp"
 #include "plp_argsctl.hpp"
+#include "plp_colctl.hpp"
 #include "plp_vporctl.hpp"
 #include "plp_symctl.hpp"
 #include "plp_linectl.hpp"
+#include "plp_legendctl.hpp"
 
 /**
  * \brief Constructor.
@@ -43,9 +45,11 @@ CPlpCtl::CPlpCtl()
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mArgs);
+    BMD_POINTER_INIT(mCol);
     BMD_POINTER_INIT(mVpor);
     BMD_POINTER_INIT(mSym);
     BMD_POINTER_INIT(mLine);
+    BMD_POINTER_INIT(mLegend);
 }
 
 /**
@@ -56,9 +60,11 @@ CPlpCtl::~CPlpCtl()
     BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mCore);
     BMD_CLASS_DEL(mArgs);
+    BMD_CLASS_DEL(mCol);
     BMD_CLASS_DEL(mVpor);
     BMD_CLASS_DEL(mSym);
     BMD_CLASS_DEL(mLine);
+    BMD_CLASS_DEL(mLegend);
 }
 
 /**
@@ -101,6 +107,16 @@ CPlpArgsCtl *CPlpCtl::Args()
 }
 
 /**
+ * \brief Color;
+ */
+CPlpColCtl *CPlpCtl::Col()
+{
+    BMD_CLASS_NEW(mCol, CPlpColCtl);
+
+    return mCol;
+}
+
+/**
  * \brief Viewport.
  */
 CPlpVporCtl *CPlpCtl::Vpor()
@@ -128,4 +144,14 @@ CPlpLineCtl *CPlpCtl::Line()
     BMD_CLASS_NEW(mLine, CPlpLineCtl);
 
     return mLine;
+}
+
+/**
+ * \brief Legend.
+ */
+CPlpLegendCtl *CPlpCtl::Legend()
+{
+    BMD_CLASS_NEW(mLegend, CPlpLegendCtl);
+
+    return mLegend;
 }

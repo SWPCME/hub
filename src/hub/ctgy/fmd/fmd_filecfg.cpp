@@ -131,7 +131,7 @@ UErrCodeT CFmdFileCfg::InitCfg(const UStringT *aFileName,
  */
 UErrCodeT CFmdFileCfg::Create(const UStringT *aFileName)
 {
-    mFile.InitFile(aFileName, UstFileOperWta);
+    mFile.InitFile(aFileName, UstFileOperWtn);
 
     return UErrFalse;
 }
@@ -141,7 +141,7 @@ UErrCodeT CFmdFileCfg::Create(const UStringT *aFileName)
  */
 UErrCodeT CFmdFileCfg::Load(const UStringT *aFileName)
 {
-    mFile.InitFile(aFileName, UstFileOperWta);
+    mFile.InitFile(aFileName, UstFileOperRt);
 
     return UErrFalse;
 }

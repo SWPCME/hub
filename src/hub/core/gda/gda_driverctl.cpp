@@ -65,6 +65,14 @@ UErrCodeT CGdaDriverCtl::Init()
 }
 
 /**
+ * \brief Get handle.
+ */
+GdaDriverHT CGdaDriverCtl::Handle() const
+{
+    return mDriverH;
+}
+
+/**
  * \brief Create file.
  *
  * @param aFile   File name that create.

@@ -31,6 +31,7 @@
 // gda
 #include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
+#include "gda_ogrsrstype.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_utilstr.hpp"
 #include "gda_trrst.hpp"
@@ -71,10 +72,21 @@ GdaTrRstToRstT::~GdaTrRstToRstT()
 UErrCodeT GdaTrRstToRstT::SetAll(const GdaFormatCodeT aFrmt,
                                  const BCtnStringT *aOpt)
 {
+    mState = UStateOn;
     mLOpt.Clear();
     SetFrmt(aFrmt);
+    SetOpt(aOpt);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set Options.
+ */
+UErrCodeT GdaTrRstToRstT::SetOpt(const BCtnStringT *aOpt)
+{
+    mState = UStateOn;
     mLOpt.Add(aOpt);
-    mProc->New(&mProcH, &mLOpt, mFrmtFlag);
 
     return UErrFalse;
 }
@@ -84,6 +96,8 @@ UErrCodeT GdaTrRstToRstT::SetAll(const GdaFormatCodeT aFrmt,
  */
 UErrCodeT GdaTrRstToRstT::SetFrmt(const GdaFormatCodeT aFrmt)
 {
+    mState = UStateOn;
+
     mFrmt = aFrmt;
 
     UStringT frmt;
@@ -98,6 +112,17 @@ UErrCodeT GdaTrRstToRstT::SetFrmt(const GdaFormatCodeT aFrmt)
 }
 
 /**
+ * \brief Set spatial reference system.
+ */
+UErrCodeT GdaTrRstToRstT::SetSrs(const GdaOgrSrsT *aSrs)
+{
+    BMD_CLASS_NEW(mSrs, GdaOgrSrsT);
+    *mSrs = *aSrs;
+
+    return UErrFalse;
+}
+
+/**
  * \brief Get format.
  */
 GdaFormatCodeT GdaTrRstToRstT::Frmt() const
@@ -106,10 +131,20 @@ GdaFormatCodeT GdaTrRstToRstT::Frmt() const
 }
 
 /**
+ * \brief Get spatial reference system.
+ */
+GdaOgrSrsT *GdaTrRstToRstT::Srs() const
+{
+    return mSrs;
+}
+
+/**
  * \brief Get options.
  */
 GdaTrRstProcHT GdaTrRstToRstT::Handle() const
 {
+    ((GdaTrRstToRstT *) this)->Save();
+
     return mProcH;
 }
 
@@ -138,6 +173,23 @@ UErrCodeT GdaTrRstToRstT::InitPointer()
 {
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mProc);
+    BMD_POINTER_INIT(mSrs);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Save.
+ */
+UErrCodeT GdaTrRstToRstT::Save()
+{
+    if (mState == UStateOff)
+    {
+        return UErrFalse;
+    }
+
+    mState = UStateOff;
+    mProc->New(&mProcH, &mLOpt, mFrmtFlag);
 
     return UErrFalse;
 }
@@ -148,6 +200,7 @@ UErrCodeT GdaTrRstToRstT::InitPointer()
 UErrCodeT GdaTrRstToRstT::Clear()
 {
     mProc->Del(mProcH, mFrmtFlag);
+    BMD_CLASS_DEL(mSrs);
 
     return UErrFalse;
 }

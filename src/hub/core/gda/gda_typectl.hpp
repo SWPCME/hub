@@ -60,6 +60,10 @@ class GDA_LIB CGdaTypeCtl
                              const GdaFormatCodeT aFormat);
     UErrCodeT ToLinearUnit(UStringT *aDst, const GdaLinearUnitCodeT aSrc);
 
+    // Warp
+    UErrCodeT ToProjCs(UStringT *aDst, const GdaProjCsCodeT aSrc);
+    UErrCodeT ToProjCs(UIntT *aDst, const GdaProjCsCodeT aSrc);
+
     // Utils
     UErrCodeT ToDemProcFrmt(UStringT *aDst,
                             const GdaDemProcFrmtCodeT aSrc);

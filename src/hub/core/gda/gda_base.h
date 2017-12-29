@@ -53,6 +53,8 @@ typedef UIteratorT<CGdaDatasetCtl*> GdaItDatasetT;
 #define GdaBandHT UHandleT
 #define GdaBandColorHT UHandleT
 #define GdaCreateOptHT UHandleT
+// ogr
+#define GdaOgrSrsHT UHandleT
 // utils
 #define GdaRasterizeOptHT UHandleT
 #define GdaTranslateR2ROptHT UHandleT
@@ -136,7 +138,18 @@ typedef enum
 } GdaLinearUnitCodeT;
 
 /**
- * \brief Gdal utils dem processing format.
+ * \brief Gda projection coordinate system.
+ */
+typedef enum
+{
+    GdaProjCsUnknown  = 0,
+    GdaProjCsWgs1984  = 1,
+    GdaProjCsXian1980 = 2,
+    GdaProjCsNad1983  = 3,
+} GdaProjCsCodeT;
+
+/**
+ * \brief Gda utils dem processing format.
  */
 typedef enum
 {
@@ -174,6 +187,14 @@ typedef struct
         CGdaCtl *gdaCtl = NULL;                 \
         GDA_CTL(gdaCtl);                        \
         aCtl = gdaCtl->Core();                  \
+    }
+
+#define GDA_WARP_CTL(aCtl)                      \
+    if (aCtl == NULL)                           \
+    {                                           \
+        CGdaCtl *gdaCtl = NULL;                 \
+        GDA_CTL(gdaCtl);                        \
+        aCtl = gdaCtl->Warp();                  \
     }
 
 #define GDA_UTILS_CTL(aCtl)                     \

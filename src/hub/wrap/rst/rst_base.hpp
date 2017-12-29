@@ -29,4 +29,11 @@
 
 #define RST_LIB HUB_LIB
 
+#define RST_CTL(aCtl)                           \
+    if (aCtl == NULL)                           \
+    {                                           \
+        BMD_WRAP_CTL(wrapCtl);                  \
+        aCtl = wrapCtl->Rst();                  \
+    }
+
 #endif  // RST_BASE_HPP_INCLUDED

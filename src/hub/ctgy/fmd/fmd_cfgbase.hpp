@@ -67,18 +67,20 @@ class FMD_LIB FmdCfgTimeT
 {
   public:
     FmdCfgTimeT();
-    FmdCfgTimeT(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
-                UIntT aMin);
+    FmdCfgTimeT(const UIntT aYear, const UIntT aMon, const UIntT aMDay,
+                const UIntT aHour, const UIntT aMin);
     ~FmdCfgTimeT();
 
+    UErrCodeT Init();
+
     // Set.
-    UErrCodeT SetAll(UIntT aYear, UIntT aMon, UIntT aMDay, UIntT aHour,
-                     UIntT aMin);
-    UErrCodeT SetYear(UIntT aYear);
-    UErrCodeT SetMon(UIntT aMon);
-    UErrCodeT SetMDay(UIntT aMDay);
-    UErrCodeT SetHour(UIntT aHour);
-    UErrCodeT SetMin(UIntT aMin);
+    UErrCodeT SetAll(const UIntT aYear, const UIntT aMon, const UIntT aMDay,
+                     const UIntT aHour, const UIntT aMin);
+    UErrCodeT SetYear(const UIntT aYear);
+    UErrCodeT SetMon(const UIntT aMon);
+    UErrCodeT SetMDay(const UIntT aMDay);
+    UErrCodeT SetHour(const UIntT aHour);
+    UErrCodeT SetMin(const UIntT aMin);
 
     // Get.
     UErrCodeT All(UIntT *aYear, UIntT *aMon, UIntT *aMDay, UIntT *aHour,
@@ -94,8 +96,6 @@ class FMD_LIB FmdCfgTimeT
 
   protected:
   private:
-    UErrCodeT Init();
-
     UIntT mYear;
     UIntT mMon;
     UIntT mMDay;
@@ -111,24 +111,29 @@ class FMD_LIB FmdCfgBurnTimeT
   public:
     FmdCfgBurnTimeT();
     FmdCfgBurnTimeT(const FmdCfgTimeT *aBegin, const FmdCfgTimeT *aEnd,
-                    UIntT aStep);
+                    const UFloatT aStep);
     ~FmdCfgBurnTimeT();
 
+    UErrCodeT Init();
+
     // Set.
-    UErrCodeT SetAll(const FmdCfgTimeT *aBegin, const FmdCfgTimeT *aEnd, UIntT aStep);
+    UErrCodeT SetAll(const FmdCfgTimeT *aBegin, const FmdCfgTimeT *aEnd,
+                     const UFloatT aStep);
+    UErrCodeT SetBegin(const FmdCfgTimeT *aBegin);
+    UErrCodeT SetEnd(const FmdCfgTimeT *aEnd);
+    UErrCodeT SetStep(const UFloatT aStep);
+
     // Get.
-    UErrCodeT All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd, UIntT *aStep) const;
+    UErrCodeT All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd, UFloatT *aStep) const;
     const FmdCfgTimeT *Begin() const;
     const FmdCfgTimeT *End() const;
-    UIntT Step() const;
+    UFloatT Step() const;
 
   protected:
   private:
-    UErrCodeT Init();
-
     FmdCfgTimeT mBegin;
     FmdCfgTimeT mEnd;
-    UIntT mStep;
+    UFloatT mStep;
 };
 
 /**
@@ -138,13 +143,24 @@ class FMD_LIB FmdCfgFuelMoistureT
 {
   public:
     FmdCfgFuelMoistureT();
-    FmdCfgFuelMoistureT(UIntT aModel, UIntT aFm1, UIntT aFm10, UIntT aFm100,
-                        UIntT aFmLiveHerb, UIntT aFmLiveWoody);
+    FmdCfgFuelMoistureT(const UIntT aModel, const UIntT aFm1,
+                        const UIntT aFm10, const UIntT aFm100,
+                        const UIntT aFmLiveHerb, const UIntT aFmLiveWoody);
     ~FmdCfgFuelMoistureT();
 
+    UErrCodeT Init();
+
     // Set.
-    UErrCodeT SetAll(UIntT aModel, UIntT aFm1, UIntT aFm10, UIntT aFm100,
-                     UIntT aFmLiveHerb, UIntT aFmLiveWoody);
+    UErrCodeT SetAll(const UIntT aModel, const UIntT aFm1, const UIntT aFm10,
+                     const UIntT aFm100, const UIntT aFmLiveHerb,
+                     const UIntT aFmLiveWoody);
+    UErrCodeT SetModel(const UIntT aModel);
+    UErrCodeT SetFm1(const UIntT aFm1);
+    UErrCodeT SetFm10(const UIntT aFm10);
+    UErrCodeT SetFm100(const UIntT aFm100);
+    UErrCodeT SetFmLiveHerb(const UIntT aFmLiveHerb);
+    UErrCodeT SetFmLiveWoody(const UIntT aFmLiveWoody);
+
     // Get.
     UErrCodeT All(UIntT *aModel, UIntT *aFm1, UIntT *aFm10, UIntT *aFm100,
                   UIntT *aFmLiveHerb, UIntT *aFmLiveWoody) const;
@@ -157,8 +173,6 @@ class FMD_LIB FmdCfgFuelMoistureT
 
   protected:
   private:
-    UErrCodeT Init();
-
     UIntT mModel;
     UIntT mFm1;
     UIntT mFm10;
@@ -173,22 +187,24 @@ class FMD_LIB FmdCfgWindT
 {
   public:
     FmdCfgWindT();
-    FmdCfgWindT(UIntT aSpeed, UIntT aDirection);
+    FmdCfgWindT(const UFloatT aSpeed, const UIntT aDirection);
     ~FmdCfgWindT();
 
+    UErrCodeT Init();
+
     // Set.
-    UErrCodeT SetAll(UIntT aSpeed, UIntT aDirection);
+    UErrCodeT SetAll(const UFloatT aSpeed, const UIntT aDirection);
+    UErrCodeT SetSpeed(const UFloatT aSpeed);
+    UErrCodeT SetDirection(const UIntT aDirection);
 
     // Get.
-    UErrCodeT All(UIntT *aSpeed, UIntT *aDirection) const;
-    UIntT Speed() const;
+    UErrCodeT All(UFloatT *aSpeed, UIntT *aDirection) const;
+    UFloatT Speed() const;
     UIntT Direction() const;
 
   protected:
   private:
-    UErrCodeT Init();
-
-    UIntT mSpeed;
+    UFloatT mSpeed;
     UIntT mDirection;
 };
 
@@ -196,11 +212,15 @@ class FMD_LIB FmdCfgCloudT
 {
   public:
     FmdCfgCloudT();
-    FmdCfgCloudT(UIntT aCover, UFloatT aPrecipAmount);
+    FmdCfgCloudT(const UIntT aCover, const UFloatT aPrecipAmount);
     ~FmdCfgCloudT();
 
+    UErrCodeT Init();
+
     // Set value.
-    UErrCodeT SetAll(UIntT aCover, UFloatT aPrecipAmount);
+    UErrCodeT SetAll(const UIntT aCover, const UFloatT aPrecipAmount);
+    UErrCodeT SetCover(const UIntT aCover);
+    UErrCodeT SetPrecipAmount(const UFloatT aPrecipAmount);
 
     // Get value.
     UErrCodeT All(UIntT *aCover, UFloatT *aPrecipAmount) const;
@@ -209,8 +229,6 @@ class FMD_LIB FmdCfgCloudT
 
   protected:
   private:
-    UErrCodeT Init();
-
     UIntT mCover;
     UFloatT mPrecipAmount;
 };
@@ -219,22 +237,24 @@ class FMD_LIB FmdCfgAirT
 {
   public:
     FmdCfgAirT();
-    FmdCfgAirT(UIntT aTemperature, UIntT aHumidity);
+    FmdCfgAirT(const UFloatT aTemperature, const UIntT aHumidity);
     ~FmdCfgAirT();
 
+    UErrCodeT Init();
+
     // Set value.
-    UErrCodeT SetAll(UIntT aTemperature, UIntT aHumidity);
+    UErrCodeT SetAll(const UFloatT aTemperature, const UIntT aHumidity);
+    UErrCodeT SetTemperature(const UFloatT aTemperature);
+    UErrCodeT SetHumidity(const UIntT aHumidity);
 
     // Get value.
-    UErrCodeT All(UIntT *aTemperature, UIntT *aHumidity) const;
-    UIntT Temperature() const;
+    UErrCodeT All(UFloatT *aTemperature, UIntT *aHumidity) const;
+    UFloatT Temperature() const;
     UIntT Humidity() const;
 
   protected:
   private:
-    UErrCodeT Init();
-
-    UIntT mTemperature;
+    UFloatT mTemperature;
     UIntT mHumidity;
 };
 
@@ -249,9 +269,15 @@ class FMD_LIB FmdCfgWeatherT
                    const FmdCfgCloudT *aCloud, const FmdCfgAirT *aAir);
     ~FmdCfgWeatherT();
 
+    UErrCodeT Init();
+
     // Set value.
     UErrCodeT SetAll(const FmdCfgTimeT *aTime, const FmdCfgWindT *aWind,
                      const FmdCfgCloudT *aCloud, const FmdCfgAirT *aAir);
+    UErrCodeT SetTime(const FmdCfgTimeT *aTime);
+    UErrCodeT SetWind(const FmdCfgWindT *aWind);
+    UErrCodeT SetCloud(const FmdCfgCloudT *aCloud);
+    UErrCodeT SetAir(const FmdCfgAirT *aAir);
 
     // Get value.
     UErrCodeT All(FmdCfgTimeT *aTime, FmdCfgWindT *aWind,
@@ -263,8 +289,6 @@ class FMD_LIB FmdCfgWeatherT
 
   protected:
   private:
-    UErrCodeT Init();
-
     FmdCfgTimeT mTime;
     FmdCfgWindT mWind;
     FmdCfgCloudT mCloud;

@@ -30,6 +30,7 @@
 class CGdaCoreCtl;
 class CGdaOgrCtl;
 class CGdaAlgCtl;
+class CGdaWarpCtl;
 class CGdaUtilsCtl;
 class CGdaTypeCtl;
 
@@ -46,6 +47,7 @@ class GDA_LIB CGdaCtl
     CGdaCoreCtl *Core();
     CGdaOgrCtl *Ogr();
     CGdaAlgCtl *Alg();
+    CGdaWarpCtl *Warp();
     CGdaUtilsCtl *Utils();
 
     // Private controler.
@@ -56,6 +58,7 @@ class GDA_LIB CGdaCtl
     CGdaCoreCtl *mCore;
     CGdaOgrCtl *mOgr;
     CGdaAlgCtl *mAlg;
+    CGdaWarpCtl *mWarp;
     CGdaUtilsCtl *mUtils;
     CGdaTypeCtl *mType;
 };

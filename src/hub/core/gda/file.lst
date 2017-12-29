@@ -41,12 +41,18 @@ C_OBJ = \
       gda_bandctl.o \
       gda_bandcolor.o \
       gda_ogrctl.o \
+      gda_ogrsrsctl.o \
+      gda_ogrsrstype.o \
       gda_algctl.o \
       gda_algbase.o \
       gda_algtransform.o \
+      gda_algtrreprj.o \
       gda_algcontour.o \
       gda_algrasterizer.o \
       gda_alggridding.o \
+      gda_warpctl.o \
+      gda_warpreproj.o \
+      gda_warpreprojimagetype.o \
       gda_utilsctl.o \
       gda_utilsinfo.o \
       gda_utilstr.o \
@@ -72,12 +78,17 @@ C_HEADER = \
          gda_bandctl.hpp \
          gda_bandcolor.hpp \
          gda_ogrctl.hpp \
+         gda_ogrsrstype.hpp \
          gda_algctl.hpp \
          gda_algbase.hpp \
          gda_algtransform.hpp \
+         gda_algtrreprj.hpp \
          gda_algcontour.hpp \
          gda_algrasterizer.hpp \
          gda_alggridding.hpp \
+         gda_warpctl.hpp \
+         gda_warpreproj.hpp \
+         gda_warpreprojimagetype.hpp \
          gda_utilsctl.hpp \
          gda_utilsinfo.hpp \
          gda_utilstranslate.hpp \

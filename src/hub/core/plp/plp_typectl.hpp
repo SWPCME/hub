@@ -37,6 +37,7 @@ class PLP_LIB CPlpTypeCtl
     ~CPlpTypeCtl();
 
     UErrCodeT Init();
+    UErrCodeT ToOpt(UStringT *aName, const PlpOptCodeT aCode);
     UErrCodeT DevCodeToName(UStringT *aName, const PlpDevCodeT aCode);
 
   protected:

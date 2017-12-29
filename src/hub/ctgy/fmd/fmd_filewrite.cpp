@@ -32,6 +32,7 @@
 // gda
 #include "gda_ctl.hpp"
 #include "gda_bandctl.hpp"
+#include "gda_ogrsrstype.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_utilstr.hpp"
 #include "gda_trvtr.hpp"
@@ -387,8 +388,15 @@ UErrCodeT CFmdFileWrite::PerimetersGjson(UStringT *aStr)
     frmt = OgrFormatJson;
     CGdaTrVtr *trVtr = mTr->Vtr();
     BCtnStringT strV2vOpt(UContainerList);
+    strV2vOpt.Add("-s_srs");
+    strV2vOpt.Add("EPSG:2383");
     GdaTrVtrToVtrT r2rOpt;
-    r2rOpt.SetAll(frmt, &strV2vOpt);
+    r2rOpt.SetFrmt(frmt);
+    r2rOpt.SetOpt(&strV2vOpt);
+    GdaOgrSrsT srs;
+    GdaProjCsCodeT projCs = GdaProjCsWgs1984;
+    srs.SetProjCs(projCs);
+    r2rOpt.SetSrs(&srs);
     trVtr->ToVtr(&dst, &dsCtn, &r2rOpt);
 
     // String to file.

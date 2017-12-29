@@ -35,6 +35,13 @@
 
 typedef enum
 {
+    PlpOptDev  = 1,             // Output device.
+    PlpOptFile = 2,             // Output file.
+    PlpOptBg   = 3,             // Background.
+} PlpOptCodeT;
+
+typedef enum
+{
     PlpParsePartial   = 0x0000,
     PlpParseFull      = 0x0001,
     PlpParseQuiet     = 0x0002,

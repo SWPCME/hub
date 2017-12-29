@@ -102,6 +102,17 @@ UStringT CGdaDatasetCtl::Description()
 }
 
 /**
+ * \brief Fetch the projection definition for this dataset.
+ */
+GdaOgrSrsT *CGdaDatasetCtl::Srs()
+{
+    UStringT strProjCs = GDALGetProjectionRef((GDALDatasetH) mDatasetH);
+    mSrs.ImportFromWkt(&strProjCs);
+
+    return &mSrs;
+}
+
+/**
  * \brief Flush all write cached to disk.
  */
 UErrCodeT CGdaDatasetCtl::Save()

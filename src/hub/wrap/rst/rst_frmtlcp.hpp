@@ -34,8 +34,11 @@
 class CClsFilesCtl;
 // gda
 class CGdaDriversCtl;
+class CGdaWarpCtl;
 class CGdaUtilsDem;
 class CGdaUtilsTr;
+class GdaTrRstToRstT;
+class GdaOgrSrsT;
 
 class RST_LIB CRstFrmtLcp
 {
@@ -46,13 +49,22 @@ class RST_LIB CRstFrmtLcp
     UErrCodeT Init();
     UErrCodeT Create(const UStringT *aLcp, const UStringT *aElev,
                      const UStringT *aFm, const UStringT *aCt);
+    UErrCodeT Tr(const UStringT *aDst, const UStringT *aSrc,
+                 const GdaTrRstToRstT *aOpt);
 
   protected:
   private:
     UErrCodeT InitPointer();
 
+    // Translate.
+    UErrCodeT ToTif(const UStringT *aDst, const UStringT *aSrc);
+    UErrCodeT Reproj(const UStringT *aDst, const UStringT *aSrc,
+                     GdaOgrSrsT *aDstSrs);
+    UErrCodeT ToLcp(const UStringT *aDst, const UStringT *aSrc);
+
     CClsFilesCtl *mFs;
     CGdaDriversCtl *mDrs;
+    CGdaWarpCtl *mWarp;
     CGdaUtilsDem *mDem;
     CGdaUtilsTr *mTr;
 

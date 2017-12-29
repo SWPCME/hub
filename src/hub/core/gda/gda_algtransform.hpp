@@ -27,6 +27,8 @@
 
 #include "gda_base.h"
 
+class CGdaAlgTrReprj;
+
 class GDA_LIB CGdaAlgTransform
 {
   public:
@@ -35,8 +37,11 @@ class GDA_LIB CGdaAlgTransform
 
     UErrCodeT Init();
 
+    CGdaAlgTrReprj *Reprj();
+
   protected:
   private:
+    CGdaAlgTrReprj *mReprj;
 };
 
 #endif  // GDA_ALGTRANSFORM_HPP_INCLUDED

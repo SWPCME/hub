@@ -26,6 +26,7 @@
 
 // base
 #include "base_ctl.hpp"
+#include "base_tmpctl.hpp"
 // core
 #include "core_ctl.hpp"
 // cls
@@ -40,6 +41,9 @@
 #include "gda_driverctl.hpp"
 #include "gda_datasetctl.hpp"
 #include "gda_bandctl.hpp"
+#include "gda_warpctl.hpp"
+#include "gda_warpreproj.hpp"
+#include "gda_warpreprojimagetype.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_utilstr.hpp"
 #include "gda_trrst.hpp"
@@ -68,6 +72,10 @@ CRstFrmtLcp::~CRstFrmtLcp()
  */
 UErrCodeT CRstFrmtLcp::Init()
 {
+    CBaseCtl *base = CBaseCtl::Base();
+    CBaseTmpCtl *tmp = base->Tmp();
+    mTmpDir = tmp->Dir(HubMRst);
+
     CClsCtl *cls = NULL;
     CLS_CTL(cls);
     mFs = cls->Files();
@@ -75,6 +83,8 @@ UErrCodeT CRstFrmtLcp::Init()
     CGdaCoreCtl *core = NULL;
     GDA_CORE_CTL(core);
     mDrs = core->Drivers();
+
+    GDA_WARP_CTL(mWarp);
 
     CGdaUtilsCtl *utils = NULL;
     GDA_UTILS_CTL(utils);
@@ -100,11 +110,24 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     BCtnStringT strR2rOpt(UContainerList);
     GdaTrRstToRstT r2rOpt;
 
-    // Process elev for nodata value.
+    // Change the projection coordinate system.
     UStringT elev = mTmpDir;
     elev += "/elevation.tif";
     CClsFilesCreate *fsCreate = mFs->Create();
     fsCreate->Copy(&elev, aElev);
+    
+    // UAccessCodeT access = UAccessRead;
+    // CGdaDatasetCtl *dsSrcElev = drTif->Load(aElev, access);
+    // GdaOgrSrsT *srcSrs = dsSrcElev->Srs();
+    // GdaOgrSrsT dstSrs;
+    // dstSrs.SetProjCs(GdaProjCsWgs1984);
+    // GdaWarpReprojImageT reprojImage;
+    // reprojImage.SetAll(&dstSrs, srcSrs, drTif);
+    // CGdaWarpReproj *reproj = mWarp->Reproj();
+    // reproj->ToImage(&elev, dsSrcElev, &reprojImage);
+    // drTif->Close(aElev);
+
+    // Process elev for nodata value.
     UAccessCodeT access = UAccessWrite;
     CGdaDatasetCtl *dsElev = drTif->Load(&elev, access);
     CGdaBandCtl *bandElev = dsElev->Band(1);
@@ -154,17 +177,12 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     // Create lcpTmp with elev.
     UStringT lcpTmp = mTmpDir;
     lcpTmp += "/lcptmp.tif";
-    strR2rOpt.Clear();
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
+    UIntT bandCount = 5;
+    for (UIntT i = 1; i <= bandCount; ++i)
+    {
+        strR2rOpt.Add("-b");
+        strR2rOpt.Add("1");
+    }
     strR2rOpt.Add("-a_nodata");
     strR2rOpt.Add(strNdv.ToA());
     strR2rOpt.Add("-ot");
@@ -198,22 +216,33 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     // Translate to lcp.
     frmt = GdaFormatLcp;
     strR2rOpt.Clear();
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("1");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("2");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("3");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("4");
-    strR2rOpt.Add("-b");
-    strR2rOpt.Add("5");
+    for (UIntT i = 1; i <= bandCount; ++i)
+    {
+        UStringT num = i;
+        strR2rOpt.Add("-b");
+        strR2rOpt.Add(num);
+    }
     strR2rOpt.Add("-co");
-    strR2rOpt.Add("LATITUDE=23");
+    strR2rOpt.Add("LATITUDE=0");
     strR2rOpt.Add("-co");
     strR2rOpt.Add("LINEAR_UNIT=METER");
     r2rOpt.SetAll(frmt, &strR2rOpt);
     trRst->ToRst(aLcp, dsLcpTmp, &r2rOpt);
+
+    return UErrFalse;
+}
+
+UErrCodeT CRstFrmtLcp::Tr(const UStringT *aDst, const UStringT *aSrc,
+                          const GdaTrRstToRstT *aOpt)
+{
+    UStringT srcTif = mTmpDir;
+    srcTif += "/rstfrmtlcp_tr_srctif.tif";
+    ToTif(&srcTif, aSrc);
+    UStringT dstTif = mTmpDir;
+    dstTif += "/rstfrmtlcp_tr_dsttif.tif";
+    GdaOgrSrsT *dstSrs = aOpt->Srs();
+    Reproj(&dstTif, &srcTif, dstSrs);
+    ToLcp(aDst, &dstTif);
 
     return UErrFalse;
 }
@@ -225,8 +254,100 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
  */
 UErrCodeT CRstFrmtLcp::InitPointer()
 {
+    BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mTr);
     BMD_POINTER_INIT(mDem);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Translate lcp to tif.
+ */
+UErrCodeT CRstFrmtLcp::ToTif(const UStringT *aDst, const UStringT *aSrc)
+{
+    UFloatT ndv = -9999.000;
+    UStringT strNdv(ndv);
+
+    GdaFormatCodeT frmt = GdaFormatLcp;
+    mDrs->Register(frmt);
+    CGdaDriverCtl *drLcp = mDrs->Driver(frmt);
+    UAccessCodeT access = UAccessRead;
+    CGdaDatasetCtl *dsLcp = drLcp->Load(aSrc, access);
+    UIntT bandCount;
+    dsLcp->Count(&bandCount);
+    CGdaTrRst *trRst = mTr->Rst();
+    BCtnStringT strR2rOpt(UContainerList);
+    GdaTrRstToRstT r2rOpt;
+    for (UIntT i = 1; i <= bandCount; ++i)
+    {
+        UStringT num = i;
+        strR2rOpt.Add("-b");
+        strR2rOpt.Add(num);
+    }
+    strR2rOpt.Add("-a_nodata");
+    strR2rOpt.Add(strNdv.ToA());
+    strR2rOpt.Add("-ot");
+    strR2rOpt.Add("Int16");
+    frmt = GdaFormatTif;
+    r2rOpt.SetAll(frmt, &strR2rOpt);
+    trRst->ToRst(aDst, dsLcp, &r2rOpt);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Reproject image.
+ */
+UErrCodeT CRstFrmtLcp::Reproj(const UStringT *aDst, const UStringT *aSrc,
+                              GdaOgrSrsT *aDstSrs)
+{
+    GdaFormatCodeT frmt = GdaFormatTif;
+    mDrs->Register(frmt);
+    CGdaDriverCtl *drTif = mDrs->Driver(frmt);
+    UAccessCodeT access = UAccessRead;
+    CGdaDatasetCtl *srcDs = drTif->Load(aSrc, access);
+    GdaOgrSrsT *srcSrs = srcDs->Srs();
+    GdaOgrSrsT *dstSrs = aDstSrs;
+    GdaWarpReprojImageT reprojImage;
+    reprojImage.SetAll(dstSrs, srcSrs, drTif);
+    CGdaWarpReproj *reproj = mWarp->Reproj();
+    reproj->ToImage(aDst, srcDs, &reprojImage);
+    drTif->Close(aSrc);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Translate tif to lcp.
+ */
+UErrCodeT CRstFrmtLcp::ToLcp(const UStringT *aDst, const UStringT *aSrc)
+{
+    GdaFormatCodeT frmt = GdaFormatTif;
+    mDrs->Register(frmt);
+    CGdaDriverCtl *drTif = mDrs->Driver(frmt);
+    UAccessCodeT access = UAccessRead;
+    CGdaDatasetCtl *dsTif = drTif->Load(aSrc, access);
+    UIntT bandCount;
+    dsTif->Count(&bandCount);
+    frmt = GdaFormatLcp;
+
+    CGdaTrRst *trRst = mTr->Rst();
+    BCtnStringT strR2rOpt(UContainerList);
+    for (UIntT i = 1; i <= bandCount; ++i)
+    {
+        UStringT num = i;
+        strR2rOpt.Add("-b");
+        strR2rOpt.Add(num);
+    }
+    strR2rOpt.Add("-co");
+    strR2rOpt.Add("LATITUDE=0");
+    strR2rOpt.Add("-co");
+    strR2rOpt.Add("LINEAR_UNIT=METER");
+    GdaTrRstToRstT r2rOpt;
+    r2rOpt.SetAll(frmt, &strR2rOpt);
+    trRst->ToRst(aDst, dsTif, &r2rOpt);
+    drTif->Close(aSrc);
 
     return UErrFalse;
 }

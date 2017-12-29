@@ -240,6 +240,50 @@ UErrCodeT CGdaTypeCtl::ToLinearUnit(UStringT *aDst,
 }
 
 /**
+ * \brief To gda projection coordinate system.
+ */
+UErrCodeT CGdaTypeCtl::ToProjCs(UStringT *aDst, const GdaProjCsCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GdaProjCsWgs1984:
+        *aDst = "EPSG:4326";        // WGS84
+        break;
+    case GdaProjCsXian1980:
+        *aDst = "EPSG:2383";
+        break;
+    case GdaProjCsNad1983:
+        *aDst = "EPSG:4269";        // NAD83
+        break;
+    default:
+        return UErrTrue;
+    }
+    return UErrFalse;
+}
+
+/**
+ * \brief To gda projection coordinate system.
+ */
+UErrCodeT CGdaTypeCtl::ToProjCs(UIntT *aDst, const GdaProjCsCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GdaProjCsWgs1984:
+        *aDst = 4326;
+        break;
+    case GdaProjCsXian1980:
+        *aDst = 2383;
+        break;
+    case GdaProjCsNad1983:
+        *aDst = 4269;
+        break;
+    default:
+        return UErrTrue;
+    }
+    return UErrFalse;
+}
+
+/**
  * \brief To gda dem processing format.
  */
 UErrCodeT CGdaTypeCtl::ToDemProcFrmt(UStringT *aDst,

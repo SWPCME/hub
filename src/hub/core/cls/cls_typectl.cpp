@@ -56,29 +56,35 @@ UErrCodeT CClsTypeCtl::ToFileOper(UStringT *aDest, const ClsFileOperCodeT aSrc)
 {
     switch (aSrc)
     {
-    case ClsFileOperR:
+    case ClsFileOperRt:
         *aDest = "r";
         break;
-    case ClsFileOperRt:
-        *aDest = "rt";
+    case ClsFileOperRta:
+        *aDest = "a+";
         break;
     case ClsFileOperRb:
         *aDest = "rb";
         break;
-    case ClsFileOperW:
-        *aDest = "w";
+    case ClsFileOperRba:
+        *aDest = "ab+";
         break;
     case ClsFileOperWt:
-        *aDest = "wt";
+        *aDest = "w";
+        break;
+    case ClsFileOperWtn:
+        *aDest = "w+";
         break;
     case ClsFileOperWta:
-        *aDest = "wt+";
+        *aDest = "a";
         break;
     case ClsFileOperWb:
         *aDest = "wb";
         break;
-    case ClsFileOperWba:
+    case ClsFileOperWbn:
         *aDest = "wb+";
+        break;
+    case ClsFileOperWba:
+        *aDest = "ab";
         break;
     default:
         return UErrTrue;

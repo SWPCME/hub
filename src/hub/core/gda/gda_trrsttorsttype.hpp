@@ -31,6 +31,7 @@
 #include "base_containerdefn.hpp"
 
 // gda
+class GdaOgrSrsT;
 class CGdaTrRstProcCtl;
 class CGdaTypeCtl;
 
@@ -43,17 +44,21 @@ class GDA_LIB GdaTrRstToRstT
 
     // Set.
     UErrCodeT SetAll(const GdaFormatCodeT aFrmt, const BCtnStringT *aOpt);
+    UErrCodeT SetOpt(const BCtnStringT *aOpt);
     UErrCodeT SetFrmt(const GdaFormatCodeT aFrmt);
+    UErrCodeT SetSrs(const GdaOgrSrsT *aSrs);
 
     // Get.
     GdaFrmtFlagCodeT FrmtFlag() const;
     GdaFormatCodeT Frmt() const;
+    GdaOgrSrsT *Srs() const;
     GdaTrRstProcHT Handle() const;
 
   protected:
   private:
     UErrCodeT Init();
     UErrCodeT InitPointer();
+    UErrCodeT Save();
     UErrCodeT Clear();
 
     CGdaTrRstProcCtl *mProc;
@@ -62,7 +67,10 @@ class GDA_LIB GdaTrRstToRstT
     GdaTrRstProcHT mProcH;
     GdaFormatCodeT mFrmt;
     GdaFrmtFlagCodeT mFrmtFlag;
+    GdaOgrSrsT *mSrs;
     BCtnStringT mLOpt;
+
+    UStateCodeT mState;
 };
 
 #endif  // GDA_TRRSTTORSTTYPE_HPP_INCLUDED

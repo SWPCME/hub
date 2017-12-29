@@ -29,6 +29,5 @@ C_OBJ = \
       ctgy_ctl.o
 
 SUB_DIR = \
-          earth \
           fmd \
           era

@@ -29,14 +29,16 @@
 
 typedef enum
 {
-    UstFileOperR   = 1,          /* Read. */
-    UstFileOperRt  = 2,          /* Read/Test. */
-    UstFileOperRb  = 3,          /* Read/Bit. */
-    UstFileOperW   = 21,         /* Write. */
-    UstFileOperWt  = 22,         /* Write/Test. */
-    UstFileOperWta  = 22,        /* Write/Text/Add. */
-    UstFileOperWb  = 23,         /* Write/Bit. */
-    UstFileOperWba = 24,         /* Write/Bit/Add. */
+    UstFileOperRt  = 1,          /* Read/Test. */
+    UstFileOperRta = 2,          /* Read/Test/append. */
+    UstFileOperRb  = 5,          /* Read/Bit. */
+    UstFileOperRba = 6,          /* Read/Bit/append. */
+    UstFileOperWt  = 21,         /* Write/Test. */
+    UstFileOperWtn = 22,         /* Write/Text/New. */
+    UstFileOperWta = 23,         /* Write/Text/Add. */
+    UstFileOperWb  = 25,         /* Write/Bit. */
+    UstFileOperWbn = 26,         /* Write/Bit/New. */
+    UstFileOperWba = 27,         /* Write/Bit/Add. */
 } UstFileOperCodeT;
 
 #endif  // UST_FILEBASE_HPP_INCLUDED

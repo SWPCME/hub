@@ -30,10 +30,12 @@ C_OBJ = \
       base_ctl.o \
       base_tmpctl.o \
       base_mathtype.o \
+      base_graphtype.o
 
 C_HEADER = \
          base_macrodefn.hpp \
          base_containerdefn.hpp \
          base_mathtype.hpp \
+         base_graphtype.hpp \
          base_timetype.hpp \
          base_geomtype.hpp 

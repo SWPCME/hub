@@ -28,6 +28,7 @@
 #include "gda_corectl.hpp"
 #include "gda_ogrctl.hpp"
 #include "gda_algctl.hpp"
+#include "gda_warpctl.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_typectl.hpp"
 
@@ -40,6 +41,7 @@ CGdaCtl::CGdaCtl()
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mAlg);
+    BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mUtils);
 }
 
@@ -52,6 +54,7 @@ CGdaCtl::~CGdaCtl()
     BMD_CLASS_DEL(mCore);
     BMD_CLASS_DEL(mOgr);
     BMD_CLASS_DEL(mAlg);
+    BMD_CLASS_DEL(mWarp);
     BMD_CLASS_DEL(mUtils);
 }
 
@@ -89,6 +92,16 @@ CGdaAlgCtl *CGdaCtl::Alg()
     BMD_CLASS_NEW(mAlg, CGdaAlgCtl);
 
     return mAlg;
+}
+
+/**
+ * \brief Warp.
+ */
+CGdaWarpCtl *CGdaCtl::Warp()
+{
+    BMD_CLASS_NEW(mWarp, CGdaWarpCtl);
+
+    return mWarp;
 }
 
 /**

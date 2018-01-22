@@ -27,6 +27,9 @@
 
 #include "gda_base.h"
 
+// hub
+class CHubModuleCtl;
+// gda
 class CGdaCoreCtl;
 class CGdaOgrCtl;
 class CGdaAlgCtl;
@@ -37,11 +40,12 @@ class CGdaTypeCtl;
 class GDA_LIB CGdaCtl
 {
   public:
-    CGdaCtl();
+    CGdaCtl(CHubModuleCtl *aModule);
     ~CGdaCtl();
 
     // Init.
     UErrCodeT Init();
+    CHubModuleCtl *Up();
 
     // Controler.
     CGdaCoreCtl *Core();
@@ -55,6 +59,7 @@ class GDA_LIB CGdaCtl
 
   protected:
   private:
+    CHubModuleCtl *mModule;
     CGdaCoreCtl *mCore;
     CGdaOgrCtl *mOgr;
     CGdaAlgCtl *mAlg;

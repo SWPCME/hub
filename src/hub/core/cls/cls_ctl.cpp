@@ -29,6 +29,8 @@
 
 #include "cls_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
 // cls
@@ -36,22 +38,24 @@
 #include "cls_stringctl.hpp"
 #include "cls_memoryctl.hpp"
 #include "cls_ioctl.hpp"
-#include "cls_filesctl.hpp"
+#include "cls_fsctl.hpp"
 #include "cls_mathctl.hpp"
 #include "cls_timectl.hpp"
 
 /**
  * \brief Constructor.
  */
-CClsCtl::CClsCtl()
+CClsCtl::CClsCtl(CHubModuleCtl *aModule)
 {
+    BMD_POINTER_INIT(mModule);
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mStr);
     BMD_POINTER_INIT(mMem);
     BMD_POINTER_INIT(mIo);
-    BMD_POINTER_INIT(mFiles);
+    BMD_POINTER_INIT(mFs);
     BMD_POINTER_INIT(mMath);
     BMD_POINTER_INIT(mTime);
+    mModule = aModule;
 }
 
 /**
@@ -63,9 +67,10 @@ CClsCtl::~CClsCtl()
     BMD_CLASS_DEL(mStr);
     BMD_CLASS_DEL(mMem);
     BMD_CLASS_DEL(mIo);
-    BMD_CLASS_DEL(mFiles);
+    BMD_CLASS_DEL(mFs);
     BMD_CLASS_DEL(mMath);
     BMD_CLASS_DEL(mTime);
+    BMD_POINTER_INIT(mModule);
 }
 
 /**
@@ -76,6 +81,14 @@ CClsCtl::~CClsCtl()
 UErrCodeT CClsCtl::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *CClsCtl::Up()
+{
+    return mModule;
 }
 
 /**
@@ -129,11 +142,11 @@ CClsIoCtl *CClsCtl::Io()
  *
  * @return Handle of universal control.
  */
-CClsFilesCtl *CClsCtl::Files()
+CClsFsCtl *CClsCtl::Fs()
 {
-    BMD_CLASS_NEW(mFiles, CClsFilesCtl);
+    BMD_CLASS_NEW(mFs, CClsFsCtl);
 
-    return mFiles;
+    return mFs;
 }
 
 /**

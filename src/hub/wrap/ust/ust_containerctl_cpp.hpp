@@ -179,6 +179,23 @@ UErrCodeT CUstContainerCtl<ContentT, KeyT>::Add(UstContainerHT aHandle)
 }
 
 /**
+ * \brief Del by key.
+ */
+template <typename ContentT, typename KeyT>
+UErrCodeT CUstContainerCtl<ContentT, KeyT>::DelByKey(const KeyT *aKey)
+{
+    switch (mCode)
+    {
+    case UContainerList:
+        return mList->DelByKey((UIntT *) aKey);
+    case UContainerMap:
+        return mMap->DelByKey(aKey);
+    default:
+        return UErrFalse;
+    }
+}
+
+/**
  * \brief Find by key.
  */
 template <typename ContentT, typename KeyT>

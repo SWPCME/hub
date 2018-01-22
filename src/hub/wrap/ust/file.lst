@@ -30,18 +30,20 @@ C_OBJ = \
       ust_ctl.o \
       ust_stringctl.o \
       ust_stringtype.o \
+      ust_fsctl.o \
+      ust_fsfilectl.o \
+      ust_fsfiletype.o \
       ust_filectl.o \
-      ust_filetype.o \
-      ust_filesctl.o \
-      ust_filestype.o
+      ust_filetype.o 
 
 C_HEADER = \
          ust_base.h \
          ust_stringbase.h \
          ust_stringtype.hpp \
+         ust_fsbase.hpp \
+         ust_fsfiletype.hpp \
          ust_filebase.hpp \
          ust_filetype.hpp \
-         ust_filestype.hpp \
          ust_containerctl.hpp \
          ust_containerctl_cpp.hpp \
          ust_containerbase.h \

@@ -136,7 +136,7 @@ UErrCodeT UContainerT<ContentT, KeyT>::Del(const ContentT &aContent)
 template <typename ContentT, typename KeyT>
 UErrCodeT UContainerT<ContentT, KeyT>::DelByKey(const KeyT &aKey)
 {
-    return UErrFalse;
+    return mCtn->DelByKey(&aKey);
 }
 
 /**

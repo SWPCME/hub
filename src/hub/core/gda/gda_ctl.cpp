@@ -35,14 +35,16 @@
 /**
  * \brief Constructor.
  */
-CGdaCtl::CGdaCtl()
+CGdaCtl::CGdaCtl(CHubModuleCtl *aModule)
 {
+    BMD_POINTER_INIT(mModule);
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mAlg);
     BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mUtils);
+    mModule = aModule;
 }
 
 /**
@@ -56,6 +58,7 @@ CGdaCtl::~CGdaCtl()
     BMD_CLASS_DEL(mAlg);
     BMD_CLASS_DEL(mWarp);
     BMD_CLASS_DEL(mUtils);
+    BMD_POINTER_INIT(mModule);
 }
 
 /**

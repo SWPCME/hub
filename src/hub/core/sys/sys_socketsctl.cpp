@@ -29,8 +29,10 @@
 
 #include "sys_socketsctl.hpp"
 
+#ifdef OS_UNIX
 // GNU C Library, libc.
 #include <sys/socket.h>
+#endif  // OS_UNIX
 
 // Module.
 #include "sys_socketctl.hpp"
@@ -69,12 +71,12 @@ UErrCodeT CSysSocketsCtl::Init()
 UErrCodeT CSysSocketsCtl::Create(NetAfCodeT aAfCode, NetSockCodeT aSockCode, 
                                  UIntT aProtocol)
 {
-    int domain = AF_INET;
-    int type = SOCK_RAW;
-    int protocol = 80;
-    int handle = socket(domain, type, protocol);
-    CSysSocketCtl* socketCtl = new CSysSocketCtl(handle);
-    m_socketCtn.Add(socketCtl);
+    // int domain = AF_INET;
+    // int type = SOCK_RAW;
+    // int protocol = 80;
+    // int handle = socket(domain, type, protocol);
+    // CSysSocketCtl* socketCtl = new CSysSocketCtl(handle);
+    // m_socketCtn.Add(socketCtl);
 
     return UErrFalse;
 }

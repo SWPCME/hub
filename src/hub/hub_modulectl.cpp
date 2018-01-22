@@ -33,15 +33,20 @@
 /**
  * \brief Core module.
  */
+#ifdef NAME
 #include "core_ctl.hpp"
 #include "cls_ctl.hpp"
 #include "ccs_ctl.hpp"
 #include "sys_ctl.hpp"
 #include "ogr_ctl.hpp"
 #include "gda_ctl.hpp"
+#endif  // NAME
+
+#ifdef HUB_MODULE_PLP
 #include "gsl_ctl.hpp"
 #include "cut_ctl.hpp"
 #include "plp_ctl.hpp"
+#endif // HUB_MODULE_PLP
 
 /**
  * \brief Wrap module.
@@ -50,6 +55,9 @@
 #include "ust_ctl.hpp"
 #include "rst_ctl.hpp"
 #include "vtr_ctl.hpp"
+#ifdef HUB_MODULE_NCC
+#include "ncc_ctl.hpp"
+#endif  // HUB_MODULE_NCC
 
 /**
  * \brief Ctgy module.
@@ -57,10 +65,12 @@
 #include "ctgy_ctl.hpp"
 // #include "rtk_ctl.hpp"
 #include "fmd_ctl.hpp"
+#ifdef HUB_MODULE_ERA
 #include "era_ctl.hpp"
+#endif  // HUB_MODULE_ERA
 
 #define HUB_REGISTER(aCode, aClass)             \
-    BMD_REGISTER(aCode, aClass, mMCodeH)
+    BMD_REGISTER(aCode, aClass, this, mMCodeH)
 
 #define HUB_DEREGISTER(aCode, aClass)           \
     BMD_DEREGISTER(aCode, aClass, mMCodeH)
@@ -71,7 +81,6 @@
 CHubModuleCtl::CHubModuleCtl() : mMCodeH(UContainerMap)
 {
     mBase = CBaseCtl::Base();
-    mBase->Init();
 
     mState = UStateOff;
 }
@@ -81,6 +90,8 @@ CHubModuleCtl::CHubModuleCtl() : mMCodeH(UContainerMap)
  */
 CHubModuleCtl::~CHubModuleCtl()
 {
+    DeregisterAll();
+    mTmp->RmRootDir(this);
 }
 
 /**
@@ -90,7 +101,18 @@ CHubModuleCtl::~CHubModuleCtl()
  */
 UErrCodeT CHubModuleCtl::Init(UFlagCodeT aFlag /* = UFlagOff */)
 {
+    mBase->Init();
+    mTmp = mBase->Tmp();
+
     return UErrFalse;
+}
+
+/**
+ * \brief Set temporary directory.
+ */
+UErrCodeT CHubModuleCtl::SetTmpDir(const UStringT *aDir)
+{
+    return mTmp->SetRootDir(aDir, this);
 }
 
 /**
@@ -107,8 +129,6 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         return UErrFalse;
     }
 
-    CBaseTmpCtl *tmp = mBase->Tmp();
-    tmp->MkDir(aCode);
     switch (aCode)
     {
         // core
@@ -117,9 +137,11 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         HUB_REGISTER(HubMSys, CSysCtl);
         HUB_REGISTER(HubMOgr, COgrCtl);
         HUB_REGISTER(HubMGda, CGdaCtl);
+#ifdef HUB_MODULE_PLP
         HUB_REGISTER(HubMGsl, CGslCtl);
         HUB_REGISTER(HubMCut, CCutCtl);
         HUB_REGISTER(HubMPlp, CPlpCtl);
+#endif  // HUB_MODULE_PLP
         // wrap
         HUB_REGISTER(HubMUst, CUstCtl);
         HUB_REGISTER(HubMRst, CRstCtl);
@@ -127,12 +149,17 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         // ctgy
         // HUB_REGISTER(HubMRtk, CRtkCtl);
         HUB_REGISTER(HubMFmd, CFmdCtl);
+
+#ifdef HUB_MODULE_ERA
         HUB_REGISTER(HubMEra, CEraCtl);
+#endif  // HUB_MODULE_ERA
+
     default:
         return UErrTrue;
     }
+    mTmp->MkDir(aCode, this);
 
-    return UErrTrue;
+    return UErrFalse;
 }
 
 /**
@@ -171,9 +198,11 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         HUB_DEREGISTER(HubMSys, CSysCtl);
         HUB_DEREGISTER(HubMOgr, COgrCtl);
         HUB_DEREGISTER(HubMGda, CGdaCtl);
+#ifdef HUB_MODULE_PLP
         HUB_DEREGISTER(HubMGsl, CGslCtl);
         HUB_DEREGISTER(HubMCut, CCutCtl);
         HUB_DEREGISTER(HubMPlp, CPlpCtl);
+#endif  // HUB_MODULE_PLP
         // wrap
         HUB_DEREGISTER(HubMUst, CUstCtl);
         HUB_DEREGISTER(HubMRst, CRstCtl);
@@ -181,10 +210,13 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         // ctgy
         // HUB_DEREGISTER(HubMRtk, CRtkCtl);
         HUB_DEREGISTER(HubMFmd, CFmdCtl);
+#ifdef HUB_MODULE_ERA
         HUB_DEREGISTER(HubMEra, CEraCtl);
+#endif  // HUB_MODULE_ERA
     default:
         return UErrTrue;
     }
+    mTmp->RmDir(aCode, this);
     mMCodeH.DelByKey(aCode);
 
     return UErrFalse;
@@ -223,6 +255,46 @@ UHandleT CHubModuleCtl::Module(HubCodeT aCode)
     }
 
     return NULL;
+}
+
+/**
+ * \brief Gda handle.
+ *
+ * @return Handle of gda, if successful; NULL, if failed.
+ */
+CGdaCtl *CHubModuleCtl::Gda()
+{
+    return (CGdaCtl *) Module(HubMGda);
+}
+
+/**
+ * \brief Ogr handle.
+ *
+ * @return Handle of ogr, if successful; NULL, if failed.
+ */
+COgrCtl *CHubModuleCtl::Ogr()
+{
+    return (COgrCtl *) Module(HubMOgr);
+}
+
+/**
+ * \brief Rst handle.
+ *
+ * @return Handle of rst, if successful; NULL, if failed.
+ */
+CRstCtl *CHubModuleCtl::Rst()
+{
+    return (CRstCtl *) Module(HubMRst);
+}
+
+/**
+ * \brief Fmd handle.
+ *
+ * @return Handle of fmd, if successful; NULL, if failed.
+ */
+CFmdCtl *CHubModuleCtl::Fmd()
+{
+    return (CFmdCtl *) Module(HubMFmd);
 }
 
 /***** Private A *****/

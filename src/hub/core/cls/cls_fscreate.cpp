@@ -1,8 +1,8 @@
 /******************************************************************************
- * $Id: cls_fileswork.cpp 2017-12 $
+ * $Id: cls_fscreate.cpp 2017-12 $
  *
  * Project:  C language standard library.
- * Purpose:  File system working directory implemention.
+ * Purpose:  File system create implemention.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
@@ -22,43 +22,70 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "cls_fileswork.hpp"
+#ifdef OS_WINDOWS
+// This header file must be at the top.
+#include <windows.h>
+#endif  // OS_WINDOWS
+
+#include "cls_fscreate.hpp"
 
 // LIBC
+#ifdef OS_UNIX
+#include <sys/stat.h>
 #include <unistd.h>
+#endif  // OS_UNIX
 
 /**
  * \brief Constructor.
  */
-CClsFilesWork::CClsFilesWork()
+CClsFsCreate::CClsFsCreate()
 {
 }
 
 /**
  * \brief Destructor.
  */
-CClsFilesWork::~CClsFilesWork()
+CClsFsCreate::~CClsFsCreate()
 {
 }
 
 /**
  * \brief Initialize.
  */
-UErrCodeT CClsFilesWork::Init()
+UErrCodeT CClsFsCreate::Init()
 {
     return UErrFalse;
 }
 
 /**
- * \brief Get current working directory.
- *
- * @return Const string which is current work directory.
+ * \brief Create directory.
  */
-UErrCodeT CClsFilesWork::Cur(UStringT* aStr)
+UErrCodeT CClsFsCreate::Dir(const UStringT *aDir)
 {
-    char path[kNMax];
-    getcwd(path, kNMax);
-    *aStr = path;
+#ifdef OS_UNIX
+    mode_t mode = 0777;
+    mkdir(aDir->ToA(), mode);
+#endif  // OS_UNIX
+
+#ifdef OS_WINDOWS
+    CreateDirectory(aDir->ToA(), NULL);
+#endif  // OS_WINDOWS
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Create a copy file with exist file.
+ */
+UErrCodeT CClsFsCreate::Copy(const UStringT *aDst, const UStringT *aSrc)
+{
+#ifdef OS_UNIX
+    link(aSrc->ToA(), aDst->ToA());
+#endif  // OS_UNIX
+
+#ifdef OS_WINDOWS
+    CopyFile(aSrc->ToA(), aDst->ToA(), FALSE);
+#endif  // OS_WINDOWS
 
     return UErrFalse;
 }

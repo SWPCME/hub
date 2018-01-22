@@ -37,14 +37,17 @@ class CGdaUtilsTr;
 class COgrCtl;
 class CRstCtl;
 class CVtrCtl;
+class CFmdFileCtl;
 
 class FMD_LIB CFmdFileLoad
 {
   public:
-    CFmdFileLoad();
+    CFmdFileLoad(CFmdFileCtl *aFile);
     ~CFmdFileLoad();
 
     UErrCodeT Init();
+    CFmdFileCtl *Up();
+
     // Load All file.
     UErrCodeT All(const UStringT *aCfg, const UStringT *aLcp,
                   const UStringT *aIgnition, const UStringT *aBarrier);
@@ -72,6 +75,7 @@ class FMD_LIB CFmdFileLoad
     UErrCodeT ToVtrProjCs(const UStringT *aDst, const UStringT *aSrc,
                           const GdaProjCsCodeT aCode);
 
+    CFmdFileCtl *mFile;
     CGdaDriversCtl *mDrs;
     CGdaWarpCtl *mWarp;
     CGdaUtilsTr *mTr;

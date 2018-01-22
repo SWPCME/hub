@@ -129,7 +129,13 @@ UErrCodeT CClsTimeCtl::MkTime(UIntT *aTime, const ClsTmHT aTm)
  */
 UErrCodeT CClsTimeCtl::TimeGm(UIntT *aTime, const ClsTmHT aTm)
 {
+#ifdef OS_UNIX
     *aTime = timegm((tm *) aTm);
+#endif  // OS_UNIX
+
+#ifdef OS_WINDOWS
+    *aTime = _mkgmtime((tm *) aTm);
+#endif  // OS_WINDOWS
 
     return UErrFalse;
 }

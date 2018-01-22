@@ -32,9 +32,13 @@ C_OBJ = \
       cls_stringctl.o \
       cls_stringtoken.o \
       cls_memoryctl.o \
-      cls_filesctl.o \
-      cls_fileswork.o \
-      cls_filescreate.o \
+      cls_fsctl.o \
+      cls_fsattr.o \
+      cls_fswork.o \
+      cls_fsaccess.o \
+      cls_fsfiletype.o \
+      cls_fscreate.o \
+      cls_fsdelete.o \
       cls_ioctl.o \
       cls_iocommonctl.o \
       cls_iostreamctl.o \
@@ -61,9 +65,13 @@ C_HEADER = \
          cls_stringctl.hpp \
          cls_stringtoken.hpp \
          cls_memoryctl.hpp \
-         cls_filesctl.hpp \
-         cls_fileswork.hpp \
-         cls_filescreate.hpp \
+         cls_fsctl.hpp \
+         cls_fsattr.hpp \
+         cls_fswork.hpp \
+         cls_fsaccess.hpp \
+         cls_fsfiletype.hpp \
+         cls_fscreate.hpp \
+         cls_fsdelete.hpp \
          cls_ioctl.hpp \
          cls_iocommonctl.hpp \
          cls_iostreamctl.hpp \

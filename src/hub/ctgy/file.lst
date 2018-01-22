@@ -28,6 +28,7 @@
 C_OBJ = \
       ctgy_ctl.o
 
-SUB_DIR = \
-          fmd \
-          era
+# SUB_DIR = \
+#           fmd \
+#           era
+SUB_DIR = $(HUB_MODULE_CTGY)

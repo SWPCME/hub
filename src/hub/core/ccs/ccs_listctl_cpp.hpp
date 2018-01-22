@@ -117,6 +117,40 @@ UErrCodeT CCcsListCtl<ContentT>::Add(UstContainerHT aHandle)
 }
 
 /**
+ * \brief Del by default key.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::Del(const ContentT *aContent)
+{
+    mList.remove(*aContent);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Del by default key.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::DelByKey(const UIntT *aKey)
+{
+    if (aKey == NULL)
+    {
+        return UErrTrue;
+    }
+
+    Head();
+    for (UIntT i = 0; State() == UErrFalse; ++i, Next())
+    {
+        if (i == *aKey)
+        {
+            mList.erase(mIt);
+        }
+    }
+
+    return UErrTrue;
+}
+
+/**
  * \brief Copy.
  */
 template <typename ContentT>
@@ -129,6 +163,31 @@ UErrCodeT CCcsListCtl<ContentT>::Copy(UstContainerHT aHandle)
 }
 
 /**
+ * \brief Find key with content.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+template <typename ContentT>
+UErrCodeT CCcsListCtl<ContentT>::Find(const ContentT *aContent)
+{
+    if (aContent == NULL)
+    {
+        return UErrTrue;
+    }
+
+    for (Head(); State() == UErrFalse; Next())
+    {
+        ContentT *content = Content();
+        if (*content == *aContent)
+        {
+            return UErrFalse;
+        }
+    }
+
+    return UErrTrue;
+}
+
+/**
  * \brief Find content with key.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
@@ -136,7 +195,21 @@ UErrCodeT CCcsListCtl<ContentT>::Copy(UstContainerHT aHandle)
 template <typename ContentT>
 UErrCodeT CCcsListCtl<ContentT>::FindByKey(const UIntT *aKey)
 {
-    return UErrFalse;
+    if (aKey == NULL)
+    {
+        return UErrTrue;
+    }
+
+    Head();
+    for (UIntT i = 0; State() == UErrFalse; ++i, Next())
+    {
+        if (i == *aKey)
+        {
+            return UErrFalse;
+        }
+    }
+
+    return UErrTrue;
 }
 
 /**

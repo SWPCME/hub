@@ -1,10 +1,11 @@
 # Directory list.
-# For core.
+# For wrap.
 
-SUB_DIR = \
-          ust \
-          rst \
-          vtr \
-          ncc 
+SUB_DIR = $(HUB_MODULE_WRAP)
+# SUB_DIR = \
+#           ust \
+#           rst \
+#           vtr \
+#           ncc 
 
 C_OBJ = wrap_ctl.o

@@ -29,8 +29,10 @@
 
 #include "sys_threadattrctl.hpp"
 
-// C started library.
+#ifdef OS_UNIX
+// Posix thread library.
 #include <pthread.h>
+#endif  // OS_UNIX
 
 /**
  * \brief Constructor.
@@ -77,8 +79,8 @@ UErrCodeT CSysThreadAttrCtl::Attach(ThreadHandleT* aHandle)
  */
 UErrCodeT CSysThreadAttrCtl::Init(ThreadAttrHT aAttr)
 {
-    pthread_attr_t* attr = (pthread_attr_t*) aAttr;
-    pthread_attr_init(attr);
+    // pthread_attr_t* attr = (pthread_attr_t*) aAttr;
+    // pthread_attr_init(attr);
 
     return UErrFalse;
 }
@@ -90,8 +92,8 @@ UErrCodeT CSysThreadAttrCtl::Init(ThreadAttrHT aAttr)
  */
 UErrCodeT CSysThreadAttrCtl::Destroy(ThreadAttrHT aAttr)
 {
-    pthread_attr_t* attr = (pthread_attr_t*) aAttr;
-    pthread_attr_destroy(attr);
+    // pthread_attr_t* attr = (pthread_attr_t*) aAttr;
+    // pthread_attr_destroy(attr);
 
     return UErrFalse;
 }

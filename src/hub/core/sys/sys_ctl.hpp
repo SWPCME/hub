@@ -32,7 +32,9 @@
 
 #include "sys_base.h"
 
-// System group.
+// hub
+class CHubModuleCtl;
+// sys
 class CSysFileCtl;
 class CSysProcessCtl;
 
@@ -45,16 +47,19 @@ typedef struct
 class SYS_LIB CSysCtl
 {
   public:
-    CSysCtl();
+    CSysCtl(CHubModuleCtl *aModule);
     ~CSysCtl();
 
     UErrCodeT Init();
+    CHubModuleCtl *Up();
+
     // System group.
     CSysFileCtl* File();
     CSysProcessCtl* Process();
 
   protected:
   private:
+    CHubModuleCtl *mModule;
     SysGroupT m_group;
 };
 

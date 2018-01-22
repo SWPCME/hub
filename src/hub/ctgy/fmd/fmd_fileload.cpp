@@ -70,9 +70,10 @@
 /**
  * \brief Constructor.
  */
-CFmdFileLoad::CFmdFileLoad()
+CFmdFileLoad::CFmdFileLoad(CFmdFileCtl *aFile)
 {
     InitPointer();
+    mFile = aFile;
 }
 
 /**
@@ -80,6 +81,7 @@ CFmdFileLoad::CFmdFileLoad()
  */
 CFmdFileLoad::~CFmdFileLoad()
 {
+    FMD_FARSITE(mFarsiteH)->CloseLandFile();
 }
 
 /**
@@ -89,9 +91,13 @@ UErrCodeT CFmdFileLoad::Init()
 {
     FMD_FARSITE_H(mFarsiteH);
 
+    CFmdFileCtl *fmdFile = Up();
+    CFmdCtl *fmd = fmdFile->Up();
+    CHubModuleCtl *module = fmd->Up();
+
     CBaseCtl *base = CBaseCtl::Base();
     CBaseTmpCtl *tmp = base->Tmp();
-    mTmpDir = tmp->Dir(HubMFmd);
+    mTmpDir = tmp->Dir(HubMFmd, module);
 
     CGdaCoreCtl *core = NULL;
     GDA_CORE_CTL(core);
@@ -108,6 +114,14 @@ UErrCodeT CFmdFileLoad::Init()
     VTR_CTL(mVtr);
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CFmdFileCtl *CFmdFileLoad::Up()
+{
+    return mFile;
 }
 
 /**
@@ -226,6 +240,7 @@ UErrCodeT CFmdFileLoad::BarrierGjson(const UStringT *aGjson)
  */
 UErrCodeT CFmdFileLoad::InitPointer()
 {
+    BMD_POINTER_INIT(mFile);
     BMD_POINTER_INIT(mDrs);
     BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mTr);

@@ -24,20 +24,26 @@
 
 #include "base_tmpctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_ctl.hpp"
 // core
 #include "core_ctl.hpp"
 // cls
 #include "cls_ctl.hpp"
-#include "cls_filesctl.hpp"
-#include "cls_fileswork.hpp"
-#include "cls_filescreate.hpp"
+#include "cls_fsctl.hpp"
+#include "cls_fsattr.hpp"
+#include "cls_fswork.hpp"
+#include "cls_fscreate.hpp"
+#include "cls_timectl.hpp"
+// ust
+#include "ust_fsfiletype.hpp"
 
 /**
  * \brief Constructor.
  */
-CBaseTmpCtl::CBaseTmpCtl()
+CBaseTmpCtl::CBaseTmpCtl() : mMDir(UContainerMap)
 {
 }
 
@@ -46,6 +52,7 @@ CBaseTmpCtl::CBaseTmpCtl()
  */
 CBaseTmpCtl::~CBaseTmpCtl()
 {
+    DelAllDir();
 }
 
 /**
@@ -55,11 +62,54 @@ UErrCodeT CBaseTmpCtl::Init()
 {
     CClsCtl *cls = NULL;
     CLS_CTL(cls);
-    mFs = cls->Files();
+    mFs = cls->Fs();
+    mTime = cls->Time();
 
-    CClsFilesWork *fsWork = mFs->Work();
-    fsWork->Cur(&mDir);
-    mDir += "/.tmp";
+    return UErrFalse;
+}
+
+/**
+ * \brief Set temporary root directory.
+ */
+UErrCodeT CBaseTmpCtl::SetRootDir(const UStringT *aDir, CHubModuleCtl *aModule)
+{
+    if (mMDir.FindByKey(aModule) == UErrFalse)
+    {
+        return UErrTrue;
+    }
+
+    CClsFsAttr *fsAttr = mFs->Attr();
+    if (fsAttr->Access(aDir) == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    UStringT dir = *aDir;
+    BTimeTmT tm;
+    mTime->Current(&tm);
+    UStringT strTm = tm.year;
+    strTm += tm.mon;
+    strTm += tm.mday;
+    strTm += tm.hour;
+    strTm += tm.min;
+    strTm += tm.sec;
+    UStringT uuid = strTm;
+    dir += "/";
+    dir += uuid;
+
+    UIntT num = 0;
+    dir += "_";
+    UStringT tmpDir = dir;
+    for(tmpDir += num; fsAttr->Access(&tmpDir) == UErrFalse;)
+    {
+        num++;
+        tmpDir = dir;
+        tmpDir += num;
+    }
+    dir += num;
+    CClsFsCreate *fsCreate = mFs->Create();
+    fsCreate->Dir(&dir);
+    mMDir.Add(dir, aModule);
 
     return UErrFalse;
 }
@@ -67,9 +117,14 @@ UErrCodeT CBaseTmpCtl::Init()
 /**
  * \brief Get temporary directory.
  */
-UStringT CBaseTmpCtl::Dir(HubCodeT aCode)
+UStringT CBaseTmpCtl::Dir(HubCodeT aCode, CHubModuleCtl *aModule)
 {
-    UStringT dir = mDir;
+    if (mMDir.FindByKey(aModule) == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    UStringT dir = mMDir[aModule];
     switch (aCode)
     {
     case HubMRst:
@@ -98,13 +153,15 @@ UStringT CBaseTmpCtl::Dir(HubCodeT aCode)
 /**
  * \brief Crate temporary directory.
  */
-UErrCodeT CBaseTmpCtl::MkDir(HubCodeT aCode)
+UErrCodeT CBaseTmpCtl::MkDir(HubCodeT aCode, CHubModuleCtl *aModule)
 {
-    CClsFilesCreate *fsCreate =  mFs->Create();
+    if (mMDir.FindByKey(aModule) == UErrTrue)
+    {
+        SetDefaultDir(aModule);
+    }
 
-    fsCreate->Dir(&mDir);
-
-    UStringT dir = Dir(aCode);
+    UStringT dir = Dir(aCode, aModule);
+    CClsFsCreate *fsCreate = mFs->Create();
     fsCreate->Dir(&dir);
 
     return UErrFalse;
@@ -113,12 +170,58 @@ UErrCodeT CBaseTmpCtl::MkDir(HubCodeT aCode)
 /**
  * \brief Remove temporary directory.
  */
-UErrCodeT CBaseTmpCtl::RmDir(HubCodeT aCode)
+UErrCodeT CBaseTmpCtl::RmDir(HubCodeT aCode, CHubModuleCtl *aModule)
 {
-    if ((aCode != HubMRst) && (aCode != HubMVtr) && (aCode != HubMFmd))
+    UStringT dir = Dir(aCode, aModule);
+    UFsFileT file(&dir);
+    file.Rm(0);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Remove root directory.
+ */
+UErrCodeT CBaseTmpCtl::RmRootDir(CHubModuleCtl *aModule)
+{
+    UStringT dir = mMDir[aModule];
+    UFsFileT file(&dir);
+    file.Rm(0);
+    mMDir.DelByKey(aModule);
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Set default temporary directory.
+ */
+UErrCodeT CBaseTmpCtl::SetDefaultDir(CHubModuleCtl *aModule)
+{
+    CClsFsWork *fsWork = mFs->Work();
+    UStringT dir;
+    fsWork->Cur(&dir);
+    dir += "/.tmp";
+    CClsFsCreate *fsCreate = mFs->Create();
+    fsCreate->Dir(&dir);
+    mMDir.Add(dir, aModule);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Delete all directory.
+ */
+UErrCodeT CBaseTmpCtl::DelAllDir()
+{
+    MStringModuleItT *it = mMDir.Iterator();
+    for (it->Head(); it->State() == UErrFalse; it->Next())
     {
-        return UErrFalse;
+        UStringT dir = it->Content();
+        UFsFileT file(&dir);
+        file.Rm(0);
     }
 
     return UErrFalse;
 }
+
+/***** Private B *****/

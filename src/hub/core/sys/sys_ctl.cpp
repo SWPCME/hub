@@ -29,17 +29,20 @@
 
 #include "sys_ctl.hpp"
 
-// Module.
+// hub
+#include "hub_modulectl.hpp"
+// sys
 #include "sys_filectl.hpp"
 #include "sys_processctl.hpp"
 
 /**
  * \brief Constructor.
  */
-CSysCtl::CSysCtl()
+CSysCtl::CSysCtl(CHubModuleCtl *aModule)
 {
     m_group.file = new CSysFileCtl;
     m_group.process = new CSysProcessCtl;
+    mModule = aModule;
 }
 
 /**
@@ -49,6 +52,14 @@ CSysCtl::~CSysCtl()
 {
     delete m_group.file;
     delete m_group.process;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *CSysCtl::Up()
+{
+    return mModule;
 }
 
 /**

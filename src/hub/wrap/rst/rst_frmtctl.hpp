@@ -27,19 +27,22 @@
 
 #include "rst_base.hpp"
 
+class CRstCtl;
 class CRstFrmtLcp;
 
 class RST_LIB CRstFrmtCtl
 {
   public:
-    CRstFrmtCtl();
+    CRstFrmtCtl(CRstCtl *aRst);
     ~CRstFrmtCtl();
 
     UErrCodeT Init();
+    CRstCtl *Up();
     CRstFrmtLcp *Lcp();
 
   protected:
   private:
+    CRstCtl *mRst;
     CRstFrmtLcp *mLcp;
 };
 

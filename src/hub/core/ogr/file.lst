@@ -39,6 +39,7 @@ C_OBJ = \
         ogr_featurectl.o \
         ogr_fieldctl.o \
         ogr_geomsctl.o \
+        ogr_geomarctype.o \
         ogr_geomctl.o \
         ogr_geombasic.o \
         ogr_geomvertex.o
@@ -56,6 +57,7 @@ C_HEADER = \
            ogr_featurectl.hpp \
            ogr_fieldctl.hpp \
            ogr_geomsctl.hpp \
+           ogr_geomarctype.hpp \
            ogr_geomctl.hpp \
            ogr_geombasic.hpp \
            ogr_geomvertex.hpp

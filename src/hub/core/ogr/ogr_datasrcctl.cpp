@@ -172,6 +172,17 @@ UErrCodeT COgrDatasrcCtl::Del(UIntT aId)
 }
 
 /**
+ * \brief Save.
+ * Synchronism the change for datasource to disk.
+ */
+UErrCodeT COgrDatasrcCtl::Save()
+{
+    OGR_DS_SyncToDisk((OGRDataSourceH) mDsH);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Close by name.
  */
 UErrCodeT COgrDatasrcCtl::Close(const UStringT *aName)

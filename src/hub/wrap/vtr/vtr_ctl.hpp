@@ -32,11 +32,15 @@
 
 #include "vtr_base.hpp"
 
-// Module
-#include "ust_stringtype.hpp"
-#include "ust_containertype.hpp"
+// ust
+#include "ust/ust_stringtype.hpp"
+#include "ust/ust_containertype.hpp"
 
+// hub
+class CHubModuleCtl;
+// ogr
 class COgrCtl;
+// vtr
 class CVtrFrmtCtl;
 // class CVtrUtilsCtl;
 class CVtrDatasrcCtl;
@@ -46,11 +50,12 @@ typedef UContainerT<CVtrDatasrcCtl*, UStringT> MVtrDataSrcT;
 class VTR_LIB CVtrCtl
 {
  public:
-    CVtrCtl();
+    CVtrCtl(CHubModuleCtl *aModule);
     ~CVtrCtl();
 
     // Initialization.
     UErrCodeT Init();
+    CHubModuleCtl *Up();
 
     // Type controler.
     CVtrFrmtCtl *Frmt();
@@ -70,7 +75,7 @@ class VTR_LIB CVtrCtl
 
  protected:
  private:
-    /* Handle */
+    CHubModuleCtl *mModule;
     CVtrFrmtCtl *mFrmt;
     COgrCtl* m_ogr;
     MVtrDataSrcT* m_mDataSrc;

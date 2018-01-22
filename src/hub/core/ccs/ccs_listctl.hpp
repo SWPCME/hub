@@ -51,6 +51,8 @@ class CCS_LIB CCcsListCtl
 
     UErrCodeT Add(const ContentT* aContent);
     UErrCodeT Add(UstContainerHT aHandle);
+    UErrCodeT Del(const ContentT *aContent);
+    UErrCodeT DelByKey(const UIntT *aKey);
     UErrCodeT Copy(UstContainerHT aHandle);
     UErrCodeT Find(const ContentT* aContent);
     UErrCodeT FindByKey(const UIntT* aKey);

@@ -24,6 +24,8 @@
 
 #include "base_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // Module.
 #include "core_ctl.hpp"
 #include "wrap_ctl.hpp"
@@ -58,7 +60,7 @@ UErrCodeT CBaseCtl::Init()
  */
 CCoreCtl *CBaseCtl::Core()
 {
-    BMD_CLASS_NEW(mCore, CCoreCtl);
+    BMD_CLASS_NEW_A_1(mCore, CCoreCtl, (CHubModuleCtl *) mBase);
 
     return mCore;
 }
@@ -68,7 +70,7 @@ CCoreCtl *CBaseCtl::Core()
  */
 CWrapCtl *CBaseCtl::Wrap()
 {
-    BMD_CLASS_NEW(mWrap, CWrapCtl);
+    BMD_CLASS_NEW_A_1(mWrap, CWrapCtl, (CHubModuleCtl *) mBase);
 
     return mWrap;
 }
@@ -78,7 +80,7 @@ CWrapCtl *CBaseCtl::Wrap()
  */
 CCtgyCtl *CBaseCtl::Ctgy()
 {
-    BMD_CLASS_NEW(mCtgy, CCtgyCtl);
+    BMD_CLASS_NEW_A_1(mCtgy, CCtgyCtl, (CHubModuleCtl *) mBase);
 
     return mCtgy;
 }

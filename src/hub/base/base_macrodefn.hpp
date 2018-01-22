@@ -38,17 +38,17 @@
         aCtl = (aClass *) hubCtl->Module(aCode);    \
     }
 
-#define BMD_REGISTER(aCode, aClass, aMHandle)       \
-    case aCode:                                     \
-    {                                               \
-        aClass *ctl = new aClass;                   \
-        if (ctl->Init() == UErrTrue)                \
-        {                                           \
-            delete ctl;                             \
-            return UErrTrue;                        \
-        }                                           \
-        aMHandle.Add((UHandleT) ctl, aCode);        \
-        return UErrFalse;                           \
+#define BMD_REGISTER(aCode, aClass, aModule, aMHandle)     \
+    case aCode:                                            \
+    {                                                      \
+        aClass *ctl = new aClass(aModule);                 \
+        if (ctl->Init() == UErrTrue)                       \
+        {                                                  \
+            delete ctl;                                    \
+            return UErrTrue;                               \
+        }                                                  \
+        aMHandle.Add((UHandleT) ctl, aCode);               \
+        break;                                             \
     }
 
 #define BMD_DEREGISTER(aCode, aClass, aMHandle) \
@@ -57,7 +57,6 @@
         delete (aClass *) aMHandle[aCode];      \
         break;                                  \
     }
-
 
 /***** Private A *****/
 

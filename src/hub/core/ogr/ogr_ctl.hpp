@@ -34,17 +34,21 @@
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_containertype.hpp"
 
+// hub
+class CHubModuleCtl;
+// ogr
 class COgrTypeCtl;
 class COgrDriverCtl;
 
 class OGR_LIB COgrCtl
 {
   public:
-    COgrCtl();
+    COgrCtl(CHubModuleCtl *aModule);
     ~COgrCtl();
 
     // Init and cleanup all.
     UErrCodeT Init();
+    CHubModuleCtl *Up();
 
     COgrTypeCtl *Type();
 
@@ -71,6 +75,7 @@ class OGR_LIB COgrCtl
     UErrCodeT OgrRegisterAll();
     UErrCodeT OgrCleanupAll();
 
+    CHubModuleCtl *mModule;
     COgrTypeCtl *mType;
 
     // Driver name to "COgrDriverCtl".

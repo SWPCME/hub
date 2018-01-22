@@ -31,6 +31,7 @@
 #include "ust/ust_stringtype.hpp"
 
 // fmd
+class CFmdCtl;
 class CFmdFileCfg;
 class CFmdFileLoad;
 class CFmdFileWrite;
@@ -38,10 +39,11 @@ class CFmdFileWrite;
 class FMD_LIB CFmdFileCtl
 {
   public:
-    CFmdFileCtl();
+    CFmdFileCtl(CFmdCtl *aFmd);
     ~CFmdFileCtl();
 
     UErrCodeT Init();
+    CFmdCtl *Up();
     CFmdFileCfg *Cfg(const UStringT *aFileName,
                      const FmdFileCfgCodeT aCfg);
 
@@ -50,6 +52,7 @@ class FMD_LIB CFmdFileCtl
 
   protected:
   private:
+    CFmdCtl *mFmd;
     CFmdFileCfg *mCfg;
     CFmdFileLoad *mLoad;
     CFmdFileWrite *mWrite;

@@ -29,6 +29,8 @@
 
 #include "core_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // Base.
 #include "base_macrodefn.hpp"
 // Core.
@@ -38,16 +40,19 @@
 #include "sys_ctl.hpp"
 #include "gda_ctl.hpp"
 #include "ogr_ctl.hpp"
+#ifdef HUB_MODULE_PLP
 #include "gsl_ctl.hpp"
 #include "cut_ctl.hpp"
 #include "plp_ctl.hpp"
+#endif  // HUB_MODULE_PLP
 
 /**
  * \brief Constructor.
  */
-CCoreCtl::CCoreCtl()
+CCoreCtl::CCoreCtl(CHubModuleCtl *aModule)
 {
     InitPointer();
+    mModule = aModule;
 }
 
 /**
@@ -82,7 +87,7 @@ CCoreSngCtl *CCoreCtl::Sng()
  */
 CClsCtl *CCoreCtl::Cls()
 {
-    BMD_CLASS_NEW(mCls, CClsCtl);
+    BMD_CLASS_NEW_A_1(mCls, CClsCtl, mModule);
 
     return mCls;
 }
@@ -92,7 +97,7 @@ CClsCtl *CCoreCtl::Cls()
  */
 CSysCtl *CCoreCtl::Sys()
 {
-    BMD_CLASS_NEW(mSys, CSysCtl);
+    BMD_CLASS_NEW_A_1(mSys, CSysCtl, mModule);
 
     return mSys;
 }
@@ -102,7 +107,7 @@ CSysCtl *CCoreCtl::Sys()
  */
 CGdaCtl *CCoreCtl::Gda()
 {
-    BMD_CLASS_NEW(mGda, CGdaCtl);
+    BMD_CLASS_NEW_A_1(mGda, CGdaCtl, mModule);
 
     return mGda;
 }
@@ -112,7 +117,7 @@ CGdaCtl *CCoreCtl::Gda()
  */
 COgrCtl *CCoreCtl::Ogr()
 {
-    BMD_CLASS_NEW(mOgr, COgrCtl);
+    BMD_CLASS_NEW_A_1(mOgr, COgrCtl, mModule);
 
     return mOgr;
 }
@@ -122,7 +127,9 @@ COgrCtl *CCoreCtl::Ogr()
  */
 CGslCtl *CCoreCtl::Gsl()
 {
-    BMD_CLASS_NEW(mGsl, CGslCtl);
+#ifdef HUB_MODULE_GSL
+    BMD_CLASS_NEW_A_1(mGsl, CGslCtl, mModule);
+#endif  // HUB_MODULE_GSL
 
     return mGsl;
 }
@@ -132,7 +139,9 @@ CGslCtl *CCoreCtl::Gsl()
  */
 CCutCtl *CCoreCtl::Cut()
 {
-    BMD_CLASS_NEW(mCut, CCutCtl);
+#ifdef HUB_MODULE_CUT
+    BMD_CLASS_NEW_A_1(mCut, CCutCtl, mModule);
+#endif  // HUB_MODULE_CUT
 
     return mCut;
 }
@@ -142,7 +151,9 @@ CCutCtl *CCoreCtl::Cut()
  */
 CPlpCtl *CCoreCtl::Plp()
 {
-    BMD_CLASS_NEW(mPlp, CPlpCtl);
+#ifdef HUB_MODULE_PLP
+    BMD_CLASS_NEW_A_1(mPlp, CPlpCtl, mModule);
+#endif  // HUB_MODULE_PLP
 
     return mPlp;
 }
@@ -156,12 +167,10 @@ UErrCodeT CCoreCtl::InitPointer()
 {
     // core
     BMD_POINTER_INIT(mSng);
-
-    // module
     BMD_POINTER_INIT(mCls);
     BMD_POINTER_INIT(mSys);
-    BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mGda);
+    BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mGsl);
     BMD_POINTER_INIT(mCut);
     BMD_POINTER_INIT(mPlp);

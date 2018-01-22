@@ -25,7 +25,7 @@
 # Options.
 SRC_DIR = ../../..
 INCLUDE_DIR = -I$(BASE_DIR) -I$(HUB_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
-	-I$(CCS_DIR) -I$(UST_DIR)
+	-I$(CCS_DIR) -I$(WRAP_DIR) -I$(UST_DIR)
 
 # Include.
 OPT_LIST = $(SRC_DIR)/opt.lst

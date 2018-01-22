@@ -129,6 +129,7 @@ typedef void* UDataT;
 const UIntT kNInt = 11;
 const UIntT kNMax = 10000;
 
+/* Module */
 const UIntT kHubCodeCoreBegin = 1;
 const UIntT kHubCodeCoreEnd   = 999;
 const UIntT kHubCodeWrapBegin = 1001;

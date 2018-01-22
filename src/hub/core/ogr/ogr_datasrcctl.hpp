@@ -59,6 +59,7 @@ class OGR_LIB COgrDatasrcCtl
     // COgrLayerCtl* Copy(UStringT* aName);
     UErrCodeT Del(const UStringT* aName);
     UErrCodeT Del(UIntT aId);
+    UErrCodeT Save();
     UErrCodeT Close(const UStringT *aName);
     UErrCodeT Close(UIntT aId);
     UErrCodeT CloseAll();

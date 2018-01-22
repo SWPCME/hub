@@ -33,9 +33,11 @@
 /**
  * \brief Constructor.
  */
-CRstFrmtCtl::CRstFrmtCtl()
+CRstFrmtCtl::CRstFrmtCtl(CRstCtl *aRst)
 {
+    BMD_POINTER_INIT(mRst);
     BMD_POINTER_INIT(mLcp);
+    mRst = aRst;
 }
 
 /**
@@ -44,6 +46,7 @@ CRstFrmtCtl::CRstFrmtCtl()
 CRstFrmtCtl::~CRstFrmtCtl()
 {
     BMD_CLASS_DEL(mLcp);
+    BMD_POINTER_INIT(mRst);
 }
 
 /**
@@ -55,11 +58,19 @@ UErrCodeT CRstFrmtCtl::Init()
 }
 
 /**
+ * \brief Up.
+ */
+CRstCtl *CRstFrmtCtl::Up()
+{
+    return mRst;
+}
+
+/**
  * \brief Landscape.
  */
 CRstFrmtLcp *CRstFrmtCtl::Lcp()
 {
-    BMD_CLASS_NEW(mLcp, CRstFrmtLcp);
+    BMD_CLASS_NEW_A_1(mLcp, CRstFrmtLcp, this);
 
     return mLcp;
 }

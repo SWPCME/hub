@@ -29,23 +29,28 @@
 
 #include "wrap_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
 // wrap
 #include "ust_ctl.hpp"
 #include "rst_ctl.hpp"
 #include "vtr_ctl.hpp"
+#ifdef HUB_MODULE_NCC
 #include "ncc_ctl.hpp"
+#endif  // HUB_MODULE_NCC
 
 /**
  * \brief Constructor.
  */
-CWrapCtl::CWrapCtl()
+CWrapCtl::CWrapCtl(CHubModuleCtl *aModule)
 {
+    BMD_POINTER_INIT(mModule);
     BMD_POINTER_INIT(mUst);
     BMD_POINTER_INIT(mRst);
     BMD_POINTER_INIT(mVtr);
-    BMD_POINTER_INIT(mNcc);
+    mModule = aModule;
 }
 
 /**
@@ -53,10 +58,10 @@ CWrapCtl::CWrapCtl()
  */
 CWrapCtl::~CWrapCtl()
 {
-    BMD_CLASS_DEL(mUst);
-    BMD_CLASS_DEL(mRst);
-    BMD_CLASS_DEL(mVtr);
-    BMD_CLASS_DEL(mNcc);
+    BMD_POINTER_INIT(mUst);
+    BMD_POINTER_INIT(mRst);
+    BMD_POINTER_INIT(mVtr);
+    BMD_POINTER_INIT(mModule);
 }
 
 /**
@@ -72,7 +77,7 @@ UErrCodeT CWrapCtl::Init()
  */
 CUstCtl *CWrapCtl::Ust()
 {
-    BMD_CLASS_NEW(mUst, CUstCtl);
+    BMD_CLASS_NEW_A_1(mUst, CUstCtl, mModule);
 
     return mUst;
 }
@@ -82,7 +87,7 @@ CUstCtl *CWrapCtl::Ust()
  */
 CRstCtl *CWrapCtl::Rst()
 {
-    BMD_CLASS_NEW(mRst, CRstCtl);
+    BMD_CLASS_NEW_A_1(mRst, CRstCtl, mModule);
 
     return mRst;
 }
@@ -92,7 +97,7 @@ CRstCtl *CWrapCtl::Rst()
  */
 CVtrCtl *CWrapCtl::Vtr()
 {
-    BMD_CLASS_NEW(mVtr, CVtrCtl);
+    BMD_CLASS_NEW_A_1(mVtr, CVtrCtl, mModule);
 
     return mVtr;
 }
@@ -102,9 +107,12 @@ CVtrCtl *CWrapCtl::Vtr()
  */
 CNccCtl *CWrapCtl::Ncc()
 {
-    BMD_CLASS_NEW(mNcc, CNccCtl);
+#ifdef HUB_MODULE_NCC
+    // mModule->Register(HubMNcc);
+#endif  // HUB_MODULE_NCC
 
-    return mNcc;
+    // return (CNccCtl *) mModule->Module(HubMNcc);
+    return NULL;
 }
 
 /***** Private A *****/

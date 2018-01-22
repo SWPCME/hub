@@ -33,7 +33,9 @@
 #include "sys_base.h"
 
 // Unix system library.
+#ifdef OS_UNIX
 #include <ftw.h>
+#endif // OS_UNIX
 
 // Module
 #include "ust_stringtype.hpp"

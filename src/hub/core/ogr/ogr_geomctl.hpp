@@ -33,6 +33,7 @@
 #include "ogr_base.h"
 
 class COgrTypeCtl;
+class OgrGeomArcT;
 class COgrGeomBasic;
 class COgrGeomVertex;
 
@@ -41,6 +42,7 @@ class OGR_LIB COgrGeomCtl
   public:
     COgrGeomCtl(const UFileOperCodeT aOper, const OgrGeomTCodeT aGeomT,
                 OgrGeomsHT aGeomsH);
+    COgrGeomCtl(const OgrGeomArcT *aArc, OgrGeomsHT aGeomsH);
     ~COgrGeomCtl();
 
     UErrCodeT Init();
@@ -51,8 +53,10 @@ class OGR_LIB COgrGeomCtl
 
   protected:
   private:
+    UErrCodeT InitPointer();
     UErrCodeT SetHandle(const UFileOperCodeT aOper, const OgrGeomTCodeT aGeomT,
                         OgrGeomsHT aGeomsH);
+    UErrCodeT SetHandle(const OgrGeomArcT *aArc, OgrGeomsHT aGeomsH);
     UErrCodeT DestroyHandle();
 
     OgrGeomHT mGeomH;

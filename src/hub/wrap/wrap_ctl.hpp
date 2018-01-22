@@ -32,7 +32,9 @@
 
 #include "wrap_base.h"
 
-// Class.
+// hub
+class CHubModuleCtl;
+// wrap
 class CUstCtl;
 class CRstCtl;
 class CVtrCtl;
@@ -41,7 +43,7 @@ class CNccCtl;
 class WRAP_LIB CWrapCtl
 {
   public:
-    CWrapCtl();
+    CWrapCtl(CHubModuleCtl *aModule);
     ~CWrapCtl();
 
     UErrCodeT Init();
@@ -52,6 +54,7 @@ class WRAP_LIB CWrapCtl
 
   protected:
   private:
+    CHubModuleCtl *mModule;
     CUstCtl *mUst;
     CRstCtl *mRst;
     CVtrCtl *mVtr;

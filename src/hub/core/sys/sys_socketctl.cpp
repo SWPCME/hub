@@ -29,8 +29,10 @@
 
 #include "sys_socketctl.hpp"
 
+#ifdef OS_UNIX
 // GNU C Library, libc.
 #include <sys/socket.h>
+#endif  // OS_UNIX
 
 /**
  * \brief Constructor.

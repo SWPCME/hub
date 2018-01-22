@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_filescreate.hpp 2017-12 $
+ * $Id: cls_fsattr.hpp 2018-01 $
  *
  * Project:  C language standard library.
- * Purpose:  File system create definition.
+ * Purpose:  File system file attribute definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-01 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,27 +22,25 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#ifndef CLS_FILESCREATE_HPP_INCLUDED
-#define CLS_FILESCREATE_HPP_INCLUDED
+#ifndef CLS_FSATTR_HPP_INCLUDED
+#define CLS_FSATTR_HPP_INCLUDED
 
 #include "cls_base.h"
 
 // ust
 #include "ust/ust_stringtype.hpp"
 
-class CLS_LIB CClsFilesCreate
+class CLS_LIB CClsFsAttr
 {
   public:
-    CClsFilesCreate();
-    ~CClsFilesCreate();
+    CClsFsAttr();
+    ~CClsFsAttr();
 
     UErrCodeT Init();
-
-    UErrCodeT Dir(const UStringT *aDir);
-    UErrCodeT Copy(const UStringT *aDst, const UStringT *aSrc);
+    UErrCodeT Access(const UStringT *aFile);
 
   protected:
   private:
 };
 
-#endif  // CLS_FILESCREATE_HPP_INCLUDED
+#endif  // CLS_FSATTR_HPP_INCLUDED

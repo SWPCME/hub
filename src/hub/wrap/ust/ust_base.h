@@ -36,4 +36,12 @@
 
 typedef UHandleT UstFileHT;
 
+/* Macro. */
+
+#define UST_CTL(aCtl)                           \
+    {                                           \
+        BMD_WRAP_CTL(wrapCtl);                  \
+        aCtl = wrapCtl->Ust();                  \
+    }
+
 #endif  /* UST_BASE_H_INCLUDED */

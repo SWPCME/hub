@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_ctl.hpp 2016-08 $
+ * $Id: ust_ctl.hpp 2018-01 $
  *
  * Project:  Universal structrue library.
  * Purpose:  Controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2018, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -32,33 +32,30 @@
 
 #include "ust_base.h"
 
-// Class
-// Ust group.
+// hub
+class CHubModuleCtl;
+// ust
 class CUstStringCtl;
-class CUstFilesCtl;
-
-typedef struct
-{
-    CUstStringCtl* str;
-    CUstFilesCtl* files;
-} UstGroupT;
+class CUstFsCtl;
 
 class UST_LIB CUstCtl
 {
   public:
-    CUstCtl();
+    CUstCtl(CHubModuleCtl *aModule);
     ~CUstCtl();
+
     UErrCodeT Init();
-    // Group.
-    CUstStringCtl* Str();
-    CUstFilesCtl* Files();
+    CHubModuleCtl *Up();
+
+    CUstStringCtl *Str();
+    CUstFsCtl *Fs();
 
   protected:
   private:
 
-    static CUstCtl* m_ust;
-    UStateCodeT m_state;
-    UstGroupT m_group;
+    CHubModuleCtl *mModule;
+    CUstStringCtl *mStr;
+    CUstFsCtl *mFs;
 };
 
 #endif  // UST_CTL_HPP_INCLUDED

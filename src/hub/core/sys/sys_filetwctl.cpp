@@ -77,9 +77,9 @@ UErrCodeT CSysFileTwCtl::Init()
  */
 UErrCodeT CSysFileTwCtl::Traversal(const UStringT* aPath)
 {
-    int nOpenFD = 0;
-    int flags = 0;
-    nftw(aPath->ToA(), NFtw, nOpenFD, flags);
+    // int nOpenFD = 0;
+    // int flags = 0;
+    // nftw(aPath->ToA(), NFtw, nOpenFD, flags);
 
     return UErrFalse;
 }
@@ -97,13 +97,13 @@ UErrCodeT CSysFileTwCtl::Traversal(const UStringT* aPath)
 int CSysFileTwCtl::NFtw(const char* aFPath, const struct stat* aSB,
                      int aTFlag, struct FTW* aFtwBuf)
 {
-    mIoCmn->PrintF("%-3s %2d %7jd   %-40s %d %s\n",
-                   (aTFlag == FTW_D) ?   "d"   : (aTFlag == FTW_DNR) ? "dnr" :
-                   (aTFlag == FTW_DP) ?  "dp"  : (aTFlag == FTW_F) ?   "f" :
-                   (aTFlag == FTW_NS) ?  "ns"  : (aTFlag == FTW_SL) ?  "sl" :
-                   (aTFlag == FTW_SLN) ? "sln" : "???",
-                   aFtwBuf->level, (intmax_t) aSB->st_size,
-                   aFPath, aFtwBuf->base, aFPath + aFtwBuf->base);
+    // mIoCmn->PrintF("%-3s %2d %7jd   %-40s %d %s\n",
+    //                (aTFlag == FTW_D) ?   "d"   : (aTFlag == FTW_DNR) ? "dnr" :
+    //                (aTFlag == FTW_DP) ?  "dp"  : (aTFlag == FTW_F) ?   "f" :
+    //                (aTFlag == FTW_NS) ?  "ns"  : (aTFlag == FTW_SL) ?  "sl" :
+    //                (aTFlag == FTW_SLN) ? "sln" : "???",
+    //                aFtwBuf->level, (intmax_t) aSB->st_size,
+    //                aFPath, aFtwBuf->base, aFPath + aFtwBuf->base);
 
     return 0;               /* To tell nftw() to continue. */
 }

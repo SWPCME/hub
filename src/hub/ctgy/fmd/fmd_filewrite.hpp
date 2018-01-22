@@ -36,14 +36,17 @@ class CGdaUtilsTr;
 class COgrCtl;
 class CVtrCtl;
 class CFmdTypeCtl;
+class CFmdFileCtl;
 
 class FMD_LIB CFmdFileWrite
 {
   public:
-    CFmdFileWrite();
+    CFmdFileWrite(CFmdFileCtl *aFile);
     ~CFmdFileWrite();
 
     UErrCodeT Init();
+    CFmdFileCtl *Up();
+
     UErrCodeT All(const UStringT *aFile, UFlagCodeT aFlag = UFlagOff);
     // Map Environment.
     UErrCodeT MapEnv(const UStringT *aFile, BTimeTmT *aTm,
@@ -76,6 +79,7 @@ class FMD_LIB CFmdFileWrite
   private:
     UErrCodeT InitPointer();
 
+    CFmdFileCtl *mFile;
     CGdaUtilsTr *mTr;
     COgrCtl *mOgr;
     CVtrCtl *mVtr;

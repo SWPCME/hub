@@ -28,6 +28,7 @@
 #include "base_macrodefn.hpp"
 
 // ogr
+#include "ogr_geomarctype.hpp"
 #include "ogr_geomctl.hpp"
 
 // GDAL/OGR
@@ -68,6 +69,14 @@ COgrGeomCtl *COgrGeomsCtl::Create(const OgrGeomTCodeT aCode)
     UFileOperCodeT oper = UFileOperCreate;
 
     return GeomCtl(oper, aCode);
+}
+
+/**
+ * \brief Create arc.
+ */
+COgrGeomCtl *COgrGeomsCtl::CreateArc(const OgrGeomArcT *aArc)
+{
+    return GeomCtl(aArc);
 }
 
 /**
@@ -136,6 +145,23 @@ COgrGeomCtl *COgrGeomsCtl::GeomCtl(const UFileOperCodeT aOper,
     COgrGeomCtl *geomCtl;
     BMD_POINTER_INIT(geomCtl);
     BMD_CLASS_NEW_A_3(geomCtl, COgrGeomCtl, aOper, aGeomT, mGeomsH);
+
+    if (geomCtl != NULL)
+    {
+        mLGeom.Add(geomCtl);
+    }
+
+    return geomCtl;
+}
+
+/**
+ * \brief Geometry controler.
+ */
+COgrGeomCtl *COgrGeomsCtl::GeomCtl(const OgrGeomArcT *aArc)
+{
+    COgrGeomCtl *geomCtl;
+    BMD_POINTER_INIT(geomCtl);
+    BMD_CLASS_NEW_A_2(geomCtl, COgrGeomCtl, aArc, mGeomsH);
 
     if (geomCtl != NULL)
     {

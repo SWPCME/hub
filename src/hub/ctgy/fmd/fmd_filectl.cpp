@@ -35,11 +35,13 @@
 /**
  * \brief Constructor.
  */
-CFmdFileCtl::CFmdFileCtl()
+CFmdFileCtl::CFmdFileCtl(CFmdCtl *aFmd)
 {
+    BMD_POINTER_INIT(mFmd);
     BMD_POINTER_INIT(mCfg);
     BMD_POINTER_INIT(mLoad);
     BMD_POINTER_INIT(mWrite);
+    mFmd = aFmd;
 }
 
 /**
@@ -50,6 +52,7 @@ CFmdFileCtl::~CFmdFileCtl()
     BMD_CLASS_DEL(mCfg);
     BMD_CLASS_DEL(mLoad);
     BMD_CLASS_DEL(mWrite);
+    BMD_POINTER_INIT(mFmd);
 }
 
 /**
@@ -58,6 +61,14 @@ CFmdFileCtl::~CFmdFileCtl()
 UErrCodeT CFmdFileCtl::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CFmdCtl *CFmdFileCtl::Up()
+{
+    return mFmd;
 }
 
 /**
@@ -76,7 +87,7 @@ CFmdFileCfg *CFmdFileCtl::Cfg(const UStringT *aFileName,
  */
 CFmdFileLoad *CFmdFileCtl::Load()
 {
-    BMD_CLASS_NEW(mLoad, CFmdFileLoad);
+    BMD_CLASS_NEW_A_1(mLoad, CFmdFileLoad, this);
 
     return mLoad;
 }
@@ -86,7 +97,7 @@ CFmdFileLoad *CFmdFileCtl::Load()
  */
 CFmdFileWrite *CFmdFileCtl::Write()
 {
-    BMD_CLASS_NEW(mWrite, CFmdFileWrite);
+    BMD_CLASS_NEW_A_1(mWrite, CFmdFileWrite, this);
 
     return mWrite;
 }

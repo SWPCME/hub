@@ -69,8 +69,9 @@ UErrCodeT CPlpColCtl::SetBg(const BGraphRgbaT *aRgba)
  */
 UErrCodeT CPlpColCtl::SetFg(const BGraphRgbaT *aRgba)
 {
-    SetRgba(aRgba, 0);
-    plcol0(1);
+    UIntT id = 1;
+    SetRgba(aRgba, id - 1);
+    plcol0(id);
 
     return UErrFalse;
 }

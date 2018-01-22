@@ -27,16 +27,20 @@
 
 #include "rst_base.hpp"
 
+// hub
+class CHubModuleCtl;
+// rst
 class CRstUtilCtl;
 class CRstFrmtCtl;
 
 class RST_LIB CRstCtl
 {
   public:
-    CRstCtl();
+    CRstCtl(CHubModuleCtl *aModule);
     ~CRstCtl();
 
     UErrCodeT Init();
+    CHubModuleCtl *Up();
     CRstUtilCtl *Util();
     CRstFrmtCtl *Frmt();
 
@@ -44,6 +48,7 @@ class RST_LIB CRstCtl
   private:
     UErrCodeT InitPointer();
 
+    CHubModuleCtl *mModule;
     CRstUtilCtl *mUtil;
     CRstFrmtCtl *mFrmt;
 };

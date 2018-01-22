@@ -27,13 +27,16 @@
 
 #include "ctgy_base.hpp"
 
+// hub
+class CHubModuleCtl;
+// ctgy
 class CEarthCtl;
 class CFmdCtl;
 
 class CTGY_LIB CCtgyCtl
 {
   public:
-    CCtgyCtl();
+    CCtgyCtl(CHubModuleCtl *aModule);
     ~CCtgyCtl();
 
     UErrCodeT Init();
@@ -42,7 +45,7 @@ class CTGY_LIB CCtgyCtl
 
   protected:
   private:
-    CEarthCtl *mEarth;
+    CHubModuleCtl *mModule;
     CFmdCtl *mFmd;
 };
 

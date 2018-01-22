@@ -65,7 +65,7 @@ CHubModuleCtl *CHubCtl::RegModule()
     BMD_POINTER_INIT(module);
     BMD_CLASS_NEW(module, CHubModuleCtl);
 
-    return mModule;
+    return module;
 }
 
 /**

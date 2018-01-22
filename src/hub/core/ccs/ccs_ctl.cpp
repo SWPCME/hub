@@ -29,15 +29,20 @@
 
 #include "ccs_ctl.hpp"
 
-// Module.
+// hub
+#include "hub_modulectl.hpp"
+// base
+#include "base_macrodefn.hpp"
+// ccs
 #include "ccs_typectl.hpp"
 
 /**
  * \brief Constructor.
  */
-CCcsCtl::CCcsCtl()
+CCcsCtl::CCcsCtl(CHubModuleCtl *aModule)
 {
-    m_group.type = new CCcsTypeCtl;
+    BMD_POINTER_INIT(mType);
+    mModule = aModule;
 }
 
 /**
@@ -45,7 +50,7 @@ CCcsCtl::CCcsCtl()
  */
 CCcsCtl::~CCcsCtl()
 {
-    delete m_group.type;
+    BMD_CLASS_DEL(mType);
 }
 
 /**
@@ -57,9 +62,19 @@ UErrCodeT CCcsCtl::Init()
 }
 
 /**
+ * \brief Up.
+ */
+CHubModuleCtl *CCcsCtl::Up()
+{
+    return mModule;
+}
+
+/**
  * \brief Handle of type control.
  */
 CCcsTypeCtl* CCcsCtl::Type()
 {
-    return m_group.type;
+    BMD_CLASS_NEW(mType, CCcsTypeCtl);
+
+    return mType;
 }

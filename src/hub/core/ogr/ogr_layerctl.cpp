@@ -105,6 +105,17 @@ COgrDatasrcCtl *COgrLayerCtl::Up()
 }
 
 /**
+ * \brief Save.
+ * Synchronism the change for layer to disk.
+ */
+UErrCodeT COgrLayerCtl::Save()
+{
+    OGR_L_SyncToDisk((OGRLayerH) mLayerH);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Get handle of feature definition control.
  *
  * @return Handle of field definition

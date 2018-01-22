@@ -24,17 +24,20 @@
 
 #include "ctgy_ctl.hpp"
 
-// Module.
+// hub
+#include "hub_modulectl.hpp"
+// ctgy
 // #include "earth_ctl.hpp"
 #include "fmd_ctl.hpp"
 
 /**
  * \brief Constructor.
  */
-CCtgyCtl::CCtgyCtl()
+CCtgyCtl::CCtgyCtl(CHubModuleCtl *aModule)
 {
-    mEarth = NULL;
-    mFmd = NULL;
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mFmd);
+    mModule = aModule;
 }
 
 /**
@@ -42,15 +45,8 @@ CCtgyCtl::CCtgyCtl()
  */
 CCtgyCtl::~CCtgyCtl()
 {
-    if (mEarth != NULL)
-    {
-        delete mEarth;
-    }
-
-    if (mFmd != NULL)
-    {
-        delete mFmd;
-    }
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mFmd);
 }
 
 /**
@@ -66,13 +62,7 @@ UErrCodeT CCtgyCtl::Init()
  */
 CEarthCtl *CCtgyCtl::Earth()
 {
-    // if (mEarth == NULL)
-    // {
-    //     mEarth = new CEarthCtl;
-    //     mEarth->Init();
-    // }
-
-    return mEarth;
+    return NULL;
 }
 
 /**
@@ -80,11 +70,7 @@ CEarthCtl *CCtgyCtl::Earth()
  */
 CFmdCtl *CCtgyCtl::Fmd()
 {
-    if (mFmd == NULL)
-    {
-        mFmd = new CFmdCtl;
-        mFmd->Init();
-    }
+    BMD_CLASS_NEW_A_1(mFmd, CFmdCtl, mModule);
 
     return mFmd;
 }

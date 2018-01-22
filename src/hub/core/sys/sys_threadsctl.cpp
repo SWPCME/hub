@@ -29,8 +29,10 @@
 
 #include "sys_threadsctl.hpp"
 
+#ifdef OS_UNIX
 // Posix thread library.
 #include <pthread.h>
+#endif  // OS_UNIX
 
 // Module.
 #include "sys_threadctl.hpp"

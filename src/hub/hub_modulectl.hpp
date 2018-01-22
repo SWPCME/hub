@@ -28,11 +28,20 @@
 #include "hub_base.h"
 // ust
 #include "ust/ust_containertype.hpp"
+#include "ust/ust_stringtype.hpp"
 // base
 #include "base_macrodefn.hpp"
 
 // base
 class CBaseCtl;
+class CBaseTmpCtl;
+// core
+class CGdaCtl;
+class COgrCtl;
+// wrap
+class CRstCtl;
+// ctgy
+class CFmdCtl;
 
 class HUB_LIB CHubModuleCtl
 {
@@ -41,11 +50,20 @@ class HUB_LIB CHubModuleCtl
     ~CHubModuleCtl();
 
     UErrCodeT Init(UFlagCodeT aFlag = UFlagOff);
+    UErrCodeT SetTmpDir(const UStringT *aDir);
     UErrCodeT Register(HubCodeT aCode);
     UErrCodeT RegisterAll();
     UErrCodeT Deregister(HubCodeT aCode);
     UErrCodeT DeregisterAll();
     UHandleT Module(HubCodeT aCode);
+
+    // core
+    CGdaCtl *Gda();
+    COgrCtl *Ogr();
+    // wrap
+    CRstCtl *Rst();
+    // ctgy
+    CFmdCtl *Fmd();
 
  protected:
  private:
@@ -58,6 +76,7 @@ class HUB_LIB CHubModuleCtl
     MHandleCodeT mMCodeH;     /* Register handle. */
 
     CBaseCtl *mBase;
+    CBaseTmpCtl *mTmp;
 };
 
 #endif  /* MODULE_CTL_H_INCLUDED */

@@ -32,37 +32,42 @@
 
 #include "cls_base.h"
 
-// Class.
+// hub
+class CHubModuleCtl;
+// cls
 class CClsTypeCtl;
 class CClsStringCtl;
 class CClsMemoryCtl;
 class CClsIoCtl;
-class CClsFilesCtl;
+class CClsFsCtl;
 class CClsMathCtl;
 class CClsTimeCtl;
 
 class CLS_LIB CClsCtl
 {
  public:
-    CClsCtl();
+    CClsCtl(CHubModuleCtl *aModule);
     ~CClsCtl();
 
     UErrCodeT Init(void);
+    CHubModuleCtl *Up();
+
     CClsTypeCtl *Type(void);
     CClsStringCtl *Str(void);
     CClsMemoryCtl *Mem(void);
     CClsIoCtl *Io(void);
-    CClsFilesCtl *Files(void);
+    CClsFsCtl *Fs(void);
     CClsMathCtl *Math(void);
     CClsTimeCtl *Time(void);
 
  protected:
  private:
+    CHubModuleCtl *mModule;
     CClsTypeCtl *mType;
     CClsStringCtl *mStr;
     CClsMemoryCtl *mMem;
     CClsIoCtl *mIo;
-    CClsFilesCtl *mFiles;
+    CClsFsCtl *mFs;
     CClsMathCtl *mMath;
     CClsTimeCtl *mTime;
 };

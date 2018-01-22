@@ -27,6 +27,8 @@
 
 #include "fmd_base.hpp"
 
+// hub
+class CHubModuleCtl;
 // Fmd.
 class CFmdTypeCtl;
 class CFmdMasterCtl;
@@ -36,11 +38,14 @@ class CFmdBurnCtl;
 class FMD_LIB CFmdCtl
 {
   public:
-    CFmdCtl();
+    CFmdCtl(CHubModuleCtl *aModule);
     ~CFmdCtl();
 
-    // Controler.
+    // Init.
     UErrCodeT Init();
+    CHubModuleCtl *Up();
+
+    // Controler.
     CFmdMasterCtl *Master();
     CFmdFileCtl *File();
     CFmdBurnCtl *Burn();
@@ -51,6 +56,9 @@ class FMD_LIB CFmdCtl
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
+    CHubModuleCtl *mModule;
     FmdFarsiteHT mFarsiteH;
     CFmdTypeCtl *mType;
     CFmdMasterCtl *mMaster;

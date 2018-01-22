@@ -71,23 +71,29 @@ UErrCodeT CClsStreamLine::Init()
  */
 UErrCodeT CClsStreamLine::Line(UStringT *aStr, ClsFileHT aFile)
 {
-    // char *str = (char *) mMem->Alloc(kNMax);
-    // size_t n = kNMax;
+#ifdef OS_UNIX
     char *str = NULL;
     size_t n = 0;
     int err = getline(&str, &n, (FILE *) aFile);
-
     if (err == -1)
     {
         mMem->Free((UHandleT *) &str);
 
-        return UErrFalse;
+        return UErrTrue;
     }
 
     *aStr = str;
     mMem->Free((UHandleT *) &str);
+#endif  // OS_UNIX
 
-    return UErrTrue;
+#ifdef OS_WINDOWS
+    // TODO Consider the n is less than the size of row.
+    char str[kNMax];
+    char *strErr = fgets(str , kNMax, (FILE *) aFile);
+    *aStr = str;
+#endif  // OS_WINDOWS
+
+    return UErrFalse;
 }
 
 

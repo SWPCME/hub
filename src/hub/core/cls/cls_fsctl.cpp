@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_filesctl.cpp 2017-12 $
+ * $Id: cls_fsctl.cpp 2018-01 $
  *
  * Project:  C language standard library.
  * Purpose:  File system controler implemention.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-01 ~ 2018, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -27,28 +27,37 @@
  * DEALINGS IN THE SOFTWARE.
  ****************************************************************************/
 
-#include "cls_filesctl.hpp"
+#include "cls_fsctl.hpp"
 
 // cls
-#include "cls_fileswork.hpp"
-#include "cls_filescreate.hpp"
+#include "cls_fsattr.hpp"
+#include "cls_fswork.hpp"
+#include "cls_fsaccess.hpp"
+#include "cls_fscreate.hpp"
+#include "cls_fsdelete.hpp"
 
 /**
  * \brief Constructor.
  */
-CClsFilesCtl::CClsFilesCtl()
+CClsFsCtl::CClsFsCtl()
 {
+    BMD_POINTER_INIT(mAttr);
     BMD_POINTER_INIT(mWork);
+    BMD_POINTER_INIT(mAccess);
     BMD_POINTER_INIT(mCreate);
+    BMD_POINTER_INIT(mDelete);
 }
 
 /**
  * \brief Destructor.
  */
-CClsFilesCtl::~CClsFilesCtl()
+CClsFsCtl::~CClsFsCtl()
 {
+    BMD_CLASS_DEL(mAttr);
     BMD_CLASS_DEL(mWork);
+    BMD_CLASS_DEL(mAccess);
     BMD_CLASS_DEL(mCreate);
+    BMD_CLASS_DEL(mDelete);
 }
 
 /**
@@ -56,27 +65,57 @@ CClsFilesCtl::~CClsFilesCtl()
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CClsFilesCtl::Init()
+UErrCodeT CClsFsCtl::Init()
 {
     return UErrFalse;
 }
 
 /**
+ * \brief Attribute.
+ */
+CClsFsAttr *CClsFsCtl::Attr()
+{
+    BMD_CLASS_NEW(mAttr, CClsFsAttr);
+
+    return mAttr;
+}
+
+/**
  * \brief Working directory.
  */
-CClsFilesWork *CClsFilesCtl::Work()
+CClsFsWork *CClsFsCtl::Work()
 {
-    BMD_CLASS_NEW(mWork, CClsFilesWork);
+    BMD_CLASS_NEW(mWork, CClsFsWork);
 
     return mWork;
 }
 
 /**
+ * \brief Accessing directory.
+ */
+CClsFsAccess *CClsFsCtl::Access()
+{
+    BMD_CLASS_NEW(mAccess, CClsFsAccess);
+
+    return mAccess;
+}
+
+/**
  * \brief Creating for file system.
  */
-CClsFilesCreate *CClsFilesCtl::Create()
+CClsFsCreate *CClsFsCtl::Create()
 {
-    BMD_CLASS_NEW(mCreate, CClsFilesCreate);
+    BMD_CLASS_NEW(mCreate, CClsFsCreate);
 
     return mCreate;
+}
+
+/**
+ * \brief Delete for file system.
+ */
+CClsFsDelete *CClsFsCtl::Delete()
+{
+    BMD_CLASS_NEW(mDelete, CClsFsDelete);
+
+    return mDelete;
 }

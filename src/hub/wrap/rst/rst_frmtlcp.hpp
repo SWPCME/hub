@@ -31,7 +31,7 @@
 #include "ust/ust_stringtype.hpp"
 
 // cls
-class CClsFilesCtl;
+class CClsFsCtl;
 // gda
 class CGdaDriversCtl;
 class CGdaWarpCtl;
@@ -39,14 +39,17 @@ class CGdaUtilsDem;
 class CGdaUtilsTr;
 class GdaTrRstToRstT;
 class GdaOgrSrsT;
+// rst
+class CRstFrmtCtl;
 
 class RST_LIB CRstFrmtLcp
 {
   public:
-    CRstFrmtLcp();
+    CRstFrmtLcp(CRstFrmtCtl *aFrmt);
     ~CRstFrmtLcp();
 
     UErrCodeT Init();
+    CRstFrmtCtl *Up();
     UErrCodeT Create(const UStringT *aLcp, const UStringT *aElev,
                      const UStringT *aFm, const UStringT *aCt);
     UErrCodeT Tr(const UStringT *aDst, const UStringT *aSrc,
@@ -62,7 +65,8 @@ class RST_LIB CRstFrmtLcp
                      GdaOgrSrsT *aDstSrs);
     UErrCodeT ToLcp(const UStringT *aDst, const UStringT *aSrc);
 
-    CClsFilesCtl *mFs;
+    CRstFrmtCtl *mFrmt;
+    CClsFsCtl *mFs;
     CGdaDriversCtl *mDrs;
     CGdaWarpCtl *mWarp;
     CGdaUtilsDem *mDem;

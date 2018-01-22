@@ -25,8 +25,7 @@
 # Options.
 SRC_DIR = ../../..
 INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
-	-I$(CCS_DIR) -I$(OGR_DIR) -I$(WRAP_DIR) -I$(UST_DIR) \
-	-I$(INSTALL_H_DIR)/gdal/${OS} 
+	-I$(CCS_DIR) -I$(OGR_DIR) -I$(WRAP_DIR) -I$(UST_DIR) -I$(GDAL_INCLUDE)
 
 # Include.
 OPT_LIST = $(SRC_DIR)/opt.lst

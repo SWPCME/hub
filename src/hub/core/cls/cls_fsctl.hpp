@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_unictl.hpp 2017-12 $
+ * $Id: cls_fsctl.hpp 2018-01 $
  *
  * Project:  C language standard library.
  * Purpose:  File system controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016-08 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-01 ~ 2018, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -27,30 +27,39 @@
  * DEALINGS IN THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef CLS_FILESCTL_HPP_INCLUDED
-#define CLS_FILESCTL_HPP_INCLUDED
+#ifndef CLS_FSCTL_HPP_INCLUDED
+#define CLS_FSCTL_HPP_INCLUDED
 
 #include "cls_base.h"
 #include "ust/ust_stringtype.hpp"
 
-class CClsFilesWork;
-class CClsFilesCreate;
+class CClsFsAttr;
+class CClsFsWork;
+class CClsFsAccess;
+class CClsFsCreate;
+class CClsFsDelete;
 
-class CLS_LIB CClsFilesCtl
+class CLS_LIB CClsFsCtl
 {
  public:
-    CClsFilesCtl();
-    ~CClsFilesCtl();
+    CClsFsCtl();
+    ~CClsFsCtl();
 
     UErrCodeT Init();
 
-    CClsFilesWork *Work();
-    CClsFilesCreate *Create();
+    CClsFsAttr *Attr();
+    CClsFsWork *Work();
+    CClsFsAccess *Access();
+    CClsFsCreate *Create();
+    CClsFsDelete *Delete();
 
  protected:
  private:
-    CClsFilesWork *mWork;
-    CClsFilesCreate *mCreate;
+    CClsFsAttr *mAttr;
+    CClsFsWork *mWork;
+    CClsFsAccess *mAccess;
+    CClsFsCreate *mCreate;
+    CClsFsDelete *mDelete;
 };
 
-#endif  // CLS_FILESCTL_HPP_INCLUDED
+#endif  // CLS_FSCTL_HPP_INCLUDED

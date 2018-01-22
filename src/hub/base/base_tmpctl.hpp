@@ -27,10 +27,14 @@
 
 #include "hub_base.h"
 
-// cls
-#include "cls/cls_filesctl.hpp"
 // ust
 #include "ust/ust_stringtype.hpp"
+
+// hub
+class CHubModuleCtl;
+// cls
+class CClsFsCtl;
+class CClsTimeCtl;
 
 class HUB_LIB CBaseTmpCtl
 {
@@ -40,15 +44,24 @@ class HUB_LIB CBaseTmpCtl
 
     UErrCodeT Init();
 
-    UStringT Dir(HubCodeT aCode);
+    UErrCodeT SetRootDir(const UStringT *aDir, CHubModuleCtl *aModule);
+    UStringT Dir(HubCodeT aCode, CHubModuleCtl *aModule);
 
-    UErrCodeT MkDir(HubCodeT aCode);
-    UErrCodeT RmDir(HubCodeT aCode);
+    UErrCodeT MkDir(HubCodeT aCode, CHubModuleCtl *aModule);
+    UErrCodeT RmDir(HubCodeT aCode, CHubModuleCtl *aModule);
+    UErrCodeT RmRootDir(CHubModuleCtl *aModule);
 
   private:
   protected:
-    CClsFilesCtl *mFs;
-    UStringT mDir;
+    typedef UContainerT<UStringT, CHubModuleCtl*> MStringModuleT;
+    typedef UIteratorT<UStringT, CHubModuleCtl*> MStringModuleItT;
+
+    UErrCodeT SetDefaultDir(CHubModuleCtl *aModule);
+    UErrCodeT DelAllDir();
+
+    MStringModuleT mMDir;
+    CClsFsCtl *mFs;
+    CClsTimeCtl *mTime;
 };
 
 #endif  // BASE_TMPCTL_HPP_INCLUDED

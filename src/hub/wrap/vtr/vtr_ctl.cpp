@@ -29,6 +29,8 @@
 
 #include "vtr_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_ctl.hpp"
 #include "base_macrodefn.hpp"
@@ -43,10 +45,12 @@
 /**
  * \brief Constructor
  */
-CVtrCtl::CVtrCtl()
+CVtrCtl::CVtrCtl(CHubModuleCtl *aModule)
 {
+    BMD_POINTER_INIT(mModule);
     m_mDataSrc = new MVtrDataSrcT(UContainerMap);
     BMD_POINTER_INIT(mFrmt);
+    mModule = aModule;
 }
 
 /**
@@ -56,6 +60,7 @@ CVtrCtl::~CVtrCtl()
 {
     delete m_mDataSrc;
     BMD_CLASS_DEL(mFrmt);
+    BMD_POINTER_INIT(mModule);
 }
 
 /**
@@ -70,6 +75,14 @@ UErrCodeT CVtrCtl::Init()
     m_ogr = coreCtl->Ogr();
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *CVtrCtl::Up()
+{
+    return mModule;
 }
 
 /**

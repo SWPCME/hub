@@ -70,7 +70,8 @@ UErrCodeT CFmdTypeCtl::ToTm(BTimeTmT *aTm, const UFloatT aTime)
 {
     bool mode = false;
     ((Farsite5 *) mFarsiteH)->ConvertSimtimeToActualTime
-        (aTime, &aTm->mon, &aTm->mday, &aTm->hour, &aTm->min, mode);
+        ((double) aTime, (long *) &aTm->mon, (long *) &aTm->mday,
+         (long *) &aTm->hour, (long *) &aTm->min, mode);
 
     return UErrFalse;
 }

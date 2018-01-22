@@ -37,11 +37,13 @@
 // ogr
 #include "ogr_ctl.hpp"
 #include "ogr_typectl.hpp"
+#include "ogr_geomarctype.hpp"
 #include "ogr_geombasic.hpp"
 #include "ogr_geomvertex.hpp"
 
 // GDAL
 #include "ogr_api.h"
+#include "ogr_geometry.h"
 
 /**
  * \brief Constructor.
@@ -49,11 +51,17 @@
 COgrGeomCtl::COgrGeomCtl(const UFileOperCodeT aOper, const OgrGeomTCodeT aGeomT,
                          OgrGeomsHT aGeomsH)
 {
-    BMD_POINTER_INIT(mGeomH);
+    InitPointer();
     SetHandle(aOper, aGeomT, aGeomsH);
-    BMD_POINTER_INIT(mType);
-    BMD_POINTER_INIT(mBasic);
-    BMD_POINTER_INIT(mVertex);
+}
+
+/**
+ * \brief Constructor.
+ */
+COgrGeomCtl::COgrGeomCtl(const OgrGeomArcT *aArc, OgrGeomsHT aGeomsH)
+{
+    InitPointer();
+    SetHandle(aArc, aGeomsH);
 }
 
 /**
@@ -108,6 +116,19 @@ COgrGeomVertex *COgrGeomCtl::Vertex()
 /***** Private A *****/
 
 /**
+ * \brief Init pointer.
+ */
+UErrCodeT COgrGeomCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mGeomH);
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mBasic);
+    BMD_POINTER_INIT(mVertex);
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set handle.
  */
 UErrCodeT COgrGeomCtl::SetHandle(const UFileOperCodeT aOper,
@@ -131,6 +152,31 @@ UErrCodeT COgrGeomCtl::SetHandle(const UFileOperCodeT aOper,
     }
 
     return UErrTrue;
+}
+
+/**
+ * \brief Set handle.
+ */
+UErrCodeT COgrGeomCtl::SetHandle(const OgrGeomArcT *aArc, OgrGeomsHT aGeomsH)
+{
+    BMathCsC3dT center = aArc->Center();
+    double centerX = center.X();
+    double centerY = center.Y();
+    double z = 0.0;
+
+    BMathCsC2dT radius = aArc->Radius();
+    double primaryRadius = radius.X();
+    double secondaryRadius = radius.Y();
+    double rotation = 360.0;
+    double startAngle = 0.0;
+    double endAngle = 360.0;
+    double maxAngleStepSizeDegrees = 0.0;
+
+    mGeomH = (OgrGeomHT) OGRGeometryFactory::approximateArcAngles
+        (centerX, centerY, z, primaryRadius, secondaryRadius, rotation,
+         startAngle, endAngle, maxAngleStepSizeDegrees);
+
+    return UErrFalse;
 }
 
 /**

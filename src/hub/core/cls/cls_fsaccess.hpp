@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cls_fileswork.hpp 2017-12 $
+ * $Id: cls_fsaccess.hpp 2018-01 $
  *
  * Project:  C language standard library.
- * Purpose:  File system working directory definition.
+ * Purpose:  File system accessing directories definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-01 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,26 +22,25 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#ifndef CLS_FILESWORK_HPP_INCLUDED
-#define CLS_FILESWORK_HPP_INCLUDED
+#ifndef CLS_FSACCESS_HPP_INCLUDED
+#define CLS_FSACCESS_HPP_INCLUDED
 
 #include "cls_base.h"
 
-// ust
-#include "ust/ust_stringtype.hpp"
+// cls
+#include "cls_fsfiletype.hpp"
 
-class CLS_LIB CClsFilesWork
+class CLS_LIB CClsFsAccess
 {
   public:
-    CClsFilesWork();
-    ~CClsFilesWork();
+    CClsFsAccess();
+    ~CClsFsAccess();
 
     UErrCodeT Init();
-
-    UErrCodeT Cur(UStringT* aStr);
+    UErrCodeT Dir(ClsFsFileCtnT *aFileCtn, const UStringT *aDir);
 
   protected:
   private:
 };
 
-#endif  // CLS_FILESWORK_HPP_INCLUDED
+#endif  // CLS_FSACCESS_HPP_INCLUDED

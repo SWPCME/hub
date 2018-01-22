@@ -32,6 +32,8 @@
 
 #include "core_base.h"
 
+// hub
+class CHubModuleCtl;
 // core
 class CCoreSngCtl;
 // module
@@ -46,7 +48,7 @@ class CPlpCtl;
 class CORE_LIB CCoreCtl
 {
   public:
-    CCoreCtl();
+    CCoreCtl(CHubModuleCtl *aModule);
     ~CCoreCtl();
 
     UErrCodeT Init();
@@ -66,9 +68,10 @@ class CORE_LIB CCoreCtl
 
     UErrCodeT InitPointer();
 
+    // hub
+    CHubModuleCtl *mModule;
     // core
     CCoreSngCtl *mSng;
-    // module
     CClsCtl *mCls;
     CSysCtl *mSys;
     CGdaCtl *mGda;

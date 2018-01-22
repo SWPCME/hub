@@ -32,6 +32,8 @@
 // Ogr library.
 #include "ogr_api.h"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
 // ogr
@@ -41,9 +43,11 @@
 /**
  * \brief Constructor.
  */
-COgrCtl::COgrCtl() : mMDriver(UContainerMap)
+COgrCtl::COgrCtl(CHubModuleCtl *aModule) : mMDriver(UContainerMap)
 {
     BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mModule);
+    mModule = aModule;
 }
 
 /**
@@ -68,6 +72,14 @@ UErrCodeT COgrCtl::Init()
     OgrRegisterAll();
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *COgrCtl::Up()
+{
+    return mModule;
 }
 
 /**

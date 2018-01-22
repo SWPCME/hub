@@ -28,7 +28,7 @@
 #include "hub_base.h"
 
 /**
- * \brief BTimeDateT.
+ * \brief BTimeTmT.
  */
 typedef struct
 {

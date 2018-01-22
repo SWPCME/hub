@@ -56,6 +56,9 @@ class OGR_LIB COgrLayerCtl
     // Framework.
     COgrDatasrcCtl *Up();
 
+    // Operate
+    UErrCodeT Save();
+
     // Handle.
     COgrFeatureDefn *FeatureDefn();
     COgrFeaturesCtl *Features();

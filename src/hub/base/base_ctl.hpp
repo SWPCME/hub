@@ -27,6 +27,7 @@
 
 #include "hub_base.h"
 
+class CHubModuleCtl;
 class CCoreCtl;
 class CWrapCtl;
 class CCtgyCtl;
@@ -49,6 +50,7 @@ class HUB_LIB CBaseCtl
     ~CBaseCtl();
 
     static CBaseCtl *mBase;
+    CHubModuleCtl *mModule;
     CCoreCtl *mCore;
     CWrapCtl *mWrap;
     CCtgyCtl *mCtgy;

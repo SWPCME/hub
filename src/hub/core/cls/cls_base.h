@@ -70,6 +70,13 @@ typedef enum
     ClsFileOperWba = 27,         /* Write/Bit/Add. */
 } ClsFileOperCodeT;
 
+typedef enum
+{
+    ClsFsFileTypeUnknown = 0,   /* This type is unknown. */
+    ClsFsFileTypeReg     = 1,   /* A regular file. */
+    ClsFsFileTypeDir     = 2,   /* A directory. */
+} ClsFsFileTypeCodeT;
+
 /* Time. */
 typedef UHandleT ClsTimeHT;
 typedef UHandleT ClsTmHT;

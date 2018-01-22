@@ -51,6 +51,7 @@ UErrCodeT CPlpLineCtl::Init()
 
 /**
  * \brief Line.
+ *
  * Draws line segments connecting a series of points.
  */
 UErrCodeT CPlpLineCtl::Line(const BCtnMathCsC2dT *aPtrs)

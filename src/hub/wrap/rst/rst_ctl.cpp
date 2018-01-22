@@ -24,6 +24,8 @@
 
 #include "rst_ctl.hpp"
 
+// hub
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
 // rst
@@ -33,9 +35,10 @@
 /**
  * \brief Constructor.
  */
-CRstCtl::CRstCtl()
+CRstCtl::CRstCtl(CHubModuleCtl *aModule)
 {
     InitPointer();
+    mModule = aModule;
 }
 
 /**
@@ -45,6 +48,7 @@ CRstCtl::~CRstCtl()
 {
     BMD_CLASS_DEL(mUtil);
     BMD_CLASS_DEL(mFrmt);
+    InitPointer();
 }
 
 /**
@@ -53,6 +57,14 @@ CRstCtl::~CRstCtl()
 UErrCodeT CRstCtl::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *CRstCtl::Up()
+{
+    return mModule;
 }
 
 /**
@@ -70,7 +82,7 @@ CRstUtilCtl *CRstCtl::Util()
  */
 CRstFrmtCtl *CRstCtl::Frmt()
 {
-    BMD_CLASS_NEW(mFrmt, CRstFrmtCtl);
+    BMD_CLASS_NEW_A_1(mFrmt, CRstFrmtCtl, this);
 
     return mFrmt;
 }
@@ -82,6 +94,7 @@ CRstFrmtCtl *CRstCtl::Frmt()
  */
 UErrCodeT CRstCtl::InitPointer()
 {
+    BMD_POINTER_INIT(mModule);
     BMD_POINTER_INIT(mUtil);
     BMD_POINTER_INIT(mFrmt);
 

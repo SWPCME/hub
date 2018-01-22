@@ -31,9 +31,9 @@
 #include "core_ctl.hpp"
 // cls
 #include "cls_ctl.hpp"
-#include "cls_filesctl.hpp"
-#include "cls_fileswork.hpp"
-#include "cls_filescreate.hpp"
+#include "cls_fsctl.hpp"
+#include "cls_fswork.hpp"
+#include "cls_fscreate.hpp"
 // gda
 #include "gda_ctl.hpp"
 #include "gda_corectl.hpp"
@@ -50,13 +50,17 @@
 #include "gda_trrsttorsttype.hpp"
 #include "gda_utilsdem.hpp"
 #include "gda_demproctype.hpp"
+// rst
+#include "rst_ctl.hpp"
+#include "rst_frmtctl.hpp"
 
 /**
  * \brief Constructor.
  */
-CRstFrmtLcp::CRstFrmtLcp()
+CRstFrmtLcp::CRstFrmtLcp(CRstFrmtCtl *aFrmt)
 {
     InitPointer();
+    mFrmt = aFrmt;
 }
 
 /**
@@ -72,13 +76,16 @@ CRstFrmtLcp::~CRstFrmtLcp()
  */
 UErrCodeT CRstFrmtLcp::Init()
 {
+    CRstFrmtCtl *frmt = Up();
+    CRstCtl *rst = frmt->Up();
+    CHubModuleCtl *module = rst->Up();
     CBaseCtl *base = CBaseCtl::Base();
     CBaseTmpCtl *tmp = base->Tmp();
-    mTmpDir = tmp->Dir(HubMRst);
+    mTmpDir = tmp->Dir(HubMRst, module);
 
     CClsCtl *cls = NULL;
     CLS_CTL(cls);
-    mFs = cls->Files();
+    mFs = cls->Fs();
 
     CGdaCoreCtl *core = NULL;
     GDA_CORE_CTL(core);
@@ -92,6 +99,14 @@ UErrCodeT CRstFrmtLcp::Init()
     mTr = utils->Tr();
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CRstFrmtCtl *CRstFrmtLcp::Up()
+{
+    return mFrmt;
 }
 
 /**
@@ -113,7 +128,7 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     // Change the projection coordinate system.
     UStringT elev = mTmpDir;
     elev += "/elevation.tif";
-    CClsFilesCreate *fsCreate = mFs->Create();
+    CClsFsCreate *fsCreate = mFs->Create();
     fsCreate->Copy(&elev, aElev);
     
     // UAccessCodeT access = UAccessRead;
@@ -189,6 +204,7 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     strR2rOpt.Add("Int16");
     r2rOpt.SetAll(frmt, &strR2rOpt);
     trRst->ToRst(&lcpTmp, dsElev, &r2rOpt);
+    drTif->Close(&elev);
 
     // Set band 1, 2, 3 for lcpTmp.
     CGdaDatasetCtl *dsLcpTmp = drTif->Load(&lcpTmp, access);
@@ -196,6 +212,8 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     dsLcpTmp->SetBand(2, bandSlope);
     CGdaBandCtl *bandAspect = dsAspect->Band(1);
     dsLcpTmp->SetBand(3, bandAspect);
+    drTif->Close(&slope);
+    drTif->Close(&aspect);
 
     // Set band 4 for lcpTmp.
     CGdaBandCtl *bandLt4 = dsLcpTmp->Band(4);
@@ -228,6 +246,7 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     strR2rOpt.Add("LINEAR_UNIT=METER");
     r2rOpt.SetAll(frmt, &strR2rOpt);
     trRst->ToRst(aLcp, dsLcpTmp, &r2rOpt);
+    drTif->Close(&lcpTmp);
 
     return UErrFalse;
 }
@@ -254,6 +273,7 @@ UErrCodeT CRstFrmtLcp::Tr(const UStringT *aDst, const UStringT *aSrc,
  */
 UErrCodeT CRstFrmtLcp::InitPointer()
 {
+    BMD_POINTER_INIT(mFrmt);
     BMD_POINTER_INIT(mWarp);
     BMD_POINTER_INIT(mTr);
     BMD_POINTER_INIT(mDem);

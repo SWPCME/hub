@@ -32,26 +32,26 @@
 
 #include "ccs_base.h"
 
-// Class.
+// hub
+class CHubModuleCtl;
+// ccs
 class CCcsTypeCtl;
-
-typedef struct
-{
-    CCcsTypeCtl* type;
-} CcsGroupT;
 
 class CCS_LIB CCcsCtl
 {
   public:
-    CCcsCtl();
+    CCcsCtl(CHubModuleCtl *aModule);
     ~CCcsCtl();
 
     UErrCodeT Init();
+    CHubModuleCtl *Up();
+
     CCcsTypeCtl* Type();
 
   protected:
   private:
-    CcsGroupT m_group;
+    CHubModuleCtl *mModule;
+    CCcsTypeCtl *mType;
 };
 
 #endif  // CCS_CTL_HPP_INCLUDED

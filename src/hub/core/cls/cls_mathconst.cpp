@@ -54,5 +54,8 @@ UErrCodeT CClsMathConst::Init()
  */
 UFloatT CClsMathConst::Pi()
 {
+#ifdef OS_WINDOWS
+#define M_PI 3.14159265358979323846
+#endif  // OS_WINDOWS
     return M_PI;
 }

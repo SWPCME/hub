@@ -27,7 +27,7 @@
 #
 # Directory.
 SRC_DIR = ..
-OBJ_DIR = $(TMP_DIR)
+# OBJ_DIR = $(BUILD_DIR)
 DOC_SRC_DIR = .
 # Search.
 INCLUDE_DIR = -I$(CURRENT_DIR) -I${BASE_DIR} -I$(CORE_DIR) -I$(CLS_DIR) \

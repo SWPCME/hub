@@ -32,6 +32,7 @@
 #include "ust/ust_containertype.hpp"
 
 class COgrGeomCtl;
+class OgrGeomArcT;
 
 class OGR_LIB COgrGeomsCtl
 {
@@ -41,7 +42,10 @@ class OGR_LIB COgrGeomsCtl
 
     UErrCodeT Init();
 
+    // Create.
     COgrGeomCtl *Create(const OgrGeomTCodeT aCode);
+    COgrGeomCtl *CreateArc(const OgrGeomArcT *aArc);
+
     UErrCodeT Set(COgrGeomCtl *aGeom);
     COgrGeomCtl *Load();
     UErrCodeT Close(COgrGeomCtl *aGeom);
@@ -55,6 +59,7 @@ class OGR_LIB COgrGeomsCtl
     UErrCodeT SetHandle(OgrFeatureHT aFeatureH);
     COgrGeomCtl *GeomCtl(const UFileOperCodeT aOper,
                          const OgrGeomTCodeT aGeomT = OgrGeomTUnknown);
+    COgrGeomCtl *GeomCtl(const OgrGeomArcT *aArc);
 
     LGeomT mLGeom;
     OgrGeomsHT mGeomsH;

@@ -27,6 +27,8 @@
 // Firemod.
 #include "Farsite5.h"
 
+// hub
+#include "hub_modulectl.hpp"
 // Base.
 #include "base_macrodefn.hpp"
 // Fmd.
@@ -38,13 +40,10 @@
 /**
  * \brief Constructor.
  */
-CFmdCtl::CFmdCtl()
+CFmdCtl::CFmdCtl(CHubModuleCtl *aModule)
 {
-    BMD_POINTER_INIT(mFarsiteH);
-    BMD_POINTER_INIT(mMaster);
-    BMD_POINTER_INIT(mType);
-    BMD_POINTER_INIT(mFile);
-    BMD_POINTER_INIT(mBurn);
+    InitPointer();
+    mModule = aModule;
 }
 
 /**
@@ -57,6 +56,7 @@ CFmdCtl::~CFmdCtl()
     BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mFile);
     BMD_CLASS_DEL(mBurn);
+    InitPointer();
 }
 
 /**
@@ -65,6 +65,14 @@ CFmdCtl::~CFmdCtl()
 UErrCodeT CFmdCtl::Init()
 {
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CHubModuleCtl *CFmdCtl::Up()
+{
+    return mModule;
 }
 
 /**
@@ -102,7 +110,7 @@ CFmdTypeCtl *CFmdCtl::Type()
  */
 CFmdFileCtl *CFmdCtl::File()
 {
-    BMD_CLASS_NEW(mFile, CFmdFileCtl);
+    BMD_CLASS_NEW_A_1(mFile, CFmdFileCtl, this);
 
     return mFile;
 }
@@ -116,3 +124,22 @@ CFmdBurnCtl *CFmdCtl::Burn()
 
     return mBurn;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Init pointer.
+ */
+UErrCodeT CFmdCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mMaster);
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mFile);
+    BMD_POINTER_INIT(mBurn);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

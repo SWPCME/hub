@@ -72,9 +72,10 @@ static const UStringT kSCsv = "csv";
 /**
  * \brief Constructor.
  */
-CFmdFileWrite::CFmdFileWrite()
+CFmdFileWrite::CFmdFileWrite(CFmdFileCtl *aFile)
 {
     InitPointer();
+    mFile = aFile;
 }
 
 /**
@@ -90,9 +91,12 @@ CFmdFileWrite::~CFmdFileWrite()
  */
 UErrCodeT CFmdFileWrite::Init()
 {
+    CFmdFileCtl *fmdFile = Up();
+    CFmdCtl *fmd = fmdFile->Up();
+    CHubModuleCtl *module = fmd->Up();
     CBaseCtl *base = CBaseCtl::Base();
     CBaseTmpCtl *tmp = base->Tmp();
-    mTmpDir = tmp->Dir(HubMFmd);
+    mTmpDir = tmp->Dir(HubMFmd, module);
 
     CGdaUtilsCtl *utils = NULL;
     GDA_UTILS_CTL(utils);
@@ -106,6 +110,14 @@ UErrCodeT CFmdFileWrite::Init()
     FMD_TYPE_CTL(mType);
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CFmdFileCtl *CFmdFileWrite::Up()
+{
+    return mFile;
 }
 
 /**
@@ -398,6 +410,8 @@ UErrCodeT CFmdFileWrite::PerimetersGjson(UStringT *aStr)
     srs.SetProjCs(projCs);
     r2rOpt.SetSrs(&srs);
     trVtr->ToVtr(&dst, &dsCtn, &r2rOpt);
+    dsCtn.Clear();
+    dr->Close(&src);
 
     // String to file.
     CVtrFrmtCtl *frmtCtl = mVtr->Frmt();
@@ -466,6 +480,7 @@ UErrCodeT CFmdFileWrite::Timings(const UStringT *aFile)
  */
 UErrCodeT CFmdFileWrite::InitPointer()
 {
+    BMD_POINTER_INIT(mFile);
     BMD_POINTER_INIT(mTr);
     BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mVtr);

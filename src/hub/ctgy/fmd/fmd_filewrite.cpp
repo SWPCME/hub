@@ -93,6 +93,7 @@ UErrCodeT CFmdFileWrite::Init()
 {
     CFmdFileCtl *fmdFile = Up();
     CFmdCtl *fmd = fmdFile->Up();
+    mFarsiteH = fmd->FarsiteH();
     CHubModuleCtl *module = fmd->Up();
     CBaseCtl *base = CBaseCtl::Base();
     CBaseTmpCtl *tmp = base->Tmp();
@@ -106,7 +107,7 @@ UErrCodeT CFmdFileWrite::Init()
 
     VTR_CTL(mVtr);
 
-    FMD_FARSITE_H(mFarsiteH);
+    // FMD_FARSITE_H(mFarsiteH);
     FMD_TYPE_CTL(mType);
 
     return UErrFalse;

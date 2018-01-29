@@ -1,0 +1,46 @@
+################################################################################
+# $Id: opt.lst 2018-01 $
+#
+# Project:  Prj.
+# Purpose:  Make base options.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2018-01 ~ 2018 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+# Project name
+NAME = hub
+
+# Mode
+OS = x86_64-pc-linux-gnu
+TARGET_OS = x86_64-pc-linux-gnu
+# TARGET_OS = x86_64-w64-mingw32
+DEBUG = yes
+
+# Version
+VERSION = 0.0.1
+
+# Directory
+HOME_DIR = /home/swpcme
+WORK_DIR = $(HOME_DIR)/file/source/swpcme/${NAME}
+MK_DIR = $(HOME_DIR)/me/usr/share/prj/mk
+
+# Makefile
+INSTALL_DIR = $(SRC_DIR)/../install
+DOC_API_CFG_DIR = $(SRC_DIR)/../doc/api
+DOC_API_CFG_FILE = $(SRC_DIR)/../doc/api/doc_main
+BUILD_DIR = $(SRC_DIR)/../build

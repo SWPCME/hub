@@ -1,3 +1,4 @@
 C_OBJ = ui_ctl.o
 
 C_LIB_SO_NAME = ui
+C_EXTRA_LIB_SO = -lhub -lgdal -lfiremod -lbsn

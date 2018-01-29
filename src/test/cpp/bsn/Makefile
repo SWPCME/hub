@@ -6,7 +6,7 @@
 #
 # Directory.
 SRC_DIR = ../../..
-OBJ_DIR = $(TMP_DIR)/bsn
+OBJ_DIR = $(BUILD_DIR)/$(TARGET_OS)/bsn
 # Search.
 INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CLS_DIR) \
 	-I$(CCS_DIR) -I${GDA_DIR} -I$(OGR_DIR) -I$(GSL_DIR) -I$(CUT_DIR) \

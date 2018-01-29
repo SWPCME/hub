@@ -80,97 +80,97 @@ UErrCodeT CHubCtl::DeregModule(CHubModuleCtl *aModule)
     return UErrFalse;
 }
 
-/**
- * \brief Register.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CHubCtl::Register(HubCodeT aCode)
-{
-    return mModule->Register(aCode);
-}
+// /**
+//  * \brief Register.
+//  *
+//  * @return UErrFalse, if successful; UErrTrue, if failed.
+//  */
+// UErrCodeT CHubCtl::Register(HubCodeT aCode)
+// {
+//     return mModule->Register(aCode);
+// }
 
-/**
- * \brief Register all.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CHubCtl::RegisterAll()
-{
-    return mModule->RegisterAll();
-}
+// /**
+//  * \brief Register all.
+//  *
+//  * @return UErrFalse, if successful; UErrTrue, if failed.
+//  */
+// UErrCodeT CHubCtl::RegisterAll()
+// {
+//     return mModule->RegisterAll();
+// }
 
-/**
- * \brief Deregister.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CHubCtl::Deregister(HubCodeT aCode)
-{
-    return mModule->Deregister(aCode);
-}
+// /**
+//  * \brief Deregister.
+//  *
+//  * @return UErrFalse, if successful; UErrTrue, if failed.
+//  */
+// UErrCodeT CHubCtl::Deregister(HubCodeT aCode)
+// {
+//     return mModule->Deregister(aCode);
+// }
 
-/**
- * \brief Deregister all.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT CHubCtl::DeregisterAll()
-{
-    return mModule->DeregisterAll();
-}
+// /**
+//  * \brief Deregister all.
+//  *
+//  * @return UErrFalse, if successful; UErrTrue, if failed.
+//  */
+// UErrCodeT CHubCtl::DeregisterAll()
+// {
+//     return mModule->DeregisterAll();
+// }
 
-/**
- * \brief Get module.
- *
- * @param aCode Hub code.
- *
- * @return Handle that you select by aCode.
- */
-UHandleT CHubCtl::Module(HubCodeT aCode)
-{
-    return mModule->Module(aCode);
-}
+// /**
+//  * \brief Get module.
+//  *
+//  * @param aCode Hub code.
+//  *
+//  * @return Handle that you select by aCode.
+//  */
+// UHandleT CHubCtl::Module(HubCodeT aCode)
+// {
+//     return mModule->Module(aCode);
+// }
 
-/**
- * \brief Gda handle.
- *
- * @return Handle of gda, if successful; NULL, if failed.
- */
-CGdaCtl *CHubCtl::Gda()
-{
-    return (CGdaCtl *) Module(HubMGda);
-}
+// /**
+//  * \brief Gda handle.
+//  *
+//  * @return Handle of gda, if successful; NULL, if failed.
+//  */
+// CGdaCtl *CHubCtl::Gda()
+// {
+//     return (CGdaCtl *) Module(HubMGda);
+// }
 
-/**
- * \brief Ogr handle.
- *
- * @return Handle of ogr, if successful; NULL, if failed.
- */
-COgrCtl *CHubCtl::Ogr()
-{
-    return (COgrCtl *) Module(HubMOgr);
-}
+// /**
+//  * \brief Ogr handle.
+//  *
+//  * @return Handle of ogr, if successful; NULL, if failed.
+//  */
+// COgrCtl *CHubCtl::Ogr()
+// {
+//     return (COgrCtl *) Module(HubMOgr);
+// }
 
-/**
- * \brief Rst handle.
- *
- * @return Handle of rst, if successful; NULL, if failed.
- */
-CRstCtl *CHubCtl::Rst()
-{
-    return (CRstCtl *) Module(HubMRst);
-}
+// /**
+//  * \brief Rst handle.
+//  *
+//  * @return Handle of rst, if successful; NULL, if failed.
+//  */
+// CRstCtl *CHubCtl::Rst()
+// {
+//     return (CRstCtl *) Module(HubMRst);
+// }
 
-/**
- * \brief Fmd handle.
- *
- * @return Handle of fmd, if successful; NULL, if failed.
- */
-CFmdCtl *CHubCtl::Fmd()
-{
-    return (CFmdCtl *) Module(HubMFmd);
-}
+// /**
+//  * \brief Fmd handle.
+//  *
+//  * @return Handle of fmd, if successful; NULL, if failed.
+//  */
+// CFmdCtl *CHubCtl::Fmd()
+// {
+//     return (CFmdCtl *) Module(HubMFmd);
+// }
 
 /***** Private A *****/
 

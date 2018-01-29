@@ -27,11 +27,6 @@
 #
 # Directory.
 SRC_DIR = ../..
-# Name
-JAVA_NAME = TestCtl
-JAVA_OBJ_DIR = $(TMP_DIR)/test/java
-JAVA_OUT_DIR = $(OUT_DIR)/cpp
-JAVA_JAR = $(JAVA_OUT_DIR)/whub.jar
 
 # include
 OPT_LST = $(SRC_DIR)/opt.lst

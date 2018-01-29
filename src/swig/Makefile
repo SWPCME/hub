@@ -25,7 +25,7 @@
 # Directory.
 SRC_DIR = ..
 INCLUDE_DIR = -I$(JAVA_JDK_DIR)/include -I$(JAVA_JDK_DIR)/include/$(JAVA_OS) \
-	-I$(INSTALL_H_DIR)/hub -I$(SRC_DIR)/bsngis
+	-I$(PRJ_INSTALL_INCLUDE_DIR)/hub -I$(SRC_DIR)/bsngis
 
 # Include.
 OPT_LST = $(SRC_DIR)/opt.lst

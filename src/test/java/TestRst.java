@@ -38,9 +38,11 @@ public class TestRst
     public UErrCodeT Test()
     {
         CHubCtl hubCtl = CHubCtl.Hub();
-        hubCtl.Register(HubCodeT.HubMRst);
-        mRst = hubCtl.Rst();
+        CHubModuleCtl module = hubCtl.RegModule();
+        module.Register(HubCodeT.HubMRst);
+        mRst = module.Rst();
         TestFrmt();
+        hubCtl.DeregModule(module);
 
         return UErrCodeT.UErrFalse;
     }

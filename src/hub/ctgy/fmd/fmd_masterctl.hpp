@@ -27,19 +27,25 @@
 
 #include "fmd_base.hpp"
 
+// fmd
+class CFmdCtl;
+
 class FMD_LIB CFmdMasterCtl
 {
   public:
-    CFmdMasterCtl();
+    CFmdMasterCtl(CFmdCtl *aFmd);
     ~CFmdMasterCtl();
 
     UErrCodeT Init();
+    CFmdCtl *Up();
+
     UErrCodeT Launch();
     UErrCodeT Cancel();
 
   protected:
   private:
     FmdFarsiteHT mFarsiteH;
+    CFmdCtl *mFmd;
 };
 
 #endif  // FMD_MASTERCTL_HPP_INCLUDED

@@ -52,11 +52,11 @@ typedef enum
     BMD_CTGY_CTL(ctgyCtl);                          \
     CFmdCtl *aCtl = ctgyCtl->Fmd()
 
-#define FMD_FARSITE_H(aCtl)                     \
-    {                                           \
-        FMD_CTL(fmdCtl);                        \
-        aCtl = fmdCtl->FarsiteH();              \
-    }
+// #define FMD_FARSITE_H(aCtl)                     \
+//     {                                           \
+//         FMD_CTL(fmdCtl);                        \
+//         aCtl = fmdCtl->FarsiteH();              \
+//     }
 
 #define FMD_TYPE_CTL(aCtl)                      \
     {                                           \

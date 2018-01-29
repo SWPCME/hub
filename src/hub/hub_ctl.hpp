@@ -47,24 +47,27 @@ class HUB_LIB CHubCtl
  public:
     static CHubCtl* Hub();
 
+    // Initialize.
+    UErrCodeT Init();
+
     // Register module.
     CHubModuleCtl *RegModule();
     UErrCodeT DeregModule(CHubModuleCtl *aModule);
+    // UErrCodeT DeregAllModule();
 
-    UErrCodeT Init();
-    UErrCodeT Register(HubCodeT aCode);
-    UErrCodeT RegisterAll();
-    UErrCodeT Deregister(HubCodeT aCode);
-    UErrCodeT DeregisterAll();
-    UHandleT Module(HubCodeT aCode);
+    // UErrCodeT Register(HubCodeT aCode);
+    // UErrCodeT RegisterAll();
+    // UErrCodeT Deregister(HubCodeT aCode);
+    // UErrCodeT DeregisterAll();
+    // UHandleT Module(HubCodeT aCode);
 
-    // core
-    CGdaCtl *Gda();
-    COgrCtl *Ogr();
-    // wrap
-    CRstCtl *Rst();
-    // ctgy
-    CFmdCtl *Fmd();
+    // // core
+    // CGdaCtl *Gda();
+    // COgrCtl *Ogr();
+    // // wrap
+    // CRstCtl *Rst();
+    // // ctgy
+    // CFmdCtl *Fmd();
 
     // Private, not to use direct.
     CHubCtl();

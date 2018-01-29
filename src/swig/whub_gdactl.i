@@ -35,7 +35,7 @@
 class CGdaCtl
 {
   public:
-    CGdaCtl();
+    CGdaCtl(CHubModuleCtl *aModule);
     ~CGdaCtl();
 
     // Init.

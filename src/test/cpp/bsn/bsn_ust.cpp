@@ -36,6 +36,7 @@
 // ust
 #include "ust_ctl.hpp"
 #include "ust_stringctl.hpp"
+#include "ust_fsfiletype.hpp"
 
 /**
  * \brief Constructor.
@@ -64,7 +65,8 @@ UErrCodeT CBsnUst::Init()
  */
 UErrCodeT CBsnUst::Test()
 {
-    TestString();
+    // TestString();
+    TestFs();
 
     return UErrFalse;
 }
@@ -201,6 +203,15 @@ UErrCodeT CBsnUst::TestCtnMap()
         UStringT str = (UStringT) it->Content();
         str.ToConsole();
     }
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnUst::TestFs()
+{
+    UStringT testfs = ".tmp/testfs";
+    UFsFileT file(&testfs);
+    file.Rm(0, UFlagOn);
 
     return UErrFalse;
 }

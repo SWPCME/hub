@@ -23,3 +23,5 @@ BIN_FILE = test_cpp
 
 # Backup directory.
 BACKUP_DIR = $(SRC_DIR)/../.backup
+
+C_EXTRA_LIB_SO = -lhub -lgdal -lfiremod -lbsn -lui

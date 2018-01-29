@@ -71,7 +71,7 @@ typedef enum
 class COgrCtl
 {
   public:
-    COgrCtl();
+    COgrCtl(CHubModuleCtl *aModule);
     ~COgrCtl();
 
     // Init and cleanup all.

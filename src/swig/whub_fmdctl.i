@@ -237,6 +237,9 @@ class FmdCfgWeatherT
 class CFmdCtl
 {
   public:
+    CFmdCtl(CHubModuleCtl *aModule);
+    ~CFmdCtl();
+
     UErrCodeT Init();
     // Controler.
     CFmdMasterCtl *Master();
@@ -247,6 +250,9 @@ class CFmdCtl
 class CFmdMasterCtl
 {
   public:
+    CFmdMasterCtl(CFmdCtl *aFmd);
+    ~CFmdMasterCtl();
+
     UErrCodeT Init();
     UErrCodeT Launch();
     UErrCodeT Cancel();
@@ -255,6 +261,9 @@ class CFmdMasterCtl
 class CFmdFileCtl
 {
   public:
+    CFmdFileCtl(CFmdCtl *aFmd);
+    ~CFmdFileCtl();
+
     UErrCodeT Init();
     CFmdFileCfg *Cfg(const UStringT *aFileName,
                      const FmdFileCfgCodeT aCfg);
@@ -299,6 +308,9 @@ class CFmdCfgWrite
 class CFmdFileLoad
 {
   public:
+    CFmdFileLoad(CFmdFileCtl *aFile);
+    ~CFmdFileLoad();
+
     UErrCodeT Init();
     // Load All file.
     UErrCodeT All(const UStringT *aCfg, const UStringT *aLcp,
@@ -316,14 +328,21 @@ class CFmdFileLoad
 class CFmdFileWrite
 {
   public:
+    CFmdFileWrite(CFmdFileCtl *aFile);
+    ~CFmdFileWrite();
+
     UErrCodeT Init();
     // Special.
+    UErrCodeT PerimetersShape(const UStringT *aFile, const UFlagCodeT aFlag);
     UErrCodeT PerimetersGjson(UStringT *aStr);
 };
 
 class CFmdBurnCtl
 {
   public:
+    CFmdBurnCtl(CFmdCtl *aFmd);
+    ~CFmdBurnCtl();
+
     UErrCodeT Init();
     CFmdBurnTime *Time();
 };

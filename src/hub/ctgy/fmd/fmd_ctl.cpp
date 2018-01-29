@@ -51,11 +51,11 @@ CFmdCtl::CFmdCtl(CHubModuleCtl *aModule)
  */
 CFmdCtl::~CFmdCtl()
 {
-    BMD_CLASS_DELH(mFarsiteH, Farsite5);
     BMD_CLASS_DEL(mMaster);
     BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mFile);
     BMD_CLASS_DEL(mBurn);
+    BMD_CLASS_DELH(mFarsiteH, Farsite5);
     InitPointer();
 }
 
@@ -90,7 +90,7 @@ FmdFarsiteHT CFmdCtl::FarsiteH()
  */
 CFmdMasterCtl *CFmdCtl::Master()
 {
-    BMD_CLASS_NEW(mMaster, CFmdMasterCtl);
+    BMD_CLASS_NEW_A_1(mMaster, CFmdMasterCtl, this);
 
     return mMaster;
 }
@@ -120,7 +120,7 @@ CFmdFileCtl *CFmdCtl::File()
  */
 CFmdBurnCtl *CFmdCtl::Burn()
 {
-    BMD_CLASS_NEW(mBurn, CFmdBurnCtl);
+    BMD_CLASS_NEW_A_1(mBurn, CFmdBurnCtl, this);
 
     return mBurn;
 }

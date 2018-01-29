@@ -32,18 +32,20 @@ public class TestOgr
     public void Test()
     {
         CHubCtl hubCtl = CHubCtl.Hub();
-        hubCtl.Register(HubCodeT.HubMOgr);
+        CHubModuleCtl module = hubCtl.RegModule();
+        module.Register(HubCodeT.HubMOgr);
 
-        mOgr = hubCtl.Ogr();
+        mOgr = module.Ogr();
         TestWrite();
         // TestRead();
+        hubCtl.DeregModule(module);
     }
 
     public void TestWrite()
     {
         mOgr.Register(OgrFormatCodeT.OgrFormatShp);
         COgrDriverCtl dr = mOgr.Driver(OgrFormatCodeT.OgrFormatShp);
-        UStringT dsName = new UStringT("../../data/core/ogr/t_write");
+        UStringT dsName = new UStringT("../../../data/core/ogr/t_write");
         COgrDatasrcCtl ds = dr.Create(dsName);
         UStringT layerName = new UStringT("linestring");
         COgrLayerCtl layer = ds.Create(layerName);

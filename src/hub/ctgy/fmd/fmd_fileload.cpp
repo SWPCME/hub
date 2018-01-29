@@ -89,10 +89,9 @@ CFmdFileLoad::~CFmdFileLoad()
  */
 UErrCodeT CFmdFileLoad::Init()
 {
-    FMD_FARSITE_H(mFarsiteH);
-
     CFmdFileCtl *fmdFile = Up();
     CFmdCtl *fmd = fmdFile->Up();
+    mFarsiteH = fmd->FarsiteH();
     CHubModuleCtl *module = fmd->Up();
 
     CBaseCtl *base = CBaseCtl::Base();

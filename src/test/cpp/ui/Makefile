@@ -6,7 +6,7 @@
 #
 # Directory.
 SRC_DIR = ../../..
-OBJ_DIR = $(TMP_DIR)/ui
+OBJ_DIR = $(BUILD_DIR)/$(TARGET_OS)/ui
 BSN_DIR = $(SRC_DIR)/test/cpp/bsn
 # Search.
 INCLUDE_DIR = -I$(HUB_DIR) -I$(BASE_DIR) -I$(CORE_DIR) -I$(CCS_DIR) \

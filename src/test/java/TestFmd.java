@@ -38,11 +38,13 @@ public class TestFmd
     public UErrCodeT Test()
     {
         CHubCtl hubCtl = CHubCtl.Hub();
-        hubCtl.Register(HubCodeT.HubMFmd);
-        mFmd = hubCtl.Fmd();
+        CHubModuleCtl module = hubCtl.RegModule();
+        module.Register(HubCodeT.HubMFmd);
+        mFmd = module.Fmd();
         TestConfig();
         TestConfigSimple();
         TestWrite();
+        hubCtl.DeregModule(module);
 
         return UErrCodeT.UErrFalse;
     }
@@ -50,7 +52,7 @@ public class TestFmd
     private UErrCodeT TestConfig()
     {
         CFmdFileCtl fileCtl = mFmd.File();
-        UStringT fileName = new UStringT("../../data/geojson/tmp/forest_cfg.input");
+        UStringT fileName = new UStringT("../../../data/ctgy/fmd/1/1.input");
         CFmdFileCfg cfg = fileCtl.Cfg(fileName, FmdFileCfgCodeT.FmdFileCfgCreate);
         CFmdCfgWrite cfgWrite = cfg.Write();
 
@@ -95,7 +97,7 @@ public class TestFmd
     private UErrCodeT TestConfigSimple()
     {
         CFmdFileCtl fileCtl = mFmd.File();
-        UStringT fileName = new UStringT("../../data/geojson/tmp/forest_cfg.input");
+        UStringT fileName = new UStringT("../../../data/ctgy/fmd/1/s1.input");
         CFmdFileCfg cfg = fileCtl.Cfg(fileName, FmdFileCfgCodeT.FmdFileCfgCreate);
         CFmdCfgWrite cfgWrite = cfg.Write();
 
@@ -130,9 +132,9 @@ public class TestFmd
 
         // Load.
         CFmdFileLoad fileLoad = fileCtl.Load();
-        UStringT cfgFile = new UStringT("../../data/ctgy/fmd/1/1.input");
+        UStringT cfgFile = new UStringT("../../../data/ctgy/fmd/1/1.input");
 
-        UStringT lcpFile = new UStringT("../../data/ctgy/fmd/3/1.lcp");
+        UStringT lcpFile = new UStringT("../../../data/ctgy/fmd/3/1.lcp");
         UStringT ignitionFile =
             new UStringT("{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }");
         UStringT barrierFile = new UStringT("");
@@ -150,6 +152,7 @@ public class TestFmd
         CFmdFileWrite fileWrite = fileCtl.Write();
         UStringT strGjson = new UStringT("");
         fileWrite.PerimetersGjson(strGjson);
+        strGjson.ToConsole();
 
         return UErrCodeT.UErrFalse;
     }

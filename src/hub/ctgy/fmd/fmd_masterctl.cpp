@@ -37,9 +37,11 @@
 /**
  * \brief Constructor.
  */
-CFmdMasterCtl::CFmdMasterCtl()
+CFmdMasterCtl::CFmdMasterCtl(CFmdCtl *aFmd)
 {
     BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mFmd);
+    mFmd = aFmd;
 }
 
 /**
@@ -48,6 +50,7 @@ CFmdMasterCtl::CFmdMasterCtl()
 CFmdMasterCtl::~CFmdMasterCtl()
 {
     BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mFmd);
 }
 
 /**
@@ -55,9 +58,17 @@ CFmdMasterCtl::~CFmdMasterCtl()
  */
 UErrCodeT CFmdMasterCtl::Init()
 {
-    FMD_FARSITE_H(mFarsiteH);
+    mFarsiteH = mFmd->FarsiteH();
 
     return UErrFalse;
+}
+
+/**
+ * \brief Up.
+ */
+CFmdCtl *CFmdMasterCtl::Up()
+{
+    return mFmd;
 }
 
 /**

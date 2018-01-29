@@ -27,18 +27,23 @@
 
 #include "fmd_base.hpp"
 
+// fmd
+class CFmdBurnCtl;
+
 class FMD_LIB CFmdBurnTime
 {
   public:
-    CFmdBurnTime();
+    CFmdBurnTime(CFmdBurnCtl *aBurn);
     ~CFmdBurnTime();
 
     UErrCodeT Init();
+    CFmdBurnCtl *Up();
     UErrCodeT Simulate(UFloatT *aTime);
     UErrCodeT InPeriod(UFloatT aTime);
 
- protected:
+  protected:
   private:
+    CFmdBurnCtl *mBurn;
     FmdFarsiteHT mFarsiteH;
 };
 

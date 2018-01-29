@@ -27,6 +27,8 @@
 
 #include "bsn_base.hpp"
 
+class CHubCtl;
+class CHubModuleCtl;
 class CFmdCtl;
 
 class BSN_LIB CBsnFmd
@@ -43,6 +45,8 @@ class BSN_LIB CBsnFmd
     UErrCodeT TestConfig();
     UErrCodeT TestWrite();
 
+    CHubCtl *mHub;
+    CHubModuleCtl *mModule;
     CFmdCtl *mFmd;
 };
 

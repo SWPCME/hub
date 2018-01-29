@@ -24,6 +24,7 @@
 
 package TestJava;
 import whub.*;
+import TestJava.*;
 
 public class TestCtl
 {

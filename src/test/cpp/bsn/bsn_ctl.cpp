@@ -42,17 +42,23 @@
 #include "bsn_cls.hpp"
 #include "bsn_gda.hpp"
 #include "bsn_ogr.hpp"
+#ifdef HUB_MODULE_PLP
 #include "bsn_gsl.hpp"
 #include "bsn_cut.hpp"
 #include "bsn_plp.hpp"
+#endif  // HUB_MODULE_PLP
 // Wrap.
 #include "bsn_ust.hpp"
 #include "bsn_rst.hpp"
+#ifdef HUB_MODULE_NCC
 #include "bsn_ncc.hpp"
+#endif  // HUB_MODULE_NCC
 // Ctgy.
 // #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
+#ifdef HUB_MODULE_ERA
 #include "bsn_era.hpp"
+#endif  // HUB_MODULE_ERA
 
 CBsnCtl::CBsnCtl()
 {
@@ -67,19 +73,25 @@ CBsnCtl::~CBsnCtl()
 {
     BMD_CLASS_DEL(mCls);
     BMD_CLASS_DEL(mGda);
+#ifdef HUB_MODULE_PLP
     BMD_CLASS_DEL(mGsl);
     BMD_CLASS_DEL(mCut);
     BMD_CLASS_DEL(mPlp);
+#endif  // HUB_MODULE_PLP
 
     BMD_CLASS_DEL(mUst);
     BMD_CLASS_DEL(mRst);
+#ifdef HUB_MODULE_NCC
     BMD_CLASS_DEL(mNcc);
+#endif  // HUB_MODULE_NCC
 
     BMD_CLASS_DEL(mFmd);
     // BMD_CLASS_DEL(mRtk);
+#ifdef HUB_MODULE_ERA
     BMD_CLASS_DEL(mEra);
+#endif  // HUB_MODULE_ERA
 
-    BMD_CLASS_DEL(mUniqueId);
+    // BMD_CLASS_DEL(mUniqueId);
 
     mHub->DeregisterAll();
 }
@@ -112,21 +124,27 @@ CBsnOgr *CBsnCtl::Ogr()
 
 CBsnGsl *CBsnCtl::Gsl()
 {
+#ifdef HUB_MODULE_GSL
     BMD_CLASS_NEW(mGsl, CBsnGsl);
+#endif  // HUB_MODULE_GSL
 
     return mGsl;
 }
 
 CBsnCut *CBsnCtl::Cut()
 {
+#ifdef HUB_MODULE_CUT
     BMD_CLASS_NEW(mCut, CBsnCut);
+#endif  // HUB_MODULE_CUT
 
     return mCut;
 }
 
 CBsnPlp *CBsnCtl::Plp()
 {
+#ifdef HUB_MODULE_PLP
     BMD_CLASS_NEW(mPlp, CBsnPlp);
+#endif  // HUB_MODULE_PLP
 
     return mPlp;
 }
@@ -147,14 +165,16 @@ CBsnRst *CBsnCtl::Rst()
 
 CBsnNcc *CBsnCtl::Ncc()
 {
+#ifdef HUB_MODULE_NCC
     BMD_CLASS_NEW(mNcc, CBsnNcc);
+#endif  // HUB_MODULE_NCC
 
     return mNcc;
 }
 
 CBsnUniqueId *CBsnCtl::UniqueId()
 {
-    BMD_CLASS_NEW(mUniqueId, CBsnUniqueId);
+    // BMD_CLASS_NEW(mUniqueId, CBsnUniqueId);
 
     return mUniqueId;
 }
@@ -175,7 +195,9 @@ CBsnFmd *CBsnCtl::Fmd()
 
 CBsnEra *CBsnCtl::Era()
 {
+#ifdef HUB_MODULE_ERA
     BMD_CLASS_NEW(mEra, CBsnEra);
+#endif  // HUB_MODULE_ERA
 
     return mEra;
 }

@@ -34,16 +34,16 @@
 #include "bsn_cls.hpp"
 #include "bsn_gda.hpp"
 #include "bsn_ogr.hpp"
-#include "bsn_gsl.hpp"
-#include "bsn_cut.hpp"
-#include "bsn_plp.hpp"
+// #include "bsn_gsl.hpp"
+// #include "bsn_cut.hpp"
+// #include "bsn_plp.hpp"
 #include "bsn_ust.hpp"
 #include "bsn_rst.hpp"
-#include "bsn_ncc.hpp"
+// #include "bsn_ncc.hpp"
 #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
-#include "bsn_era.hpp"
-#include "bsn_uniqueid.hpp"
+// #include "bsn_era.hpp"
+// #include "bsn_uniqueid.hpp"
 
 CUiCtl::CUiCtl()
 {
@@ -71,11 +71,11 @@ UErrCodeT CUiCtl::Main()
 
 UErrCodeT CUiCtl::TestAll()
 {
-    CBsnUniqueId *uniqueId = mBsn->UniqueId();
-    BsnUniqueIdPathT uniqueIdPath;
-    uniqueIdPath.in = STR_NULL;
-    uniqueIdPath.out = STR_NULL;
-    uniqueId->SetPath(&uniqueIdPath);
+    // CBsnUniqueId *uniqueId = mBsn->UniqueId();
+    // BsnUniqueIdPathT uniqueIdPath;
+    // uniqueIdPath.in = STR_NULL;
+    // uniqueIdPath.out = STR_NULL;
+    // uniqueId->SetPath(&uniqueIdPath);
     // uniqueId->Main();
 
     CBsnCls *cls = mBsn->Cls();
@@ -90,14 +90,14 @@ UErrCodeT CUiCtl::TestAll()
     // CBsnRtk *rtk = mBsn->Rtk();
     // rtk->Test();
 
-    CBsnGsl *gsl = mBsn->Gsl();
-    gsl->Test();
+    // CBsnGsl *gsl = mBsn->Gsl();
+    // gsl->Test();
 
     // CBsnCut *cut = mBsn->Cut();
     // cut->Test();
 
-    CBsnPlp *plp = mBsn->Plp();
-    plp->Test();
+    // CBsnPlp *plp = mBsn->Plp();
+    // plp->Test();
 
     CBsnUst *ust = mBsn->Ust();
     ust->Test();
@@ -105,14 +105,14 @@ UErrCodeT CUiCtl::TestAll()
     CBsnRst *rst = mBsn->Rst();
     rst->Test();
 
-    CBsnNcc *ncc = mBsn->Ncc();
-    ncc->Test();
+    // CBsnNcc *ncc = mBsn->Ncc();
+    // ncc->Test();
 
     CBsnFmd *fmd = mBsn->Fmd();
     fmd->Test();
 
-    CBsnEra *era = mBsn->Era();
-    era->Test();
+    // CBsnEra *era = mBsn->Era();
+    // era->Test();
 
     return UErrFalse;
 }
@@ -124,6 +124,9 @@ UErrCodeT CUiCtl::Test()
 
     // CBsnRst *rst = mBsn->Rst();
     // rst->Test();
+
+    // CBsnUst *ust = mBsn->Ust();
+    // ust->Test();
 
     CBsnFmd *fmd = mBsn->Fmd();
     fmd->Test();

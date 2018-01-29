@@ -32,8 +32,8 @@ SWIG_OBJ = \
            # whub_ogrctl.o \
 
 C_LIB_SO_NAME = whub
-C_EXTRA_LIB_DIR = -L/home/swpcme/me/usr/lib
+C_EXTRA_LIB_DIR = -L$(HOME_DIR)/me/usr/$(TARGET_OS)/lib
 C_EXTRA_LIB_SO = -lhub
-ifeq ($(OS), cygwin)
-C_EXTRA_LIB_SO += -lgdal -lcurl -lgsl -lfiremod -lrtklib
+ifeq ($(TARGET_OS), x86_64-w64-mingw32)
+C_EXTRA_LIB_SO += -lgdal -lfiremod
 endif

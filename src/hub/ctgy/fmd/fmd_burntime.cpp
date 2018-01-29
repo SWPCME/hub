@@ -33,13 +33,16 @@
 #include "ctgy_ctl.hpp"
 // Fmd.
 #include "fmd_ctl.hpp"
+#include "fmd_burnctl.hpp"
 
 /**
  * \brief Constructor.
  */
-CFmdBurnTime::CFmdBurnTime()
+CFmdBurnTime::CFmdBurnTime(CFmdBurnCtl *aBurn)
 {
+    BMD_POINTER_INIT(mBurn);
     BMD_POINTER_INIT(mFarsiteH);
+    mBurn = aBurn;
 }
 
 /**
@@ -47,7 +50,16 @@ CFmdBurnTime::CFmdBurnTime()
  */
 CFmdBurnTime::~CFmdBurnTime()
 {
+    BMD_POINTER_INIT(mBurn);
     BMD_POINTER_INIT(mFarsiteH);
+}
+
+/**
+ * \brief Up.
+ */
+CFmdBurnCtl *CFmdBurnTime::Up()
+{
+    return mBurn;
 }
 
 /**
@@ -55,7 +67,8 @@ CFmdBurnTime::~CFmdBurnTime()
  */
 UErrCodeT CFmdBurnTime::Init()
 {
-    FMD_FARSITE_H(mFarsiteH);
+    CFmdCtl *fmd = mBurn->Up();
+    mFarsiteH = fmd->FarsiteH();
 
     return UErrFalse;
 }

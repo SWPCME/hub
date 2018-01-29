@@ -51,8 +51,8 @@ UErrCodeT CBsnRst::Test()
 {
     CRstFrmtCtl *frmtCtl = mRst->Frmt();
     CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
-    UStringT lcp = "../../data/core/gda/dem/test.lcp";
-    UStringT elev = "../../data/core/gda/dem/dem1.tif";
+    UStringT lcp = "../../../data/core/gda/dem/test.lcp";
+    UStringT elev = "../../../data/core/gda/dem/dem1.tif";
     frmtLcp->Create(&lcp, &elev, NULL, NULL);
 
     return UErrFalse;

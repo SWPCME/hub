@@ -30,9 +30,11 @@
 /**
  * \brief Constructor.
  */
-CFmdBurnCtl::CFmdBurnCtl()
+CFmdBurnCtl::CFmdBurnCtl(CFmdCtl *aFmd)
 {
+    BMD_POINTER_INIT(mFmd);
     BMD_POINTER_INIT(mTime);
+    mFmd = aFmd;
 }
 
 /**
@@ -40,6 +42,7 @@ CFmdBurnCtl::CFmdBurnCtl()
  */
 CFmdBurnCtl::~CFmdBurnCtl()
 {
+    BMD_POINTER_INIT(mFmd);
     BMD_CLASS_DEL(mTime);
 }
 
@@ -52,11 +55,19 @@ UErrCodeT CFmdBurnCtl::Init()
 }
 
 /**
+ * \brief Up.
+ */
+CFmdCtl *CFmdBurnCtl::Up()
+{
+    return mFmd;
+}
+
+/**
  * \brief Time.
  */
 CFmdBurnTime *CFmdBurnCtl::Time()
 {
-    BMD_CLASS_NEW(mTime, CFmdBurnTime);
+    BMD_CLASS_NEW_A_1(mTime, CFmdBurnTime, this);
 
     return mTime;
 }

@@ -32,7 +32,7 @@
 class CRstCtl
 {
   public:
-    CRstCtl();
+    CRstCtl(CHubModuleCtl *aModule);
     ~CRstCtl();
 
     UErrCodeT Init();
@@ -43,7 +43,7 @@ class CRstCtl
 class CRstFrmtCtl
 {
   public:
-    CRstFrmtCtl();
+    CRstFrmtCtl(CRstCtl *aRst);
     ~CRstFrmtCtl();
 
     UErrCodeT Init();
@@ -53,7 +53,7 @@ class CRstFrmtCtl
 class CRstFrmtLcp
 {
   public:
-    CRstFrmtLcp();
+    CRstFrmtLcp(CRstFrmtCtl *aFrmt);
     ~CRstFrmtLcp();
 
     UErrCodeT Init();

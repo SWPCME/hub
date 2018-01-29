@@ -26,6 +26,11 @@
 
 // base
 #include "base_macrodefn.hpp"
+// hub
+#include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
+// ust
+#include "ust_stringtype.hpp"
 // fmd
 #include "fmd_ctl.hpp"
 #include "fmd_filectl.hpp"
@@ -43,7 +48,13 @@
  */
 CBsnFmd::CBsnFmd()
 {
+    BMD_POINTER_INIT(mHub);
+    BMD_POINTER_INIT(mModule);
     BMD_POINTER_INIT(mFmd);
+    mHub = CHubCtl::Hub();
+    mModule = mHub->RegModule();
+    UStringT tmp = "/home/swpcme/tmp";
+    mModule->SetTmpDir(&tmp);
 }
 
 /**
@@ -52,6 +63,9 @@ CBsnFmd::CBsnFmd()
 CBsnFmd::~CBsnFmd()
 {
     BMD_POINTER_INIT(mFmd);
+    mHub->DeregModule(mModule);
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mHub);
 }
 
 /**
@@ -59,7 +73,8 @@ CBsnFmd::~CBsnFmd()
  */
 UErrCodeT CBsnFmd::Init()
 {
-    BMD_MODULE(mFmd, CFmdCtl, HubMFmd);
+    mModule->Register(HubMFmd);
+    mFmd = (CFmdCtl *) mModule->Module(HubMFmd);
 
     return UErrFalse;
 }
@@ -72,6 +87,17 @@ UErrCodeT CBsnFmd::Test()
     TestConfig();
     TestWrite();
 
+    for (int i = 0; i <= 15; ++i)
+    {
+        mHub->DeregModule(mModule);
+        mModule = mHub->RegModule();
+        UStringT tmp = "/home/swpcme/tmp";
+        mModule->SetTmpDir(&tmp);
+        mModule->Register(HubMFmd);
+        mFmd = (CFmdCtl *) mModule->Module(HubMFmd);
+        TestWrite();
+    }
+
     return UErrFalse;
 }
 
@@ -81,7 +107,7 @@ UErrCodeT CBsnFmd::Test()
 UErrCodeT CBsnFmd::TestConfig()
 {
     CFmdFileCtl *fileCtl = mFmd->File();
-    const UStringT fileName = "../../data/ctgy/fmd/3/1.input";
+    const UStringT fileName = "../../../data/ctgy/fmd/3/1.input";
     CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
     CFmdCfgWrite *cfgWrite = cfg->Write();
 
@@ -89,7 +115,7 @@ UErrCodeT CBsnFmd::TestConfig()
     FmdCfgTimeT begin;
     begin.SetAll(2017, 8, 1, 9, 30);
     FmdCfgTimeT end;
-    end.SetAll(2017, 8, 1, 13, 50);
+    end.SetAll(2017, 8, 1, 10, 00);
     time.SetAll(&begin, &end, 10);
     cfgWrite->SetBurnTime(&time);
 
@@ -133,10 +159,10 @@ UErrCodeT CBsnFmd::TestWrite()
 
     // Load.
     CFmdFileLoad *fileLoad = fileCtl->Load();
-    const UStringT cfgFile = "../../data/ctgy/fmd/3/1.input";
+    const UStringT cfgFile = "../../../data/ctgy/fmd/3/1.input";
 
-    const UStringT lcpFile = "../../data/ctgy/fmd/3/1.lcp";
-    const UStringT ignitionFile = "../../data/ctgy/fmd/3/i1.shp";
+    const UStringT lcpFile = "../../../data/ctgy/fmd/3/1.lcp";
+    const UStringT ignitionFile = "../../../data/ctgy/fmd/3/i1.shp";
     // const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
 
 //     const UStringT ignitionFile =
@@ -169,7 +195,7 @@ UErrCodeT CBsnFmd::TestWrite()
     CFmdFileWrite *fileWrite = fileCtl->Write();
     CFmdBurnTime *burnTime = mFmd->Burn()->Time();
     CFmdTypeCtl *typeCtl = mFmd->Type();
-    const UStringT outFile = "../../data/ctgy/fmd/3/o1";
+    const UStringT outFile = "../../../data/ctgy/fmd/3/o1";
     UFloatT sTime;
     burnTime->Simulate(&sTime);
     BTimeTmT tm;

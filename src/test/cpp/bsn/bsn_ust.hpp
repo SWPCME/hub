@@ -45,6 +45,7 @@ class BSN_LIB CBsnUst
     UErrCodeT TestContainer();
     UErrCodeT TestCtnList();
     UErrCodeT TestCtnMap();
+    UErrCodeT TestFs();
 };
 
 #endif  // BSN_UST_HPP_INCLUDED

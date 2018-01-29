@@ -25,6 +25,7 @@
 %module "WHub"
 %{
 #include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 %}
 
 // The template obj must be at the bottom,
@@ -41,7 +42,16 @@
 
      static {
          try {
-             System.loadLibrary("whub");
+             String osName = System.getProperty("os.name");
+             if (osName.equals("Linux"))  // For linux.
+             {
+                 System.loadLibrary("whub");
+             }
+             /* else if (osName.indexOf("win") >= 0)  // For windows. */
+             else
+             {
+                 System.loadLibrary("libwhub");
+             }
              available = true;
          } catch (UnsatisfiedLinkError e) {
              available = false;
@@ -104,11 +114,29 @@ typedef enum
     HubMFmd = 2001,             /* Firemod library. */
 } HubCodeT;
 
+typedef enum
+{
+    UFlagOff = 0,
+    UFlagOn  = 1,
+} UFlagCodeT;
+
 class CHubCtl
 {
   public:
     static CHubCtl* Hub();
     UErrCodeT Init();
+    CHubModuleCtl *RegModule();
+    UErrCodeT DeregModule(CHubModuleCtl *aModule);
+};
+
+class CHubModuleCtl
+{
+ public:
+    CHubModuleCtl();
+    ~CHubModuleCtl();
+
+    UErrCodeT Init(UFlagCodeT aFlag);
+    UErrCodeT SetTmpDir(const UStringT *aDir);
     UErrCodeT Register(HubCodeT aCode);
     UErrCodeT RegisterAll();
     UErrCodeT Deregister(HubCodeT aCode);

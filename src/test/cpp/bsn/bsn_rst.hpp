@@ -27,6 +27,9 @@
 
 #include "bsn_base.hpp"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
 // rst
 class CRstCtl;
 
@@ -42,6 +45,9 @@ class BSN_LIB CBsnRst
   protected:
   private:
     CRstCtl *mRst;
+
+    CHubCtl *mHub;
+    CHubModuleCtl *mModule;
 };
 
 #endif  // BSN_RST_HPP_INCLUDED

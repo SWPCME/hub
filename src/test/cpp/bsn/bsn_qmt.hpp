@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_ust.hpp 2017-07 $
+ * $Id: bsn_qmt.hpp 2018-03 $
  *
  * Project:  Business Logic library.
- * Purpose:  Test ust control api.
+ * Purpose:  Test qmt api definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-05 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-03 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,37 +22,29 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef BSN_UST_HPP_INCLUDED
-#define BSN_UST_HPP_INCLUDED
+#ifndef BSN_QMT_HPP_INCLUDED
+#define BSN_QMT_HPP_INCLUDED
 
 #include "bsn_base.hpp"
-#include "ust/ust_stringtype.hpp"
 
-// hub
 class CHubCtl;
 class CHubModuleCtl;
+class CQmtCtl;
 
-class BSN_LIB CBsnUst
+class BSN_LIB CBsnQmt
 {
   public:
-    CBsnUst();
-    ~CBsnUst();
+    CBsnQmt();
+    ~CBsnQmt();
 
     UErrCodeT Init();
     UErrCodeT Test();
 
   protected:
   private:
-    UErrCodeT TestString();
-    UErrCodeT NewStringArgv(UHandleT *aDst, const UStringT *aSrc);
-    UErrCodeT TestStringFunc(UHandleT aArgv);
-    UErrCodeT TestContainer();
-    UErrCodeT TestCtnList();
-    UErrCodeT TestCtnMap();
-    UErrCodeT TestFs();
-
     CHubCtl *mHub;
     CHubModuleCtl *mModule;
+    CQmtCtl *mQmt;
 };
 
-#endif  // BSN_UST_HPP_INCLUDED
+#endif  // BSN_QMT_HPP_INCLUDED

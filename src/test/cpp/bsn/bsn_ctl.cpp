@@ -56,6 +56,7 @@
 // Ctgy.
 // #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
+#include "bsn_qmt.hpp"
 #ifdef HUB_MODULE_ERA
 #include "bsn_era.hpp"
 #endif  // HUB_MODULE_ERA
@@ -64,7 +65,6 @@ CBsnCtl::CBsnCtl()
 {
     mHub = CHubCtl::Hub();
     mHub->Init();
-    mHub->RegisterAll();
 
     InitPointer();
 }
@@ -87,13 +87,12 @@ CBsnCtl::~CBsnCtl()
 
     BMD_CLASS_DEL(mFmd);
     // BMD_CLASS_DEL(mRtk);
+    BMD_CLASS_DEL(mQmt);
 #ifdef HUB_MODULE_ERA
     BMD_CLASS_DEL(mEra);
 #endif  // HUB_MODULE_ERA
 
     // BMD_CLASS_DEL(mUniqueId);
-
-    mHub->DeregisterAll();
 }
 
 UErrCodeT CBsnCtl::Init()
@@ -191,6 +190,13 @@ CBsnFmd *CBsnCtl::Fmd()
     BMD_CLASS_NEW(mFmd, CBsnFmd);
 
     return mFmd;
+}
+
+CBsnQmt *CBsnCtl::Qmt()
+{
+    BMD_CLASS_NEW(mQmt, CBsnQmt);
+
+    return mQmt;
 }
 
 CBsnEra *CBsnCtl::Era()

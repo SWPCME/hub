@@ -34,6 +34,9 @@
 // ogr
 #include "ogr/ogr_base.h"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
 // cls
 class CClsIoCommonCtl;
 // gda
@@ -89,6 +92,7 @@ class BSN_LIB CBsnGda
     
     // hub
     CHubCtl *mHub;
+    CHubModuleCtl *mModule;
     // cls
     CClsIoCommonCtl *mIoCmn;
     // gda

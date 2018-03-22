@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_rst.cpp 2017-12 $
+ * $Id: bsn_qmt.hpp 2018-03 $
  *
  * Project:  Business Logic library.
- * Purpose:  Test rst api implementation.
+ * Purpose:  Test qmt api implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-03 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,43 +22,60 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#include "bsn_rst.hpp"
+#include "bsn_qmt.hpp"
 
 // hub
 #include "hub_ctl.hpp"
 #include "hub_modulectl.hpp"
-// rst
-#include "rst_ctl.hpp"
-#include "rst_frmtctl.hpp"
-#include "rst_frmtlcp.hpp"
+// ust
+#include "ust_stringtype.hpp"
+// qmt
+#include "qmt_ctl.hpp"
+#include "qmt_terrtile.hpp"
 
-CBsnRst::CBsnRst()
+/**
+ * \brief Constructor.
+ */
+CBsnQmt::CBsnQmt()
 {
+    BMD_POINTER_INIT(mHub);
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mQmt);
     mHub = CHubCtl::Hub();
     mModule = mHub->RegModule();
-    mModule->Register(HubMRst);
-
-    mRst = (CRstCtl*) mModule->Module(HubMRst);
-
+    UStringT tmp = "./.tmp";
+    mModule->SetTmpDir(&tmp);
 }
 
-CBsnRst::~CBsnRst()
+/**
+ * \brief Destructor.
+ */
+CBsnQmt::~CBsnQmt()
 {
+    BMD_POINTER_INIT(mQmt);
     mHub->DeregModule(mModule);
+    BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mHub);
 }
 
-UErrCodeT CBsnRst::Init()
+/**
+ * \brief Initialize.
+ */
+UErrCodeT CBsnQmt::Init()
 {
+    mModule->Register(HubMQmt);
+    mQmt = (CQmtCtl *) mModule->Module(HubMQmt);
+
     return UErrFalse;
 }
 
-UErrCodeT CBsnRst::Test()
+/**
+ * \brief Test.
+ */
+UErrCodeT CBsnQmt::Test()
 {
-    CRstFrmtCtl *frmtCtl = mRst->Frmt();
-    CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
-    UStringT lcp = "../../../data/core/gda/dem/test.lcp";
-    UStringT elev = "../../../data/core/gda/dem/dem1.tif";
-    frmtLcp->Create(&lcp, &elev, NULL, NULL);
+    CQmtTerrTile *terrTile = mQmt->TerrTile();
+    terrTile->Decode();
 
     return UErrFalse;
 }

@@ -25,6 +25,8 @@
 #include "bsn_gda.hpp"
 
 // hub
+#include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // cls
 #include "cls_ctl.hpp"
 #include "cls_ioctl.hpp"
@@ -54,34 +56,34 @@
 
 CBsnGda::CBsnGda()
 {
+    mHub = CHubCtl::Hub();
+    mModule = mHub->RegModule();
+
+    mModule->Register(HubMCls);
+    CClsCtl *cls = (CClsCtl*) mModule->Module(HubMCls);
+    CClsIoCtl *clsIo = cls->Io();
+    mIoCmn = clsIo->Common();
+
+    mModule->Register(HubMGda);
+    mGda = (CGdaCtl *) mModule->Module(HubMGda);
+    CGdaCoreCtl *coreCtl = mGda->Core();
+    mDrivers = coreCtl->Drivers();
+    mDrivers->RegisterAll();
+    mAlg = mGda->Alg();
+    mUtils = mGda->Utils();
+
+    mModule->Register(HubMOgr);
+    mOgr = (COgrCtl *) mModule->Module(HubMOgr);
+    mOgr->RegisterAll();
 }
 
 CBsnGda::~CBsnGda()
 {
+    mHub->DeregModule(mModule);
 }
 
 UErrCodeT CBsnGda::Init()
 {
-    mHub = CHubCtl::Hub();
-    mHub->Register(HubMGda);
-    mHub->Register(HubMCls);
-
-    CClsCtl *cls = (CClsCtl*) mHub->Module(HubMCls);
-    CClsIoCtl *clsIo = cls->Io();
-    mIoCmn = clsIo->Common();
-
-    mGda = (CGdaCtl *) mHub->Module(HubMGda);
-    CGdaCoreCtl *coreCtl = mGda->Core();
-    mDrivers = coreCtl->Drivers();
-    mDrivers->RegisterAll();
-
-    mAlg = mGda->Alg();
-    mUtils = mGda->Utils();
-
-    mHub->Register(HubMOgr);
-    mOgr = (COgrCtl *) mHub->Module(HubMOgr);
-    mOgr->RegisterAll();
-
     return UErrFalse;
 }
 

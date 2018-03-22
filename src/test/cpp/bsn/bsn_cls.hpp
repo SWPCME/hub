@@ -27,6 +27,9 @@
 
 #include "bsn_base.hpp"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
 // cls
 class CClsCtl;
 
@@ -41,6 +44,8 @@ class BSN_LIB CBsnCls
 
   protected:
   private:
+    CHubCtl *mHub;
+    CHubModuleCtl *mModule;
     CClsCtl *mCls;
 };
 

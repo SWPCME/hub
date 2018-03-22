@@ -29,6 +29,7 @@
 
 // hub
 #include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // cls
 #include "cls_ctl.hpp"
 #include "cls_stringctl.hpp"
@@ -43,6 +44,8 @@
  */
 CBsnUst::CBsnUst()
 {
+    mHub = CHubCtl::Hub();
+    mModule = mHub->RegModule();
 }
 
 /**
@@ -50,6 +53,7 @@ CBsnUst::CBsnUst()
  */
 CBsnUst::~CBsnUst()
 {
+    mHub->DeregModule(mModule);
 }
 
 /**
@@ -79,11 +83,10 @@ UErrCodeT CBsnUst::Test()
 #include <string.h>
 UErrCodeT CBsnUst::TestString()
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-    CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
+    CClsCtl *clsCtl = (CClsCtl *) mModule->Module(HubMCls);
     CClsMemoryCtl *memCtl = clsCtl->Mem();
     // CClsStringCtl *strCtl = clsCtl->Str();
-    CUstCtl *ustCtl = (CUstCtl *) hubCtl->Module(HubMUst);
+    CUstCtl *ustCtl = (CUstCtl *) mModule->Module(HubMUst);
     CUstStringCtl *ustStr = ustCtl->Str();
 
     // UIntT num = 1234567;
@@ -114,8 +117,7 @@ UErrCodeT CBsnUst::TestString()
 
 UErrCodeT CBsnUst::NewStringArgv(UHandleT *aDst, const UStringT *aSrc)
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-    CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
+    CClsCtl *clsCtl = (CClsCtl *) mModule->Module(HubMCls);
     CClsMemoryCtl *memCtl = clsCtl->Mem();
     CClsStringCtl *strCtl = clsCtl->Str();
 
@@ -144,8 +146,7 @@ UErrCodeT CBsnUst::NewStringArgv(UHandleT *aDst, const UStringT *aSrc)
 
 UErrCodeT CBsnUst::TestStringFunc(UHandleT aArgv)
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-    CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
+    CClsCtl *clsCtl = (CClsCtl *) mModule->Module(HubMCls);
     CClsMemoryCtl *memCtl = clsCtl->Mem();
     char **argv = (char **) aArgv;
     while( *argv != NULL )
@@ -211,7 +212,7 @@ UErrCodeT CBsnUst::TestFs()
 {
     UStringT testfs = ".tmp/testfs";
     UFsFileT file(&testfs);
-    file.Rm(0, UFlagOn);
+    file.Rm(0);
 
     return UErrFalse;
 }

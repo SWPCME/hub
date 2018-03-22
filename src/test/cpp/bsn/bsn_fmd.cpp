@@ -87,7 +87,7 @@ UErrCodeT CBsnFmd::Test()
     TestConfig();
     TestWrite();
 
-    for (int i = 0; i <= 15; ++i)
+    for (int i = 0; i <= 2; ++i)
     {
         mHub->DeregModule(mModule);
         mModule = mHub->RegModule();

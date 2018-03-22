@@ -45,6 +45,7 @@ class CBsnNcc;
 
 class CBsnRtk;
 class CBsnFmd;
+class CBsnQmt;
 class CBsnEra;
 
 class CBsnUniqueId;
@@ -70,6 +71,7 @@ class BSN_LIB CBsnCtl
 
     CBsnRtk *Rtk();
     CBsnFmd *Fmd();
+    CBsnQmt *Qmt();
     CBsnEra *Era();
 
     CBsnUniqueId *UniqueId();
@@ -93,6 +95,7 @@ class BSN_LIB CBsnCtl
 
     CBsnRtk *mRtk;
     CBsnFmd *mFmd;
+    CBsnQmt *mQmt;
     CBsnEra *mEra;
 
     CBsnUniqueId *mUniqueId;

@@ -24,6 +24,9 @@
 
 #include "bsn_cls.hpp"
 
+// hub
+#include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // cls
 #include "cls_ctl.hpp"
 #include "cls_timectl.hpp"
@@ -38,6 +41,11 @@
  */
 CBsnCls::CBsnCls()
 {
+    CHubCtl *hubCtl = CHubCtl::Hub();
+
+    mModule = hubCtl->RegModule();
+    mModule->Register(HubMCls);
+    mCls = (CClsCtl *) mModule->Module(HubMCls);
 }
 
 /**
@@ -45,6 +53,7 @@ CBsnCls::CBsnCls()
  */
 CBsnCls::~CBsnCls()
 {
+    mHub->DeregModule(mModule);
 }
 
 /**
@@ -52,11 +61,6 @@ CBsnCls::~CBsnCls()
  */
 UErrCodeT CBsnCls::Init()
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-
-    hubCtl->Register(HubMCls);
-    mCls = (CClsCtl *) hubCtl->Module(HubMCls);
-
     return UErrFalse;
 }
 

@@ -20,7 +20,8 @@ C_OBJ = \
       bsn_ogr.o \
       bsn_ust.o \
       bsn_rst.o \
-      bsn_fmd.o
+      bsn_fmd.o \
+      bsn_qmt.o
 
 C_LIB_SO_NAME = bsn
-C_EXTRA_LIB_SO = -lhub -lgdal -lfiremod
+C_CXX_LIB_SO_EXTRA = hub gdal firemod pyqmt

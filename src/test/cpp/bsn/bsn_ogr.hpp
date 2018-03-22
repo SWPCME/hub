@@ -27,6 +27,10 @@
 
 #include "bsn_base.hpp"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
+// ogr
 class COgrCtl;
 
 class BSN_LIB CBsnOgr
@@ -43,6 +47,8 @@ class BSN_LIB CBsnOgr
     UErrCodeT TestRead();
     UErrCodeT TestWrite();
 
+    CHubCtl *mHub;
+    CHubModuleCtl *mModule;
     COgrCtl *mOgr;
 };
 

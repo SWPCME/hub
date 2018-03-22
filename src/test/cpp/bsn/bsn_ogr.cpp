@@ -24,6 +24,9 @@
 
 #include "bsn_ogr.hpp"
 
+// hub
+#include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
 // ogr
@@ -47,6 +50,10 @@
 CBsnOgr::CBsnOgr()
 {
     BMD_POINTER_INIT(mOgr);
+    mHub = CHubCtl::Hub();
+    mModule = mHub->RegModule();
+    mModule->Register(HubMOgr);
+    mOgr = (COgrCtl *) mModule->Module(HubMOgr);
 }
 
 /**
@@ -55,6 +62,7 @@ CBsnOgr::CBsnOgr()
 CBsnOgr::~CBsnOgr()
 {
     BMD_POINTER_INIT(mOgr);
+    mHub->DeregModule(mModule);
 }
 
 /**
@@ -62,8 +70,6 @@ CBsnOgr::~CBsnOgr()
  */
 UErrCodeT CBsnOgr::Init()
 {
-    BMD_MODULE(mOgr, COgrCtl, HubMOgr);
-
     return UErrFalse;
 }
 

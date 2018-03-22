@@ -1,0 +1,63 @@
+################################################################################
+# $Id: Makefile 2017-06 $
+#
+# Project:  GSL (GSL: Gnu Scientific Library).
+# Purpose:  Makefile.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME = gsl
+
+LAYER = gsl
+
+C_OBJ = \
+      gsl_ctl.o \
+      gsl_typectl.o \
+      gsl_vectorctl.o \
+      gsl_vectorbasectl.o \
+      gsl_vectormemctl.o \
+      gsl_vectoroperctl.o \
+      gsl_blasctl.o \
+      gsl_blasvopctl.o \
+      gsl_blasmvopctl.o \
+      gsl_blasmmopctl.o \
+      gsl_sfctl.o \
+      gsl_sflegendre.o \
+      gsl_legendreassoc.o \
+      gsl_phyctl.o \
+      gsl_phyconst.o \
+      gsl_phycastro.o 
+
+C_HEADER = \
+         gsl_base.hpp \
+         gsl_ctl.hpp \
+         gsl_vectorctl.hpp \
+         gsl_vectorbasectl.hpp \
+         gsl_vectormemctl.hpp \
+         gsl_vectoroperctl.hpp \
+         gsl_blasctl.hpp \
+         gsl_blasvopctl.hpp \
+         gsl_blasmvopctl.hpp \
+         gsl_blasmmopctl.hpp \
+         gsl_sfctl.hpp \
+         gsl_sflegendre.hpp \
+         gsl_legendreassoc.hpp \
+         gsl_phyctl.hpp \
+         gsl_phyconst.hpp \
+         gsl_phycastro.hpp

@@ -1,0 +1,39 @@
+################################################################################
+# $Id: file.lst 2017-08 $
+#
+# Project:  BsnGis Makefile.
+# Purpose:  File list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2017-08 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+# The template obj must be at the bottom,
+# for example, generate "whub_ustctl.cxx" must be after "whub_fmdctl.cxx".
+SWIG_OBJ = \
+           whub_ctl.o \
+           # whub_base.o \
+           # whub_ustctl.o \
+           # whub_gdactl.o \
+           # whub_ogrctl.o \
+
+C_LIB_SO_NAME = whub
+C_EXTRA_LIB_DIR = -L$(HOME_DIR)/me/usr/$(TARGET_OS)/lib
+C_EXTRA_LIB_SO = -lhub
+ifeq ($(TARGET_OS), x86_64-w64-mingw32)
+C_EXTRA_LIB_SO += -lgdal -lfiremod
+endif

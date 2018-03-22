@@ -1,0 +1,24 @@
+# Vector
+# TODO
+
+1. Main:
+   vector_ctl, vector_base.
+2. Tool:
+   vector_read, vector_write.
+
+Interface By GDAL:
+0. Init: Init, InitAll. (Init or Register)
+1. Layer: Create, Load, Close.
+2. Feature: Add, Get, Set, Del.
+3. Field: Add, Get, Set, Del, GetType, SetType.
+4. Data: Add, Get, Set, Del.
+5. Clear: Clear, ClearAll. (Clear or Deregister)
+
+Interface By File:
+0. Ctrl: Init, Close, CloseAll, Clear.
+1. Read: Attach, Load, Read, GetCount.
+2. Write: Attach, Create, Write.
+
+Struct:
+1.Element: Layer, Feature, Field, Data.
+2.Code: Layer, Feature, Field, Data.

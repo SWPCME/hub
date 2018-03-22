@@ -1,0 +1,51 @@
+################################################################################
+# $Id: Makefile 2017-11 $
+#
+# Project:  PLP (PLP: PL plot).
+# Purpose:  Makefile.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2017-11 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME = plp
+
+LAYER = plp
+
+C_OBJ = \
+        plp_ctl.o \
+        plp_typectl.o \
+        plp_corectl.o \
+        plp_argsctl.o \
+        plp_colctl.o \
+        plp_vporctl.o \
+        plp_symctl.o \
+        plp_linectl.o \
+        plp_legendctl.o \
+        plp_legendannottype.o
+
+C_HEADER = \
+           plp_base.hpp \
+           plp_ctl.hpp \
+           plp_corectl.hpp \
+           plp_argsctl.hpp \
+           plp_colctl.hpp \
+           plp_vporctl.hpp \
+           plp_symctl.hpp \
+           plp_linectl.hpp \
+           plp_legendctl.hpp \
+           plp_legendannottype.hpp

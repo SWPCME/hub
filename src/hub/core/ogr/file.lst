@@ -1,0 +1,63 @@
+################################################################################
+# $Id: file.lst 2017-06 $
+#
+# Project:  Ogr (OpenGIS Simple Features Reference Implementation) library..
+# Purpose:  File list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME = ogr
+
+LAYER = ogr
+
+C_OBJ = \
+        ogr_ctl.o \
+        ogr_typectl.o \
+        ogr_driverctl.o \
+        ogr_datasrcctl.o \
+        ogr_layerctl.o \
+        ogr_featuredefn.o \
+        ogr_fielddefn.o \
+        ogr_geomfielddefn.o \
+        ogr_featuresctl.o \
+        ogr_featurectl.o \
+        ogr_fieldctl.o \
+        ogr_geomsctl.o \
+        ogr_geomarctype.o \
+        ogr_geomctl.o \
+        ogr_geombasic.o \
+        ogr_geomvertex.o
+
+C_HEADER = \
+           ogr_base.h \
+           ogr_ctl.hpp \
+           ogr_driverctl.hpp \
+           ogr_datasrcctl.hpp \
+           ogr_layerctl.hpp \
+           ogr_featuredefn.hpp \
+           ogr_fielddefn.hpp \
+           ogr_geomfielddefn.hpp \
+           ogr_featuresctl.hpp \
+           ogr_featurectl.hpp \
+           ogr_fieldctl.hpp \
+           ogr_geomsctl.hpp \
+           ogr_geomarctype.hpp \
+           ogr_geomctl.hpp \
+           ogr_geombasic.hpp \
+           ogr_geomvertex.hpp

@@ -1,0 +1,11 @@
+# Business Logic
+# TODO
+
+1. Interface: 
+2. Func:
+(1) GetId: Divide into groups.
+(2) SetId: Related layer.
+(3) Diff: Filter the feature that what you want.
+3. Struct:
+(1) Group: Depend on grid num.
+(2) Related Layer: Depend on name of layer.

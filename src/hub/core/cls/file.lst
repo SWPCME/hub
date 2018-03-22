@@ -1,0 +1,93 @@
+################################################################################
+# $Id: file.lst 2017-08 $
+#
+# Project:  C language standard library.
+# Purpose:  File list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2017-06 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME = cls
+
+LAYER = cls
+
+C_OBJ = \
+      cls_ctl.o \
+      cls_typectl.o \
+      cls_stringctl.o \
+      cls_stringtoken.o \
+      cls_memoryctl.o \
+      cls_fsctl.o \
+      cls_fsattr.o \
+      cls_fswork.o \
+      cls_fsaccess.o \
+      cls_fsfiletype.o \
+      cls_fscreate.o \
+      cls_fsdelete.o \
+      cls_ioctl.o \
+      cls_iocommonctl.o \
+      cls_iostreamctl.o \
+      cls_streamfile.o \
+      cls_streamline.o \
+      cls_streamformat.o \
+      cls_formatinput.o \
+      cls_formatoutput.o \
+      cls_mathctl.o \
+      cls_mathtype.o \
+      cls_mathconst.o \
+      cls_matharith.o \
+      cls_arithround.o \
+      cls_mathtrig.o \
+      cls_mathitrig.o \
+      cls_mathexp.o \
+      cls_mathlog.o \
+      cls_timectl.o \
+      cls_processctl.o
+
+C_HEADER = \
+         cls_base.h \
+         cls_ctl.hpp \
+         cls_stringctl.hpp \
+         cls_stringtoken.hpp \
+         cls_memoryctl.hpp \
+         cls_fsctl.hpp \
+         cls_fsattr.hpp \
+         cls_fswork.hpp \
+         cls_fsaccess.hpp \
+         cls_fsfiletype.hpp \
+         cls_fscreate.hpp \
+         cls_fsdelete.hpp \
+         cls_ioctl.hpp \
+         cls_iocommonctl.hpp \
+         cls_iostreamctl.hpp \
+         cls_streamfile.hpp \
+         cls_streamline.hpp \
+         cls_streamformat.hpp \
+         cls_formatinput.hpp \
+         cls_formatoutput.hpp \
+         cls_mathctl.hpp \
+         cls_mathtype.hpp \
+         cls_mathconst.hpp \
+         cls_matharith.hpp \
+         cls_arithround.hpp \
+         cls_mathtrig.hpp \
+         cls_mathitrig.hpp \
+         cls_mathexp.hpp \
+         cls_mathlog.hpp \
+         cls_timectl.hpp \
+         cls_processctl.hpp

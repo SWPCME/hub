@@ -1,0 +1,4 @@
+CS_STD_DIR = core/std
+CS_STD_OBJ = \
+         ${CS_STD_DIR}/StdCtl.cs \
+         ${CS_STD_DIR}/StdStrCtl.cs 

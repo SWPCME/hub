@@ -34,7 +34,8 @@ HUB_MODULE_WRAP = \
                   vtr
 
 HUB_MODULE_CTGY = \
-                  fmd
+                  fmd \
+                  qmt
 
 OPT_MODULE = \
              $(HUB_MODULE_CORE) \

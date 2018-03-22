@@ -1,12 +1,12 @@
 ################################################################################
-# $Id: opt_cxx.lst 2018-01 $
+# $Id: dir.lst 2017-08 $
 #
-# Project:  Prj.
-# Purpose:  Make cxx options.
+# Project:  Hub.
+# Purpose:  Directory options.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2018-01 ~ 2018 Weiwei Huang
+# Copyright (c) 2016-08 ~ 2017 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -22,9 +22,33 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-# CXX
-CXX_SUFFIX = cpp
-# DCC_HOST = 192.168.0.253/8,lzo,cpp
-# DCC_HOST = 192.168.0.253:23632,lzo,cpp
-C_EXTRA_LIB_DIR = -L$(HOME_DIR)/me/usr/lib -L$(HOME_DIR)/me/usr/$(PRJ_TARGET_OS)/lib
-INSTALL_H_DIR = $(INSTALL_DIR)/include
+#
+# Module directory.
+#
+# Hub directory.
+HUB_DIR = $(SRC_DIR)/hub
+# Base directory.
+BASE_DIR = $(HUB_DIR)/base
+# Core directory.
+CORE_DIR = $(HUB_DIR)/core
+CLS_DIR = $(CORE_DIR)/cls
+CCS_DIR = $(CORE_DIR)/ccs
+SYS_DIR = $(CORE_DIR)/sys
+OGR_DIR = $(CORE_DIR)/ogr
+GDA_DIR = $(CORE_DIR)/gda
+GSL_DIR = $(CORE_DIR)/gsl
+CUT_DIR = $(CORE_DIR)/cut
+PLP_DIR = $(CORE_DIR)/plp
+# Wrap directory.
+WRAP_DIR = $(HUB_DIR)/wrap
+UST_DIR = $(WRAP_DIR)/ust
+RST_DIR = $(WRAP_DIR)/rst
+VTR_DIR = $(WRAP_DIR)/vtr
+NCC_DIR = $(WRAP_DIR)/ncc
+# Ctgy directory.
+CTGY_DIR = ${HUB_DIR}/ctgy
+EARTH_DIR = $(CTGY_DIR)/earth
+RTK_DIR = $(EARTH_DIR)/rtk
+FMD_DIR = $(CTGY_DIR)/fmd
+QMT_DIR = $(CTGY_DIR)/qmt
+ERA_DIR = $(CTGY_DIR)/era

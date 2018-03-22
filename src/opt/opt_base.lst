@@ -40,7 +40,8 @@ WORK_DIR = $(HOME_DIR)/file/source/swpcme/${NAME}
 MK_DIR = $(HOME_DIR)/me/usr/share/prj/mk
 
 # Makefile
-INSTALL_DIR = $(SRC_DIR)/../install
-DOC_API_CFG_DIR = $(SRC_DIR)/../doc/api
-DOC_API_CFG_FILE = $(SRC_DIR)/../doc/api/doc_main
-BUILD_DIR = $(SRC_DIR)/../build
+RES_DIR = $(HOME_DIR)/file/resource/swpcme/$(NAME)
+INSTALL_DIR = $(RES_DIR)/install
+DOC_API_CFG_DIR = $(SRC_DIR)/doc/api
+DOC_API_CFG_FILE = doc_main
+BUILD_DIR = $(RES_DIR)/build

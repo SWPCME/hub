@@ -1,0 +1,3 @@
+CS_UST_DIR = wrap/ust
+CS_UST_OBJ = 
+             # ${CS_UST_DIR}/UstErrType.cs

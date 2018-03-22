@@ -1,0 +1,27 @@
+# C_OBJ = \
+#       bsn_ctl.o \
+#       bsn_cls.o \
+#       bsn_gda.o \
+#       bsn_ogr.o \
+#       bsn_gsl.o \
+#       bsn_cut.o \
+#       bsn_plp.o \
+#       bsn_ust.o \
+#       bsn_rst.o \
+#       bsn_ncc.o \
+#       bsn_fmd.o \
+#       bsn_era.o \
+#       bsn_uniqueid.o
+
+C_OBJ = \
+      bsn_ctl.o \
+      bsn_cls.o \
+      bsn_gda.o \
+      bsn_ogr.o \
+      bsn_ust.o \
+      bsn_rst.o \
+      bsn_fmd.o \
+      bsn_qmt.o
+
+C_LIB_SO_NAME = bsn
+C_CXX_LIB_SO_EXTRA = hub gdal firemod pyqmt

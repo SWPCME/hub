@@ -1,0 +1,10 @@
+* mono
+** mcs
+   Mono c sharp compiler.
+** mono
+   Mono's EMCA-CLI native code generator.
+* vs
+** csc
+   C sharp compiler.
+** al
+   Assembly linker.

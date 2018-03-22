@@ -1,0 +1,4 @@
+CS_CORE_DIR = core
+include ${CS_CORE_DIR}/std/file.lst
+CS_CORE_OBJ = ${CS_STD_OBJ}\
+              ${CS_CORE_DIR}/CoreCtl.cs

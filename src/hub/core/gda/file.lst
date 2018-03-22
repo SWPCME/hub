@@ -1,0 +1,101 @@
+################################################################################
+# $Id: file.lst 2017-06 $
+#
+# Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
+# Purpose:  File list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME = gda
+
+LAYER = gda
+
+C_OBJ = \
+      gda_sngctl.o \
+      gda_snglockctl.o \
+      gda_snglockdriver.o \
+      gda_ctl.o \
+      gda_typectl.o \
+      gda_banddatactl.o \
+      gda_banddatatype.o \
+      gda_corectl.o \
+      gda_driversctl.o \
+      gda_driverctl.o \
+      gda_datasetctl.o \
+      gda_bandctl.o \
+      gda_bandcolor.o \
+      gda_ogrctl.o \
+      gda_ogrsrsctl.o \
+      gda_ogrsrstype.o \
+      gda_algctl.o \
+      gda_algbase.o \
+      gda_algtransform.o \
+      gda_algtrreprj.o \
+      gda_algcontour.o \
+      gda_algrasterizer.o \
+      gda_alggridding.o \
+      gda_warpctl.o \
+      gda_warpreproj.o \
+      gda_warpreprojimagetype.o \
+      gda_utilsctl.o \
+      gda_utilsinfo.o \
+      gda_utilstr.o \
+      gda_trvtr.o \
+      gda_trvtrprocctl.o \
+      gda_trvtrtorsttype.o \
+      gda_trvtrtovtrtype.o \
+      gda_trrst.o \
+      gda_trrstprocctl.o \
+      gda_trrsttorsttype.o \
+      gda_utilsdem.o \
+      gda_demprocctl.o \
+      gda_demproctype.o
+
+C_HEADER = \
+         gda_base.h \
+         gda_ctl.hpp \
+         gda_banddatatype.hpp \
+         gda_corectl.hpp \
+         gda_driversctl.hpp \
+         gda_driverctl.hpp \
+         gda_datasetctl.hpp \
+         gda_bandctl.hpp \
+         gda_bandcolor.hpp \
+         gda_ogrctl.hpp \
+         gda_ogrsrstype.hpp \
+         gda_algctl.hpp \
+         gda_algbase.hpp \
+         gda_algtransform.hpp \
+         gda_algtrreprj.hpp \
+         gda_algcontour.hpp \
+         gda_algrasterizer.hpp \
+         gda_alggridding.hpp \
+         gda_warpctl.hpp \
+         gda_warpreproj.hpp \
+         gda_warpreprojimagetype.hpp \
+         gda_utilsctl.hpp \
+         gda_utilsinfo.hpp \
+         gda_utilstr.hpp \
+         gda_trvtr.hpp \
+         gda_trvtrtovtrtype.hpp \
+         gda_trvtrtorsttype.hpp \
+         gda_trrst.hpp \
+         gda_trrsttorsttype.hpp \
+         gda_utilsdem.hpp \
+         gda_demproctype.hpp

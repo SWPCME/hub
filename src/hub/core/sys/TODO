@@ -1,0 +1,4 @@
+Muti-thread:
+        pthread.
+Network-mode:
+        socket.

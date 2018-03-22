@@ -1,0 +1,4 @@
+CS_WRAP_DIR = wrap
+include ${CS_WRAP_DIR}/ust/file.lst
+CS_WRAP_OBJ = ${CS_UST_OBJ}\
+              wrap/WrapCtl.cs

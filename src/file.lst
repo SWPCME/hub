@@ -1,0 +1,18 @@
+SUB_DIR = hub \
+        bsn \
+        ui
+
+C_OBJ = main.o
+
+# Library name
+C_LIB_A_NAME =
+C_LIB_SO_NAME = ui \
+    bsn \
+    hub \
+    gdal
+
+# Binary file name.
+BIN_FILE = 
+
+# Backup directory.
+BACKUP_DIR = $(HUB_DIR)/../../.backup

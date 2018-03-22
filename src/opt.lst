@@ -24,6 +24,7 @@
 
 # Options
 include $(SRC_DIR)/opt/opt_base.lst
+include $(SRC_DIR)/opt/opt_dir.lst
 include $(SRC_DIR)/opt/opt_extra.lst
 include $(SRC_DIR)/opt/opt_module.lst
 include $(SRC_DIR)/opt/opt_cxx.lst

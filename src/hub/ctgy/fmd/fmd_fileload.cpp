@@ -207,7 +207,7 @@ UErrCodeT CFmdFileLoad::IgnitionGjson(const UStringT *aGjson)
 /**
  * \brief Load barrier file.
  *
- * \param aFile, barrier file.
+ * @param aFile, barrier file.
  */
 UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 {
@@ -254,7 +254,7 @@ UErrCodeT CFmdFileLoad::InitPointer()
 /**
  * \brief Load input error.
  *
- * \param aErr, error number.
+ * @param aErr, error number.
  *
  * \return UErrFalse, if successful; FMD_ERR, if failed.
  */

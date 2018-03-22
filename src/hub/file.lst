@@ -42,5 +42,5 @@ C_HEADER = \
          hub_modulectl.hpp
 
 C_LIB_SO_NAME = hub
-# C_EXTRA_LIB_SO = -lgdal -lgsl -lgslcblas -lcurl -lplplot -lfiremod -lerfa
-C_EXTRA_LIB_SO = -lgdal -lfiremod
+# C_CXX_LIB_SO_EXTRA = gdal gsl gslcblas curl plplot firemod erfa
+C_CXX_LIB_SO_EXTRA = gdal firemod plplot pyqmt

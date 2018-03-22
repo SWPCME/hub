@@ -187,7 +187,6 @@ CHubCtl::CHubCtl()
  */
 CHubCtl::~CHubCtl()
 {
-    DeregisterAll();
     delete mModule;
 }
 

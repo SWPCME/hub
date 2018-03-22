@@ -158,10 +158,12 @@ typedef enum
     /* Ctgy module */
     // Earth
     /* HubMRtk = 2001,             /\* Real time kinematic library. *\/ */
-    // Fire
+    // sci/physics
     HubMFmd = 2001,             /* Firemod library. */
-    // Astronomy
-    HubMEra = 2002,             /* Essential routines of fundamental 
+    // sci/cesium/terrain/quantized_mesh_tile
+    HubMQmt = 2002,             /* Quantized mesh tile. */
+    // sci/astronomy
+    HubMEra = 2003,             /* Essential routines of fundamental 
                                    astronomy */
 } HubCodeT;
 

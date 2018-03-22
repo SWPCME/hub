@@ -91,7 +91,7 @@ C_HEADER = \
          gda_warpreprojimagetype.hpp \
          gda_utilsctl.hpp \
          gda_utilsinfo.hpp \
-         gda_utilstranslate.hpp \
+         gda_utilstr.hpp \
          gda_trvtr.hpp \
          gda_trvtrtovtrtype.hpp \
          gda_trvtrtorsttype.hpp \

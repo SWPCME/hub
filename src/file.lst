@@ -12,7 +12,7 @@ C_LIB_SO_NAME = ui \
     gdal
 
 # Binary file name.
-BIN_FILE = qgsp
+BIN_FILE = 
 
 # Backup directory.
 BACKUP_DIR = $(HUB_DIR)/../../.backup

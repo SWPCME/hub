@@ -31,11 +31,10 @@
         return UErrTrue;     \
     }
 
-#define BMD_MODULE(aCtl, aClass, aCode)             \
+#define BMD_MODULE(aCtl, aModule, aClass, aCode)    \
     if (aCtl == NULL)                               \
     {                                               \
-        CHubCtl *hubCtl = CHubCtl::Hub();           \
-        aCtl = (aClass *) hubCtl->Module(aCode);    \
+        aCtl = (aClass *) aModule->Module(aCode);   \
     }
 
 #define BMD_REGISTER(aCode, aClass, aModule, aMHandle)     \

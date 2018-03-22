@@ -42,6 +42,7 @@
 // #include "bsn_ncc.hpp"
 #include "bsn_rtk.hpp"
 #include "bsn_fmd.hpp"
+#include "bsn_qmt.hpp"
 // #include "bsn_era.hpp"
 // #include "bsn_uniqueid.hpp"
 
@@ -128,8 +129,11 @@ UErrCodeT CUiCtl::Test()
     // CBsnUst *ust = mBsn->Ust();
     // ust->Test();
 
-    CBsnFmd *fmd = mBsn->Fmd();
-    fmd->Test();
+    // CBsnFmd *fmd = mBsn->Fmd();
+    // fmd->Test();
+
+    CBsnQmt *qmt = mBsn->Qmt();
+    qmt->Test();
 
     // CBsnOgr *ogr = mBsn->Ogr();
     // ogr->Test();

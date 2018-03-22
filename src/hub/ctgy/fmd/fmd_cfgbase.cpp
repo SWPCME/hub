@@ -87,7 +87,7 @@ UErrCodeT FmdCfgTimeT::SetAll(const UIntT aYear, const UIntT aMon,
  * \brief Set year.
  *
  * @param aYear Year.
- * @retrun UErrFalse, if successful; UErrTrue, if failed.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgTimeT::SetYear(const UIntT aYear)
 {
@@ -100,7 +100,7 @@ UErrCodeT FmdCfgTimeT::SetYear(const UIntT aYear)
  * \brief Set month.
  *
  * @param aMon Month in one year.
- * @retrun UErrFalse, if successful; UErrTrue, if failed.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgTimeT::SetMon(const UIntT aMon)
 {
@@ -113,7 +113,7 @@ UErrCodeT FmdCfgTimeT::SetMon(const UIntT aMon)
  * \brief Set day of month.
  *
  * @param aDay Day of month.
- * @retrun UErrFalse, if successful; UErrTrue, if failed.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgTimeT::SetMDay(const UIntT aMDay)
 {
@@ -126,7 +126,7 @@ UErrCodeT FmdCfgTimeT::SetMDay(const UIntT aMDay)
  * \brief Set hour.
  *
  * @param aHour Hour in one day.
- * @retrun UErrFalse, if successful; UErrTrue, if failed.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgTimeT::SetHour(const UIntT aHour)
 {
@@ -139,7 +139,7 @@ UErrCodeT FmdCfgTimeT::SetHour(const UIntT aHour)
  * \brief Set minute.
  *
  * @param aMinute Minute in one hour.
- * @retrun UErrFalse, if successful; UErrTrue, if failed.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
 UErrCodeT FmdCfgTimeT::SetMin(const UIntT aMin)
 {
@@ -167,7 +167,7 @@ UErrCodeT FmdCfgTimeT::All(UIntT *aYear, UIntT *aMon, UIntT *aMDay,
  * \brief Get year.
  *
  * @param aYear Year.
- * @retrun year, if successful; kSignNeg, if failed.
+ * @return year, if successful; kSignNeg, if failed.
  */
 UIntT FmdCfgTimeT::Year() const
 {
@@ -178,7 +178,7 @@ UIntT FmdCfgTimeT::Year() const
  * \brief Get month.
  *
  * @param aMon Month in one year.
- * @retrun month, if successful; kSignNeg, if failed.
+ * @return month, if successful; kSignNeg, if failed.
  */
 UIntT FmdCfgTimeT::Mon() const
 {
@@ -189,7 +189,7 @@ UIntT FmdCfgTimeT::Mon() const
  * \brief Get day in one month.
  *
  * @param aMDay Day in one month.
- * @retrun day, if successful; kSignNeg, if failed.
+ * @return day, if successful; kSignNeg, if failed.
  */
 UIntT FmdCfgTimeT::MDay() const
 {
@@ -200,7 +200,7 @@ UIntT FmdCfgTimeT::MDay() const
  * \brief Get hour in one day.
  *
  * @param aHour Hour in one day.
- * @retrun hour, if successful; kSignNeg, if failed.
+ * @return hour, if successful; kSignNeg, if failed.
  */
 UIntT FmdCfgTimeT::Hour() const
 {
@@ -211,7 +211,7 @@ UIntT FmdCfgTimeT::Hour() const
  * \brief Get minute in one hour.
  *
  * @param aMin Minute in one hour.
- * @retrun minute, if successful; kSignNeg, if failed.
+ * @return minute, if successful; kSignNeg, if failed.
  */
 UIntT FmdCfgTimeT::Min() const
 {
@@ -349,7 +349,7 @@ UErrCodeT FmdCfgBurnTimeT::All(FmdCfgTimeT *aBegin, FmdCfgTimeT *aEnd,
  * \brief Get time of begin.
  *
  * @param aBegin Time of begin.
- * @retrun Time of begin, if successful; NULL, if failed.
+ * @return Time of begin, if successful; NULL, if failed.
  */
 const FmdCfgTimeT *FmdCfgBurnTimeT::Begin() const
 {
@@ -360,7 +360,7 @@ const FmdCfgTimeT *FmdCfgBurnTimeT::Begin() const
  * \brief Get time of end.
  *
  * @param aEnd Time of end.
- * @retrun Time of end, if successful; NULL, if failed.
+ * @return Time of end, if successful; NULL, if failed.
  */
 const FmdCfgTimeT *FmdCfgBurnTimeT::End() const
 {

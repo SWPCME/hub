@@ -188,6 +188,8 @@ UErrCodeT CBaseTmpCtl::RmRootDir(CHubModuleCtl *aModule)
     UFsFileT file(&dir);
     file.Rm(0);
     mMDir.DelByKey(aModule);
+
+    return UErrFalse;
 }
 
 /***** Private A *****/

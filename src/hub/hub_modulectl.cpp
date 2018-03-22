@@ -65,6 +65,7 @@
 #include "ctgy_ctl.hpp"
 // #include "rtk_ctl.hpp"
 #include "fmd_ctl.hpp"
+#include "qmt_ctl.hpp"
 #ifdef HUB_MODULE_ERA
 #include "era_ctl.hpp"
 #endif  // HUB_MODULE_ERA
@@ -149,6 +150,7 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         // ctgy
         // HUB_REGISTER(HubMRtk, CRtkCtl);
         HUB_REGISTER(HubMFmd, CFmdCtl);
+        HUB_REGISTER(HubMQmt, CQmtCtl);
 
 #ifdef HUB_MODULE_ERA
         HUB_REGISTER(HubMEra, CEraCtl);
@@ -210,6 +212,7 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         // ctgy
         // HUB_DEREGISTER(HubMRtk, CRtkCtl);
         HUB_DEREGISTER(HubMFmd, CFmdCtl);
+        HUB_DEREGISTER(HubMQmt, CQmtCtl);
 #ifdef HUB_MODULE_ERA
         HUB_DEREGISTER(HubMEra, CEraCtl);
 #endif  // HUB_MODULE_ERA

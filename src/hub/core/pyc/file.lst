@@ -1,0 +1,63 @@
+################################################################################
+# $Id: file.lst 2018-03 $
+#
+# Project:  PYC(PYC: Python c library).
+# Purpose:  Pyc file list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2018-03 ~ 2018 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+SUB_NAME =
+
+LAYER = .
+
+SUB_DIR =
+
+C_SRC_DIR = 
+
+C_OBJ = \
+        pyc_ctl.o \
+        pyc_type.o \
+        pyc_typeobj.o \
+        pyc_objtype.o \
+        pyc_typeobjlist.o \
+        pyc_objlisttype.o \
+        pyc_mod.o \
+        pyc_modval.o \
+        pyc_obj.o \
+        pyc_objcore.o \
+        pyc_objimpl.o \
+        pyc_objbyte.o \
+        pyc_objlists.o \
+        pyc_objlist.o
+
+C_HEADER_DIR = $(C_SRC_DIR)
+
+C_HEADER = \
+           pyc_base.hpp \
+           pyc_ctl.hpp \
+           pyc_objtype.hpp \
+           pyc_objlisttype.hpp \
+           pyc_mod.hpp \
+           pyc_modval.hpp \
+           pyc_obj.hpp \
+           pyc_objcore.hpp \
+           pyc_objimpl.hpp \
+           pyc_objbyte.hpp \
+           pyc_objlists.hpp \
+           pyc_objlist.hpp 

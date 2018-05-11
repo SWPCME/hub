@@ -52,6 +52,15 @@ GdaBandDataT::GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aBegin,
 }
 
 /**
+ * \brief Constructor with set one value.
+ */
+GdaBandDataT::GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aId)
+{
+    Init();
+    SetAll(aType, aId, aId);
+}
+
+/**
  * \brief Destructor.
  */
 GdaBandDataT::~GdaBandDataT()
@@ -134,11 +143,31 @@ BMathCsC2dT *GdaBandDataT::End()
 /**
  * \brief Get handle.
  */
-UDataT GdaBandDataT::Handle()
+UDataHT GdaBandDataT::Handle()
 {
     SetHanle();
 
     return mDataH;
+}
+
+/**
+ * \brief Get data with id.
+ */
+UErrCodeT GdaBandDataT::Data(UDataT *aData, const BMathCsC2dT *aId)
+{
+    aData->SetCode(mType);
+
+    UIntT size;
+    mData->Size(&size, &mBegin, &mEnd);
+
+    UIntT id;
+    if (aId != NULL)
+    {
+        mData->Id(&id, aId, &mBegin, &mEnd);
+    }
+    aData->SetHandle(mDataH);
+
+    return UErrFalse;
 }
 
 /***** Private A *****/

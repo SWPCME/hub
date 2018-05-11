@@ -37,6 +37,7 @@ class GDA_LIB GdaOgrSrsT
     ~GdaOgrSrsT();
 
     UErrCodeT Init();
+    GdaOgrSrsHT Handle() const;
 
     UErrCodeT ImportFromWkt(const UStringT *aWkt);
     UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);

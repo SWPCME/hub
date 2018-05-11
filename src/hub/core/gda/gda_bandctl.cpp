@@ -152,7 +152,7 @@ UFloatT CGdaBandCtl::NoDataVal(UErrCodeT *aErr)
     UErrCodeT err = UErrTrue;
     int gdalErr;
     UFloatT val = GDALGetRasterNoDataValue((GDALRasterBandH) mBandH, &gdalErr);
-    if (err == CE_None)
+    if (gdalErr == CE_None)
     {
         err = UErrFalse;
     }
@@ -279,9 +279,9 @@ UErrCodeT CGdaBandCtl::Read(GdaBandDataT *aData)
 /**
  * \brief Read a block.
  */
-UErrCodeT CGdaBandCtl::ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff)
+UErrCodeT CGdaBandCtl::ReadBlock(UDataHT aDataH, UIntT aXOff, UIntT aYOff)
 {
-    CPLErr err = GDALReadBlock((GDALRasterBandH) mBandH, aXOff, aYOff, aData);
+    CPLErr err = GDALReadBlock((GDALRasterBandH) mBandH, aXOff, aYOff, aDataH);
     if (err == CE_None)
     {
         return UErrFalse;
@@ -324,8 +324,11 @@ UErrCodeT CGdaBandCtl::CreateBand(UDataTCodeT aDataT,
     GDALDataType dataType;
     mType->ToDataType(&dataType, aDataT);
     char** option = NULL;
+    // if (aOption != NULL)
+    // {
+    //     *option = (char *) aOption->ToA();
+    // }
     GDALAddBand(datasetH, dataType, option);
-    // *aOption = *option;
 
     return UErrFalse;
 }
@@ -351,9 +354,9 @@ UErrCodeT CGdaBandCtl::Io(GdaBandDataT *aData, const UAccessCodeT aAccess)
     BMathCsC2dT *end = aData->End();
     UIntT xOff = begin->X();
     UIntT yOff = begin->Y();
-    UIntT xSize = end->X() - begin->X();
-    UIntT ySize = end->Y() - begin->Y();
-    UDataT data = aData->Handle();
+    UIntT xSize = end->X() - begin->X() + 1;
+    UIntT ySize = end->Y() - begin->Y() + 1;
+    UDataHT dataH = aData->Handle();
     UIntT bufXSize = xSize;
     UIntT bufYSize = ySize;
     UIntT pixelSpace = 0;
@@ -366,7 +369,7 @@ UErrCodeT CGdaBandCtl::Io(GdaBandDataT *aData, const UAccessCodeT aAccess)
         rwFlag = GF_Write;
     }
     CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, xOff, yOff,
-                              xSize, ySize, data, bufXSize, bufYSize,
+                              xSize, ySize, dataH, bufXSize, bufYSize,
                               dataType, pixelSpace, lineSpace);
     if (err == CE_None)
     {

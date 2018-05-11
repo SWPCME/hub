@@ -28,6 +28,11 @@
 #include "base_ctl.hpp"
 // core
 #include "core_ctl.hpp"
+// cls
+#include "cls_ctl.hpp"
+#include "cls_mathctl.hpp"
+#include "cls_matharith.hpp"
+#include "cls_arithround.hpp"
 // gda
 #include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
@@ -79,6 +84,12 @@ UErrCodeT CGdaDatasetCtl::Init()
     }
 
     GDA_TYPE_CTL(mType);
+    CClsCtl *cls;
+    BMD_POINTER_INIT(cls);
+    CLS_CTL(cls);
+    CClsMathCtl *math = cls->Math();
+    CClsMathArith *arith = math->Arith();
+    mRound = arith->Round();
 
     return UErrFalse;
 }
@@ -180,6 +191,111 @@ UErrCodeT CGdaDatasetCtl::SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand)
 }
 
 /**
+ * \brief Get transform info.
+ * Fetch the affine transformation coefficients.
+ */
+UErrCodeT CGdaDatasetCtl::GeoTransform(BCtnFloatT *aTransform)
+{
+    const UIntT kNumTransform = 6;
+    double transform[kNumTransform];
+    CPLErr err = GDALGetGeoTransform((GDALDatasetH) mDatasetH, transform);
+
+    for (UIntT i = 0; i < kNumTransform; ++i)
+    {
+        aTransform->Add(transform[i]);
+    }
+
+    return UErrFalse;
+}
+/**
+ * \brief Get invert transform info.
+ *
+ * This function will invert a standard 3x2 set of GeoTransform coefficients.
+ * This converts the equation from being pixel to geo to being geo to pixel.
+ */
+UErrCodeT CGdaDatasetCtl::InvGeoTransform(BCtnFloatT *aInvTransform)
+{
+    BCtnFloatT tTransform(UContainerList);
+    GeoTransform(&tTransform);
+    const UIntT kNumTransform = 6;
+    double transform[kNumTransform];
+    for (UIntT i = 0; i < kNumTransform; ++i)
+    {
+        transform[i] = tTransform[i];
+    }
+    double invTransform[kNumTransform];
+    CPLErr err = GDALInvGeoTransform(transform, invTransform);
+
+    for (UIntT i = 0; i < kNumTransform; ++i)
+    {
+        aInvTransform->Add(invTransform[i]);
+    }
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Index to position.
+ *
+ * @param aDst The destination of coordinate with current coordinate system.
+ * @param aSrc The source of coordinate with x belong to [0, xSize], 
+ *             y belong to [0, ySize].
+ */
+UErrCodeT CGdaDatasetCtl::IdToPos(BMathCsC2dT *aDst, BMathCsC2dT *aSrc)
+{
+    BCtnFloatT transform(UContainerList);
+    GeoTransform(&transform);
+    UFloatT srcX = aSrc->X();
+    UFloatT srcY = aSrc->Y();
+    UFloatT dstX = transform[0] + srcX * transform[1] + srcY * transform[2];
+    UFloatT dstY = transform[3] + srcX * transform[4] + srcY * transform[5];
+    aDst->SetAll(dstX, dstY);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Position to index.
+ *
+ * @param aDst The source of coordinate with x belong to [0, xSize], 
+ *             y belong to [0, ySize].
+ * @param aSrc The destination of coordinate with current coordinate system.
+ */
+UErrCodeT CGdaDatasetCtl::PosToId(BMathCsC2dT *aDst, BMathCsC2dT *aSrc)
+{
+    UErrCodeT err = UErrFalse;
+    BCtnFloatT transform(UContainerList);
+    InvGeoTransform(&transform);
+    UFloatT srcX = aSrc->X();
+    UFloatT srcY = aSrc->Y();
+    UFloatT tDstX = transform[0] + srcX * transform[1] + srcY * transform[2];
+    UFloatT tDstY = transform[3] + srcX * transform[4] + srcY * transform[5];
+    UFloatT dstX;
+    mRound->Floor(&dstX, tDstX);
+    UFloatT dstY;
+    mRound->Floor(&dstY, tDstY);
+
+    UIntT xSize;
+    XSize(&xSize);
+    UIntT ySize;
+    YSize(&ySize);
+    if (dstX >= xSize)
+    {
+        dstX = xSize - 1;
+        err = UErrTrue;
+    }
+    if (dstY >= ySize)
+    {
+        dstY = ySize - 1;
+        err = UErrTrue;
+    }
+
+    aDst->SetAll(dstX, dstY);
+
+    return err;
+}
+
+/**
  * \brief Raster x size.
  */
 UErrCodeT CGdaDatasetCtl::XSize(UIntT *aNum)
@@ -214,6 +330,7 @@ UErrCodeT CGdaDatasetCtl::YSize(UIntT *aNum)
  */
 UErrCodeT CGdaDatasetCtl::InitPointer()
 {
+    BMD_POINTER_INIT(mRound);
     BMD_POINTER_INIT(mDatasetH);
     BMD_POINTER_INIT(mType);
 

@@ -55,6 +55,14 @@ UErrCodeT GdaOgrSrsT::Init()
 }
 
 /**
+ * \brief Get handle.
+ */
+GdaOgrSrsHT GdaOgrSrsT::Handle() const
+{
+    return mSrs->Handle();
+}
+
+/**
  * \brief Import from well known text format string.
  */
 UErrCodeT GdaOgrSrsT::ImportFromWkt(const UStringT *aWkt)

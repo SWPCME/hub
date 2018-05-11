@@ -32,6 +32,8 @@
 // gda
 #include "gda_ogrsrstype.hpp"
 
+// cls
+class CClsArithRound;
 // gda
 class CGdaTypeCtl;
 class CGdaBandCtl;
@@ -44,10 +46,10 @@ class GDA_LIB CGdaDatasetCtl
     CGdaDatasetCtl(const UStringT *aFile, UAccessCodeT aAccess);
     ~CGdaDatasetCtl();
 
-    // Init
+    // init
     UErrCodeT Init();
 
-    // Attribute
+    // attribute
     GdaDatasetHT Handle();
     UStringT Description();
     GdaOgrSrsT *Srs();
@@ -57,6 +59,12 @@ class GDA_LIB CGdaDatasetCtl
     UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption = NULL);
     CGdaBandCtl *Band(UIntT aId);
     UErrCodeT SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand);
+
+    // coordinate system info
+    UErrCodeT GeoTransform(BCtnFloatT *aTransform);
+    UErrCodeT InvGeoTransform(BCtnFloatT *aInvTransform);
+    UErrCodeT IdToPos(BMathCsC2dT *aDst, BMathCsC2dT *aSrc);
+    UErrCodeT PosToId(BMathCsC2dT *aDst, BMathCsC2dT *aSrc);
     UErrCodeT XSize(UIntT *aNum);
     UErrCodeT YSize(UIntT *aNum);
 
@@ -74,6 +82,7 @@ class GDA_LIB CGdaDatasetCtl
     UErrCodeT GdaClose();
 
     // Handle.
+    CClsArithRound *mRound;
     GdaDatasetHT mDatasetH;
     CGdaTypeCtl *mType;
     MBandT mMBand;

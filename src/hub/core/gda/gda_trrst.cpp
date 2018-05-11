@@ -92,7 +92,7 @@ UErrCodeT CGdaTrRst::ToRst(const UStringT *aDst, CGdaDatasetCtl *aSrc,
     GDALDatasetH srcDsH = (GDALDatasetH) aSrc->Handle();
 
     char *dst = (char *) aDst->ToA();
-    GDALTranslateOptions *opt = aOpt->Handle();
+    GDALTranslateOptions *opt = (GDALTranslateOptions *) aOpt->Handle();
 
     int err = FALSE;
     GDALDatasetH ds = GDALTranslate(dst, srcDsH, opt, &err);

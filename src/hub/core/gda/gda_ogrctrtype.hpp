@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_ogrsrsctl.hpp 2017-12 $
+ * $Id: gda_ogrctrtype.hpp 2018-05 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Ogr spatial reference system control definition.
+ * Purpose:  Ogr coordinate transform type definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,35 +22,34 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef GDA_OGRSRSCTL_HPP_INCLUDED
-#define GDA_OGRSRSCTL_HPP_INCLUDED
+#ifndef GDA_OGRCTRTYPE_HPP_INCLUDED
+#define GDA_OGRCTRTYPE_HPP_INCLUDED
 
 #include "gda_base.h"
 
+// base
+class BMathCsC2dT;
 // gda
-class CGdaTypeCtl;
+class CGdaTypeOgrCtr;
+class GdaOgrSrsT;
 
-class GDA_LIB CGdaOgrSrsCtl
+class GDA_LIB GdaOgrCtrT
 {
   public:
-    CGdaOgrSrsCtl();
-    ~CGdaOgrSrsCtl();
+    GdaOgrCtrT();
+    GdaOgrCtrT(const GdaOgrSrsT *aSrc, const GdaOgrSrsT *aDst);
+    ~GdaOgrCtrT();
 
-    UErrCodeT Init();
-    GdaOgrSrsHT Handle() const;
-
-    UErrCodeT ImportFromWkt(const UStringT *aWkt);
-    UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
-    UErrCodeT ExportToWkt(UStringT *aWkt);
+    UErrCodeT Tr(BMathCsC2dT *aDst, const BMathCsC2dT *aSrc);
 
   protected:
   private:
-    UErrCodeT New();
+    UErrCodeT Init();
+    UErrCodeT New(const GdaOgrSrsT *aSrc, const GdaOgrSrsT *aDst);
     UErrCodeT Destroy();
 
-    CGdaTypeCtl *mType;
-
-    GdaOgrSrsHT mSrsH;
+    CGdaTypeOgrCtr *mCtr;
+    GdaOgrCtrHT mCtrH;
 };
 
-#endif  // GDA_OGRSRSCTL_HPP_INCLUDED
+#endif  // GDA_OGRCTRTYPE_HPP_INCLUDED

@@ -29,6 +29,7 @@
  */
 CGdaOgrCtl::CGdaOgrCtl()
 {
+    // BMD_POINTER_INIT(mSrs);
 }
 
 /**
@@ -36,6 +37,7 @@ CGdaOgrCtl::CGdaOgrCtl()
  */
 CGdaOgrCtl::~CGdaOgrCtl()
 {
+    // BMD_CLASS_DEL(mSrs);
 }
 
 /**
@@ -45,3 +47,13 @@ UErrCodeT CGdaOgrCtl::Init()
 {
     return UErrFalse;
 }
+
+/**
+ * \brief Ogr spatial reference system.
+ */
+// CGdaOgrSrs *CGdaOgrCtl::Srs()
+// {
+//     // BMD_CLASS_NEW(mSrs, CGdaOgrSrs);
+
+//     return mSrs;
+// }

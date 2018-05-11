@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_ogrsrsctl.hpp 2017-12 $
+ * $Id: gda_typeogr.cpp 2018-05 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Ogr spatial reference system control definition.
+ * Purpose:  Gda type ogr controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -20,37 +20,43 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- *****************************************************************************/
+ ****************************************************************************/
 
-#ifndef GDA_OGRSRSCTL_HPP_INCLUDED
-#define GDA_OGRSRSCTL_HPP_INCLUDED
-
-#include "gda_base.h"
+#include "gda_typeogr.hpp"
 
 // gda
-class CGdaTypeCtl;
+#include "gda_typeogrctr.hpp"
 
-class GDA_LIB CGdaOgrSrsCtl
+/**
+ * \brief Constructor.
+ */
+CGdaTypeOgr::CGdaTypeOgr()
 {
-  public:
-    CGdaOgrSrsCtl();
-    ~CGdaOgrSrsCtl();
+    BMD_POINTER_INIT(mCtr);
+}
 
-    UErrCodeT Init();
-    GdaOgrSrsHT Handle() const;
+/**
+ * \brief Destructor.
+ */
+CGdaTypeOgr::~CGdaTypeOgr()
+{
+    BMD_CLASS_DEL(mCtr);
+}
 
-    UErrCodeT ImportFromWkt(const UStringT *aWkt);
-    UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
-    UErrCodeT ExportToWkt(UStringT *aWkt);
+/**
+ * \brief Initialize.
+ */
+UErrCodeT CGdaTypeOgr::Init()
+{
+    return UErrFalse;
+}
 
-  protected:
-  private:
-    UErrCodeT New();
-    UErrCodeT Destroy();
+/**
+ * \brief Coordinate transform.
+ */
+CGdaTypeOgrCtr *CGdaTypeOgr::Ctr()
+{
+    BMD_CLASS_NEW(mCtr, CGdaTypeOgrCtr);
 
-    CGdaTypeCtl *mType;
-
-    GdaOgrSrsHT mSrsH;
-};
-
-#endif  // GDA_OGRSRSCTL_HPP_INCLUDED
+    return mCtr;
+}

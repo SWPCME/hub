@@ -26,6 +26,7 @@
 #define GDA_BANDDATATYPE_HPP_INCLUDED
 
 #include "gda_base.h"
+#include "ust/ust_datatype.hpp"
 
 class CGdaBandDataCtl;
 
@@ -35,6 +36,7 @@ class GDA_LIB GdaBandDataT
     GdaBandDataT();
     GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aBegin,
                  const BMathCsC2dT *aEnd);
+    GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aId);
     ~GdaBandDataT();
 
     UErrCodeT SetAll(const UDataTCodeT aType, const BMathCsC2dT *aBegin,
@@ -46,7 +48,9 @@ class GDA_LIB GdaBandDataT
     UDataTCodeT Type();
     BMathCsC2dT *Begin();
     BMathCsC2dT *End();
-    UDataT Handle();
+    UDataHT Handle();
+
+    UErrCodeT Data(UDataT *aData, const BMathCsC2dT *aId = NULL);
 
   protected:
   private:
@@ -57,7 +61,7 @@ class GDA_LIB GdaBandDataT
     UDataTCodeT mType;
     BMathCsC2dT mBegin;
     BMathCsC2dT mEnd;
-    UDataT mDataH;
+    UDataHT mDataH;
     UStateCodeT mState;
 };
 

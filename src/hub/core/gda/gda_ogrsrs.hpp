@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: gda_ogrsrsctl.hpp 2017-12 $
+ * $Id: gda_ogrsrs.hpp 2018-05 $
  *
  * Project:  Gda (GDAL: Geospatial Data Absraction Library) library.
- * Purpose:  Ogr spatial reference system control definition.
+ * Purpose:  Ogr spatial reference system controler definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,35 +22,21 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef GDA_OGRSRSCTL_HPP_INCLUDED
-#define GDA_OGRSRSCTL_HPP_INCLUDED
+#ifndef GDA_OGRSRS_HPP_INCLUDED
+#define GDA_OGRSRS_HPP_INCLUDED
 
 #include "gda_base.h"
 
-// gda
-class CGdaTypeCtl;
-
-class GDA_LIB CGdaOgrSrsCtl
+class GDA_LIB CGdaOgrSrs
 {
   public:
-    CGdaOgrSrsCtl();
-    ~CGdaOgrSrsCtl();
+    CGdaOgrSrs();
+    ~CGdaOgrSrs();
 
     UErrCodeT Init();
-    GdaOgrSrsHT Handle() const;
-
-    UErrCodeT ImportFromWkt(const UStringT *aWkt);
-    UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
-    UErrCodeT ExportToWkt(UStringT *aWkt);
 
   protected:
   private:
-    UErrCodeT New();
-    UErrCodeT Destroy();
-
-    CGdaTypeCtl *mType;
-
-    GdaOgrSrsHT mSrsH;
 };
 
-#endif  // GDA_OGRSRSCTL_HPP_INCLUDED
+#endif  // GDA_OGRSRS_HPP_INCLUDED

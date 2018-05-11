@@ -63,7 +63,7 @@ UErrCodeT CGdaBandDataCtl::Init()
 /**
  * \brief New data.
  */
-UErrCodeT CGdaBandDataCtl::New(UDataT *aData, const UDataTCodeT aType,
+UErrCodeT CGdaBandDataCtl::New(UDataHT *aDataH, const UDataTCodeT aType,
                                const BMathCsC2dT *aBegin,
                                const BMathCsC2dT *aEnd)
 {
@@ -72,9 +72,10 @@ UErrCodeT CGdaBandDataCtl::New(UDataT *aData, const UDataTCodeT aType,
     {
         sizeType = 2;
     }
-    UIntT sizeRegion = (aEnd->X() - aBegin->X()) * (aEnd->Y() - aBegin->Y());
-    UIntT size = sizeType * sizeRegion;
-    *aData = mMem->Alloc(size);
+    UIntT size;
+    Size(&size, aBegin, aEnd);
+    UIntT sizeData = sizeType * size;
+    *aDataH = mMem->Alloc(sizeData);
 
     return UErrFalse;
 }
@@ -82,9 +83,61 @@ UErrCodeT CGdaBandDataCtl::New(UDataT *aData, const UDataTCodeT aType,
 /**
  * \brief Delete data.
  */
-UErrCodeT CGdaBandDataCtl::Del(UDataT *aData)
+UErrCodeT CGdaBandDataCtl::Del(UDataHT *aDataH)
 {
-    mMem->Free(aData);
+    mMem->Free(aDataH);
 
     return UErrFalse;
 }
+
+/**
+ * \brief Get size.
+ */
+UErrCodeT CGdaBandDataCtl::Size(UIntT *aSize, const BMathCsC2dT *aBegin,
+                                const BMathCsC2dT *aEnd)
+{
+    *aSize = (aEnd->X() - aBegin->X() + 1) * (aEnd->Y() - aBegin->Y() + 1);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Get index.
+ */
+UErrCodeT CGdaBandDataCtl::Id(UIntT *aId, const BMathCsC2dT *aPt,
+                              const BMathCsC2dT *aBegin,
+                              const BMathCsC2dT *aEnd)
+{
+    *aId = 0;
+    if (CheckPt(aPt, aBegin, aEnd) == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    UIntT row = aPt->Y() - aBegin->Y();
+    UIntT column = aPt->X() - aBegin->X();
+    UIntT xSize = aEnd->X() - aBegin->X();
+    *aId = xSize * row + column;
+
+    return UErrFalse;
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Check point.
+ */
+UErrCodeT CGdaBandDataCtl::CheckPt(const BMathCsC2dT *aPt,
+                                   const BMathCsC2dT *aBegin,
+                                   const BMathCsC2dT *aEnd)
+{
+    if ((aPt->X() < aBegin->X()) || (aPt->X() > aEnd->X())
+         || (aPt->Y() < aBegin->Y()) || (aPt->Y() > aEnd->Y()))
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

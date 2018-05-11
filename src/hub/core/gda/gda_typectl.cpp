@@ -34,6 +34,7 @@
 #include "cls_memoryctl.hpp"
 
 // gda
+#include "gda_typeogr.hpp"
 #include "gda_banddatactl.hpp"
 
 /**
@@ -41,6 +42,7 @@
  */
 CGdaTypeCtl::CGdaTypeCtl()
 {
+    BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mBandData);
 }
 
@@ -49,6 +51,7 @@ CGdaTypeCtl::CGdaTypeCtl()
  */
 CGdaTypeCtl::~CGdaTypeCtl()
 {
+    BMD_CLASS_DEL(mOgr);
     BMD_CLASS_DEL(mBandData);
 }
 
@@ -63,6 +66,16 @@ UErrCodeT CGdaTypeCtl::Init()
     mStr = cls->Str();
 
     return UErrFalse;
+}
+
+/**
+ * \brief Ogr.
+ */
+CGdaTypeOgr *CGdaTypeCtl::Ogr()
+{
+    BMD_CLASS_NEW(mOgr, CGdaTypeOgr);
+
+    return mOgr;
 }
 
 /**
@@ -197,20 +210,20 @@ UErrCodeT CGdaTypeCtl::ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc)
 /**
  * \brief To gda create opt.
  */
-UErrCodeT CGdaTypeCtl::ToGdaCreateOpt(UStringT *aDst,
-                                      const GdaCreateOptHT aSrc,
-                                      const GdaFormatCodeT aFormat)
-{
-    switch (aFormat)
-    {
-    case GdaFormatLcp:
-        break;
-    default:
-        return UErrTrue;
-    }
+// UErrCodeT CGdaTypeCtl::ToGdaCreateOpt(UStringT *aDst,
+//                                       const GdaCreateOptHT aSrc,
+//                                       const GdaFormatCodeT aFormat)
+// {
+//     switch (aFormat)
+//     {
+//     case GdaFormatLcp:
+//         break;
+//     default:
+//         return UErrTrue;
+//     }
 
-    return UErrFalse;
-}
+//     return UErrFalse;
+// }
 
 /**
  * \brief To linear unit.

@@ -32,6 +32,9 @@ C_OBJ = \
       gda_snglockdriver.o \
       gda_ctl.o \
       gda_typectl.o \
+      gda_typeogr.o \
+      gda_typeogrctr.o \
+      gda_ogrctrtype.o \
       gda_banddatactl.o \
       gda_banddatatype.o \
       gda_corectl.o \
@@ -70,6 +73,7 @@ C_OBJ = \
 C_HEADER = \
          gda_base.h \
          gda_ctl.hpp \
+         gda_ogrctrtype.hpp \
          gda_banddatatype.hpp \
          gda_corectl.hpp \
          gda_driversctl.hpp \

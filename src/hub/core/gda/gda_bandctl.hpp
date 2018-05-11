@@ -74,13 +74,13 @@ class GDA_LIB CGdaBandCtl
 
     // Read and write.
     UErrCodeT Read(GdaBandDataT *aData);
-    UErrCodeT ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff);
+    UErrCodeT ReadBlock(UDataHT aDataH, UIntT aXOff, UIntT aYOff);
     UErrCodeT Write(GdaBandDataT *aData);
 
   protected:
   private:
     UErrCodeT InitPointer();
-    UErrCodeT CreateBand(UDataTCodeT aDataT, const UStringT *aOption);
+    UErrCodeT CreateBand(UDataTCodeT aDataT, const UStringT *aOption = NULL);
     UErrCodeT LoadBand(UIntT aId);
     UErrCodeT Io(GdaBandDataT *aData, const UAccessCodeT aAccess);
 

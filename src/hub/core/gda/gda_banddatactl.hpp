@@ -26,6 +26,7 @@
 #define GDA_BANDDATACTL_HPP_INCLUDED
 
 #include "gda_base.h"
+#include "ust/ust_base.h"
 
 // cls
 class CClsMemoryCtl;
@@ -37,12 +38,21 @@ class GDA_LIB CGdaBandDataCtl
     ~CGdaBandDataCtl();
 
     UErrCodeT Init();
-    UErrCodeT New(UDataT *aData, const UDataTCodeT aType,
+
+    UErrCodeT New(UDataHT *aDataH, const UDataTCodeT aType,
                   const BMathCsC2dT *aBegin, const BMathCsC2dT *aEnd);
-    UErrCodeT Del(UDataT *aData);
+    UErrCodeT Del(UDataHT *aDataH);
+
+    UErrCodeT Size(UIntT *aSize, const BMathCsC2dT *aBegin,
+                   const BMathCsC2dT *aEnd);
+    UErrCodeT Id(UIntT *aId, const BMathCsC2dT *aPt,
+                 const BMathCsC2dT *aBegin, const BMathCsC2dT *aEnd);
 
   protected:
   private:
+    UErrCodeT CheckPt(const BMathCsC2dT *aPt, const BMathCsC2dT *aBegin,
+                      const BMathCsC2dT *aEnd);
+
     CClsMemoryCtl *mMem;
 };
 

@@ -84,6 +84,8 @@ CGdaCoreCtl *CGdaCtl::Core()
  */
 CGdaOgrCtl *CGdaCtl::Ogr()
 {
+    BMD_CLASS_NEW(mOgr, CGdaOgrCtl);
+
     return mOgr;
 }
 

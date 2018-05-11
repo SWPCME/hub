@@ -27,6 +27,9 @@
 
 #include "gda_base.h"
 
+// gda
+// class CGdaOgrSrs;
+
 class GDA_LIB CGdaOgrCtl
 {
   public:
@@ -35,8 +38,11 @@ class GDA_LIB CGdaOgrCtl
 
     UErrCodeT Init();
 
+    // CGdaOgrSrs *Srs();
+
   protected:
   private:
+    // CGdaOgrSrs *mSrs;
 };
 
 #endif  // GDA_OGRCTL_HPP_INCLUDED

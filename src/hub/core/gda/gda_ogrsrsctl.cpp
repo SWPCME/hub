@@ -64,6 +64,14 @@ UErrCodeT CGdaOgrSrsCtl::Init()
 }
 
 /**
+ * \brief Get handle.
+ */
+GdaOgrSrsHT CGdaOgrSrsCtl::Handle() const
+{
+    return mSrsH;
+}
+
+/**
  * \brief Import from well known text format string.
  */
 UErrCodeT CGdaOgrSrsCtl::ImportFromWkt(const UStringT *aWkt)
@@ -112,13 +120,21 @@ UErrCodeT CGdaOgrSrsCtl::ExportToWkt(UStringT *aWkt)
 {
     char *wkt = NULL;
     OGRErr err = OSRExportToWkt((OGRSpatialReferenceH) mSrsH, &wkt);
-    *aWkt = wkt;
 
-    return UErrFalse;
+    if (err == 0)
+    {
+        *aWkt = wkt;
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /***** Private A *****/
 
+/**
+ * \brief New.
+ */
 UErrCodeT CGdaOgrSrsCtl::New()
 {
     const char *name = NULL;
@@ -127,6 +143,9 @@ UErrCodeT CGdaOgrSrsCtl::New()
     return UErrFalse;
 }
 
+/**
+ * \brief Destroy.
+ */
 UErrCodeT CGdaOgrSrsCtl::Destroy()
 {
     OSRDestroySpatialReference((OGRSpatialReferenceH) mSrsH);

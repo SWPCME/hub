@@ -39,6 +39,7 @@ class CClsStringCtl;
 class CClsMemoryCtl;
 
 // gda
+class CGdaTypeOgr;
 class CGdaBandDataCtl;
 
 class GDA_LIB CGdaTypeCtl
@@ -48,6 +49,7 @@ class GDA_LIB CGdaTypeCtl
     ~CGdaTypeCtl();
 
     UErrCodeT Init();
+    CGdaTypeOgr *Ogr();
     CGdaBandDataCtl *BandData();
 
     UErrCodeT ToAccess(GDALAccess *aDst, const UAccessCodeT aSrc);
@@ -56,8 +58,8 @@ class GDA_LIB CGdaTypeCtl
     UErrCodeT ToDataType(UStringT *aDst, const UDataTCodeT aSrc);
     UErrCodeT ToDataType(UDataTCodeT *aDst, const UStringT *aSrc);
     UErrCodeT ToFormat(UStringT *aDest, const GdaFormatCodeT aSrc);
-    UErrCodeT ToGdaCreateOpt(UStringT *aDst, const GdaCreateOptHT aSrc,
-                             const GdaFormatCodeT aFormat);
+    // UErrCodeT ToGdaCreateOpt(UStringT *aDst, const GdaCreateOptHT aSrc,
+    //                          const GdaFormatCodeT aFormat);
     UErrCodeT ToLinearUnit(UStringT *aDst, const GdaLinearUnitCodeT aSrc);
 
     // Warp
@@ -82,6 +84,7 @@ class GDA_LIB CGdaTypeCtl
     CClsMemoryCtl *mMem;
 
     // gda
+    CGdaTypeOgr *mOgr;
     CGdaBandDataCtl *mBandData;
 };
 

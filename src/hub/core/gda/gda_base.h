@@ -55,6 +55,7 @@ typedef UIteratorT<CGdaDatasetCtl*> GdaItDatasetT;
 #define GdaCreateOptHT UHandleT
 // ogr
 #define GdaOgrSrsHT UHandleT
+#define GdaOgrCtrHT UHandleT
 // utils
 #define GdaRasterizeOptHT UHandleT
 #define GdaTranslateR2ROptHT UHandleT

@@ -31,8 +31,8 @@ INCLUDE_DIR = -I$(JAVA_JDK_DIR)/include -I$(JAVA_JDK_DIR)/include/$(JAVA_OS) \
 OPT_LST = $(SRC_DIR)/opt.lst
 include $(OPT_LST)
 
-default: create_swig_$(SWIG_DST_LANG)
+default: prj_create_swig_$(SWIG_DST_LANG)
 
-clean: clean_swig_obj
+clean: prj_clean_swig_obj
 
-install: install_lib_$(SWIG_DST_LANG)
+install: prj_install_lib_$(SWIG_DST_LANG)

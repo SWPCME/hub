@@ -30,7 +30,38 @@
 #include "gda/gda_driverctl.hpp"
 #include "gda/gda_datasetctl.hpp"
 #include "gda/gda_bandctl.hpp"
+#include "gda/gda_ogrsrstype.hpp"
+#include "gda/gda_ogrctrtype.hpp"
 %}
+
+typedef enum
+{
+    // 0 ~ 99 for raster format.
+    GdaFormatNRst = 0,          /* None raster. */
+    GdaFormatAsc  = 1,          /* Arc/Info ASCII Grid. */
+    GdaFormatLcp  = 2,          /* FARSITE v.4 Landscape File. */
+    GdaFormatDem  = 3,          /* USGSDEM. */
+    GdaFormatTif  = 4,          /* GTiff. */
+    GdaFormatVrt  = 5,          /* Virtual Raster. */
+
+    // 100 ~ 199 for vector formt.
+    GdaFormatNVtr   = 100,      /* None vector. */
+    GdaFormatTab    = 101,
+    GdaFormatShp    = 102,
+    GdaFormatCsv    = 103,
+    GdaFormatXls    = 104,
+    GdaFormatXlsx   = 105,
+    GdaFormatSqlite = 106,
+    GdaFormatJson   = 107,
+} GdaFormatCodeT;
+
+typedef enum
+{
+    GdaProjCsUnknown  = 0,
+    GdaProjCsWgs1984  = 1,
+    GdaProjCsXian1980 = 2,
+    GdaProjCsNad1983  = 3,
+} GdaProjCsCodeT;
 
 class CGdaCtl
 {
@@ -111,6 +142,12 @@ class CGdaDatasetCtl
     UErrCodeT AddBand(UDataTCodeT aDataT, UStringT *aOption);
     CGdaBandCtl *Band(UIntT aId);
     UErrCodeT SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand);
+
+    // coordinate system info
+    UErrCodeT GeoTransform(BCtnFloatT *aTransform);
+    UErrCodeT InvGeoTransform(BCtnFloatT *aTransform);
+    UErrCodeT IdToPos(BMathCsC2dT *aDst, BMathCsC2dT *aSrc);
+    UErrCodeT PosToId(BMathCsC2dT *aDst, BMathCsC2dT *aSrc);
     UErrCodeT XSize(UIntT *aNum);
     UErrCodeT YSize(UIntT *aNum);
 };
@@ -132,6 +169,13 @@ class CGdaBandCtl
     // Framework.
     CGdaDatasetCtl *Up();
 
+    // Data attribute.
+    UDataTCodeT DataT();
+    UDataTCodeT UnitT();
+    UErrCodeT SetUnitT(UDataTCodeT aUnitT);
+    UFloatT NoDataVal(UErrCodeT *aErr = NULL);
+    UErrCodeT SetNoDataVal(const UFloatT aVal);
+
     // Color.
     CGdaBandColor *Color();
     UErrCodeT SetColor(CGdaBandColor *aColor);
@@ -145,7 +189,7 @@ class CGdaBandCtl
 
     // Read and write.
     UErrCodeT Read(GdaBandDataT *aData);
-    UErrCodeT ReadBlock(UDataT aData, UIntT aXOff, UIntT aYOff);
+    UErrCodeT ReadBlock(UDataHT aData, UIntT aXOff, UIntT aYOff);
     UErrCodeT Write(GdaBandDataT *aData);
 };
 
@@ -155,6 +199,7 @@ class GdaBandDataT
     GdaBandDataT();
     GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aBegin,
                  const BMathCsC2dT *aEnd);
+    GdaBandDataT(const UDataTCodeT aType, const BMathCsC2dT *aId);
     ~GdaBandDataT();
 
     UErrCodeT SetAll(const UDataTCodeT aType, const BMathCsC2dT *aBegin,
@@ -166,5 +211,28 @@ class GdaBandDataT
     UDataTCodeT Type();
     BMathCsC2dT *Begin();
     BMathCsC2dT *End();
-    UDataT Handle();
+    UDataHT Handle();
+
+    UErrCodeT Data(UDataT *aData, const BMathCsC2dT *aId = NULL);
+};
+
+class GdaOgrSrsT
+{
+  public:
+    GdaOgrSrsT();
+    ~GdaOgrSrsT();
+
+    UErrCodeT ImportFromWkt(const UStringT *aWkt);
+    UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
+    UErrCodeT ExportToWkt(UStringT *aWkt);
+};
+
+class GdaOgrCtrT
+{
+  public:
+    GdaOgrCtrT();
+    GdaOgrCtrT(const GdaOgrSrsT *aSrc, const GdaOgrSrsT *aDst);
+    ~GdaOgrCtrT();
+
+    UErrCodeT Tr(BMathCsC2dT *aDst, const BMathCsC2dT *aSrc);
 };

@@ -29,6 +29,7 @@
 // ust
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_containertype.hpp"
+#include "ust/ust_datatype.hpp"
 %}
 
 typedef enum
@@ -98,6 +99,19 @@ class UContainerT
     // Get content and key by each other.
     ContentT Content(const KeyT &aKey);
     /* const KeyT Key(const ContentT &aContent); */
+};
+
+class UDataT
+{
+  public:
+    UDataT();
+    UDataT(const UDataHT aDataH, const UDataTCodeT aCode);
+    ~UDataT();
+
+    UErrCodeT SetHandle(UDataHT aDataH);
+    UErrCodeT SetCode(UDataTCodeT aCode);
+
+    UErrCodeT ToS(UStringT *aVal);
 };
 
 /**

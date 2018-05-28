@@ -120,6 +120,24 @@ typedef enum
     UFlagOn  = 1,
 } UFlagCodeT;
 
+/* Universal access code type. */
+typedef enum
+{
+    UAccessRead = 0,
+    UAccessWrite = 1,
+} UAccessCodeT;
+
+/* Universal data type code type. */
+typedef enum
+{
+    UDataTNone     = 0,
+    UDataTString   = 1,
+    UDataTInt      = 2,
+    UDataTInt16    = 3,
+    UDataTFloat    = 4,
+    UDataTFloat32  = 5,
+} UDataTCodeT;
+
 class CHubCtl
 {
   public:

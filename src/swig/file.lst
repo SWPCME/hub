@@ -25,15 +25,17 @@
 # The template obj must be at the bottom,
 # for example, generate "whub_ustctl.cxx" must be after "whub_fmdctl.cxx".
 SWIG_OBJ = \
-           whub_ctl.o \
-           # whub_base.o \
-           # whub_ustctl.o \
-           # whub_gdactl.o \
-           # whub_ogrctl.o \
+           whub_ctl.cxx
+           # whub_base.cxx \
+           # whub_ustctl.cxx \
+           # whub_gdactl.cxx \
+           # whub_ogrctl.cxx \
 
-C_LIB_SO_NAME = whub
+C_CXX_LIB_NAME = whub
+C_CXX_LIB_FLAG_SO = yes
+C_CXX_LIB_FLAG_A = no
 C_EXTRA_LIB_DIR = -L$(HOME_DIR)/me/usr/$(TARGET_OS)/lib
-C_EXTRA_LIB_SO = -lhub
+C_CXX_LIB_SO_EXTRA = hub
 ifeq ($(TARGET_OS), x86_64-w64-mingw32)
-C_EXTRA_LIB_SO += -lgdal -lfiremod
+C_CXX_LIB_SO_EXTRA += gdal-20 firemod
 endif

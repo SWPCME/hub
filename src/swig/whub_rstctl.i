@@ -58,5 +58,6 @@ class CRstFrmtLcp
 
     UErrCodeT Init();
     UErrCodeT Create(const UStringT *aLcp, const UStringT *aElev,
-                     const UStringT *aFm, const UStringT *aCt);
+                     const UStringT *aFm, const UStringT *aCt,
+                     const GdaProjCsCodeT aCode);
 };

@@ -25,7 +25,10 @@
 @INCLUDE = doc_cfg
 
 PROJECT_NAME = HUB
-INPUT = ./ core/gda ../../../README.md ../../README.md ../../hub
-OUTPUT_DIRECTORY = /home/swpcme/file/resource/swpcme/hub/install/x86_64-pc-linux-gnu/doc/api
+INPUT = ./ ../../../README.md ../../README.md ../../hub
+#/home/swpcme/file/resource/swpcme/hub/install/x86_64-pc-linux-gnu/doc/api
+OUTPUT_DIRECTORY = $(PRJ_DOC_API_OUT_DIR)
+# Chinese, Chinese-Traditional, English
+OUTPUT_LAGUAGE = English
 
-EXAMPLE_PATH = ../../src/test/cpp/bsn/ 
+EXAMPLE_PATH = ../../test/cpp/bsn ../../test/java

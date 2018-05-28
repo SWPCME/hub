@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_fmd.hpp 2017-12 $
+ * $Id: gda_cxxtut.doc 2018-05 $
  *
  * Project:  Hub api.
- * Purpose:  Index for hub api. 
+ * Purpose:  Gda cxx tutorial.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -23,13 +23,8 @@
  *****************************************************************************/
 
 /**
-\mainpage
+\page gda_cxxtut GDA C++ Tutorial
 
-<a href="tutorial.html">Tutorial</a>: The tutorial of this project, you could find how
-to use this library.
-
-<a href="hub_readme.html">Basic Describe</a>: The basic describe for this project.
-
-<a href="src_readme.html">Source Struct</a>: The souce struct for this project.
+\include bsn_gda.cpp
 
 */

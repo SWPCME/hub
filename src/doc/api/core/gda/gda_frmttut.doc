@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_fmd.hpp 2017-12 $
+ * $Id: bsn_fmd.hpp 2018-05 $
  *
  * Project:  Hub api.
- * Purpose:  Index for hub api. 
+ * Purpose:  Gda format tutorial.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-12 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -23,13 +23,30 @@
  *****************************************************************************/
 
 /**
-\mainpage
+\page gda_frmttut GDA Format Tutorial
 
-<a href="tutorial.html">Tutorial</a>: The tutorial of this project, you could find how
-to use this library.
+FARSITE v.4 Landscape File:
 
-<a href="hub_readme.html">Basic Describe</a>: The basic describe for this project.
+An LCP file (.lcp) is basically a raw format with a 7,316-byte header
+described below. The data type for all bands is 16-bit signed integer. Bands
+are interleaved by pixel.
 
-<a href="src_readme.html">Source Struct</a>: The souce struct for this project.
+Five bands are required:
+
+1. B1, elevation;
+
+2. B2, slope;
+
+3. B3, aspect;
+
+4. B4, fuel model;
+
+5. B5, tree canopy cover.
+
+Optional:
+
+1. crown fuel bands, contain 3 bands: B6, anopy height; B7, canopy base height; B8, canopy bulk density);
+
+2. surface fuel bands, contain 2 bands: B9, duff; B10, coarse woody debris)
 
 */

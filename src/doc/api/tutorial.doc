@@ -61,9 +61,13 @@ hub->DeregModule(module);
 
 \section tutorial_core Core Module
 <a href="gda_tutorial.html">GDA Tutorial:</a> Geospatial Data Abstraction Library.
+\section tutorial_core Wrap Module
+<a href="rst_tutorial.html">RST Tutorial:</a> Raster data process.
 \section tutorial_fmd Ctgy Module
 <a href="fmd_tutorial.html">FMD Tutorial:</a> Fire Module.
+\cond
 \section tutorial_test Test Module
 \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$ is
   \f$\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\f$.
+\endcond
 */

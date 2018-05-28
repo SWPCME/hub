@@ -67,6 +67,12 @@ class BSN_LIB CBsnGda
     UErrCodeT CoreCreate();
     UErrCodeT CoreLoad();
     UErrCodeT CoreWrite();
+    UErrCodeT CoreDataset();
+    UErrCodeT CoreBand();
+
+    // ogr
+    UErrCodeT TestOgr();
+    UErrCodeT OgrCtr();
 
     // alg
     UErrCodeT TestAlg();

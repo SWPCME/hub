@@ -87,16 +87,16 @@ UErrCodeT CBsnFmd::Test()
     TestConfig();
     TestWrite();
 
-    for (int i = 0; i <= 2; ++i)
-    {
-        mHub->DeregModule(mModule);
-        mModule = mHub->RegModule();
-        UStringT tmp = "/home/swpcme/tmp";
-        mModule->SetTmpDir(&tmp);
-        mModule->Register(HubMFmd);
-        mFmd = (CFmdCtl *) mModule->Module(HubMFmd);
-        TestWrite();
-    }
+    // for (int i = 0; i <= 2; ++i)
+    // {
+    //     mHub->DeregModule(mModule);
+    //     mModule = mHub->RegModule();
+    //     UStringT tmp = "/home/swpcme/tmp";
+    //     mModule->SetTmpDir(&tmp);
+    //     mModule->Register(HubMFmd);
+    //     mFmd = (CFmdCtl *) mModule->Module(HubMFmd);
+    //     TestWrite();
+    // }
 
     return UErrFalse;
 }
@@ -107,7 +107,8 @@ UErrCodeT CBsnFmd::Test()
 UErrCodeT CBsnFmd::TestConfig()
 {
     CFmdFileCtl *fileCtl = mFmd->File();
-    const UStringT fileName = "../../../data/ctgy/fmd/3/1.input";
+    // const UStringT fileName = "../../../data/ctgy/fmd/3/1.input";
+    const UStringT fileName = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.input";
     CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
     CFmdCfgWrite *cfgWrite = cfg->Write();
 
@@ -115,8 +116,8 @@ UErrCodeT CBsnFmd::TestConfig()
     FmdCfgTimeT begin;
     begin.SetAll(2017, 8, 1, 9, 30);
     FmdCfgTimeT end;
-    end.SetAll(2017, 8, 1, 10, 00);
-    time.SetAll(&begin, &end, 10);
+    end.SetAll(2017, 8, 1, 9, 50);
+    time.SetAll(&begin, &end, 5);
     cfgWrite->SetBurnTime(&time);
 
     FmdCfgWeatherCtnT weatherCtn(UContainerList);
@@ -130,10 +131,20 @@ UErrCodeT CBsnFmd::TestConfig()
     FmdCfgAirT weatherAir;
     weatherAir.SetAll(0, 0);
     weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
-    weatherTime.SetAll(2017, 8, 1, 13, 30);
     weatherCtn.Add(weather);
+
+    weatherTime.SetAll(2017, 8, 1, 13, 30);
     weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
     weatherCtn.Add(weather);
+
+    weatherTime.SetAll(2017, 8, 1, 17, 30);
+    weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
+    weatherCtn.Add(weather);
+
+    weatherTime.SetAll(2017, 8, 1, 21, 30);
+    weather.SetAll(&weatherTime, &weatherWind, &weatherCloud, &weatherAir);
+    weatherCtn.Add(weather);
+
     cfgWrite->SetWeather(&weatherCtn);
 
     UFloatT elevation = 0.0;
@@ -159,10 +170,19 @@ UErrCodeT CBsnFmd::TestWrite()
 
     // Load.
     CFmdFileLoad *fileLoad = fileCtl->Load();
-    const UStringT cfgFile = "../../../data/ctgy/fmd/3/1.input";
+    
+    const UStringT cfgFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.input";
 
-    const UStringT lcpFile = "../../../data/ctgy/fmd/3/1.lcp";
-    const UStringT ignitionFile = "../../../data/ctgy/fmd/3/i1.shp";
+    const UStringT lcpFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    const UStringT ignitionFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m_i.shp";
+    const UStringT outFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m_o";
+
+    // const UStringT cfgFile = "../../../data/ctgy/fmd/3/1.input";
+
+    // const UStringT lcpFile = "../../../data/ctgy/fmd/3/1.lcp";
+    // const UStringT ignitionFile = "../../../data/ctgy/fmd/3/i1.shp";
+    // const UStringT outFile = "../../../data/ctgy/fmd/3/o1";
+
     // const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
 
 //     const UStringT ignitionFile =
@@ -195,7 +215,6 @@ UErrCodeT CBsnFmd::TestWrite()
     CFmdFileWrite *fileWrite = fileCtl->Write();
     CFmdBurnTime *burnTime = mFmd->Burn()->Time();
     CFmdTypeCtl *typeCtl = mFmd->Type();
-    const UStringT outFile = "../../../data/ctgy/fmd/3/o1";
     UFloatT sTime;
     burnTime->Simulate(&sTime);
     BTimeTmT tm;

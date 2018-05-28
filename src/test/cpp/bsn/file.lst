@@ -18,10 +18,13 @@ C_OBJ = \
       bsn_cls.o \
       bsn_gda.o \
       bsn_ogr.o \
+      bsn_pyc.o \
       bsn_ust.o \
       bsn_rst.o \
       bsn_fmd.o \
       bsn_qmt.o
 
-C_LIB_SO_NAME = bsn
+C_CXX_LIB_NAME = bsn
+C_CXX_LIB_FLAG_SO = yes
+C_CXX_LIB_FLAG_A = no
 C_CXX_LIB_SO_EXTRA = hub gdal firemod pyqmt

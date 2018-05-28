@@ -37,6 +37,7 @@
 // ust
 #include "ust_ctl.hpp"
 #include "ust_stringctl.hpp"
+#include "ust_datatype.hpp"
 #include "ust_fsfiletype.hpp"
 
 /**
@@ -46,6 +47,8 @@ CBsnUst::CBsnUst()
 {
     mHub = CHubCtl::Hub();
     mModule = mHub->RegModule();
+    UStringT tmp = "/home/swpcme/tmp";
+    mModule->SetTmpDir(&tmp);
 }
 
 /**
@@ -70,7 +73,8 @@ UErrCodeT CBsnUst::Init()
 UErrCodeT CBsnUst::Test()
 {
     // TestString();
-    TestFs();
+    TestData();
+    // TestFs();
 
     return UErrFalse;
 }
@@ -204,6 +208,18 @@ UErrCodeT CBsnUst::TestCtnMap()
         UStringT str = (UStringT) it->Content();
         str.ToConsole();
     }
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnUst::TestData()
+{
+    UFloatT dataVal = 9.9;
+    UDataHT dataF = (UFloatT *) (&dataVal);
+    UDataTCodeT code = UDataTFloat;
+    UDataT data(dataF, code);
+    UFloatT numFloat;
+    data.ToF(&numFloat);
 
     return UErrFalse;
 }

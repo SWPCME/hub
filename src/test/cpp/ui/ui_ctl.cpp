@@ -120,8 +120,8 @@ UErrCodeT CUiCtl::TestAll()
 
 UErrCodeT CUiCtl::Test()
 {
-    // CBsnGda *gda = mBsn->Gda();
-    // gda->Test();
+    CBsnGda *gda = mBsn->Gda();
+    gda->Test();
 
     // CBsnRst *rst = mBsn->Rst();
     // rst->Test();
@@ -132,8 +132,8 @@ UErrCodeT CUiCtl::Test()
     // CBsnFmd *fmd = mBsn->Fmd();
     // fmd->Test();
 
-    CBsnQmt *qmt = mBsn->Qmt();
-    qmt->Test();
+    // CBsnQmt *qmt = mBsn->Qmt();
+    // qmt->Test();
 
     // CBsnOgr *ogr = mBsn->Ogr();
     // ogr->Test();

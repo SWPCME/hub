@@ -5,18 +5,18 @@ SUB_DIR = ../../hub \
 C_OBJ = main.o
 
 # Library name
-LIB_DIR = /home/swpcme/me/usr/lib
-C_LIB_A_NAME =
-C_LIB_SO_NAME = \
-              ui \
-              bsn \
-              hub \
-              gdal \
-              gsl \
-              gslcblas \
-              curl \
-              firemod \
-              erfa
+# LIB_DIR = /home/swpcme/me/usr/lib
+# C_LIB_A_NAME =
+# C_LIB_SO_NAME = \
+#               ui \
+#               bsn \
+#               hub \
+#               gdal \
+#               gsl \
+#               gslcblas \
+#               curl \
+#               firemod \
+#               erfa
 
 # Binary file name.
 BIN_FILE = test_cpp

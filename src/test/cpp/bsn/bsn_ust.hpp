@@ -49,6 +49,7 @@ class BSN_LIB CBsnUst
     UErrCodeT TestContainer();
     UErrCodeT TestCtnList();
     UErrCodeT TestCtnMap();
+    UErrCodeT TestData();
     UErrCodeT TestFs();
 
     CHubCtl *mHub;

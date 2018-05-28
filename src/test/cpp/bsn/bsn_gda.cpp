@@ -34,6 +34,7 @@
 // gda
 #include "gda_ctl.hpp"
 #include "gda_corectl.hpp"
+#include "gda_ogrctrtype.hpp"
 #include "gda_driversctl.hpp"
 #include "gda_driverctl.hpp"
 #include "gda_datasetctl.hpp"
@@ -53,6 +54,7 @@
 #include "ogr_layerctl.hpp"
 // wrap
 #include "ust_stringtype.hpp"
+#include "ust_datatype.hpp"
 
 CBsnGda::CBsnGda()
 {
@@ -89,8 +91,9 @@ UErrCodeT CBsnGda::Init()
 
 UErrCodeT CBsnGda::Test()
 {
-    // TestCore();
-    TestUtils();
+    TestCore();
+    // TestOgr();
+    // TestUtils();
 
     return UErrFalse;
 }
@@ -101,7 +104,9 @@ UErrCodeT CBsnGda::TestCore()
 {
     // CoreCreate();
     // CoreLoad();
-    CoreWrite();
+    // CoreWrite();
+    // CoreDataset();
+    CoreBand();
 
     return UErrFalse;
 }
@@ -116,20 +121,10 @@ UErrCodeT CBsnGda::CoreCreate()
 
 UErrCodeT CBsnGda::CoreLoad()
 {
-    const UStringT file = "../../data/core/gda/rst/testLoad.asc";
-    CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatAsc);
-
-    UStringT description = datasetCtl->Description();
-    mIoCmn->PrintF("%s\n", description.ToA());
-    UIntT nBand = 0;
-    UIntT nXSize = 0;
-    UIntT nYSize = 0;
-    datasetCtl->Count(&nBand);
-    datasetCtl->XSize(&nXSize);
-    datasetCtl->YSize(&nYSize);
-    mIoCmn->PrintF("nBand = %d, nXSize = %d, nYSize = %d\n", nBand, nXSize,
-                   nYSize);
-
+    // const UStringT file = "../../../data/core/gda/rst/testLoad.asc";
+    // CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatAsc);
+    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.tif";
+    CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatTif);
     CGdaBandCtl *bandCtl = datasetCtl->Band(1);
 
     UIntT nBandX = 0;
@@ -145,7 +140,7 @@ UErrCodeT CBsnGda::CoreLoad()
 
     UDataTCodeT dataT = bandCtl->DataT();
     BMathCsC2dT bdBegin(0, 0);
-    BMathCsC2dT bdEnd(nBandX, 1);
+    BMathCsC2dT bdEnd(nBandX - 1, 0);
     GdaBandDataT bandData(dataT, &bdBegin, &bdEnd);
     bandCtl->Read(&bandData);
 
@@ -181,6 +176,142 @@ UErrCodeT CBsnGda::CoreWrite()
     return UErrFalse;
 }
 
+UErrCodeT CBsnGda::CoreDataset()
+{
+    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatLcp);
+
+    UStringT description = datasetCtl->Description();
+    mIoCmn->PrintF("%s\n", description.ToA());
+
+    UIntT nBand = 0;
+    UIntT nXSize = 0;
+    UIntT nYSize = 0;
+    datasetCtl->Count(&nBand);
+    datasetCtl->XSize(&nXSize);
+    datasetCtl->YSize(&nYSize);
+    mIoCmn->PrintF("nBand = %d, nXSize = %d, nYSize = %d\n", nBand, nXSize,
+                   nYSize);
+
+    BCtnFloatT transform(UContainerList);
+    datasetCtl->GeoTransform(&transform);
+    BItFloatT *itTransform = transform.Iterator();
+    itTransform->Head();
+    for (UIntT i = 1; itTransform->State() == UErrFalse;
+         itTransform->Next(), ++i)
+    {
+        mIoCmn->PrintF("Transform %d: %lf\n", i, itTransform->Content());
+    }
+
+    BMathCsC2dT srcId(nXSize, nYSize);
+    BMathCsC2dT dstPos;
+    datasetCtl->IdToPos(&dstPos, &srcId);
+    mIoCmn->PrintF("srcId = (%lf, %lf), dstPos = (%lf, %lf)\n", srcId.X(),
+                   srcId.Y(), dstPos.X(), dstPos.Y());
+
+    GdaOgrSrsT srsSrc;
+    srsSrc.SetProjCs(GdaProjCsWgs1984);
+    UStringT wktSrc;
+    srsSrc.ExportToWkt(&wktSrc);
+
+    GdaOgrSrsT srsDst;
+    srsDst.SetProjCs(GdaProjCsXian1980);
+    UStringT wktDst;
+    srsDst.ExportToWkt(&wktDst);
+
+    GdaOgrCtrT ctr(&srsSrc, &srsDst);
+    BMathCsC2dT ptSrc(113.501129, 23.166046);
+    BMathCsC2dT ptDst;
+    ctr.Tr(&ptDst, &ptSrc);
+
+    BMathCsC2dT srcPos(ptDst.X(), ptDst.Y());
+    BMathCsC2dT dstId;
+    datasetCtl->PosToId(&dstId, &srcPos);
+    mIoCmn->PrintF("srcPos = (%lf, %lf), dstId = (%lf, %lf)\n", srcPos.X(),
+                   srcPos.Y(), dstId.X(), dstId.Y());
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::CoreBand()
+{
+    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatLcp);
+    CGdaBandCtl *bandCtl = datasetCtl->Band(1);
+
+    UIntT nBandX = 0;
+    UIntT nBandY = 0;
+    bandCtl->XSize(&nBandX);
+    bandCtl->YSize(&nBandY);
+    mIoCmn->PrintF("nBandX = %d, nBandY = %d\n", nBandX, nBandY);
+
+    UIntT nXBlockS = 0;
+    UIntT nYBlockS = 0;
+    bandCtl->BlockSize(&nXBlockS, &nYBlockS);
+    mIoCmn->PrintF("nXBandS = %d, nYBandS = %d\n", nXBlockS, nYBlockS);
+
+    GdaOgrSrsT srsSrc;
+    srsSrc.SetProjCs(GdaProjCsWgs1984);
+    UStringT wktSrc;
+    srsSrc.ExportToWkt(&wktSrc);
+    GdaOgrSrsT srsDst;
+    srsDst.SetProjCs(GdaProjCsXian1980);
+    UStringT wktDst;
+    srsDst.ExportToWkt(&wktDst);
+    GdaOgrCtrT ctr(&srsSrc, &srsDst);
+    BMathCsC2dT ptSrc(113.501129, 23.166046);
+    BMathCsC2dT ptDst;
+    ctr.Tr(&ptDst, &ptSrc);
+    BMathCsC2dT srcPos(ptDst.X(), ptDst.Y());
+    BMathCsC2dT dstId;
+    UErrCodeT err = datasetCtl->PosToId(&dstId, &srcPos);
+    if (err == UErrTrue)
+    {
+        return err;
+    }
+
+    UDataTCodeT dataT = bandCtl->DataT();
+    GdaBandDataT bandData(dataT, &dstId);
+    bandCtl->Read(&bandData);
+    UDataT data;
+    bandData.Data(&data);
+    UFloatT dataVal = -1.0;
+    data.ToF(&dataVal);
+    UStringT strVal = dataVal;
+    strVal.ToConsole();
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::TestOgr()
+{
+    OgrCtr();
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::OgrCtr()
+{
+    GdaOgrSrsT srsSrc;
+    srsSrc.SetProjCs(GdaProjCsWgs1984);
+    UStringT wktSrc;
+    srsSrc.ExportToWkt(&wktSrc);
+    wktSrc.ToConsole();
+
+    GdaOgrSrsT srsDst;
+    srsDst.SetProjCs(GdaProjCsXian1980);
+    UStringT wktDst;
+    srsDst.ExportToWkt(&wktDst);
+    wktDst.ToConsole();
+
+    GdaOgrCtrT ctr(&srsSrc, &srsDst);
+    BMathCsC2dT ptSrc(113.2498169, 23.3335876);
+    BMathCsC2dT ptDst;
+    ctr.Tr(&ptDst, &ptSrc);
+
+    return UErrFalse;
+}
+
 UErrCodeT CBsnGda::TestAlg()
 {
     // CGdaAlgRasterizer *rasterizer = mAlg->Rasterizer();
@@ -204,7 +335,7 @@ UErrCodeT CBsnGda::TestUtils()
     // VtrToRstEasy();
     // VtrToRstComplex();
     // RstToRst();
-    Dem();
+    // Dem();
     // MergeRst();
 
     return UErrFalse;

@@ -36,10 +36,12 @@ CBsnRst::CBsnRst()
 {
     mHub = CHubCtl::Hub();
     mModule = mHub->RegModule();
+    UStringT tmp = "/home/swpcme/tmp";
+    mModule->SetTmpDir(&tmp);
+
     mModule->Register(HubMRst);
 
     mRst = (CRstCtl*) mModule->Module(HubMRst);
-
 }
 
 CBsnRst::~CBsnRst()
@@ -56,9 +58,12 @@ UErrCodeT CBsnRst::Test()
 {
     CRstFrmtCtl *frmtCtl = mRst->Frmt();
     CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
-    UStringT lcp = "../../../data/core/gda/dem/test.lcp";
-    UStringT elev = "../../../data/core/gda/dem/dem1.tif";
-    frmtLcp->Create(&lcp, &elev, NULL, NULL);
+    // UStringT lcp = "../../../data/core/gda/dem/test.lcp";
+    // UStringT elev = "../../../data/core/gda/dem/dem1.tif";
+    UStringT lcp = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    UStringT elev = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.tif";
+    GdaProjCsCodeT projCs = GdaProjCsXian1980;
+    frmtLcp->Create(&lcp, &elev, NULL, NULL, projCs);
 
     return UErrFalse;
 }

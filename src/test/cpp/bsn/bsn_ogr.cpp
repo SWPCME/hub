@@ -113,7 +113,7 @@ UErrCodeT CBsnOgr::TestRead()
     COgrGeomBasic *geomBasic = geomCtl->Basic();
     OgrGeomTCodeT geomT = OgrGeomTUnknown;
     geomBasic->Type(&geomT);
-    UStringT strGeomT = geomT;
+    UStringT strGeomT = (UIntT) geomT;
     strGeomT.ToConsole();
     COgrGeomVertex *geomVertex = geomCtl->Vertex();
     UIntT ptCount;

@@ -92,7 +92,7 @@ UErrCodeT CVtrFrmtGjson::ToFile(const UStringT *aFile, const UStringT *aStr)
 /**
  * \brief Translate file to string.
  */
-UErrCodeT CVtrFrmtGjson::ToStr(const UStringT *aStr, const UStringT *aFile)
+UErrCodeT CVtrFrmtGjson::ToStr(UStringT *aStr, const UStringT *aFile)
 {
     *aStr = "";
     UstFileOperCodeT oper = UstFileOperRt;

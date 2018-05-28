@@ -223,7 +223,7 @@ COgrDriverCtl *COgrCtl::Driver(OgrFormatCodeT aFormat)
 UErrCodeT COgrCtl::CleanupAll()
 {
     DeregisterAll();
-    OgrCleanupAll();
+    // OgrCleanupAll();
 
     return UErrFalse;
 }
@@ -245,7 +245,8 @@ UErrCodeT COgrCtl::OgrRegisterAll()
 /**
  * \brief Cleanup all.
  *
- * Deregister all the driver of ogr, and all things.
+ * Deregister all the driver of ogr, gdal, and all things.
+ * Be carefully, it will destructor all gdal objects.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */

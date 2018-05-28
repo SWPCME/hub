@@ -35,6 +35,7 @@
 // hub
 class CHubModuleCtl;
 // ust
+class CUstTypeCtl;
 class CUstStringCtl;
 class CUstFsCtl;
 
@@ -47,6 +48,7 @@ class UST_LIB CUstCtl
     UErrCodeT Init();
     CHubModuleCtl *Up();
 
+    CUstTypeCtl *Type();
     CUstStringCtl *Str();
     CUstFsCtl *Fs();
 
@@ -54,6 +56,7 @@ class UST_LIB CUstCtl
   private:
 
     CHubModuleCtl *mModule;
+    CUstTypeCtl *mType;
     CUstStringCtl *mStr;
     CUstFsCtl *mFs;
 };

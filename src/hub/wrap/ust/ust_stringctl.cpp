@@ -249,6 +249,21 @@ UErrCodeT CUstStringCtl::IToA(char *aDest, const UIntT aSrc)
     return mFmtOut->ToStr(aDest, "%ld", aSrc);
 }
 
+/**
+ * \brief Translate string.
+ *
+ * Translate string from "UFloatT" to "char".
+ *
+ * @param aDest String of destination.
+ * @param aSrc String of source.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CUstStringCtl::FToA(char *aDest, const UFloatT aSrc)
+{
+    return mFmtOut->ToStr(aDest, "%lf", aSrc);
+}
+
 char* CUstStringCtl::MCpy(const char* aStr)
 {
     char* dest = MAlloc(aStr);
@@ -316,6 +331,16 @@ UErrCodeT CUstStringCtl::MIToA(char **aStr, const UIntT aNum)
     *aStr = MAlloc(kNInt);
 
     return IToA(*aStr, aNum);
+}
+
+/**
+ * \brief Integer to char with allocate memory.
+ */
+UErrCodeT CUstStringCtl::MFToA(char **aStr, const UFloatT aNum)
+{
+    *aStr = MAlloc(kNFloat);
+
+    return FToA(*aStr, aNum);
 }
 
 UErrCodeT CUstStringCtl::MFree(char* aStr)

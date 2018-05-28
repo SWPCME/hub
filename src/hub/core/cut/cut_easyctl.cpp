@@ -255,7 +255,7 @@ static size_t cut_write_func(char *aBuffer, size_t aSize, size_t aNumItems,
     }
     else
     {
-        err = kFile->Write((UDataT) aBuffer, (UIntT) aSize,
+        err = kFile->Write((UDataHT) aBuffer, (UIntT) aSize,
                             (UIntT) aNumItems, (UHandleT) aOutStream);
     }
 

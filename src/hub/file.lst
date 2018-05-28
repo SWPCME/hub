@@ -41,6 +41,11 @@ C_HEADER = \
          hub_ctl.hpp \
          hub_modulectl.hpp
 
-C_LIB_SO_NAME = hub
+C_CXX_LIB_NAME = hub
+C_CXX_LIB_FLAG_SO = yes
+C_CXX_LIB_FLAG_A = no
 # C_CXX_LIB_SO_EXTRA = gdal gsl gslcblas curl plplot firemod erfa
-C_CXX_LIB_SO_EXTRA = gdal firemod plplot pyqmt
+C_CXX_LIB_SO_EXTRA = gdal plplot gsl gslcblas pyqmt
+ifeq ($(TARGET_OS), x86_64-w64-mingw32)
+C_CXX_LIB_SO_EXTRA = gdal-20 firemod
+endif

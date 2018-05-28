@@ -33,8 +33,10 @@ OPT_LST = $(SRC_DIR)/opt.lst
 include $(OPT_LST)
 
 # Target
-default: create_java_obj
+default: prj_java_obj_create
 
-install: install_java_obj
+install: prj_java_obj_install
 
-clean: clean_java_obj
+clean: prj_java_obj_clean
+
+run: prj_java_run

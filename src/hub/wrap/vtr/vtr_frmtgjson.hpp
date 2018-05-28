@@ -37,7 +37,7 @@ class VTR_LIB CVtrFrmtGjson
 
     UErrCodeT Init();
     UErrCodeT ToFile(const UStringT *aFile, const UStringT *aStr);
-    UErrCodeT ToStr(const UStringT *aStr, const UStringT *aFile);
+    UErrCodeT ToStr(UStringT *aStr, const UStringT *aFile);
 
   protected:
   private:

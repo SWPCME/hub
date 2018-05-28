@@ -65,6 +65,10 @@ UErrCodeT CBaseTmpCtl::Init()
     mFs = cls->Fs();
     mTime = cls->Time();
 
+    // base
+    CBaseCtl *base = CBaseCtl::Base();
+    SetDefaultDir((CHubModuleCtl *) base);
+
     return UErrFalse;
 }
 
@@ -121,7 +125,8 @@ UStringT CBaseTmpCtl::Dir(HubCodeT aCode, CHubModuleCtl *aModule)
 {
     if (mMDir.FindByKey(aModule) == UErrTrue)
     {
-        return UErrTrue;
+        UStringT strNull = "";
+        return strNull;
     }
 
     UStringT dir = mMDir[aModule];
@@ -195,14 +200,24 @@ UErrCodeT CBaseTmpCtl::RmRootDir(CHubModuleCtl *aModule)
 /***** Private A *****/
 
 /**
+ * \brief Get current directory.
+ */
+UErrCodeT CBaseTmpCtl::CurDir(UStringT *aCur)
+{
+    CClsFsWork *fsWork = mFs->Work();
+    fsWork->Cur(aCur);
+    *aCur += "/.tmp";
+
+    return UErrFalse;
+}
+
+/**
  * \brief Set default temporary directory.
  */
 UErrCodeT CBaseTmpCtl::SetDefaultDir(CHubModuleCtl *aModule)
 {
-    CClsFsWork *fsWork = mFs->Work();
     UStringT dir;
-    fsWork->Cur(&dir);
-    dir += "/.tmp";
+    CurDir(&dir);
     CClsFsCreate *fsCreate = mFs->Create();
     fsCreate->Dir(&dir);
     mMDir.Add(dir, aModule);

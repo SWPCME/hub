@@ -158,10 +158,10 @@ CClsFileLine *CClsStreamFile::Line()
 /**
  * \brief Read chunks of generic data from STREAM.
  */
-UErrCodeT CClsStreamFile::Read(UIntT *aRealCount, UDataT aData, UIntT aSize,
+UErrCodeT CClsStreamFile::Read(UIntT *aRealCount, UDataHT aDataH, UIntT aSize,
                                UIntT aCount, ClsFileHT aFileH)
 {
-    *aRealCount = fread(aData, aSize, aCount, (FILE *) aFileH);
+    *aRealCount = fread(aDataH, aSize, aCount, (FILE *) aFileH);
 
     if (*aRealCount == aCount)
     {
@@ -174,10 +174,10 @@ UErrCodeT CClsStreamFile::Read(UIntT *aRealCount, UDataT aData, UIntT aSize,
 /**
  * \brief Write chunks of generic data to STREAM.
  */
-UErrCodeT CClsStreamFile::Write(const UDataT aData, UIntT aSize,
+UErrCodeT CClsStreamFile::Write(const UDataHT aDataH, UIntT aSize,
                                 UIntT aCount, ClsFileHT aFileH)
 {
-    UIntT count = fwrite(aData, aSize, aCount, (FILE *) aFileH);
+    UIntT count = fwrite(aDataH, aSize, aCount, (FILE *) aFileH);
 
     if (count == aCount)
     {

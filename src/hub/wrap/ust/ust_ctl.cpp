@@ -29,6 +29,7 @@
 // base
 #include "base_macrodefn.hpp"
 // ust
+#include "ust_typectl.hpp"
 #include "ust_stringctl.hpp"
 #include "ust_fsctl.hpp"
 
@@ -38,6 +39,7 @@
 CUstCtl::CUstCtl(CHubModuleCtl *aModule)
 {
     BMD_POINTER_INIT(mModule);
+    BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mStr);
     BMD_POINTER_INIT(mFs);
     mModule = aModule;
@@ -48,6 +50,7 @@ CUstCtl::CUstCtl(CHubModuleCtl *aModule)
  */
 CUstCtl::~CUstCtl()
 {
+    BMD_CLASS_DEL(mType);
     BMD_CLASS_DEL(mStr);
     BMD_CLASS_DEL(mFs);
     BMD_POINTER_INIT(mModule);
@@ -69,6 +72,14 @@ UErrCodeT CUstCtl::Init()
 CHubModuleCtl *CUstCtl::Up()
 {
     return mModule;
+}
+
+/**
+ * \brief Get type controler.
+ */
+CUstTypeCtl *CUstCtl::Type()
+{
+    return mType;
 }
 
 /**

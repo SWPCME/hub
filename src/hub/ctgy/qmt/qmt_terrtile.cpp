@@ -84,7 +84,7 @@ UErrCodeT CQmtTerrTile::Decode()
     int hasWatermask = 0;
     int gzipped = 0;
 
-    pyqmt_decode(filePath, bounds, hasLighting, hasWatermask, gzipped);
+    // pyqmt_decode(filePath, bounds, hasLighting, hasWatermask, gzipped);
 
     return UErrFalse;
 }

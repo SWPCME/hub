@@ -65,6 +65,7 @@ class UST_LIB CUstStringCtl
     UErrCodeT AToW(wchar_t* aDest, const char* aSrc);
     UErrCodeT WToA(char* aDest, const wchar_t* aSrc);
     UErrCodeT IToA(char *aDest, const UIntT aSrc);
+    UErrCodeT FToA(char *aDest, const UFloatT aSrc);
 
     // Copy string by allocate memory.
     char* MCpy(const char* aStr);
@@ -80,6 +81,7 @@ class UST_LIB CUstStringCtl
     wchar_t* MAToW(const char* aStr);
     char* MWToA(const wchar_t* aStr);
     UErrCodeT MIToA(char **aStr, const UIntT aNum);
+    UErrCodeT MFToA(char **aStr, const UFloatT aNum);
 
     // Free string by using the function of "M*".
     UErrCodeT MFree(char* aStr);
@@ -104,6 +106,7 @@ class UST_LIB CUstStringCtl
     UIntT Size(const wchar_t* aStr);
 
     // Allocate memory with size of string.
+    char* MAlloc(const UDataTCodeT aCode);
     char* MAlloc(const UIntT aNum);
     char* MAlloc(const char* aStr);
     wchar_t* MAlloc(const wchar_t* aStr);

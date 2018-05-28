@@ -51,9 +51,9 @@ public class TestRst
     {
         CRstFrmtCtl frmtCtl = mRst.Frmt();
         CRstFrmtLcp frmtLcp = frmtCtl.Lcp();
-        UStringT lcp = new UStringT("../../data/core/gda/dem/test.lcp");
-        UStringT elev = new UStringT("../../data/core/gda/dem/dem1.tif");
-        frmtLcp.Create(lcp, elev, null, null);
+        UStringT lcp = new UStringT("../../../data/core/gda/dem/test.lcp");
+        UStringT elev = new UStringT("../../../data/core/gda/dem/dem1.tif");
+        frmtLcp.Create(lcp, elev, null, null, GdaProjCsCodeT.GdaProjCsXian1980);
 
         return UErrCodeT.UErrFalse;
     }

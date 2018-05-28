@@ -34,6 +34,7 @@
 
 #define UST_LIB HUB_LIB
 
+typedef UHandleT UDataHT;
 typedef UHandleT UstFileHT;
 
 /* Macro. */

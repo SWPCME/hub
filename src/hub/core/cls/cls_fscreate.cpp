@@ -79,13 +79,25 @@ UErrCodeT CClsFsCreate::Dir(const UStringT *aDir)
  */
 UErrCodeT CClsFsCreate::Copy(const UStringT *aDst, const UStringT *aSrc)
 {
+    UErrCodeT err = UErrTrue;
 #ifdef OS_UNIX
-    link(aSrc->ToA(), aDst->ToA());
+    UStringT cmd = "cp ";
+    cmd += aSrc;
+    cmd += " ";
+    cmd += aDst;
+    system(cmd.ToA());
+    err = UErrFalse;
+    // int tErr = link(aSrc->ToA(), aDst->ToA());
+    // if (tErr == 0)
+    // {
+    //     err = UErrFalse;
+    // }
 #endif  // OS_UNIX
 
 #ifdef OS_WINDOWS
     CopyFile(aSrc->ToA(), aDst->ToA(), FALSE);
+    err = UErrFalse;
 #endif  // OS_WINDOWS
 
-    return UErrFalse;
+    return err;
 }

@@ -48,6 +48,10 @@
 #include "plp_ctl.hpp"
 #endif // HUB_MODULE_PLP
 
+#ifdef HUB_MODULE_PYC
+#include "pyc_ctl.hpp"
+#endif  // HUB_MODULE_PYC
+
 /**
  * \brief Wrap module.
  */
@@ -64,8 +68,12 @@
  */
 #include "ctgy_ctl.hpp"
 // #include "rtk_ctl.hpp"
+#ifdef HUB_MODULE_FMD
 #include "fmd_ctl.hpp"
+#endif // HUB_MODULE_FMD
+#ifdef HUB_MODULE_QMT
 #include "qmt_ctl.hpp"
+#endif  // HUB_MODULE_QMT
 #ifdef HUB_MODULE_ERA
 #include "era_ctl.hpp"
 #endif  // HUB_MODULE_ERA
@@ -143,14 +151,22 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         HUB_REGISTER(HubMCut, CCutCtl);
         HUB_REGISTER(HubMPlp, CPlpCtl);
 #endif  // HUB_MODULE_PLP
+#ifdef HUB_MODULE_PYC
+        HUB_REGISTER(HubMPyc, CPycCtl);
+#endif  // HUB_MODULE_PYC
+
         // wrap
         HUB_REGISTER(HubMUst, CUstCtl);
         HUB_REGISTER(HubMRst, CRstCtl);
         HUB_REGISTER(HubMVtr, CVtrCtl);
         // ctgy
         // HUB_REGISTER(HubMRtk, CRtkCtl);
+#ifdef HUB_MODULE_FMD
         HUB_REGISTER(HubMFmd, CFmdCtl);
+#endif  // HUB_MODULE_FMD
+#ifdef HUB_MODULE_QMT
         HUB_REGISTER(HubMQmt, CQmtCtl);
+#endif  // HUB_MODULE_QMT
 
 #ifdef HUB_MODULE_ERA
         HUB_REGISTER(HubMEra, CEraCtl);
@@ -205,14 +221,22 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         HUB_DEREGISTER(HubMCut, CCutCtl);
         HUB_DEREGISTER(HubMPlp, CPlpCtl);
 #endif  // HUB_MODULE_PLP
+#ifdef HUB_MODULE_PYC
+        HUB_DEREGISTER(HubMPyc, CPycCtl);
+#endif  // HUB_MODULE_PYC
         // wrap
         HUB_DEREGISTER(HubMUst, CUstCtl);
         HUB_DEREGISTER(HubMRst, CRstCtl);
         HUB_DEREGISTER(HubMVtr, CVtrCtl);
         // ctgy
         // HUB_DEREGISTER(HubMRtk, CRtkCtl);
+#ifdef HUB_MODULE_FMD
         HUB_DEREGISTER(HubMFmd, CFmdCtl);
+#endif  // HUB_MODULE_FMD
+#ifdef HUB_MODULE_QMT
         HUB_DEREGISTER(HubMQmt, CQmtCtl);
+#endif  // HUB_MODULE_QMT
+
 #ifdef HUB_MODULE_ERA
         HUB_DEREGISTER(HubMEra, CEraCtl);
 #endif  // HUB_MODULE_ERA

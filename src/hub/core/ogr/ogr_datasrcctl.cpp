@@ -260,6 +260,7 @@ UErrCodeT COgrDatasrcCtl::SetDs(const UStringT *aFile, UFileOperCodeT aCode,
     default:
         return UErrTrue;
     }
+
     return UErrFalse;
 }
 

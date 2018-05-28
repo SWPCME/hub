@@ -27,6 +27,8 @@
 // hub
 #include "hub_modulectl.hpp"
 // base
+#include "base_ctl.hpp"
+#include "base_tmpctl.hpp"
 #include "base_macrodefn.hpp"
 // rst
 #include "rst_utilctl.hpp"
@@ -56,6 +58,10 @@ CRstCtl::~CRstCtl()
  */
 UErrCodeT CRstCtl::Init()
 {
+    CBaseCtl *base = CBaseCtl::Base();
+    CBaseTmpCtl *tmp = base->Tmp();
+    tmp->MkDir(HubMRst, mModule);
+
     return UErrFalse;
 }
 

@@ -869,6 +869,16 @@ UErrCodeT FmdCfgAirT::SetTemperature(const UFloatT aTemperature)
 {
     mTemperature = aTemperature;
 
+    if (mTemperature < -40)
+    {
+        mTemperature = -40;
+    }
+
+    if (mTemperature > 50)
+    {
+        mTemperature = 50;
+    }
+
     return UErrFalse;
 }
 
@@ -878,6 +888,16 @@ UErrCodeT FmdCfgAirT::SetTemperature(const UFloatT aTemperature)
 UErrCodeT FmdCfgAirT::SetHumidity(const UIntT aHumidity)
 {
     mHumidity = aHumidity;
+
+    if (mHumidity < 1)
+    {
+        mHumidity = 1;
+    }
+
+    if (mHumidity > 100)
+    {
+        mHumidity = 100;
+    }
 
     return UErrFalse;
 }

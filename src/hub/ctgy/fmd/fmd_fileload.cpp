@@ -160,17 +160,6 @@ UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
  */
 UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
 {
-    // UStringT file = mTmpDir;
-    // file += "/fmdfileload_file.lcp";
-    // GdaProjCsCodeT code = GdaProjCsXian1980;
-    // CRstFrmtCtl *frmtCtl = mRst->Frmt();
-    // CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
-    // GdaTrRstToRstT trR2r;
-    // GdaOgrSrsT srs;
-    // srs.SetProjCs(code);
-    // trR2r.SetSrs(&srs);
-    // frmtLcp->Tr(&file, aFile, &trR2r);
-    // FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) file.ToA());
     FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
 
     return UErrFalse;

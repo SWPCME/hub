@@ -36,8 +36,9 @@
 /**
  * \brief Constructor.
  */
-CGslCtl::CGslCtl()
+CGslCtl::CGslCtl(CHubModuleCtl *aModule)
 {
+    mModule = aModule;
     InitPointer();
 }
 

@@ -113,7 +113,8 @@ CRstFrmtCtl *CRstFrmtLcp::Up()
  * \brief Create with elevation, fuel model, and canopy with tree.
  */
 UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
-                              const UStringT *aFm, const UStringT *aCt)
+                              const UStringT *aFm, const UStringT *aCt,
+                              const GdaProjCsCodeT aCode)
 {
     // Load tif.
     GdaFormatCodeT frmt = GdaFormatTif;
@@ -128,8 +129,12 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     // Change the projection coordinate system.
     UStringT elev = mTmpDir;
     elev += "/elevation.tif";
-    CClsFsCreate *fsCreate = mFs->Create();
-    fsCreate->Copy(&elev, aElev);
+    // CClsFsCreate *fsCreate = mFs->Create();
+    // fsCreate->Copy(&elev, aElev);
+    GdaTrRstToRstT trR2r;
+    GdaOgrSrsT elevSrs;
+    elevSrs.SetProjCs(aCode);
+    Reproj(&elev, aElev, &elevSrs);
     
     // UAccessCodeT access = UAccessRead;
     // CGdaDatasetCtl *dsSrcElev = drTif->Load(aElev, access);
@@ -146,7 +151,7 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     UAccessCodeT access = UAccessWrite;
     CGdaDatasetCtl *dsElev = drTif->Load(&elev, access);
     CGdaBandCtl *bandElev = dsElev->Band(1);
-    UFloatT ndv = -9999;
+    UFloatT ndv = -9999.0;
     UStringT strNdv(ndv);
     UFloatT ndvElev = bandElev->NoDataVal();
     UDataTCodeT dataT = bandElev->DataT();
@@ -155,7 +160,7 @@ UErrCodeT CRstFrmtLcp::Create(const UStringT *aLcp, const UStringT *aElev,
     UIntT ySize = 0;
     bandElev->YSize(&ySize);
     BMathCsC2dT bdBegin(0, 0);
-    BMathCsC2dT bdEnd(xSize, ySize);
+    BMathCsC2dT bdEnd(xSize - 1, ySize - 1);
     GdaBandDataT bandData(dataT, &bdBegin, &bdEnd);
     bandElev->Read(&bandData);
     UIntT size = xSize * ySize;

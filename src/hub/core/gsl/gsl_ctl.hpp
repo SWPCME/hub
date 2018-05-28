@@ -27,6 +27,7 @@
 
 #include "gsl_base.hpp"
 
+class CHubModuleCtl;
 class CGslTypeCtl;
 class CGslVectorCtl;
 class CGslBlasCtl;
@@ -36,7 +37,7 @@ class CGslPhyCtl;
 class GSL_LIB CGslCtl
 {
   public:
-    CGslCtl();
+    CGslCtl(CHubModuleCtl *mModule);
     ~CGslCtl();
 
     UErrCodeT Init();
@@ -50,6 +51,7 @@ class GSL_LIB CGslCtl
   private:
     UErrCodeT InitPointer();
 
+    CHubModuleCtl *mModule;
     CGslTypeCtl *mType;
     CGslVectorCtl *mVector;
     CGslBlasCtl *mBlas;

@@ -56,6 +56,7 @@ class HUB_LIB CBaseTmpCtl
     typedef UContainerT<UStringT, CHubModuleCtl*> MStringModuleT;
     typedef UIteratorT<UStringT, CHubModuleCtl*> MStringModuleItT;
 
+    UErrCodeT CurDir(UStringT *aCur);
     UErrCodeT SetDefaultDir(CHubModuleCtl *aModule);
     UErrCodeT DelAllDir();
 

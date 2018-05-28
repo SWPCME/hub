@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: string_struct.h 2017-07 $
+ * $Id: ust_stringtype.hpp 2018-05 $
  *
  * Project:  Common Library.
  * Purpose:  Universal string struct.
@@ -27,8 +27,8 @@
  * DEALINGS IN THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef STRING_STRUCT_H_INCLUDED
-#define STRING_STRUCT_H_INCLUDED
+#ifndef UST_STRINGTYPE_HPP_INCLUDED
+#define UST_STRINGTYPE_HPP_INCLUDED
 
 #include "ust_stringbase.h"
 
@@ -45,7 +45,8 @@ class UST_LIB UStringT
     UStringT(const UStringT *aStr);
     UStringT(const char *aStr);
     UStringT(const wchar_t *aStr);
-    UStringT(const UIntT aInt);
+    UStringT(const UIntT aNum);
+    UStringT(const UFloatT aNum);
     ~UStringT();
 
     // Attribute.
@@ -76,7 +77,8 @@ class UST_LIB UStringT
     UErrCodeT operator =(const char *aStr);
     UErrCodeT operator =(const wchar_t* aStr);
     UErrCodeT operator =(const UStringT &aStr);
-    UErrCodeT operator =(const UIntT &aInt);
+    UErrCodeT operator =(const UIntT &aNum);
+    UErrCodeT operator =(const UFloatT &aNum);
     UErrCodeT operator ==(const UStringT &aStr);
     UErrCodeT operator ==(const char *aStr);
     UErrCodeT operator !=(const UStringT &aStr);
@@ -109,4 +111,4 @@ class UST_LIB UStringT
     UFloatT mFloat;
 };
 
-#endif  /* STRING_STRUCT_H_INCLUDED */
+#endif  /* UST_STRINGTYPE_HPP_INCLUDED */

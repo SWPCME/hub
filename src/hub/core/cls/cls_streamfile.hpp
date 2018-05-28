@@ -60,9 +60,9 @@ class CLS_LIB CClsStreamFile
     CClsFileLine *Line();
     CClsFileBlock *Block();
 
-    UErrCodeT Read(UIntT *aRealCount, UDataT aData, UIntT aSize,
+    UErrCodeT Read(UIntT *aRealCount, UDataHT aData, UIntT aSize,
                    UIntT aCount, ClsFileHT aFileH);
-    UErrCodeT Write(const UDataT aData, UIntT aSize, UIntT aCount, 
+    UErrCodeT Write(const UDataHT aData, UIntT aSize, UIntT aCount, 
                     ClsFileHT aFileH);
 
   protected:

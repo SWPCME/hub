@@ -24,7 +24,7 @@
 
 # CXX
 CXX_SUFFIX = cpp
-# DCC_HOST = 192.168.0.253/8,lzo,cpp
-# DCC_HOST = 192.168.0.253:23632,lzo,cpp
+CXX_OBJ_EXT = o
+# DCC_ENABLE = yes
 C_EXTRA_LIB_DIR = -L$(HOME_DIR)/me/usr/lib -L$(HOME_DIR)/me/usr/$(PRJ_TARGET_OS)/lib
 INSTALL_H_DIR = $(INSTALL_DIR)/include

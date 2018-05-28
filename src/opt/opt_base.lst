@@ -24,6 +24,7 @@
 
 # Project name
 NAME = hub
+CATEGORY = swpcme
 
 # Mode
 OS = x86_64-pc-linux-gnu
@@ -40,8 +41,10 @@ WORK_DIR = $(HOME_DIR)/file/source/swpcme/${NAME}
 MK_DIR = $(HOME_DIR)/me/usr/share/prj/mk
 
 # Makefile
-RES_DIR = $(HOME_DIR)/file/resource/swpcme/$(NAME)
+RES_LAYER = file/resource/$(CATEGORY)/$(NAME)
+RES_DIR = $(HOME_DIR)/$(RES_LAYER)
+TMP_RES_DIR = $(HOME_DIR)/tmp/$(RES_LAYER)
 INSTALL_DIR = $(RES_DIR)/install
 DOC_API_CFG_DIR = $(SRC_DIR)/doc/api
 DOC_API_CFG_FILE = doc_main
-BUILD_DIR = $(RES_DIR)/build
+BUILD_DIR = $(TMP_RES_DIR)/build

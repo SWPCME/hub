@@ -39,6 +39,7 @@ GDA_DIR = $(CORE_DIR)/gda
 GSL_DIR = $(CORE_DIR)/gsl
 CUT_DIR = $(CORE_DIR)/cut
 PLP_DIR = $(CORE_DIR)/plp
+PYC_DIR = $(CORE_DIR)/pyc
 # Wrap directory.
 WRAP_DIR = $(HUB_DIR)/wrap
 UST_DIR = $(WRAP_DIR)/ust

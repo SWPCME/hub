@@ -28,8 +28,10 @@ LAYER = ust
 
 C_OBJ = \
       ust_ctl.o \
+      ust_typectl.o \
       ust_stringctl.o \
       ust_stringtype.o \
+      ust_datatype.o \
       ust_fsctl.o \
       ust_fsfilectl.o \
       ust_fsfiletype.o \
@@ -40,6 +42,7 @@ C_HEADER = \
          ust_base.h \
          ust_stringbase.h \
          ust_stringtype.hpp \
+         ust_datatype.hpp \
          ust_fsbase.hpp \
          ust_fsfiletype.hpp \
          ust_filebase.hpp \

@@ -27,6 +27,7 @@
 
 #include "plp_base.hpp"
 
+class CHubModuleCtl;
 class CPlpTypeCtl;
 class CPlpCoreCtl;
 class CPlpArgsCtl;
@@ -39,7 +40,7 @@ class CPlpLegendCtl;
 class PLP_LIB CPlpCtl
 {
   public:
-    CPlpCtl();
+    CPlpCtl(CHubModuleCtl *aModule);
     ~CPlpCtl();
 
     UErrCodeT Init();
@@ -54,6 +55,7 @@ class PLP_LIB CPlpCtl
 
   protected:
   private:
+    CHubModuleCtl *mModule;
     CPlpTypeCtl *mType;
     CPlpCoreCtl *mCore;
     CPlpArgsCtl *mArgs;

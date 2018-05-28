@@ -33,8 +33,9 @@
 
 // common
 typedef UContainerT<UIntT> BCtnIntT;
-typedef UIteratorT<UIntT> BCtnItIntT;
+typedef UIteratorT<UIntT> BItIntT;
 typedef UContainerT<UFloatT> BCtnFloatT;
+typedef UIteratorT<UFloatT> BItFloatT;
 
 // ust
 typedef UContainerT<UStringT> BCtnStringT;

@@ -2,15 +2,7 @@
 # For core.
 
 C_OBJ = \
-      core_ctl.o \
-      core_sngctl.o
+        core_ctl.o \
+        core_sngctl.o
 
 SUB_DIR = $(HUB_MODULE_CORE)
-# SUB_DIR = cls \
-#         ccs \
-#         sys \
-#         ogr \
-#         gda \
-#         gsl \
-#         cut \
-#         plp

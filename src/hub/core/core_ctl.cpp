@@ -45,6 +45,9 @@
 #include "cut_ctl.hpp"
 #include "plp_ctl.hpp"
 #endif  // HUB_MODULE_PLP
+#ifdef HUB_MODULE_PYC
+#include "pyc_ctl.hpp"
+#endif  // HUB_MODULE_PYC
 
 /**
  * \brief Constructor.
@@ -156,6 +159,18 @@ CPlpCtl *CCoreCtl::Plp()
 #endif  // HUB_MODULE_PLP
 
     return mPlp;
+}
+
+/**
+ * \brief Pyc.
+ */
+CPycCtl *CCoreCtl::Pyc()
+{
+#ifdef HUB_MODULE_PYC
+    BMD_CLASS_NEW_A_1(mPyc, CPycCtl, mModule);
+#endif  // HUB_MODULE_PYC
+
+    return mPyc;
 }
 
 /***** Private A *****/

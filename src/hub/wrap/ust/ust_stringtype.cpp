@@ -96,24 +96,24 @@ UStringT::UStringT(const wchar_t *aStr)
 /**
  * \brief Constructor.
  *
- * @param aInt Initialize by "UIntT".
+ * @param aNum Initialize by "UIntT".
  */
-UStringT::UStringT(const UIntT aInt)
+UStringT::UStringT(const UIntT aNum)
 {
     Init();
-    mStr->MIToA(&mChar, aInt);
+    mStr->MIToA(&mChar, aNum);
 }
 
 /**
  * \brief Constructor.
  *
- * @param aInt Initialize by "UFloatT".
+ * @param aNum Initialize by "UFloatT".
  */
-// UStringT::UStringT(const UIntT aFloat)
-// {
-//     Init();
-//     mStr->MFToA(&mChar, aFloat);
-// }
+UStringT::UStringT(const UFloatT aNum)
+{
+    Init();
+    mStr->MFToA(&mChar, aNum);
+}
 
 /**
  * \brief Destructor.
@@ -330,10 +330,25 @@ UErrCodeT UStringT::operator =(const UStringT& aStr)
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT UStringT::operator =(const UIntT &aInt)
+UErrCodeT UStringT::operator =(const UIntT &aNum)
 {
     mStr->MFree(&mChar);
-    mStr->MIToA(&mChar, aInt);
+    mStr->MIToA(&mChar, aNum);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Overload operator of "=".
+ *
+ * @param aStr String that need to instead of original string.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT UStringT::operator =(const UFloatT &aNum)
+{
+    mStr->MFree(&mChar);
+    mStr->MFToA(&mChar, aNum);
 
     return UErrFalse;
 }

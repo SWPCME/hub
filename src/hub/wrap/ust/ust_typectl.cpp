@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: cut_ctl.hpp 2017-06 $
+ * $Id: ust_typectl.hpp 2018-05 $
  *
- * Project:  CUT (CUT: Client-side URL Transfer).
- * Purpose:  Cut controler definition.
+ * Project:  Common Library.
+ * Purpose:  Universal type controler implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-05 ~ 2018 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,39 +22,26 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#ifndef CUT_CTL_HPP_INCLUDED
-#define CUT_CTL_HPP_INCLUDED
+#include "ust_typectl.hpp"
 
-#include "cut_base.hpp"
-
-class CHubModuleCtl;
-class CCutTypeCtl;
-class CCutEasysCtl;
-class CCutMultisCtl;
-class CCutSlistsCtl;
-
-class CUT_LIB CCutCtl
+/**
+ * \brief Constructor.
+ */
+CUstTypeCtl::CUstTypeCtl()
 {
-  public:
-    CCutCtl(CHubModuleCtl *aModule);
-    ~CCutCtl();
+}
 
-    UErrCodeT Init();
-    CCutTypeCtl *Type();
-    CCutEasysCtl *Easys();
-    CCutMultisCtl *Multis();
-    CCutSlistsCtl *Slists();
+/**
+ * \brief Destructor.
+ */
+CUstTypeCtl::~CUstTypeCtl()
+{
+}
 
-  protected:
-  private:
-    UErrCodeT GInit();
-    UErrCodeT GCleanup();
-
-    CHubModuleCtl *mModule;
-    CCutTypeCtl *mType;
-    CCutEasysCtl *mEasys;
-    CCutMultisCtl *mMultis;
-    CCutSlistsCtl *mSlists;
-};
-
-#endif  // CUT_CTL_HPP_INCLUDED
+/**
+ * \brief Initialize.
+ */
+UErrCodeT CUstTypeCtl::Init()
+{
+    return UErrFalse;
+}

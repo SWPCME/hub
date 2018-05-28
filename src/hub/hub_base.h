@@ -123,10 +123,9 @@ typedef uint64_t UUnsIntT;
 typedef double UFloatT;
 /* Handle. */
 typedef void* UHandleT;
-/* Data */
-typedef void* UDataT;
 
 const UIntT kNInt = 11;
+const UIntT kNFloat = 21;
 const UIntT kNMax = 10000;
 
 /* Module */
@@ -149,6 +148,7 @@ typedef enum
     HubMGsl = 6,                /* Gnu Scientific Library. */
     HubMCut = 7,                /* Client-side URL Transfer. */
     HubMPlp = 8,                /* PLplot. */
+    HubMPyc = 9,                /* Python c library. */
 
     /* Wrap module */
     HubMUst = 1001,             /* Universal struct type library. */

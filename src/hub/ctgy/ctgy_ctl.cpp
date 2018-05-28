@@ -28,7 +28,9 @@
 #include "hub_modulectl.hpp"
 // ctgy
 // #include "earth_ctl.hpp"
+#ifndef HUB_MODULE_FMD
 #include "fmd_ctl.hpp"
+#endif  // HUB_MODULE_FMD
 
 /**
  * \brief Constructor.
@@ -70,7 +72,9 @@ CEarthCtl *CCtgyCtl::Earth()
  */
 CFmdCtl *CCtgyCtl::Fmd()
 {
+#ifdef HUB_MODULE_FMD
     BMD_CLASS_NEW_A_1(mFmd, CFmdCtl, mModule);
+#endif  // HUB_MODULE_FMD
 
     return mFmd;
 }

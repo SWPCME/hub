@@ -40,8 +40,9 @@
 /**
  * \brief Constructor.
  */
-CPlpCtl::CPlpCtl()
+CPlpCtl::CPlpCtl(CHubModuleCtl *aModule)
 {
+    mModule = aModule;
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mArgs);

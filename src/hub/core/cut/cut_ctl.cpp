@@ -36,8 +36,9 @@
 /**
  * \brief Constructor.
  */
-CCutCtl::CCutCtl()
+CCutCtl::CCutCtl(CHubModuleCtl *aModule)
 {
+    mModule = aModule;
     mEasys = NULL;
     mMultis = NULL;
     mSlists = NULL;

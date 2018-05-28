@@ -29,6 +29,7 @@
 
 // base
 #include "ust/ust_stringtype.hpp"
+#include "gda/gda_base.h"
 
 // cls
 class CClsFsCtl;
@@ -51,7 +52,8 @@ class RST_LIB CRstFrmtLcp
     UErrCodeT Init();
     CRstFrmtCtl *Up();
     UErrCodeT Create(const UStringT *aLcp, const UStringT *aElev,
-                     const UStringT *aFm, const UStringT *aCt);
+                     const UStringT *aFm, const UStringT *aCt,
+                     const GdaProjCsCodeT aCode);
     UErrCodeT Tr(const UStringT *aDst, const UStringT *aSrc,
                  const GdaTrRstToRstT *aOpt);
 

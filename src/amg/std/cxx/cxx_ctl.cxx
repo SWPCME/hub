@@ -1,6 +1,8 @@
 [+ AutoGen5 template cxx +]
 [+ Include "cxx_licence.cxx" +]
 
+#include [+ include_hxx +]
+
 /**
  * \brief Constructor.
  */
@@ -26,6 +28,7 @@ UErrCodeT [+ class_name +]::Init()
 }
 
 /***** Private A *****/
+
 /**
  * \brief InitPointer.
  *

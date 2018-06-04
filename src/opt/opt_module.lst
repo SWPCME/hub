@@ -28,17 +28,18 @@ HUB_MODULE_CORE = \
                   gda \
                   ogr \
                   plp \
-                  gsl
-                  # pyc
+                  gsl \
+                  cut \
+                  pyc
 
 HUB_MODULE_WRAP = \
                   ust \
                   rst \
                   vtr
 
-HUB_MODULE_CTGY = 
-                  # fmd
-                  # qmt
+HUB_MODULE_CTGY = \
+                  fmd \
+                  qmt
 
 OPT_MODULE = \
              $(HUB_MODULE_CORE) \

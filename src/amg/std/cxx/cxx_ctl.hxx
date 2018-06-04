@@ -4,6 +4,8 @@
 #ifndef [+ file_def +]
 #define [+ file_def +]
 
+#include [+ include_base +]
+
 class [+ lib +] [+ class_name +]
 {
   public:
@@ -14,8 +16,7 @@ class [+ lib +] [+ class_name +]
 
   protected:
   private:
+    UErrCodeT InitPointer();
 };
-[+ (out-push-new "cxx_ctl.cxx") +]
-[+ Include "tpl/cxx/cxx_ctl.cxx" +]
-[+ (out-pop) +]
+
 #endif  // [+ file_def +]

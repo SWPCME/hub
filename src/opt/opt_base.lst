@@ -37,6 +37,7 @@ VERSION = 0.0.1
 
 # Directory
 HOME_DIR = /home/swpcme
+VERSION_DIR_NAME = master
 WORK_DIR = $(HOME_DIR)/file/source/swpcme/${NAME}
 MK_DIR = $(HOME_DIR)/me/usr/share/prj/mk
 

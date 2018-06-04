@@ -28,7 +28,7 @@
 #include "hub_modulectl.hpp"
 // ctgy
 // #include "earth_ctl.hpp"
-#ifndef HUB_MODULE_FMD
+#ifdef HUB_MODULE_FMD
 #include "fmd_ctl.hpp"
 #endif  // HUB_MODULE_FMD
 

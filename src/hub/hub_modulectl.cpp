@@ -42,12 +42,15 @@
 #include "gda_ctl.hpp"
 #endif  // NAME
 
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
 #include "gsl_ctl.hpp"
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT
 #include "cut_ctl.hpp"
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
 #include "plp_ctl.hpp"
 #endif // HUB_MODULE_PLP
-
 #ifdef HUB_MODULE_PYC
 #include "pyc_ctl.hpp"
 #endif  // HUB_MODULE_PYC
@@ -146,9 +149,13 @@ UErrCodeT CHubModuleCtl::Register(HubCodeT aCode)
         HUB_REGISTER(HubMSys, CSysCtl);
         HUB_REGISTER(HubMOgr, COgrCtl);
         HUB_REGISTER(HubMGda, CGdaCtl);
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
         HUB_REGISTER(HubMGsl, CGslCtl);
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT        
         HUB_REGISTER(HubMCut, CCutCtl);
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
         HUB_REGISTER(HubMPlp, CPlpCtl);
 #endif  // HUB_MODULE_PLP
 #ifdef HUB_MODULE_PYC
@@ -216,9 +223,13 @@ UErrCodeT CHubModuleCtl::Deregister(HubCodeT aCode)
         HUB_DEREGISTER(HubMSys, CSysCtl);
         HUB_DEREGISTER(HubMOgr, COgrCtl);
         HUB_DEREGISTER(HubMGda, CGdaCtl);
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
         HUB_DEREGISTER(HubMGsl, CGslCtl);
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT
         HUB_DEREGISTER(HubMCut, CCutCtl);
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
         HUB_DEREGISTER(HubMPlp, CPlpCtl);
 #endif  // HUB_MODULE_PLP
 #ifdef HUB_MODULE_PYC

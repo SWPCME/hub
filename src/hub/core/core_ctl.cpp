@@ -40,9 +40,13 @@
 #include "sys_ctl.hpp"
 #include "gda_ctl.hpp"
 #include "ogr_ctl.hpp"
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
 #include "gsl_ctl.hpp"
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT
 #include "cut_ctl.hpp"
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
 #include "plp_ctl.hpp"
 #endif  // HUB_MODULE_PLP
 #ifdef HUB_MODULE_PYC
@@ -189,6 +193,7 @@ UErrCodeT CCoreCtl::InitPointer()
     BMD_POINTER_INIT(mGsl);
     BMD_POINTER_INIT(mCut);
     BMD_POINTER_INIT(mPlp);
+    BMD_POINTER_INIT(mPyc);
 
     return UErrFalse;
 }

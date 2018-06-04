@@ -1,13 +1,13 @@
 [+ AutoGen5 template hxx +]
 /******************************************************************************
- * $Id: [+ file_name +] [+ date_now +] $
+ * $Id: [+ file_name +] [+ (shell "date '+%Y-%m'") +] $
  *
  * Project:  [+ project +]
  * Purpose:  [+ purpose +]
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) [+ date_begin +] ~ [+ date_end +], Weiwei Huang
+ * Copyright (c) [+ date_begin +] ~ [+ (shell "date '+%Y'") +], Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 

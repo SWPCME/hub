@@ -27,7 +27,12 @@
 
 #include "bsn_base.hpp"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
+// cut
 class CCutEasysCtl;
+// cls
 class CClsIoCommonCtl;
 class CClsStreamFile;
 
@@ -42,6 +47,8 @@ class BSN_LIB CBsnCut
 
   protected:
   private:
+    CHubCtl *mHub;
+    CHubModuleCtl *mModule;
     CCutEasysCtl *mEasys;
     CClsIoCommonCtl *mIoCmn;
     CClsStreamFile *mFile;

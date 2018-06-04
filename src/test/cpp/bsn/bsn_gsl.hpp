@@ -27,6 +27,10 @@
 
 #include "bsn_base.hpp"
 
+// hub
+class CHubCtl;
+class CHubModuleCtl;
+// gsl
 class CGslCtl;
 
 class BSN_LIB CBsnGsl
@@ -42,6 +46,8 @@ class BSN_LIB CBsnGsl
     UErrCodeT TestVector();
     UErrCodeT TestSf();
 
+    CHubCtl *mHub;
+    CHubModuleCtl * mModule;
     CGslCtl *mGsl;
 };
 

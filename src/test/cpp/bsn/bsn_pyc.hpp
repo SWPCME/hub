@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: bsn_plp.hpp 2017-11 $
+ * $Id: bsn_pyc.hpp 2018-03 $
  *
  * Project:  Business Logic library.
- * Purpose:  Test plp api definition.
+ * Purpose:  Test pyc api definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-11 ~ 2017, Weiwei Huang
+ * Copyright (c) 2018-03 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,33 +22,35 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef BSN_PLP_HPP_INCLUDED
-#define BSN_PLP_HPP_INCLUDED
+#ifndef BSN_PYC_HPP_INCLUDED
+#define BSN_PYC_HPP_INCLUDED
 
 #include "bsn_base.hpp"
 
-// hub
 class CHubCtl;
 class CHubModuleCtl;
-// plp
-class CPlpCtl;
+class CPycCtl;
 
-class BSN_LIB CBsnPlp
+class BSN_LIB CBsnPyc
 {
   public:
-    CBsnPlp();
-    ~CBsnPlp();
+    CBsnPyc();
+    ~CBsnPyc();
 
     UErrCodeT Init();
     UErrCodeT Test();
 
   protected:
   private:
-    UErrCodeT ExportFile();
+    UErrCodeT InitPointer();
+
+    UErrCodeT Mod();
+    UErrCodeT Obj();
+    UErrCodeT ObjList();
 
     CHubCtl *mHub;
     CHubModuleCtl *mModule;
-    CPlpCtl *mPlp;
+    CPycCtl *mPyc;
 };
 
-#endif  // BSN_PLP_HPP_INCLUDED
+#endif  // BSN_PYC_HPP_INCLUDED

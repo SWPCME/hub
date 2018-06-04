@@ -37,6 +37,7 @@
 // #include "bsn_gsl.hpp"
 // #include "bsn_cut.hpp"
 // #include "bsn_plp.hpp"
+#include "bsn_pyc.hpp"
 #include "bsn_ust.hpp"
 #include "bsn_rst.hpp"
 // #include "bsn_ncc.hpp"
@@ -120,8 +121,8 @@ UErrCodeT CUiCtl::TestAll()
 
 UErrCodeT CUiCtl::Test()
 {
-    CBsnGda *gda = mBsn->Gda();
-    gda->Test();
+    // CBsnGda *gda = mBsn->Gda();
+    // gda->Test();
 
     // CBsnRst *rst = mBsn->Rst();
     // rst->Test();
@@ -140,6 +141,9 @@ UErrCodeT CUiCtl::Test()
 
     // CBsnPlp *plp = mBsn->Plp();
     // plp->Test();
+
+    CBsnPyc *pyc = mBsn->Pyc();
+    pyc->Test();
 
     return UErrFalse;
 }

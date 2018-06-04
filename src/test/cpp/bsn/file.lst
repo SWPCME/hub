@@ -1,28 +1,43 @@
-# C_OBJ = \
-#       bsn_ctl.o \
-#       bsn_cls.o \
-#       bsn_gda.o \
-#       bsn_ogr.o \
-#       bsn_gsl.o \
-#       bsn_cut.o \
-#       bsn_plp.o \
-#       bsn_ust.o \
-#       bsn_rst.o \
-#       bsn_ncc.o \
-#       bsn_fmd.o \
-#       bsn_era.o \
-#       bsn_uniqueid.o
+################################################################################
+# $Id: file.lst 2018-05 $
+#
+# Project:  Bsn.
+# Purpose:  Bsn library file list.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2016-08 ~ 2017 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
 
 C_OBJ = \
-      bsn_ctl.o \
-      bsn_cls.o \
-      bsn_gda.o \
-      bsn_ogr.o \
-      bsn_pyc.o \
-      bsn_ust.o \
-      bsn_rst.o \
-      bsn_fmd.o \
-      bsn_qmt.o
+        bsn_ctl.o \
+        bsn_cls.o \
+        bsn_gda.o \
+        bsn_ogr.o \
+        bsn_gsl.o \
+        bsn_cut.o \
+        bsn_plp.o \
+        bsn_pyc.o \
+        bsn_ust.o \
+        bsn_rst.o \
+        bsn_fmd.o \
+        bsn_qmt.o
+#       bsn_ncc.o \
+#       bsn_era.o \
+#       bsn_uniqueid.o
 
 C_CXX_LIB_NAME = bsn
 C_CXX_LIB_FLAG_SO = yes

@@ -38,6 +38,7 @@ class CBsnOgr;
 class CBsnGsl;
 class CBsnCut;
 class CBsnPlp;
+class CBsnPyc;
 
 class CBsnUst;
 class CBsnRst;
@@ -64,6 +65,7 @@ class BSN_LIB CBsnCtl
     CBsnGsl *Gsl();
     CBsnCut *Cut();
     CBsnPlp *Plp();
+    CBsnPyc *Pyc();
 
     CBsnUst *Ust();
     CBsnRst *Rst();
@@ -88,6 +90,7 @@ class BSN_LIB CBsnCtl
     CBsnGsl *mGsl;
     CBsnCut *mCut;
     CBsnPlp *mPlp;
+    CBsnPyc *mPyc;
 
     CBsnUst *mUst;
     CBsnRst *mRst;

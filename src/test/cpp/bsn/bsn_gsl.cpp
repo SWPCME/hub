@@ -26,6 +26,7 @@
 
 // Hub.
 #include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // gsl
 #include "gsl_ctl.hpp"
 // gsl.vector
@@ -59,9 +60,15 @@ CBsnGsl::~CBsnGsl()
  */
 UErrCodeT CBsnGsl::Init()
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
-    hubCtl->Register(HubMGsl);
-    mGsl = (CGslCtl*) hubCtl->Module(HubMGsl);
+    if (mHub == NULL)
+    {
+        mHub = CHubCtl::Hub();
+        mModule = mHub->RegModule();
+        UStringT tmp = "~/tmp";
+        mModule->SetTmpDir(&tmp);
+        mModule->Register(HubMGsl);
+        mGsl = (CGslCtl *) mModule->Module(HubMGsl);
+    }
 
     return UErrFalse;
 }

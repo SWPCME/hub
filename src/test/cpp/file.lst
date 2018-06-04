@@ -19,9 +19,9 @@ C_OBJ = main.o
 #               erfa
 
 # Binary file name.
-BIN_FILE = test_cpp
+CXX_BIN_FILE = test_cpp
 
 # Backup directory.
 BACKUP_DIR = $(SRC_DIR)/../.backup
 
-C_CXX_LIB_SO_EXTRA = hub gdal firemod pyqmt bsn ui
+C_CXX_LIB_SO_EXTRA = hub gdal plplot gsl gslcblas firemod pyqmt bsn ui

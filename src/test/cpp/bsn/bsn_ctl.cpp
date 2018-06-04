@@ -42,11 +42,18 @@
 #include "bsn_cls.hpp"
 #include "bsn_gda.hpp"
 #include "bsn_ogr.hpp"
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
 #include "bsn_gsl.hpp"
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT
 #include "bsn_cut.hpp"
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
 #include "bsn_plp.hpp"
 #endif  // HUB_MODULE_PLP
+#ifdef HUB_MODULE_PYC
+#include "bsn_pyc.hpp"
+#endif  // HUB_MODULE_PYC
 // Wrap.
 #include "bsn_ust.hpp"
 #include "bsn_rst.hpp"
@@ -73,11 +80,18 @@ CBsnCtl::~CBsnCtl()
 {
     BMD_CLASS_DEL(mCls);
     BMD_CLASS_DEL(mGda);
-#ifdef HUB_MODULE_PLP
+#ifdef HUB_MODULE_GSL
     BMD_CLASS_DEL(mGsl);
+#endif  // HUB_MODULE_GSL
+#ifdef HUB_MODULE_CUT
     BMD_CLASS_DEL(mCut);
+#endif  // HUB_MODULE_CUT
+#ifdef HUB_MODULE_PLP
     BMD_CLASS_DEL(mPlp);
 #endif  // HUB_MODULE_PLP
+#ifdef HUB_MODULE_PYC
+    BMD_CLASS_DEL(mPyc);
+#endif  // HUB_MODULE_PYC
 
     BMD_CLASS_DEL(mUst);
     BMD_CLASS_DEL(mRst);
@@ -85,9 +99,13 @@ CBsnCtl::~CBsnCtl()
     BMD_CLASS_DEL(mNcc);
 #endif  // HUB_MODULE_NCC
 
+#ifdef HUB_MODULE_FMD
     BMD_CLASS_DEL(mFmd);
+#endif  // HUB_MODULE_FMD
     // BMD_CLASS_DEL(mRtk);
+#ifdef HUB_MODULE_QMT
     BMD_CLASS_DEL(mQmt);
+#endif  // HUB_MODULE_QMT
 #ifdef HUB_MODULE_ERA
     BMD_CLASS_DEL(mEra);
 #endif  // HUB_MODULE_ERA
@@ -139,6 +157,15 @@ CBsnCut *CBsnCtl::Cut()
     return mCut;
 }
 
+CBsnPyc *CBsnCtl::Pyc()
+{
+#ifdef HUB_MODULE_PYC
+    BMD_CLASS_NEW(mPyc, CBsnPyc);
+#endif  // HUB_MODULE_PYC
+
+    return mPyc;
+}
+
 CBsnPlp *CBsnCtl::Plp()
 {
 #ifdef HUB_MODULE_PLP
@@ -187,14 +214,18 @@ CBsnRtk *CBsnCtl::Rtk()
 
 CBsnFmd *CBsnCtl::Fmd()
 {
+#ifdef HUB_MODULE_FMD
     BMD_CLASS_NEW(mFmd, CBsnFmd);
+#endif  // HUB_MODULE_FMD
 
     return mFmd;
 }
 
 CBsnQmt *CBsnCtl::Qmt()
 {
+#ifdef HUB_MODULE_QMT
     BMD_CLASS_NEW(mQmt, CBsnQmt);
+#endif  // HUB_MODULE_QMT
 
     return mQmt;
 }
@@ -217,6 +248,7 @@ UErrCodeT CBsnCtl::InitPointer()
     BMD_POINTER_INIT(mOgr);
     BMD_POINTER_INIT(mGsl);
     BMD_POINTER_INIT(mCut);
+    BMD_POINTER_INIT(mPyc);
     BMD_POINTER_INIT(mUst);
     BMD_POINTER_INIT(mNcc);
     BMD_POINTER_INIT(mRtk);

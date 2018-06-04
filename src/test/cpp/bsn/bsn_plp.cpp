@@ -24,9 +24,11 @@
 
 #include "bsn_plp.hpp"
 
+// hub
+#include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // base
 #include "base_macrodefn.hpp"
-
 // plp
 #include "plp_ctl.hpp"
 #include "plp_argsctl.hpp"
@@ -57,7 +59,15 @@ CBsnPlp::~CBsnPlp()
  */
 UErrCodeT CBsnPlp::Init()
 {
-    BMD_MODULE(mPlp, CPlpCtl, HubMPlp);
+    if (mHub == NULL)
+    {
+        mHub = CHubCtl::Hub();
+        mModule = mHub->RegModule();
+        UStringT tmp = "~/tmp";
+        mModule->SetTmpDir(&tmp);
+        mModule->Register(HubMPlp);
+        mPlp = (CPlpCtl *) mModule->Module(HubMPlp);
+    }
 
     return UErrFalse;
 }

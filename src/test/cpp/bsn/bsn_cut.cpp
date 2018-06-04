@@ -26,6 +26,7 @@
 
 // Hub.
 #include "hub_ctl.hpp"
+#include "hub_modulectl.hpp"
 // Cls.
 #include "cls_ctl.hpp"
 #include "cls_ioctl.hpp"
@@ -65,20 +66,26 @@ CBsnCut::~CBsnCut()
  */
 UErrCodeT CBsnCut::Init()
 {
-    CHubCtl *hubCtl = CHubCtl::Hub();
+    if (mHub == NULL)
+    {
+        mHub = CHubCtl::Hub();
+        mModule = mHub->RegModule();
+        UStringT tmp = "~/tmp";
+        mModule->SetTmpDir(&tmp);
+        mModule->Register(HubMCut);
+        CCutCtl *cutCtl = (CCutCtl *) mModule->Module(HubMCut);
 
-    hubCtl->Register(HubMCut);
-    CCutCtl *cutCtl = (CCutCtl *) hubCtl->Module(HubMCut);
-    mEasys = cutCtl->Easys();
+        mEasys = cutCtl->Easys();
 
-    hubCtl->Register(HubMCls);
-    CClsCtl *clsCtl = (CClsCtl *) hubCtl->Module(HubMCls);
-    CClsIoCtl *ioCtl = clsCtl->Io();
-    mIoCmn = ioCtl->Common();
-    CClsIoStreamCtl *stream = ioCtl->Stream();
-    mFile = stream->File();
+        mModule->Register(HubMCls);
+        CClsCtl *clsCtl = (CClsCtl *) mModule->Module(HubMCls);
+        CClsIoCtl *ioCtl = clsCtl->Io();
+        mIoCmn = ioCtl->Common();
+        CClsIoStreamCtl *stream = ioCtl->Stream();
+        mFile = stream->File();
 
-    kIoCmn = mIoCmn;
+        kIoCmn = mIoCmn;
+    }
 
     return UErrFalse;
 }

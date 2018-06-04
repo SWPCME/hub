@@ -29,6 +29,8 @@
 // pyc
 #include "pyc_objcore.hpp"
 #include "pyc_objimpl.hpp"
+#include "pyc_objint.hpp"
+#include "pyc_objfloat.hpp"
 #include "pyc_objbyte.hpp"
 #include "pyc_objlists.hpp"
 
@@ -47,6 +49,8 @@ CPycObj::~CPycObj()
 {
     BMD_CLASS_DEL(mCore);
     BMD_CLASS_DEL(mImpl);
+    BMD_CLASS_DEL(mInt);
+    BMD_CLASS_DEL(mFloat);
     BMD_CLASS_DEL(mLists);
 }
 
@@ -89,6 +93,26 @@ CPycObjByte *CPycObj::Byte()
 }
 
 /**
+ * \brief Integer (whole number).
+ */
+CPycObjInt *CPycObj::Int()
+{
+    BMD_CLASS_NEW(mInt, CPycObjInt);
+
+    return mInt;
+}
+
+/**
+ * \brief Float point number (rational number).
+ */
+CPycObjFloat *CPycObj::Float()
+{
+    BMD_CLASS_NEW(mFloat, CPycObjFloat);
+
+    return mFloat;
+}
+
+/**
  * \brief List set.
  */
 CPycObjLists *CPycObj::Lists()
@@ -107,6 +131,8 @@ UErrCodeT CPycObj::InitPointer()
 {
     BMD_POINTER_INIT(mCore);
     BMD_POINTER_INIT(mImpl);
+    BMD_POINTER_INIT(mInt);
+    BMD_POINTER_INIT(mFloat);
     BMD_POINTER_INIT(mLists);
 
     return UErrFalse;

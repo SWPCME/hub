@@ -27,7 +27,11 @@
 
 #include "pyc_base.hpp"
 
+// ust
+class UStringT;
+
 // pyc
+class CPycTypeObjList;
 class PycObjT;
 
 class PYC_LIB PycObjListT
@@ -39,9 +43,11 @@ class PYC_LIB PycObjListT
     UErrCodeT Init();
     PycObjListHT Handle();
     UErrCodeT SetHandle(PycObjListHT aListH);
+    UErrCodeT Item(UStringT *aVal, UIntT aId);
 
   protected:
   private:
+    CPycTypeObjList *mList;
     PycObjListHT mListH;
 };
 

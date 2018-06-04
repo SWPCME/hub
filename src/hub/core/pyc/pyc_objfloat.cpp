@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: pyc_typeobj.cpp 2018-04 $
+ * $Id: pyc_objfloat 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc type object implementation.
+ * Purpose:  Pyc object float implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-04 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,53 +22,42 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "pyc_typeobj.hpp"
-
-// pyc
-#include "pyc_objlisttype.hpp"
-
-// PYTHON
-#include "Python.h"
-#include "bytesobject.h"
+#include "pyc_objfloat.hpp"
 
 /**
  * \brief Constructor.
  */
-CPycTypeObj::CPycTypeObj()
+CPycObjFloat::CPycObjFloat()
 {
 }
 
 /**
  * \brief Destructor.
  */
-CPycTypeObj::~CPycTypeObj()
+CPycObjFloat::~CPycObjFloat()
 {
 }
 
 /**
- * \brief Initilize.
+ * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CPycTypeObj::Init()
+UErrCodeT CPycObjFloat::Init()
 {
     return UErrFalse;
 }
 
-/**
- * \brief To list.
- */
-UErrCodeT CPycTypeObj::ToList(PycObjListT *aList, PycObjHT aObjH)
-{
-    return aList->SetHandle(aObjH);
-}
+/***** Private A *****/
 
 /**
- * \brief Get value as string.
+ * \brief InitPointer.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CPycTypeObj::ValAsStr(UStringT *aVal, PycObjHT aObjH)
+UErrCodeT CPycObjFloat::InitPointer()
 {
-    // repr means representation
-    PyObject *objRepr = PyObject_Repr((PyObject *) aObjH);
-    *aVal = PyBytes_AsString(objRepr);
-
     return UErrFalse;
 }
+
+/***** Private B *****/

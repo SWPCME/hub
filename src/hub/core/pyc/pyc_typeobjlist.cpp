@@ -24,6 +24,12 @@
 
 #include "pyc_typeobjlist.hpp"
 
+// pyc
+#include "pyc_objtype.hpp"
+
+// PYTHON
+#include "Python.h"
+
 /**
  * \brief Constructor.
  */
@@ -47,5 +53,13 @@ UErrCodeT CPycTypeObjList::Init()
 }
 
 /**
- * \brief 
+ * \brief Get item.
  */
+UErrCodeT CPycTypeObjList::Item(UStringT *aVal, UIntT aId, PycObjListHT aListH)
+{
+    PyObject *objH = PyList_GetItem((PyObject *) aListH, (Py_ssize_t) aId);
+    PycObjT obj((PycObjHT) objH);
+    obj.ValAsStr(aVal);
+
+    return UErrFalse;
+}

@@ -30,6 +30,8 @@
 class CPycObjCore;
 class CPycObjImpl;
 class CPycObjByte;
+class CPycObjInt;
+class CPycObjFloat;
 class CPycObjLists;
 
 class PYC_LIB CPycObj
@@ -43,6 +45,8 @@ class PYC_LIB CPycObj
     CPycObjCore *Core();
     CPycObjImpl *Impl();
     CPycObjByte *Byte();
+    CPycObjInt *Int();
+    CPycObjFloat *Float();
     CPycObjLists *Lists();
 
   protected:
@@ -52,6 +56,8 @@ class PYC_LIB CPycObj
     CPycObjCore *mCore;
     CPycObjImpl *mImpl;
     CPycObjByte *mByte;
+    CPycObjInt *mInt;
+    CPycObjFloat *mFloat;
     CPycObjLists *mLists;
 };
 

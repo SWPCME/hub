@@ -39,7 +39,9 @@
  */
 PycObjT::PycObjT()
 {
-    mObjH = NULL;
+    Init();
+    PycObjHT objH = NULL;
+    SetHandle(objH);
 }
 
 /**
@@ -47,7 +49,8 @@ PycObjT::PycObjT()
  */
 PycObjT::PycObjT(PycObjHT aObjH)
 {
-    mObjH = aObjH;
+    Init();
+    SetHandle(aObjH);
 }
 
 /**
@@ -55,19 +58,6 @@ PycObjT::PycObjT(PycObjHT aObjH)
  */
 PycObjT::~PycObjT()
 {
-}
-
-/**
- * \brief Initilize.
- */
-UErrCodeT PycObjT::Init()
-{
-    CPycCtl *pyc = NULL;
-    PYC_CTL(pyc);
-    CPycType *type = pyc->Type();
-    mObj = type->Obj();
-
-    return UErrFalse;
 }
 
 /**
@@ -117,3 +107,20 @@ UErrCodeT PycObjT::ValAsStr(UStringT *aVal)
 {
     return mObj->ValAsStr(aVal, Handle());
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Initilize.
+ */
+UErrCodeT PycObjT::Init()
+{
+    CPycCtl *pyc = NULL;
+    PYC_CTL(pyc);
+    CPycType *type = pyc->Type();
+    mObj = type->Obj();
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

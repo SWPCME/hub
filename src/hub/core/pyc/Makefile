@@ -40,3 +40,5 @@ default: create_obj
 clean: clean_obj
 
 install: install_header
+
+amg_gen: prj_amg_gen

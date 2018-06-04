@@ -41,8 +41,6 @@ class PYC_LIB PycObjT
     PycObjT(PycObjHT);
     ~PycObjT();
 
-    UErrCodeT Init();
-
     // handle
     PycObjHT Handle();
     UErrCodeT SetHandle(const PycObjHT aObjH);
@@ -51,6 +49,8 @@ class PYC_LIB PycObjT
 
   protected:
   private:
+    UErrCodeT Init();
+
     PycObjHT mObjH;
     CPycTypeObj *mObj;
 };

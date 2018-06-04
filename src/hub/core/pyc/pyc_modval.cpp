@@ -63,7 +63,7 @@ UErrCodeT CPycModVal::Build(PycObjT *aObj, UStringT *aFrmt, ...)
     const char *frmt = aFrmt->ToA();
     ClsArgListT list;
     cls_arg_start(list, frmt);
-    PycObjHT objH = (PycObjHT) _Py_BuildValue_SizeT(frmt, list);
+    PycObjHT objH = (PycObjHT) Py_VaBuildValue(frmt, list);
     aObj->SetHandle(objH);
     cls_arg_end(list);
 

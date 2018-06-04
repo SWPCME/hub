@@ -25,13 +25,15 @@
 #include "pyc_objlisttype.hpp"
 
 // pyc
-// #include "pyc_objtype.hpp"
+#include "pyc_typeobjlist.hpp"
+#include "pyc_objtype.hpp"
 
 /**
  * \brief Constructor.
  */
 PycObjListT::PycObjListT(PycObjT *aObj)
 {
+    aObj->ToList(this);
 }
 
 /**
@@ -67,13 +69,13 @@ UErrCodeT PycObjListT::SetHandle(PycObjListHT aListH)
     return UErrFalse;
 }
 
-// /**
-//  * \brief Item.
-//  */
-// UErrCodeT PycObjListT::Item()
-// {
-//     return UErrFalse;
-// }
+/**
+ * \brief Get item.
+ */
+UErrCodeT PycObjListT::Item(UStringT *aVal, UIntT aId)
+{
+    return mList->Item(aVal, aId, mListH);
+}
 
 // /**
 //  * \brief Add item.

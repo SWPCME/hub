@@ -43,6 +43,8 @@ C_OBJ = \
         pyc_objcore.o \
         pyc_objimpl.o \
         pyc_objbyte.o \
+        pyc_objint.o \
+        pyc_objfloat.o \
         pyc_objlists.o \
         pyc_objlist.o
 
@@ -59,5 +61,7 @@ C_HEADER = \
            pyc_objcore.hpp \
            pyc_objimpl.hpp \
            pyc_objbyte.hpp \
+           pyc_objint.hpp \
+           pyc_objfloat.hpp \
            pyc_objlists.hpp \
            pyc_objlist.hpp 

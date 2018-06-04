@@ -1,0 +1,15 @@
+/* -*- mode: conf -*- */
+
+autogen definitions pyc_objfloat;
+
+/* base */
+#include pyc.def
+
+/* license */
+file_name = "pyc_objfloat.hpp";
+purpose = "Pyc object float definition.";
+date_begin = "2018-06";
+
+/* cxx */
+file_def = "PYC_OBJFLOAT_HPP_INCLUDED";
+class_name = "CPycObjFloat";

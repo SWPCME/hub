@@ -134,6 +134,20 @@ UIntT UStringT::Len()
 /**
  * \brief Add new string.
  *
+ * @param aStr String that to add in original string.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT UStringT::Add(const UStringT *aStr)
+{
+    mStr->MCat(&mChar, aStr->ToA());
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Add new string.
+ *
  * @param aStr String of "char" that to add in original string.
  *
  * @return UErrFalse, if successful; UErrTrue, if failed.

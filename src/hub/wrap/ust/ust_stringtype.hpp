@@ -53,6 +53,7 @@ class UST_LIB UStringT
     UIntT Len();
 
     // UErrCodeT Add(UIntT aNum, ...);
+    UErrCodeT Add(const UStringT *aStr);
     UErrCodeT Add(const char *aStr);
     UErrCodeT Add(const wchar_t *aStr);
     UErrCodeT Del(const char *aStr);

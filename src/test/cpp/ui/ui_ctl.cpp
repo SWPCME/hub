@@ -121,8 +121,8 @@ UErrCodeT CUiCtl::TestAll()
 
 UErrCodeT CUiCtl::Test()
 {
-    // CBsnGda *gda = mBsn->Gda();
-    // gda->Test();
+    CBsnGda *gda = mBsn->Gda();
+    gda->Test();
 
     // CBsnRst *rst = mBsn->Rst();
     // rst->Test();
@@ -142,8 +142,8 @@ UErrCodeT CUiCtl::Test()
     // CBsnPlp *plp = mBsn->Plp();
     // plp->Test();
 
-    CBsnPyc *pyc = mBsn->Pyc();
-    pyc->Test();
+    // CBsnPyc *pyc = mBsn->Pyc();
+    // pyc->Test();
 
     return UErrFalse;
 }

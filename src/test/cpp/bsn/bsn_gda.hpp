@@ -46,6 +46,7 @@ class CGdaDriverCtl;
 class CGdaDatasetCtl;
 class CGdaBandCtl;
 class CGdaAlgCtl;
+class CGdaWarpCtl;
 class CGdaUtilsCtl;
 // ogr
 class COgrCtl;
@@ -68,6 +69,8 @@ class BSN_LIB CBsnGda
     UErrCodeT CoreLoad();
     UErrCodeT CoreWrite();
     UErrCodeT CoreDataset();
+    UErrCodeT DsPosToId(BMathCsC2dT *aId, const BMathCsC2dT *aPos,
+                        CGdaDatasetCtl *aDs);
     UErrCodeT CoreBand();
 
     // ogr
@@ -77,10 +80,16 @@ class BSN_LIB CBsnGda
     // alg
     UErrCodeT TestAlg();
 
+    // warp
+    UErrCodeT TestWarp();
+    UErrCodeT WarpReproj();
+
     // utils
     UErrCodeT TestUtils();
     UErrCodeT VtrToVtr();
-    UErrCodeT RstToRst();
+    UErrCodeT UtilsR2R();
+    UErrCodeT R2RTrFrmt(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst);
+    UErrCodeT R2RTrSrcWin(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst);
     UErrCodeT Dem();
     UErrCodeT MergeRst();
 
@@ -105,9 +114,13 @@ class BSN_LIB CBsnGda
     CGdaCtl *mGda;
     CGdaDriversCtl *mDrivers;
     CGdaAlgCtl *mAlg;
+    CGdaWarpCtl *mWarp;
     CGdaUtilsCtl *mUtils;
     // ogr
     COgrCtl *mOgr;
+
+    // variable
+    UStringT mDataPath;
 };
 
 #endif  // BSN_GDA_HPP_INCLUDED

@@ -42,6 +42,9 @@
 #include "gda_banddatatype.hpp"
 #include "gda_algctl.hpp"
 #include "gda_algrasterizer.hpp"
+#include "gda_warpctl.hpp"
+#include "gda_warpreproj.hpp"
+#include "gda_warpreprojimagetype.hpp"
 #include "gda_utilsctl.hpp"
 #include "gda_utilstr.hpp"
 #include "gda_trvtr.hpp"
@@ -72,11 +75,14 @@ CBsnGda::CBsnGda()
     mDrivers = coreCtl->Drivers();
     mDrivers->RegisterAll();
     mAlg = mGda->Alg();
+    mWarp = mGda->Warp();
     mUtils = mGda->Utils();
 
     mModule->Register(HubMOgr);
     mOgr = (COgrCtl *) mModule->Module(HubMOgr);
     mOgr->RegisterAll();
+
+    mDataPath = "../../../../data/core/gda";
 }
 
 CBsnGda::~CBsnGda()
@@ -91,9 +97,10 @@ UErrCodeT CBsnGda::Init()
 
 UErrCodeT CBsnGda::Test()
 {
-    TestCore();
+    // TestCore();
     // TestOgr();
-    // TestUtils();
+    // TestWarp();
+    TestUtils();
 
     return UErrFalse;
 }
@@ -233,6 +240,29 @@ UErrCodeT CBsnGda::CoreDataset()
     return UErrFalse;
 }
 
+UErrCodeT CBsnGda::DsPosToId(BMathCsC2dT *aId, const BMathCsC2dT *aPos,
+                             CGdaDatasetCtl *aDs)
+{
+    GdaOgrSrsT srsSrc;
+    srsSrc.SetProjCs(GdaProjCsWgs1984);
+    GdaOgrSrsT srsDst;
+    srsDst.SetProjCs(GdaProjCsXian1980);
+
+    GdaOgrCtrT ctr(&srsSrc, &srsDst);
+    BMathCsC2dT pos;
+    ctr.Tr(&pos, aPos);
+
+    UErrCodeT err = aDs->PosToId(aId, &pos);
+
+    if (err == UErrTrue)
+    {
+        return err;
+    }
+
+    return err;
+}
+
+
 UErrCodeT CBsnGda::CoreBand()
 {
     const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
@@ -250,28 +280,12 @@ UErrCodeT CBsnGda::CoreBand()
     bandCtl->BlockSize(&nXBlockS, &nYBlockS);
     mIoCmn->PrintF("nXBandS = %d, nYBandS = %d\n", nXBlockS, nYBlockS);
 
-    GdaOgrSrsT srsSrc;
-    srsSrc.SetProjCs(GdaProjCsWgs1984);
-    UStringT wktSrc;
-    srsSrc.ExportToWkt(&wktSrc);
-    GdaOgrSrsT srsDst;
-    srsDst.SetProjCs(GdaProjCsXian1980);
-    UStringT wktDst;
-    srsDst.ExportToWkt(&wktDst);
-    GdaOgrCtrT ctr(&srsSrc, &srsDst);
-    BMathCsC2dT ptSrc(113.501129, 23.166046);
-    BMathCsC2dT ptDst;
-    ctr.Tr(&ptDst, &ptSrc);
-    BMathCsC2dT srcPos(ptDst.X(), ptDst.Y());
-    BMathCsC2dT dstId;
-    UErrCodeT err = datasetCtl->PosToId(&dstId, &srcPos);
-    if (err == UErrTrue)
-    {
-        return err;
-    }
+    BMathCsC2dT pos(113.501129, 23.166046);
+    BMathCsC2dT id;
+    DsPosToId(&id ,&pos, datasetCtl);
 
     UDataTCodeT dataT = bandCtl->DataT();
-    GdaBandDataT bandData(dataT, &dstId);
+    GdaBandDataT bandData(dataT, &id);
     bandCtl->Read(&bandData);
     UDataT data;
     bandData.Data(&data);
@@ -329,12 +343,60 @@ UErrCodeT CBsnGda::TestAlg()
     return UErrFalse;
 }
 
+/**
+ * \brief Warp.
+ */
+UErrCodeT CBsnGda::TestWarp()
+{
+    WarpReproj();
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Warp reproject.
+ */
+UErrCodeT CBsnGda::WarpReproj()
+{
+    // prepare source data.
+    UStringT warpPath = mDataPath;
+    warpPath += "/warp";
+    UStringT src = warpPath;
+    src += "/dem1.tif";
+    UStringT dst = warpPath;
+    dst += "/dem1_reproj.tif";
+
+    // open source data
+    GdaFormatCodeT frmt = GdaFormatTif;
+    mDrivers->Register(frmt);
+    CGdaDriverCtl *drTif = mDrivers->Driver(frmt);
+    UAccessCodeT access = UAccessRead;
+    CGdaDatasetCtl *srcDs = drTif->Load(&src, access);
+
+    // spatial reference system
+    GdaOgrSrsT *srcSrs = srcDs->Srs();
+    GdaOgrSrsT dstSrs;
+    GdaProjCsCodeT dstCs = GdaProjCsWgs1984;
+    dstSrs.SetProjCs(dstCs);
+
+    // reproject image
+    GdaWarpReprojImageT reprojImage;
+    reprojImage.SetAll(&dstSrs, srcSrs, drTif);
+    CGdaWarpReproj *reproj = mWarp->Reproj();
+    reproj->ToImage(&dst, srcDs, &reprojImage);
+
+    // close source data
+    drTif->Close(&src);
+
+    return UErrFalse;
+}
+
 UErrCodeT CBsnGda::TestUtils()
 {
     // VtrToVtr();
     // VtrToRstEasy();
     // VtrToRstComplex();
-    // RstToRst();
+    UtilsR2R();
     // Dem();
     // MergeRst();
 
@@ -370,18 +432,19 @@ UErrCodeT CBsnGda::VtrToVtr()
     return UErrFalse;
 }
 
-UErrCodeT CBsnGda::RstToRst()
+UErrCodeT CBsnGda::UtilsR2R()
 {
-    CGdaUtilsTr *tr = mUtils->Tr();
-    CGdaTrRst *rst = tr->Rst();
+    // Prepare data of source and output file.
+    UStringT trPath = mDataPath;
+    trPath += "/tr";
+    UStringT rstSrc = trPath;
+    rstSrc += "/dem1.tif";
+    UStringT rstDst1 = trPath;
+    rstDst1 += "/dem1_asc.asc";
+    UStringT rstDst2 = trPath;
+    rstDst2 += "/dem1_srcwin.tif";
 
-    GdaTrRstToRstT opt;
-    GdaFormatCodeT frmt = GdaFormatAsc;
-    BCtnStringT optV(UContainerList);
-    optV.Add("-b 1");
-    opt.SetAll(frmt, &optV);
-
-    UStringT rstSrc = "../../data/core/gda/tr/forest.tif";
+    // Open data of source.
     GdaFormatCodeT frmtSrc = GdaFormatTif;
     CGdaCoreCtl *gdaCore = mGda->Core();
     CGdaDriversCtl *drs = gdaCore->Drivers();
@@ -389,11 +452,67 @@ UErrCodeT CBsnGda::RstToRst()
     CGdaDriverCtl *drSrc = drs->Driver(frmtSrc);
     CGdaDatasetCtl *dsSrc = drSrc->Load(&rstSrc);
 
-    UStringT rstDst = "../../data/core/gda/tr/forest_asc.asc";
+    // Option 1: Translate format.
+    // R2RTrFrmt(dsSrc, &rstDst1);
 
-    rst->ToRst(&rstDst, dsSrc, &opt);
+    // Option 2: Split with subwindow.
+    R2RTrSrcWin(dsSrc, &rstDst2);
 
-    drSrc->Close(&rstDst);
+    // Close data of source.
+    drSrc->Close(&rstSrc);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::R2RTrFrmt(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst)
+{
+    CGdaUtilsTr *tr = mUtils->Tr();
+    CGdaTrRst *rst = tr->Rst();
+
+    GdaTrRstToRstT opt;
+    GdaFormatCodeT frmt = GdaFormatAsc;
+    opt.SetFrmt(frmt);
+
+    BCtnIntT bandNumS(UContainerList);
+    bandNumS.Add(1);
+    opt.SetBand(&bandNumS);
+
+    rst->ToRst(aRstDst, aDsSrc, &opt);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::R2RTrSrcWin(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst)
+{
+    CGdaUtilsTr *tr = mUtils->Tr();
+    CGdaTrRst *rst = tr->Rst();
+
+    // set destination format
+    GdaTrRstToRstT opt;
+    GdaFormatCodeT frmt = GdaFormatTif;
+    opt.SetFrmt(frmt);
+
+    // set band number
+    BCtnIntT bandNumS(UContainerList);
+    bandNumS.Add(1);
+    opt.SetBand(&bandNumS);
+
+    // ul: up left.
+    BMathCsC2dT ulPos(113.511129, 23.443046);
+    BMathCsC2dT ulId;
+    DsPosToId(&ulId ,&ulPos, aDsSrc);
+
+    // lr: low right.
+    BMathCsC2dT lrPos(113.521129, 23.428046);
+    BMathCsC2dT lrId;
+    DsPosToId(&lrId, &lrPos, aDsSrc);
+
+    // set source subwindow
+    BMathCsC2dT off(ulId.X(), ulId.Y());
+    BMathCsC2dT size(lrId.X() - ulId.X(), lrId.Y() - ulId.Y());
+    opt.SetSrcWin(&off, &size);
+
+    rst->ToRst(aRstDst, aDsSrc, &opt);
 
     return UErrFalse;
 }

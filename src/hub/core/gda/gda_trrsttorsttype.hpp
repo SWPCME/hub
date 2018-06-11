@@ -47,9 +47,10 @@ class GDA_LIB GdaTrRstToRstT
     UErrCodeT SetOpt(const BCtnStringT *aOpt);
     UErrCodeT SetFrmt(const GdaFormatCodeT aFrmt);
     UErrCodeT SetSrs(const GdaOgrSrsT *aSrs);
+    UErrCodeT SetSrcWin(const BMathCsC2dT *aOff, const BMathCsC2dT *aSize);
+    UErrCodeT SetBand(const BCtnIntT *aNumS);
 
     // Get.
-    GdaFrmtFlagCodeT FrmtFlag() const;
     GdaFormatCodeT Frmt() const;
     GdaOgrSrsT *Srs() const;
     GdaTrRstProcHT Handle() const;

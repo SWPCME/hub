@@ -26,6 +26,7 @@
 
 // base
 #include "base_ctl.hpp"
+#include "base_stringdefn.hpp"
 // core
 #include "core_ctl.hpp"
 // gda
@@ -118,6 +119,52 @@ UErrCodeT GdaTrRstToRstT::SetSrs(const GdaOgrSrsT *aSrs)
 {
     BMD_CLASS_NEW(mSrs, GdaOgrSrsT);
     *mSrs = *aSrs;
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Set subwindow for source. 
+ *
+ * Selects a subwindow from the source image for copying based on pixel/line
+ * location.
+ */
+UErrCodeT GdaTrRstToRstT::SetSrcWin(const BMathCsC2dT *aOff,
+                                    const BMathCsC2dT *aSize)
+{
+    mState = UStateOn;
+
+    UStringT srcWin("-srcwin");
+    mLOpt.Add(srcWin);
+
+    UStringT offX(aOff->X());
+    mLOpt.Add(offX);
+    UStringT offY(aOff->Y());
+    mLOpt.Add(offY);
+
+    UStringT sizeX(aSize->X());
+    mLOpt.Add(sizeX);
+    UStringT sizeY(aSize->Y());
+    mLOpt.Add(sizeY);
+    
+    return UErrFalse;
+}
+
+/**
+ * \brief Set number of band.
+ */
+UErrCodeT GdaTrRstToRstT::SetBand(const BCtnIntT *aNumS)
+{
+    mState = UStateOn;
+
+    UStringT band("-b");
+    BItIntT *it = aNumS->Iterator();
+    for (it->Head(); it->State() == UErrFalse; it->Next())
+    {
+        UStringT num = it->Content();
+        mLOpt.Add(band);
+        mLOpt.Add(num);
+    }
 
     return UErrFalse;
 }

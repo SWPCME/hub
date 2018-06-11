@@ -30,6 +30,10 @@
 #include "gda/gda_driverctl.hpp"
 #include "gda/gda_datasetctl.hpp"
 #include "gda/gda_bandctl.hpp"
+#include "gda/gda_utilsctl.hpp"
+#include "gda/gda_utilstr.hpp"
+#include "gda/gda_trrst.hpp"
+#include "gda/gda_trrsttorsttype.hpp"
 #include "gda/gda_ogrsrstype.hpp"
 #include "gda/gda_ogrctrtype.hpp"
 %}
@@ -214,6 +218,63 @@ class GdaBandDataT
     UDataHT Handle();
 
     UErrCodeT Data(UDataT *aData, const BMathCsC2dT *aId = NULL);
+};
+
+class CGdaUtilsCtl
+{
+  public:
+    CGdaUtilsCtl();
+    ~CGdaUtilsCtl();
+
+    UErrCodeT Init();
+    CGdaUtilsInfo *Info();
+    CGdaUtilsTr *Tr();
+    CGdaUtilsDem *Dem();
+};
+
+class CGdaUtilsTr
+{
+  public:
+    CGdaUtilsTr();
+    ~CGdaUtilsTr();
+
+    UErrCodeT Init();
+    CGdaTrVtr *Vtr();
+    CGdaTrRst *Rst();
+};
+
+class CGdaTrRst
+{
+  public:
+    CGdaTrRst();
+    ~CGdaTrRst();
+
+    UErrCodeT Init();
+    CGdaTrRstProcCtl *ProcCtl();
+
+    UErrCodeT ToRst(const UStringT *aDst, CGdaDatasetCtl *aSrc,
+                    const GdaTrRstToRstT *aOpt);
+};
+
+class GdaTrRstToRstT
+{
+  public:
+    GdaTrRstToRstT();
+    GdaTrRstToRstT(const GdaFormatCodeT aFrmt, const BCtnStringT *aOpt);
+    ~GdaTrRstToRstT();
+
+    // Set.
+    UErrCodeT SetAll(const GdaFormatCodeT aFrmt, const BCtnStringT *aOpt);
+    UErrCodeT SetOpt(const BCtnStringT *aOpt);
+    UErrCodeT SetFrmt(const GdaFormatCodeT aFrmt);
+    UErrCodeT SetSrs(const GdaOgrSrsT *aSrs);
+    UErrCodeT SetSrcWin(const BMathCsC2dT *aOff, const BMathCsC2dT *aSize);
+    UErrCodeT SetBand(const BCtnIntT *aNumS);
+
+    // Get.
+    GdaFormatCodeT Frmt() const;
+    GdaOgrSrsT *Srs() const;
+    GdaTrRstProcHT Handle() const;
 };
 
 class GdaOgrSrsT

@@ -24,8 +24,22 @@
 
 %module "WHubBase"
 %{
+#include "base_containerdefn.hpp"
 #include "base_mathtype.hpp"
 %}
+
+/** 
+ * \brief base_containerdefn
+ */
+
+typedef UContainerT<UIntT> BCtnIntT;
+typedef UIteratorT<UIntT> BItIntT;
+typedef UContainerT<UStringT> BCtnStringT;
+typedef UIteratorT<UStringT> BItStringT;
+
+/**
+ * \brief base_mathtype
+ */
 
 class BMathCsC2dT
 {

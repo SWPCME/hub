@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: whub_ogrctl.i 2017-09 $
+ * $Id: whub_ogrctl.i 2018-06 $
  *
  * Project:  whub (Wrap hub).
  * Purpose:  Api for ust.
@@ -29,6 +29,7 @@
 // ust
 #include "ust/ust_stringtype.hpp"
 #include "ust/ust_containertype.hpp"
+#include "ust/ust_iteratortype.hpp"
 #include "ust/ust_datatype.hpp"
 %}
 
@@ -62,9 +63,12 @@ class UStringT
 {
  public:
     UStringT();
+    UStringT(const UStringT *aStr);
     UStringT(const char *aStr);
     ~UStringT();
 
+    UErrCodeT Add(const UStringT *aStr);
+    UErrCodeT Add(const char *aStr);
     const char *ToA() const;
     UErrCodeT ToConsole();
 };
@@ -101,6 +105,28 @@ class UContainerT
     /* const KeyT Key(const ContentT &aContent); */
 };
 
+template <typename ContentT, typename KeyT = UIntT>
+class UIteratorT
+{
+  public:
+    UIteratorT();
+    ~UIteratorT();
+
+    UErrCodeT Init(CUstContainerCtl<ContentT, KeyT> *aCtn);
+    UErrCodeT Head(const USequenceCodeT aCode = USequenceOrder);
+    UErrCodeT Goto(const KeyT *aKey);
+    UErrCodeT Goto(const KeyT &aKey);
+    UErrCodeT Next();
+    UErrCodeT State();
+    ContentT Content();
+    KeyT Key();
+    UErrCodeT Add(const ContentT &aContent, const KeyT &aKey);
+
+  protected:
+  private:
+    CUstContainerCtl<ContentT, KeyT> *mCtn;
+};
+
 class UDataT
 {
   public:
@@ -116,17 +142,17 @@ class UDataT
 
 /**
  * \brief Template.
- * typedef must be pair in "'%{' with '%}'" and out of "'%{' with '%}'".
+ * The "typedef" must be before the "UContainerT" and "UIteratorT".
  */
+/**
+ * \brief UContainerT for base.
+ */
+%template(BCtnIntT) UContainerT<UIntT>;
+%template(BItIntT) UIteratorT<UIntT>;
+%template(BCtnStringT) UContainerT<UStringT>;
+%template(BItStringT) UIteratorT<UStringT>;
 /**
  * \brief UContainerT for fmd.
  */
-%{
-#include "fmd/fmd_cfgwrite.hpp"
-typedef UContainerT<FmdCfgWeatherT> FmdCfgWeatherCtnT;
-typedef UContainerT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureCtnT;
-%}
-typedef UContainerT<FmdCfgWeatherT> FmdCfgWeatherCtnT;
-typedef UContainerT<FmdCfgFuelMoistureT> FmdCfgFuelMoistureCtnT;
 %template(FmdCfgWeatherCtnT) UContainerT<FmdCfgWeatherT>;
 %template(FmdCfgFuelMoistureCtnT) UContainerT<FmdCfgFuelMoistureT>;

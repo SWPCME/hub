@@ -32,10 +32,10 @@
 // for example, to process "whub_ustctl.i" must be after "whub_fmdctl.i".
 %include "whub_base.i"
 %include "whub_fmdctl.i"
-%include "whub_ustctl.i"
 %include "whub_gdactl.i"
 %include "whub_ogrctl.i"
 %include "whub_rstctl.i"
+%include "whub_ustctl.i"
 
 %pragma(java) jniclasscode=%{
      private static boolean available = false;

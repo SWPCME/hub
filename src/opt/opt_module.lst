@@ -41,6 +41,21 @@ HUB_MODULE_CTGY = \
                   fmd \
                   qmt
 
+ifeq ($(TARGET_OS), x86_64-w64-mingw32)
+HUB_MODULE_CORE = \
+                  cls \
+                  ccs \
+                  sys \
+                  gda \
+                  ogr
+HUB_MODULE_WRAP = \
+                  ust \
+                  rst \
+                  vtr
+HUB_MODULE_CTGY = \
+                  fmd
+endif
+
 OPT_MODULE = \
              $(HUB_MODULE_CORE) \
              $(HUB_MODULE_WRAP) \

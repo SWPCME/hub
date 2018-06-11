@@ -44,7 +44,6 @@ C_HEADER = \
 C_CXX_LIB_NAME = hub
 C_CXX_LIB_FLAG_SO = yes
 C_CXX_LIB_FLAG_A = no
-# C_CXX_LIB_SO_EXTRA = gdal gsl gslcblas curl plplot firemod erfa
 C_CXX_LIB_SO_EXTRA = gdal plplot gsl gslcblas curl firemod pyqmt python3.5m
 ifeq ($(TARGET_OS), x86_64-w64-mingw32)
 C_CXX_LIB_SO_EXTRA = gdal-20 firemod

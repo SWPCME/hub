@@ -24,12 +24,14 @@
 
 # JAVA
 JAVA_JDK_DIR = /opt/icedtea-bin-3.6.0
-# JAVA_JDK_DIR = $(HOME_DIR)/me/windows/bin/Java/jdk1.7.0_80
 JAVA_OS = linux
-# JAVA_OS = win32
+ifeq ($(TARGET_OS), x86_64-w64-mingw32)
+JAVA_JDK_DIR = $(HOME_DIR)/me/windows/bin/Java/jdk1.7.0_80
+JAVA_OS = win32
+endif
 JAVA_CODE_EXT = java
 JAVA_OBJ_EXT = class
 JAVA_NAME = TestCtl
-JAVA_OBJ_DIR = $(BUILD_DIR)/$(TARGET_OS)/java
-JAVA_OUT_DIR = $(INSTALL_DIR)/$(TARGET_OS)/bin
+JAVA_OBJ_DIR = $(PRJ_BUILD_DIR)/java
+JAVA_OUT_DIR = $(PRJ_INSTALL_DIR)/bin
 JAVA_JAR = $(JAVA_OUT_DIR)/whub.jar

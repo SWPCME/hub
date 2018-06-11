@@ -29,6 +29,8 @@ public class TestGda
 {
     private CGdaCtl mGda;
     private CGdaDriversCtl mDrivers;
+    private CGdaUtilsCtl mUtils;
+    private UStringT mDataPath;
 
     public static void main(String[] aArg)
     {
@@ -46,12 +48,19 @@ public class TestGda
         CGdaCoreCtl core = mGda.Core();
         mDrivers = core.Drivers();
         mDrivers.RegisterAll();
+        mUtils = mGda.Utils();
+
+        // Init variable.
+        mDataPath = new UStringT("../../../../data/core/gda");
 
         // Test core module.
         TestCore();
 
         // Test ogr module.
         TestOgr();
+
+        // Test utils module.
+        TestUtils();
 
         // Deregister module.
         hubCtl.DeregModule(module);
@@ -66,10 +75,33 @@ public class TestGda
         return UErrCodeT.UErrFalse;
     }
 
+    public UErrCodeT DsPosToId(BMathCsC2dT aId, BMathCsC2dT aPos,
+                               CGdaDatasetCtl aDs)
+    {
+        GdaOgrSrsT srsSrc = new GdaOgrSrsT();
+        srsSrc.SetProjCs(GdaProjCsCodeT.GdaProjCsWgs1984);
+        GdaOgrSrsT srsDst = new GdaOgrSrsT();
+        srsDst.SetProjCs(GdaProjCsCodeT.GdaProjCsXian1980);
+
+        GdaOgrCtrT ctr = new GdaOgrCtrT(srsSrc, srsDst);
+        BMathCsC2dT pos = new BMathCsC2dT();
+        ctr.Tr(pos, aPos);
+
+        UErrCodeT err = aDs.PosToId(aId, pos);
+
+        if (err == UErrCodeT.UErrTrue)
+        {
+            return err;
+        }
+
+        return err;
+    }
+
     public UErrCodeT CoreBand()
     {
         // Load band.
-        UStringT file = new UStringT("../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp");
+        UStringT file = new UStringT(mDataPath);
+        file.Add("/../../ctgy/fmd/baiyun_m/baiyun_m.lcp");
         CGdaDatasetCtl datasetCtl = LoadDataset(file, UAccessCodeT.UAccessRead, GdaFormatCodeT.GdaFormatLcp);
         CGdaBandCtl bandCtl = datasetCtl.Band(1);
 
@@ -129,6 +161,76 @@ public class TestGda
         BMathCsC2dT ptSrc = new BMathCsC2dT(113.2498169, 23.3335876);
         BMathCsC2dT ptDst = new BMathCsC2dT();;
         ctr.Tr(ptDst, ptSrc);
+
+        return UErrCodeT.UErrFalse;
+    }
+
+    public UErrCodeT TestUtils()
+    {
+        UtilsR2R();
+
+        return UErrCodeT.UErrFalse;
+    }
+
+    public UErrCodeT UtilsR2R()
+    {
+        // Prepare data of source and output file.
+        UStringT trPath = new UStringT(mDataPath);
+        trPath.Add("/tr");
+        UStringT rstSrc = new UStringT(trPath);
+        rstSrc.Add("/dem1.tif");
+        UStringT rstDst = new UStringT(trPath);
+        rstDst.Add("/dem1_srcwin.tif");
+
+        // Open data of source.
+        GdaFormatCodeT frmtSrc = GdaFormatCodeT.GdaFormatTif;
+        CGdaCoreCtl gdaCore = mGda.Core();
+        CGdaDriversCtl drs = gdaCore.Drivers();
+        drs.Register(frmtSrc);
+        CGdaDriverCtl drSrc = drs.Driver(frmtSrc);
+        UAccessCodeT access = UAccessCodeT.UAccessRead;
+        CGdaDatasetCtl dsSrc = drSrc.Load(rstSrc, access);
+
+        // Split with subwindow.
+        R2RTrSrcWin(dsSrc, rstDst);
+
+        // Close data of source.
+        drSrc.Close(rstSrc);
+
+        return UErrCodeT.UErrFalse;
+    }
+
+    UErrCodeT R2RTrSrcWin(CGdaDatasetCtl aDsSrc, UStringT aRstDst)
+    {
+        CGdaUtilsTr tr = mUtils.Tr();
+        CGdaTrRst rst = tr.Rst();
+
+        // set destination format
+        GdaTrRstToRstT opt = new GdaTrRstToRstT();
+        GdaFormatCodeT frmt = GdaFormatCodeT.GdaFormatTif;
+        opt.SetFrmt(frmt);
+
+        // set band number
+        BCtnIntT bandNumS = new BCtnIntT(UContainerCodeT.UContainerList);
+        bandNumS.Add(1);
+        opt.SetBand(bandNumS);
+
+        // ul: up left.
+        BMathCsC2dT ulPos = new BMathCsC2dT(113.511129, 23.443046);
+        BMathCsC2dT ulId = new BMathCsC2dT();
+        DsPosToId(ulId, ulPos, aDsSrc);
+
+        // lr: low right.
+        BMathCsC2dT lrPos = new BMathCsC2dT(113.521129, 23.428046);
+        BMathCsC2dT lrId = new BMathCsC2dT();
+        DsPosToId(lrId, lrPos, aDsSrc);
+
+        // set source subwindow
+        BMathCsC2dT off = new BMathCsC2dT(ulId.X(), ulId.Y());
+        BMathCsC2dT size = new BMathCsC2dT(lrId.X() - ulId.X(), lrId.Y() - ulId.Y());
+        opt.SetSrcWin(off, size);
+
+        rst.ToRst(aRstDst, aDsSrc, opt);
 
         return UErrCodeT.UErrFalse;
     }

@@ -1,0 +1,55 @@
+# -*- mode: makefile -*-
+################################################################################
+# $Id: file.lst 2018-07 $
+#
+# Project:  cls
+# Purpose:  File list for main of amg.
+# Author:   Weiwei Huang, 898687324@qq.com
+#
+################################################################################
+# Copyright (c) 2018-07 ~ 2018 Weiwei Huang
+#
+# This program is free software; you can redistribute it and/or modify it under 
+# the terms of the GNU General Public License as published by the Free Software 
+# Foundation, either version 3 of the License, or (at your option) any later 
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more 
+# details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+AMG_SUB_LAYER = hub/core
+AMG_SUB_NAME = cls
+AMG_NAME = stringsrch
+# AMG_TYPE: c, h
+AMG_TYPE = c
+# AMG_STATE: def, gen
+AMG_STATE = gen
+
+AMG_TPL_DIR = $(SRC_DIR)/amg/std/cxx
+
+ifeq ($(AMG_NAME), base)
+AMG_DEFN_DIR = $(SRC_DIR)/amg/std/cxx
+AMG_OUT_DIR = .
+AMG_OUT = $(AMG_SUB_NAME)_$(AMG_NAME).def
+AMG_TPL = cxx_$(AMG_NAME)def.tpl
+AMG_DEFN = cxx_$(AMG_NAME).def
+else
+AMG_DEFN_DIR = .
+ifeq ($(AMG_STATE), def)
+AMG_OUT_DIR = .
+AMG_OUT = $(AMG_SUB_NAME)_$(AMG_NAME)$(AMG_TYPE)xx.def
+AMG_TPL = cxx_ctl$(AMG_TYPE)xxdef.tpl
+AMG_DEFN = $(AMG_SUB_NAME)_base.def
+else
+AMG_OUT_DIR = $(SRC_DIR)/$(AMG_SUB_LAYER)/$(AMG_SUB_NAME)
+AMG_OUT = $(AMG_SUB_NAME)_$(AMG_NAME).$(AMG_TYPE)pp
+AMG_TPL = cxx_ctl$(AMG_TYPE)xxtpl.tpl
+AMG_DEFN = $(AMG_SUB_NAME)_$(AMG_NAME)$(AMG_TYPE)xx.def
+endif  # AMG_STATE
+endif  # AMG_NAME

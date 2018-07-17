@@ -31,4 +31,4 @@ OUTPUT_DIRECTORY = $(PRJ_DOC_API_OUT_DIR)
 # Chinese, Chinese-Traditional, English
 OUTPUT_LAGUAGE = English
 
-EXAMPLE_PATH = ../../test/cpp/bsn ../../test/java
+EXAMPLE_PATH = ../../test/cpp/bsn ../../test/java ./core/gda

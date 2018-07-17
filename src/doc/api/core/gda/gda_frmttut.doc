@@ -25,7 +25,7 @@
 /**
 \page gda_frmttut GDA Format Tutorial
 
-FARSITE v.4 Landscape File:
+\section FARSITE v.4 Landscape File
 
 An LCP file (.lcp) is basically a raw format with a 7,316-byte header
 described below. The data type for all bands is 16-bit signed integer. Bands
@@ -48,5 +48,10 @@ Optional:
 1. crown fuel bands, contain 3 bands: B6, anopy height; B7, canopy base height; B8, canopy bulk density);
 
 2. surface fuel bands, contain 2 bands: B9, duff; B10, coarse woody debris)
+
+\section GeoJSON
+Example for polygon with coordinates reference system.
+
+\include gda_exfrmtgeojson.geojson
 
 */

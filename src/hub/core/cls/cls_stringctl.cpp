@@ -36,6 +36,7 @@
 // #include "cls_stringcollation.hpp"
 // #include "cls_stringlength.hpp"
 #include "cls_stringtoken.hpp"
+#include "cls_stringsrch.hpp"
 // #include "cls_stringcopy.hpp"
 
 /**
@@ -44,6 +45,7 @@
 CClsStringCtl::CClsStringCtl()
 {
     BMD_POINTER_INIT(mToken);
+    BMD_POINTER_INIT(mSrch);
 }
 
 /**
@@ -52,6 +54,7 @@ CClsStringCtl::CClsStringCtl()
 CClsStringCtl::~CClsStringCtl()
 {
     BMD_CLASS_DEL(mToken);
+    BMD_CLASS_DEL(mSrch);
 }
 
 /**
@@ -81,6 +84,16 @@ CClsStringToken *CClsStringCtl::Token()
     BMD_CLASS_NEW(mToken, CClsStringToken);
 
     return mToken;
+}
+
+/**
+ * \brief Search sting on strings.
+ */
+CClsStringSrch *CClsStringCtl::Srch()
+{
+    BMD_CLASS_NEW(mSrch, CClsStringSrch);
+
+    return mSrch;
 }
 
 /**

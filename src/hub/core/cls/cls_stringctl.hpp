@@ -35,6 +35,7 @@
 
 // cls
 class CClsStringToken;
+class CClsStringSrch;
 
 class CLS_LIB CClsStringCtl
 {
@@ -47,6 +48,7 @@ class CLS_LIB CClsStringCtl
 
     // Controler.
     CClsStringToken *Token();
+    CClsStringSrch *Srch();
 
     /* Length of string */
     UIntT Len(const char* aStr);
@@ -71,6 +73,7 @@ class CLS_LIB CClsStringCtl
  protected:
  private:
     CClsStringToken *mToken;
+    CClsStringSrch *mSrch;
 };
 
 #endif  /* CLS_STRINGCTL_HPP_INCLUDED */

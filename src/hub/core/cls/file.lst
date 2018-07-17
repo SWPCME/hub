@@ -31,6 +31,7 @@ C_OBJ = \
       cls_typectl.o \
       cls_stringctl.o \
       cls_stringtoken.o \
+      cls_stringsrch.o \
       cls_memoryctl.o \
       cls_fsctl.o \
       cls_fsattr.o \
@@ -64,6 +65,7 @@ C_HEADER = \
          cls_ctl.hpp \
          cls_stringctl.hpp \
          cls_stringtoken.hpp \
+         cls_stringsrch.hpp \
          cls_memoryctl.hpp \
          cls_fsctl.hpp \
          cls_fsattr.hpp \

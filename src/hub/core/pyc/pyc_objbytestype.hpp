@@ -1,12 +1,13 @@
+/* -*- mode: c++ -*- */
 /******************************************************************************
- * $Id: pyc_obj.hpp 2018-03 $
+ * $Id: pyc_objbytestype.hpp 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc object definition.
+ * Purpose:  Pyc object bytes type definitions.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-03 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -20,45 +21,27 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+ *****************************************************************************/
 
-#ifndef PYC_OBJ_HPP_INCLUDED
-#define PYC_OBJ_HPP_INCLUDED
+#ifndef PYC_OBJBYTESTYPE_HPP_INCLUDED
+#define PYC_OBJBYTESTYPE_HPP_INCLUDED
 
 #include "pyc_base.hpp"
 
-class CPycObjCore;
-class CPycObjImpl;
-class CPycObjBytes;
-class CPycObjInt;
-class CPycObjFloat;
-class CPycObjLists;
-
-class PYC_LIB CPycObj
+/**
+ * \brief Pyc object bytes type: The type of object bytes.
+ */
+class PYC_LIB PycObjBytesT
 {
   public:
-    CPycObj();
-    ~CPycObj();
+    PycObjBytesT();
+    ~PycObjBytesT();
 
     UErrCodeT Init();
-
-    CPycObjCore *Core();
-    CPycObjImpl *Impl();
-    CPycObjBytes *Bytes();
-    CPycObjInt *Int();
-    CPycObjFloat *Float();
-    CPycObjLists *Lists();
 
   protected:
   private:
     UErrCodeT InitPointer();
-
-    CPycObjCore *mCore;
-    CPycObjImpl *mImpl;
-    CPycObjBytes *mBytes;
-    CPycObjInt *mInt;
-    CPycObjFloat *mFloat;
-    CPycObjLists *mLists;
 };
 
-#endif  // PYC_OBJ_HPP_INCLUDED
+#endif  // PYC_OBJBYTESTYPE_HPP_INCLUDED

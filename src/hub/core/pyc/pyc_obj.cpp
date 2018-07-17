@@ -31,7 +31,7 @@
 #include "pyc_objimpl.hpp"
 #include "pyc_objint.hpp"
 #include "pyc_objfloat.hpp"
-#include "pyc_objbyte.hpp"
+#include "pyc_objbytes.hpp"
 #include "pyc_objlists.hpp"
 
 /**
@@ -83,13 +83,13 @@ CPycObjImpl *CPycObj::Impl()
 }
 
 /**
- * \brief Byte.
+ * \brief Bytes.
  */
-CPycObjByte *CPycObj::Byte()
+CPycObjBytes *CPycObj::Bytes()
 {
-    BMD_CLASS_NEW(mByte, CPycObjByte);
+    BMD_CLASS_NEW(mBytes, CPycObjBytes);
 
-    return mByte;
+    return mBytes;
 }
 
 /**

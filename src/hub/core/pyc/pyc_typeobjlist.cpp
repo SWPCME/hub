@@ -24,8 +24,17 @@
 
 #include "pyc_typeobjlist.hpp"
 
+// base
+#include "base_ctl.hpp"
+#include "base_macrodefn.hpp"
+// core
+#include "core_ctl.hpp"
 // pyc
+#include "pyc_ctl.hpp"
+#include "pyc_obj.hpp"
 #include "pyc_objtype.hpp"
+#include "pyc_objlists.hpp"
+#include "pyc_objlist.hpp"
 
 // PYTHON
 #include "Python.h"
@@ -35,6 +44,7 @@
  */
 CPycTypeObjList::CPycTypeObjList()
 {
+    InitPointer();
 }
 
 /**
@@ -42,6 +52,8 @@ CPycTypeObjList::CPycTypeObjList()
  */
 CPycTypeObjList::~CPycTypeObjList()
 {
+    mLists->Del(mList);
+    InitPointer();
 }
 
 /**
@@ -49,17 +61,50 @@ CPycTypeObjList::~CPycTypeObjList()
  */
 UErrCodeT CPycTypeObjList::Init()
 {
+    if (mLists == NULL)
+    {
+        CPycCtl *pyc;
+        BMD_POINTER_INIT(pyc);
+        PYC_CTL(pyc);
+        CPycObj *obj = pyc->Obj();
+        mLists = obj->Lists();
+    }
+
+    if (mList == NULL)
+    {
+        mList = mLists->New();
+    }
+
     return UErrFalse;
 }
 
 /**
  * \brief Get item.
  */
-UErrCodeT CPycTypeObjList::Item(UStringT *aVal, UIntT aId, PycObjListHT aListH)
+UErrCodeT CPycTypeObjList::Item(UStringT *aVal, UIntT aId)
 {
-    PyObject *objH = PyList_GetItem((PyObject *) aListH, (Py_ssize_t) aId);
-    PycObjT obj((PycObjHT) objH);
-    obj.ValAsStr(aVal);
+    return mList->Item(aVal, aId);
+}
+
+/**
+ * \brief Set item.
+ */
+UErrCodeT CPycTypeObjList::Add(UStringT *aVal)
+{
+    return mList->AppendItem(aVal);
+}
+
+/***** Private A *****/
+
+/**
+ * \brief Initilize pointer.
+ */
+UErrCodeT CPycTypeObjList::InitPointer()
+{
+    BMD_POINTER_INIT(mLists);
+    BMD_POINTER_INIT(mList);
 
     return UErrFalse;
 }
+
+/***** Private B *****/

@@ -24,6 +24,9 @@
 
 #include "pyc_objfloat.hpp"
 
+// PYTHON
+#include <Python.h>
+
 /**
  * \brief Constructor.
  */
@@ -45,6 +48,40 @@ CPycObjFloat::~CPycObjFloat()
  */
 UErrCodeT CPycObjFloat::Init()
 {
+    return UErrFalse;
+}
+
+/**
+ * \brief Set number.
+ *
+ * Create a new float object from a UFloatT number.
+ *
+ * @param aDst The destination of a float object.
+ * @param aSrc The source of a UFloatT number.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CPycObjFloat::SetNum(PycObjFloatHT *aDst, const UFloatT aSrc)
+{
+    *aDst = (PycObjFloatHT) PyFloat_FromDouble((double) aSrc);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Get number.
+ *
+ * Get a UFloatT number from a float object.
+ *
+ * @param aDst The destination of a UFloatT number.
+ * @param aSrc The source of a float object.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CPycObjFloat::Num(UFloatT *aDst, const PycObjFloatHT *aSrc)
+{
+    *aDst = PyFloat_AsDouble((PyObject *) aSrc);
+
     return UErrFalse;
 }
 

@@ -29,6 +29,9 @@
 
 // ust
 class UStringT;
+// pyc
+class CPycObjLists;
+class CPycObjList;
 
 class PYC_LIB CPycTypeObjList
 {
@@ -37,10 +40,15 @@ class PYC_LIB CPycTypeObjList
     ~CPycTypeObjList();
 
     UErrCodeT Init();
-    UErrCodeT Item(UStringT *aVal, UIntT aId, PycObjListHT aListH);
+    UErrCodeT Item(UStringT *aVal, UIntT aId);
+    UErrCodeT Add(UStringT *aVal);
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
+    CPycObjLists *mLists;
+    CPycObjList *mList;
 };
 
 #endif  // PYC_TYPEOBJLIST_HPP_INCLUDED

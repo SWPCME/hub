@@ -27,6 +27,8 @@
 
 #include "pyc_base.hpp"
 
+// ust
+class UStringT;
 // pyc
 class CPycObjLists;
 
@@ -38,7 +40,8 @@ class PYC_LIB CPycObjList
 
     UErrCodeT Init();
     UIntT Size();
-    PycObjListItemHT Item();
+    UErrCodeT Item(UStringT *aVal, UIntT aId);
+    UErrCodeT AppendItem(UStringT *aVal);
 
   protected:
   private:

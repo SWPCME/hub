@@ -31,24 +31,25 @@
 /**
  * \brief Constructor.
  */
-PycObjListT::PycObjListT(PycObjT *aObj)
+PycObjListT::PycObjListT()
 {
-    aObj->ToList(this);
+    Init();
 }
+
+// /**
+//  * \brief Constructor.
+//  */
+// PycObjListT::PycObjListT(PycObjT *aObj)
+// {
+//     Init();
+//     aObj->ToList(this);
+// }
 
 /**
  * \brief Destructor.
  */
 PycObjListT::~PycObjListT()
 {
-}
-
-/**
- * \brief Initilize.
- */
-UErrCodeT PycObjListT::Init()
-{
-    return UErrFalse;
 }
 
 /**
@@ -74,16 +75,27 @@ UErrCodeT PycObjListT::SetHandle(PycObjListHT aListH)
  */
 UErrCodeT PycObjListT::Item(UStringT *aVal, UIntT aId)
 {
-    return mList->Item(aVal, aId, mListH);
+    return mList->Item(aVal, aId);
 }
 
-// /**
-//  * \brief Add item.
-//  */
-// UErrCodeT PycObjListT::Add()
-// {
-//     return UErrFalse;
-// }
+/**
+ * \brief Add item.
+ */
+UErrCodeT PycObjListT::Add(UStringT *aVal)
+{
+    return mList->Add(aVal);
+}
 
 /***** Private A *****/
+
+/**
+ * \brief Initilize.
+ */
+UErrCodeT PycObjListT::Init()
+{
+    mList = new CPycTypeObjList();
+
+    return UErrFalse;
+}
+
 /***** Private B *****/

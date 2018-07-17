@@ -34,6 +34,8 @@ class PYC_LIB CPycObjInt
     ~CPycObjInt();
 
     UErrCodeT Init();
+    UErrCodeT SetNum(PycObjIntHT *aDst, const UIntT aSrc);
+    UErrCodeT Num(UIntT *aDst, const PycObjIntHT *aSrc);
 
   protected:
   private:

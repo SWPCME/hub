@@ -34,6 +34,8 @@ class PYC_LIB CPycObjFloat
     ~CPycObjFloat();
 
     UErrCodeT Init();
+    UErrCodeT SetNum(PycObjFloatHT *aDst, const double aSrc);
+    UErrCodeT Num(UFloatT *aDst, const PycObjFloatHT *aSrc);
 
   protected:
   private:

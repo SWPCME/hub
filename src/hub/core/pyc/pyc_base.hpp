@@ -31,14 +31,24 @@
 
 typedef UHandleT PycObjHT;
 typedef UHandleT PycObjTypeHT;
-typedef UHandleT PycObjByteHT;
+typedef UHandleT PycObjBytesHT;
 typedef UHandleT PycObjListHT;
 typedef UHandleT PycObjListItemHT;
+typedef UHandleT PycObjIntHT;
+typedef UHandleT PycObjFloatHT;
 
 #define PYC_CTL(aCtl)                           \
     {                                           \
         BMD_CORE_CTL(coreCtl);                  \
         aCtl = coreCtl->Pyc();                  \
+    }
+
+#define PYC_TYPECTL(aCtl)                       \
+    {                                           \
+        CPycCtl *pyc;                           \
+        BMD_POINTER_INIT(pyc);                  \
+        PYC_CTL(pyc);                           \
+        aCtl = pyc->Type();                     \
     }
 
 #endif  // PYC_BASE_HPP_INCLUDED

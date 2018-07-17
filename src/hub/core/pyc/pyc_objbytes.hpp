@@ -1,12 +1,13 @@
+/* -*- mode: c++ -*- */
 /******************************************************************************
- * $Id: pyc_objbyte.hpp 2018-04 $
+ * $Id: pyc_objbytes.hpp 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc object byte definition.
+ * Purpose:  Pyc object bytes definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-04 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,33 +23,31 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#ifndef PYC_OBJBYTE_HPP_INCLUDED
-#define PYC_OBJBYTE_HPP_INCLUDED
+#ifndef PYC_OBJBYTES_HPP_INCLUDED
+#define PYC_OBJBYTES_HPP_INCLUDED
 
 #include "pyc_base.hpp"
 
 // ust
-#include "ust/ust_stringtype.hpp"
+class UStringT;
 
-// pyc
-class CPycObjCore;
-
-class PYC_LIB CPycObjByte
+/**
+ * \brief Pyc object bytes: To process the object of bytes, such as string.
+ */
+class PYC_LIB CPycObjBytes
 {
   public:
-    CPycObjByte();
-    ~CPycObjByte();
+    CPycObjBytes();
+    ~CPycObjBytes();
 
     UErrCodeT Init();
-    PycObjByteHT Handle();
-    UErrCodeT SetHandle(PycObjByteHT aByteH);
 
-    UErrCodeT Str(UStringT *aVal);
+    UErrCodeT SetStr(PycObjBytesHT *aBytesH, const UStringT *aStr);
+    UErrCodeT Str(UStringT *aStr, const PycObjBytesHT aBytesH);
 
   protected:
   private:
-    PycObjByteHT mByteH;
-    CPycObjCore *mCore;
+    UErrCodeT InitPointer();
 };
 
-#endif  // PYC_OBJBYTE_HPP_INCLUDED
+#endif  // PYC_OBJBYTES_HPP_INCLUDED

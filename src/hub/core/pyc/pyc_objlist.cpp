@@ -24,6 +24,9 @@
 
 #include "pyc_objlist.hpp"
 
+// pyc
+#include "pyc_objtype.hpp"
+
 // PYTHON
 #include "Python.h"
 #include "listobject.h"
@@ -65,12 +68,30 @@ UIntT CPycObjList::Size()
 /**
  * \brief Get item.
  */
-PycObjListItemHT CPycObjList::Item()
+UErrCodeT CPycObjList::Item(UStringT *aVal, UIntT aId)
 {
-    // PycObjListItemHT item = (PycObjListItemHT) PyList_GetItem((PyObject *) mListH);
-    PycObjListItemHT item = NULL;
+    PyObject *objH = PyList_GetItem((PyObject *) mListH, (Py_ssize_t) aId);
+    PycObjT obj((PycObjHT) objH);
+    obj.ValAsStr(aVal);
 
-    return item;
+    return UErrFalse;
+}
+
+/**
+ * \brief Append item.
+ */
+UErrCodeT CPycObjList::AppendItem(UStringT *aVal)
+{
+    // PycObjByteT byte(aVal);
+    // PycObjByteHT byteH = byte->Handle();
+    // UIntT err = (int) PyList_Append((PyObject *) mListH, (PyObject *) byteH);
+
+    // if (err == -1)
+    // {
+    //     return UErrTrue;
+    // }
+
+    return UErrFalse;
 }
 
 // /**
@@ -85,14 +106,6 @@ PycObjListItemHT CPycObjList::Item()
 //  * \brief Insert item.
 //  */
 // UErrCodeT CPycObjList::InsertItem()
-// {
-//     return UErrFalse;
-// }
-
-// /**
-//  * \brief Append item.
-//  */
-// UErrCodeT CPycObjList::AppendItem()
 // {
 //     return UErrFalse;
 // }

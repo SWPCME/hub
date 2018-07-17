@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: pyc_objbyte.cpp 2018-04 $
+ * $Id: pyc_objbytes.cpp 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc object byte implementation.
+ * Purpose:  Pyc object bytes implementation.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-04 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,75 +22,68 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 
-#include "pyc_objbyte.hpp"
+#include "pyc_objbytes.hpp"
 
-// base
-#include "base_ctl.hpp"
-#include "base_macrodefn.hpp"
-// core
-#include "core_ctl.hpp"
-// pyc
-#include "pyc_ctl.hpp"
-#include "pyc_obj.hpp"
-#include "pyc_objcore.hpp"
+// ust
+#include "ust/ust_stringtype.hpp"
 
 // PYTHON
-#include "Python.h"
-#include "modsupport.h"
+#include <Python.h>
 
 /**
  * \brief Constructor.
  */
-CPycObjByte::CPycObjByte()
+CPycObjBytes::CPycObjBytes()
 {
 }
 
 /**
  * \brief Destructor.
  */
-CPycObjByte::~CPycObjByte()
+CPycObjBytes::~CPycObjBytes()
 {
 }
 
 /**
- * \brief Initilize.
+ * \brief Initialize.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CPycObjByte::Init()
+UErrCodeT CPycObjBytes::Init()
 {
-    CPycCtl *pyc = NULL;
-    PYC_CTL(pyc);
-    CPycObj *obj = pyc->Obj();
-    mCore = obj->Core();
+    return UErrFalse;
+}
+
+/**
+ * \brief Set string.
+ */
+UErrCodeT CPycObjBytes::SetStr(PycObjBytesHT *aBytesH, const UStringT *aStr)
+{
+    *aBytesH = (PyObject *) PyBytes_FromString(aStr->ToA());
 
     return UErrFalse;
 }
 
 /**
- * \brief Handle.
+ * \brief Get string.
  */
-PycObjByteHT CPycObjByte::Handle()
+UErrCodeT CPycObjBytes::Str(UStringT *aStr, const PycObjBytesHT aBytesH)
 {
-    return mByteH;
-}
-
-/**
- * \brief Set handle.
- */
-UErrCodeT CPycObjByte::SetHandle(PycObjByteHT aByteH)
-{
-    mByteH = aByteH;
+    *aStr = PyBytes_AsString((PyObject*) aBytesH);
 
     return UErrFalse;
 }
 
-/**
- * \brief As string.
- */
-UErrCodeT CPycObjByte::Str(UStringT *aVal)
-{
-    PycObjHT objReprH = NULL;
-    mCore->Repr(objReprH, (PycObjHT) mByteH);
-    *aVal = PyBytes_AsString((PyObject *) objReprH);
+/***** Private A *****/
 
+/**
+ * \brief InitPointer.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CPycObjBytes::InitPointer()
+{
     return UErrFalse;
 }
+
+/***** Private B *****/

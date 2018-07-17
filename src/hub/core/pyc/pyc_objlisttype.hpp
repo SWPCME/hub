@@ -32,21 +32,26 @@ class UStringT;
 
 // pyc
 class CPycTypeObjList;
-class PycObjT;
+// class PycObjT;
 
 class PYC_LIB PycObjListT
 {
   public:
-    PycObjListT(PycObjT *aObj);
+    PycObjListT();
+    // PycObjListT(PycObjT *aObj);
     ~PycObjListT();
 
-    UErrCodeT Init();
+    // attribute
     PycObjListHT Handle();
     UErrCodeT SetHandle(PycObjListHT aListH);
+
+    // item
     UErrCodeT Item(UStringT *aVal, UIntT aId);
+    UErrCodeT Add(UStringT *aVal);
 
   protected:
   private:
+    UErrCodeT Init();
     CPycTypeObjList *mList;
     PycObjListHT mListH;
 };

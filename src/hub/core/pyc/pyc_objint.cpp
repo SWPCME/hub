@@ -24,6 +24,9 @@
 
 #include "pyc_objint.hpp"
 
+// PYTHON
+#include <Python.h>
+
 /**
  * \brief Constructor.
  */
@@ -45,6 +48,40 @@ CPycObjInt::~CPycObjInt()
  */
 UErrCodeT CPycObjInt::Init()
 {
+    return UErrFalse;
+}
+
+/**
+ * \brief Set number.
+ *
+ * Create a new integer object from a UIntT.
+ *
+ * @param aDst The destination of a integer object.
+ * @param aSrc The source of a UIntT number.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CPycObjInt::SetNum(PycObjIntHT *aDst, const UIntT aSrc)
+{
+    *aDst = (PycObjIntHT) PyLong_FromLong((UIntT) aSrc);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Get number.
+ *
+ * Get a number of UIntT from a float object.
+ *
+ * @param aDst The destination of a UIntT number.
+ * @param aSrc The source of a integer object.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CPycObjInt::Num(UIntT *aDst, const PycObjIntHT *aSrc)
+{
+    *aDst = (UIntT) PyLong_AsLong((PyObject *) aSrc);
+
     return UErrFalse;
 }
 

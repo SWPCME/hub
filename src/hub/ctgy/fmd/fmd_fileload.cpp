@@ -287,9 +287,9 @@ UErrCodeT CFmdFileLoad::StrGjsonToShp(const UStringT *aDst,
     frmt = OgrFormatShp;
     CGdaTrVtr *trVtr = mTr->Vtr();
     BCtnStringT strV2vOpt(UContainerList);
-    GdaTrVtrToVtrT r2rOpt;
-    r2rOpt.SetAll(frmt, &strV2vOpt);
-    trVtr->ToVtr(aDst, &dsCtn, &r2rOpt);
+    GdaTrVtrToVtrT v2vOpt;
+    v2vOpt.SetAll(frmt, &strV2vOpt);
+    trVtr->ToVtr(aDst, &dsCtn, &v2vOpt);
     dr->Close(&file);
 
     return UErrFalse;
@@ -317,10 +317,10 @@ UErrCodeT CFmdFileLoad::ToVtrProjCs(const UStringT *aDst, const UStringT *aSrc,
     GdaOgrSrsT srs;
     srs.SetProjCs(aCode);
     CGdaTrVtr *trVtr = mTr->Vtr();
-    GdaTrVtrToVtrT r2rOpt;
-    r2rOpt.SetFrmt(frmt);
-    r2rOpt.SetSrs(&srs);
-    trVtr->ToVtr(aDst, &dsCtn, &r2rOpt);
+    GdaTrVtrToVtrT v2vOpt;
+    v2vOpt.SetFrmt(frmt);
+    v2vOpt.SetSrs(&srs);
+    trVtr->ToVtr(aDst, &dsCtn, &v2vOpt);
     dr->Close(aSrc);
 
     return UErrFalse;

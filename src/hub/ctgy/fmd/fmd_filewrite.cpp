@@ -403,14 +403,14 @@ UErrCodeT CFmdFileWrite::PerimetersGjson(UStringT *aStr)
     BCtnStringT strV2vOpt(UContainerList);
     strV2vOpt.Add("-s_srs");
     strV2vOpt.Add("EPSG:2383");
-    GdaTrVtrToVtrT r2rOpt;
-    r2rOpt.SetFrmt(frmt);
-    r2rOpt.SetOpt(&strV2vOpt);
+    GdaTrVtrToVtrT v2vOpt;
+    v2vOpt.SetFrmt(frmt);
+    v2vOpt.SetOpt(&strV2vOpt);
     GdaOgrSrsT srs;
     GdaProjCsCodeT projCs = GdaProjCsWgs1984;
     srs.SetProjCs(projCs);
-    r2rOpt.SetSrs(&srs);
-    trVtr->ToVtr(&dst, &dsCtn, &r2rOpt);
+    v2vOpt.SetSrs(&srs);
+    trVtr->ToVtr(&dst, &dsCtn, &v2vOpt);
     dsCtn.Clear();
     dr->Close(&src);
 

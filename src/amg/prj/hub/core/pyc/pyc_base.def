@@ -1,13 +1,13 @@
 /* -*- mode: conf -*- */
 /******************************************************************************
- * $Id: pyc_objint_hxx.def 2018-06 $
+ * $Id: pyc_base.def 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc object integer hxx definition.
+ * Purpose:  Amg for pyc base definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -21,18 +21,16 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+ *****************************************************************************/
 
-autogen definitions pyc_objint.hpp;
+autogen definitions pyc;
 
 /* base */
-#include pyc.def
+#include ../../hub_base.def
 
 /* license */
-file_name = "pyc_objint";
-purpose = "Pyc object integer definition.";
-date_begin = "2018-06";
+project = "PYC(PYC: Python c library).";
 
 /* cxx */
-file_def = "PYC_OBJINT_HPP_INCLUDED";
-class_name = "CPycObjInt";
+lib = "PYC_LIB";
+hxx_include = "\"pyc_base.hpp\"";

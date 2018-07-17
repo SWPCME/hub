@@ -1,13 +1,13 @@
 /* -*- mode: conf -*- */
 /******************************************************************************
- * $Id: pyc_objint_cxx.def 2018-06 $
+ * $Id: pyc_objbyteshxx.def 2018-06 $
  *
  * Project:  PYC(PYC: Python c library).
- * Purpose:  Pyc object integer cxx implementation.
+ * Purpose:  Amg for pyc object bytes hxx definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2018-06 ~ 2018, Weiwei Huang
+ * Copyright (c) 2018-06 ~ 2018 Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -21,18 +21,19 @@
  *
  * You should have received a copy of the GNU General Public License along 
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- ****************************************************************************/
+ *****************************************************************************/
 
-autogen definitions pyc_objint.cpp;
+autogen definitions pyc;
+
+/* base */
+#include pyc.def
 
 /* license */
-file_name = "pyc_objint";
-project = "PYC(PYC: Python c library).";
-purpose = "Pyc object integer implementation..";
-date_begin = "2018-06";
+hxx_file_name = "pyc_objbytes.hpp";
+hxx_purpose = "Pyc object bytes definition.";
+s_date_begin = "2018-06";
 
-/* cxx */
-file_def = "PYC_OBJINT_HPP_INCLUDED";
-lib = "PYC_LIB";
-class_name = "CPycObjInt";
-include_hxx = "\"pyc_objint.hpp\"";
+/* hxx */
+hxx_file_def = "PYC_OBJBYTES_HPP_INCLUDED";
+class_desc = "Pyc object bytes: To process the object of bytes, such as string.";
+class_name = "CPycObjBytes";

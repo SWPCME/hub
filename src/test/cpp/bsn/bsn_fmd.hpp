@@ -27,6 +27,9 @@
 
 #include "bsn_base.hpp"
 
+// ust
+#include "ust/ust_stringtype.hpp"
+
 class CHubCtl;
 class CHubModuleCtl;
 class CFmdCtl;
@@ -48,6 +51,9 @@ class BSN_LIB CBsnFmd
     CHubCtl *mHub;
     CHubModuleCtl *mModule;
     CFmdCtl *mFmd;
+
+    // variable
+    UStringT mDataPath;
 };
 
 #endif  // BSN_FMD_HPP_INCLUDED

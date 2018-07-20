@@ -27,6 +27,9 @@
 
 #include "bsn_base.hpp"
 
+// ust
+#include "ust/ust_stringtype.hpp"
+
 // hub
 class CHubCtl;
 class CHubModuleCtl;
@@ -44,10 +47,17 @@ class BSN_LIB CBsnRst
 
   protected:
   private:
+    UErrCodeT Frmt();
+    UErrCodeT FrmtLcp(CRstCtl *aRst);
+    UErrCodeT FrmtLcpMulti();
+
     CRstCtl *mRst;
 
     CHubCtl *mHub;
     CHubModuleCtl *mModule;
+
+    UStringT mTmpPath;
+    UStringT mDataPath;
 };
 
 #endif  // BSN_RST_HPP_INCLUDED

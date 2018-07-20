@@ -36,8 +36,8 @@ CBsnRst::CBsnRst()
 {
     mHub = CHubCtl::Hub();
     mModule = mHub->RegModule();
-    UStringT tmp = "/home/swpcme/tmp";
-    mModule->SetTmpDir(&tmp);
+    mTmpPath = "/home/swpcme/tmp";
+    mModule->SetTmpDir(&mTmpPath);
 
     mModule->Register(HubMRst);
 
@@ -56,14 +56,52 @@ UErrCodeT CBsnRst::Init()
 
 UErrCodeT CBsnRst::Test()
 {
+    Frmt();
+
+    return UErrFalse;
+}
+
+/***** Private A *****/
+
+UErrCodeT CBsnRst::Frmt()
+{
+    FrmtLcp(mRst);
+    // FrmtLcpMulti();
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnRst::FrmtLcp(CRstCtl *aRst)
+{
+    UStringT mDataPath = "../../../../data";
     CRstFrmtCtl *frmtCtl = mRst->Frmt();
     CRstFrmtLcp *frmtLcp = frmtCtl->Lcp();
-    // UStringT lcp = "../../../data/core/gda/dem/test.lcp";
-    // UStringT elev = "../../../data/core/gda/dem/dem1.tif";
-    UStringT lcp = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
-    UStringT elev = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.tif";
+    UStringT lcp = mDataPath;
+    UStringT elev = mDataPath;
+    lcp += "/core/gda/dem/test.lcp";
+    elev += "/core/gda/dem/dem1.tif";
+    // lcp += "/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    // elev += "/ctgy/fmd/baiyun_m/baiyun_m.tif";
     GdaProjCsCodeT projCs = GdaProjCsXian1980;
     frmtLcp->Create(&lcp, &elev, NULL, NULL, projCs);
 
     return UErrFalse;
 }
+
+UErrCodeT CBsnRst::FrmtLcpMulti()
+{
+    UIntT n = 2;
+    for (int i = 0; i < n; ++i)
+    {
+        CHubModuleCtl *module = mHub->RegModule();
+        module->SetTmpDir(&mTmpPath);
+        module->Register(HubMRst);
+        CRstCtl *rst = (CRstCtl*) mModule->Module(HubMRst);
+        FrmtLcp(rst);
+        mHub->DeregModule(module);
+    }
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

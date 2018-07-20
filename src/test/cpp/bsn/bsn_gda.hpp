@@ -90,6 +90,7 @@ class BSN_LIB CBsnGda
     UErrCodeT UtilsR2R();
     UErrCodeT R2RTrFrmt(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst);
     UErrCodeT R2RTrSrcWin(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst);
+    UErrCodeT R2RSetSrs(const UStringT *aRstDst, CGdaDatasetCtl *aDsSrc);
     UErrCodeT Dem();
     UErrCodeT MergeRst();
 

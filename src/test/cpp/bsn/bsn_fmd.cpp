@@ -75,6 +75,7 @@ UErrCodeT CBsnFmd::Init()
 {
     mModule->Register(HubMFmd);
     mFmd = (CFmdCtl *) mModule->Module(HubMFmd);
+    mDataPath = "../../../../data";
 
     return UErrFalse;
 }
@@ -107,8 +108,9 @@ UErrCodeT CBsnFmd::Test()
 UErrCodeT CBsnFmd::TestConfig()
 {
     CFmdFileCtl *fileCtl = mFmd->File();
-    // const UStringT fileName = "../../../data/ctgy/fmd/3/1.input";
-    const UStringT fileName = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.input";
+    UStringT fileName = mDataPath;
+    fileName += "/ctgy/fmd/3/1.input";
+    // fileName += "/ctgy/fmd/baiyun_m/baiyun_m.input";
     CFmdFileCfg *cfg = fileCtl->Cfg(&fileName, FmdFileCfgCreate);
     CFmdCfgWrite *cfgWrite = cfg->Write();
 
@@ -170,41 +172,38 @@ UErrCodeT CBsnFmd::TestWrite()
 
     // Load.
     CFmdFileLoad *fileLoad = fileCtl->Load();
-    
-    const UStringT cfgFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.input";
 
-    const UStringT lcpFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
-    const UStringT ignitionFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m_i.shp";
-    const UStringT outFile = "../../../data/ctgy/fmd/baiyun_m/baiyun_m_o";
+    UStringT cfgFile = mDataPath;
+    UStringT lcpFile = mDataPath;
+    UStringT ignitionFile = mDataPath;
+    UStringT outFile = mDataPath;
 
-    // const UStringT cfgFile = "../../../data/ctgy/fmd/3/1.input";
+    // cfgFile += "/ctgy/fmd/baiyun_m/baiyun_m.input";
+    // ignitionFile += "/ctgy/fmd/baiyun_m/baiyun_m_i.shp";
+    // lcpFile += "/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    // outFile += "/ctgy/fmd/baiyun_m/baiyun_m_o";
 
-    // const UStringT lcpFile = "../../../data/ctgy/fmd/3/1.lcp";
-    // const UStringT ignitionFile = "../../../data/ctgy/fmd/3/i1.shp";
-    // const UStringT outFile = "../../../data/ctgy/fmd/3/o1";
+    cfgFile += "/ctgy/fmd/3/1.input";
+    lcpFile += "/ctgy/fmd/3/1.lcp";
+    ignitionFile += "/ctgy/fmd/3/i1.shp";
+    outFile += "/ctgy/fmd/3/o1";
 
-    // const UStringT barrierFile = "../../data/ctgy/fmd/3/b1.shp";
+    ignitionFile =
+      "{\"type\": \"FeatureCollection\",\"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:EPSG::2383\" } },\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }";
 
-//     const UStringT ignitionFile =
-//       "{\
-// \"type\": \"FeatureCollection\",\
-//                                  \                                                                                              \  
-// \"features\": [\
-// { \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } }\
-// ]\
-// }\
-// ";
-    // const UStringT ignitionFile =
-    //   "{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }";
     // const UStringT ignitionFile =
     //   "{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }";
-    const UStringT barrierFile = "";
+
+    // UStringT barrierFile = mDataPath;
+    // barrierFile += "/ctgy/fmd/3/b1.shp";
+
+    UStringT barrierFile = "";
 
     // fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
     fileLoad->Cfg(&cfgFile);
     fileLoad->Lcp(&lcpFile);
-    fileLoad->Ignition(&ignitionFile);
-    // fileLoad->IgnitionGjson(&ignitionFile);
+    // fileLoad->Ignition(&ignitionFile);
+    fileLoad->IgnitionGjson(&ignitionFile);
     fileLoad->BarrierGjson(&barrierFile);
 
     // Master.

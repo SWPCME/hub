@@ -265,7 +265,8 @@ UErrCodeT CBsnGda::DsPosToId(BMathCsC2dT *aId, const BMathCsC2dT *aPos,
 
 UErrCodeT CBsnGda::CoreBand()
 {
-    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    const UStringT file = mDataPath;
+    file += "/../../ctgy/fmd/baiyun_m/baiyun_m.lcp";
     CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatLcp);
     CGdaBandCtl *bandCtl = datasetCtl->Band(1);
 
@@ -443,6 +444,8 @@ UErrCodeT CBsnGda::UtilsR2R()
     rstDst1 += "/dem1_asc.asc";
     UStringT rstDst2 = trPath;
     rstDst2 += "/dem1_srcwin.tif";
+    UStringT rstDst3 = trPath;
+    rstDst3 += "/dem1_srs.tif";
 
     // Open data of source.
     GdaFormatCodeT frmtSrc = GdaFormatTif;
@@ -456,7 +459,10 @@ UErrCodeT CBsnGda::UtilsR2R()
     // R2RTrFrmt(dsSrc, &rstDst1);
 
     // Option 2: Split with subwindow.
-    R2RTrSrcWin(dsSrc, &rstDst2);
+    // R2RTrSrcWin(dsSrc, &rstDst2);
+
+    // Option 3: Set projection.
+    R2RSetSrs(&rstDst3, dsSrc);
 
     // Close data of source.
     drSrc->Close(&rstSrc);
@@ -512,6 +518,32 @@ UErrCodeT CBsnGda::R2RTrSrcWin(CGdaDatasetCtl *aDsSrc, const UStringT *aRstDst)
     BMathCsC2dT size(lrId.X() - ulId.X(), lrId.Y() - ulId.Y());
     opt.SetSrcWin(&off, &size);
 
+    rst->ToRst(aRstDst, aDsSrc, &opt);
+
+    return UErrFalse;
+}
+
+UErrCodeT CBsnGda::R2RSetSrs(const UStringT *aRstDst, CGdaDatasetCtl *aDsSrc)
+{
+    CGdaUtilsTr *tr = mUtils->Tr();
+    CGdaTrRst *rst = tr->Rst();
+
+    // set destination format
+    GdaTrRstToRstT opt;
+    GdaFormatCodeT frmt = GdaFormatTif;
+    opt.SetFrmt(frmt);
+    GdaOgrSrsT srs;
+    GdaProjCsCodeT projCs = GdaProjCsNad1983;
+    srs.SetProjCs(projCs);
+    // opt.SetSrs(&srs);
+    UStringT optSrs = "-a_srs";
+    UStringT wkt;
+    srs.ExportToWkt(&wkt);
+    BCtnStringT optCtn(UContainerList);
+    optCtn.Add(optSrs);
+    optCtn.Add(wkt);
+    opt.SetOpt(&optCtn);
+    
     rst->ToRst(aRstDst, aDsSrc, &opt);
 
     return UErrFalse;

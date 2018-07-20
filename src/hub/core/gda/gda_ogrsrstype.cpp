@@ -45,16 +45,6 @@ GdaOgrSrsT::~GdaOgrSrsT()
 }
 
 /**
- * \brief Initialize.
- */
-UErrCodeT GdaOgrSrsT::Init()
-{
-    BMD_CLASS_NEW(mSrs, CGdaOgrSrsCtl);
-
-    return UErrFalse;
-}
-
-/**
  * \brief Get handle.
  */
 GdaOgrSrsHT GdaOgrSrsT::Handle() const
@@ -79,11 +69,27 @@ UErrCodeT GdaOgrSrsT::SetProjCs(const GdaProjCsCodeT aCode)
 }
 
 /**
+ * \brief Get a projected coordinate system.
+ */
+UErrCodeT GdaOgrSrsT::ProjCs(GdaProjCsCodeT *aCode)
+{
+    return mSrs->ProjCs(aCode);
+}
+
+/**
  * \brief Convert this SRS into WKT format.
  */
 UErrCodeT GdaOgrSrsT::ExportToWkt(UStringT *aWkt)
 {
     return mSrs->ExportToWkt(aWkt);
+}
+
+/**
+ * \brief Compare wkt.
+ */
+UErrCodeT GdaOgrSrsT::Cmp(const GdaOgrSrsT *aSrs)
+{
+    return mSrs->Cmp(aSrs);
 }
 
 /**
@@ -106,6 +112,16 @@ UErrCodeT GdaOgrSrsT::operator =(const GdaOgrSrsT &aSrs)
 UErrCodeT GdaOgrSrsT::InitPointer()
 {
     BMD_POINTER_INIT(mSrs);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Initialize.
+ */
+UErrCodeT GdaOgrSrsT::Init()
+{
+    BMD_CLASS_NEW(mSrs, CGdaOgrSrsCtl);
 
     return UErrFalse;
 }

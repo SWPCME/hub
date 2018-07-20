@@ -120,7 +120,6 @@ UDataTCodeT CGdaBandCtl::DataT()
 UDataTCodeT CGdaBandCtl::UnitT()
 {
     UStringT strUnitT = GDALGetRasterUnitType((GDALRasterBandH) mBandH);
-    strUnitT.ToConsole();
     UDataTCodeT unitT;
     mType->ToDataType(&unitT, &strUnitT);
 
@@ -368,9 +367,11 @@ UErrCodeT CGdaBandCtl::Io(GdaBandDataT *aData, const UAccessCodeT aAccess)
     {
         rwFlag = GF_Write;
     }
+
     CPLErr err = GDALRasterIO((GDALRasterBandH) mBandH, rwFlag, xOff, yOff,
                               xSize, ySize, dataH, bufXSize, bufYSize,
                               dataType, pixelSpace, lineSpace);
+
     if (err == CE_None)
     {
         return UErrFalse;

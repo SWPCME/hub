@@ -297,6 +297,26 @@ UErrCodeT CGdaTypeCtl::ToProjCs(UIntT *aDst, const GdaProjCsCodeT aSrc)
 }
 
 /**
+ * \brief Wkt to GdaProjCsCodeT.
+ */
+UErrCodeT CGdaTypeCtl::WktToProjCs(GdaProjCsCodeT *aDst, const UStringT aSrc)
+{
+    UStringT projCs;
+    *aDst = GdaProjCsUnknown;
+    for (UIntT i = GdaProjCsCodeTBegin; i <= GdaProjCsCodeTEnd; ++i)
+    {
+        ProjCsToStr(&projCs, (GdaProjCsCodeT) i);
+        if (aSrc.Check(&projCs) == UErrFalse)
+        {
+            *aDst = i;
+            return UErrFalse;
+        }
+    }
+
+    return UErrTrue;
+}
+
+/**
  * \brief To gda dem processing format.
  */
 UErrCodeT CGdaTypeCtl::ToDemProcFrmt(UStringT *aDst,
@@ -383,4 +403,25 @@ UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
 }
 
 /***** Private A *****/
+
+/**
+ * \brief GdaProjCsCodeT to UStringT.
+ */
+UErrCodeT CGdaTypeCtl::ProjCsToStr(UStringT *aDst, const GdaProjCsCodeT aSrc)
+{
+    switch (aSrc)
+    {
+    case GdaProjCsWgs1984:
+        *aDst = "WGS_1984";
+        break;
+    case GdaProjCsXian1980:
+        *aDst = "Xian_1980";
+        break;
+    default:
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
 /***** Private B *****/

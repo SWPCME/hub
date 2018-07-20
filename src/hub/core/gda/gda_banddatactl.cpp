@@ -31,13 +31,18 @@
 // cls
 #include "cls_ctl.hpp"
 #include "cls_memoryctl.hpp"
+// wrap
+#include "wrap_ctl.hpp"
+// ust
+#include "ust_ctl.hpp"
+#include "ust_typectl.hpp"
 
 /**
  * \brief Constructor.
  */
 CGdaBandDataCtl::CGdaBandDataCtl()
 {
-    BMD_POINTER_INIT(mMem);
+    InitPointer();
 }
 
 /**
@@ -45,7 +50,7 @@ CGdaBandDataCtl::CGdaBandDataCtl()
  */
 CGdaBandDataCtl::~CGdaBandDataCtl()
 {
-    BMD_POINTER_INIT(mMem);
+    InitPointer();
 }
 
 /**
@@ -55,6 +60,7 @@ UErrCodeT CGdaBandDataCtl::Init()
 {
     CClsCtl *cls = NULL;
     CLS_CTL(cls);
+    UST_TYPE_CTL(mUstType);
     mMem = cls->Mem();
 
     return UErrFalse;
@@ -68,10 +74,7 @@ UErrCodeT CGdaBandDataCtl::New(UDataHT *aDataH, const UDataTCodeT aType,
                                const BMathCsC2dT *aEnd)
 {
     UIntT sizeType = 8;
-    if (aType == UDataTInt16)
-    {
-        sizeType = 2;
-    }
+    mUstType->Size(&sizeType, aType);
     UIntT size;
     Size(&size, aBegin, aEnd);
     UIntT sizeData = sizeType * size;
@@ -123,6 +126,17 @@ UErrCodeT CGdaBandDataCtl::Id(UIntT *aId, const BMathCsC2dT *aPt,
 }
 
 /***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CGdaBandDataCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mMem);
+    BMD_POINTER_INIT(mUstType);
+
+    return UErrFalse;
+}
 
 /**
  * \brief Check point.

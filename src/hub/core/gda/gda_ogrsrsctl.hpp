@@ -29,6 +29,7 @@
 
 // gda
 class CGdaTypeCtl;
+class GdaOgrSrsT;
 
 class GDA_LIB CGdaOgrSrsCtl
 {
@@ -41,7 +42,9 @@ class GDA_LIB CGdaOgrSrsCtl
 
     UErrCodeT ImportFromWkt(const UStringT *aWkt);
     UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
+    UErrCodeT ProjCs(GdaProjCsCodeT *aCode);
     UErrCodeT ExportToWkt(UStringT *aWkt);
+    UErrCodeT Cmp(const GdaOgrSrsT *aSrs);
 
   protected:
   private:
@@ -51,6 +54,7 @@ class GDA_LIB CGdaOgrSrsCtl
     CGdaTypeCtl *mType;
 
     GdaOgrSrsHT mSrsH;
+    GdaProjCsCodeT mCode;
 };
 
 #endif  // GDA_OGRSRSCTL_HPP_INCLUDED

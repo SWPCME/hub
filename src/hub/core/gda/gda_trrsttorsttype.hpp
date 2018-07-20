@@ -42,8 +42,10 @@ class GDA_LIB GdaTrRstToRstT
     GdaTrRstToRstT(const GdaFormatCodeT aFrmt, const BCtnStringT *aOpt);
     ~GdaTrRstToRstT();
 
-    // Set.
+    // Set the options.
     UErrCodeT SetAll(const GdaFormatCodeT aFrmt, const BCtnStringT *aOpt);
+
+    // Set sub options.
     UErrCodeT SetOpt(const BCtnStringT *aOpt);
     UErrCodeT SetFrmt(const GdaFormatCodeT aFrmt);
     UErrCodeT SetSrs(const GdaOgrSrsT *aSrs);
@@ -59,7 +61,11 @@ class GDA_LIB GdaTrRstToRstT
   private:
     UErrCodeT Init();
     UErrCodeT InitPointer();
+
+    // Save all changes.
     UErrCodeT Save();
+
+    // Clear all.
     UErrCodeT Clear();
 
     CGdaTrRstProcCtl *mProc;

@@ -78,7 +78,7 @@ UErrCodeT GdaBandDataT::SetAll(const UDataTCodeT aType, const BMathCsC2dT *aBegi
     SetType(aType);
     SetBegin(aBegin);
     SetEnd(aEnd);
-    SetHanle();
+    SetHandle();
 
     return UErrFalse;
 }
@@ -145,7 +145,7 @@ BMathCsC2dT *GdaBandDataT::End()
  */
 UDataHT GdaBandDataT::Handle()
 {
-    SetHanle();
+    SetHandle();
 
     return mDataH;
 }
@@ -190,7 +190,7 @@ UErrCodeT GdaBandDataT::Init()
 /**
  * \brief Set handle.
  */
-UErrCodeT GdaBandDataT::SetHanle()
+UErrCodeT GdaBandDataT::SetHandle()
 {
     if (mState == UStateOff)
     {

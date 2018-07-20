@@ -41,7 +41,9 @@ class GDA_LIB GdaOgrSrsT
 
     UErrCodeT ImportFromWkt(const UStringT *aWkt);
     UErrCodeT SetProjCs(const GdaProjCsCodeT aCode);
+    UErrCodeT ProjCs(GdaProjCsCodeT *aCode);
     UErrCodeT ExportToWkt(UStringT *aWkt);
+    UErrCodeT Cmp(const GdaOgrSrsT *aSrs);
 
     // Operator.
     UErrCodeT operator =(const GdaOgrSrsT &aSrs);

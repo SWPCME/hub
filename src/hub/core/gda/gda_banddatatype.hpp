@@ -55,7 +55,7 @@ class GDA_LIB GdaBandDataT
   protected:
   private:
     UErrCodeT Init();
-    UErrCodeT SetHanle();
+    UErrCodeT SetHandle();
 
     CGdaBandDataCtl *mData;
     UDataTCodeT mType;

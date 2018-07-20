@@ -30,6 +30,8 @@
 
 // cls
 class CClsMemoryCtl;
+// ust
+class CUstTypeCtl;
 
 class GDA_LIB CGdaBandDataCtl
 {
@@ -50,10 +52,12 @@ class GDA_LIB CGdaBandDataCtl
 
   protected:
   private:
+    UErrCodeT InitPointer();
     UErrCodeT CheckPt(const BMathCsC2dT *aPt, const BMathCsC2dT *aBegin,
                       const BMathCsC2dT *aEnd);
 
     CClsMemoryCtl *mMem;
+    CUstTypeCtl *mUstType;
 };
 
 #endif  // GDA_BANDDATACTL_HPP_INCLUDED

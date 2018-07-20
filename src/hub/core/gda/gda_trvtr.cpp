@@ -89,6 +89,8 @@ UErrCodeT CGdaTrVtr::ToRst(const UStringT *aDst, const CGdaDatasetCtl *aSrc,
         opt = (GDALRasterizeOptions *) aProc->Handle();
     }
 
+    // The "err", default must be set "FALSE", because the code will set the
+    // "err" only it has error.
     int err = FALSE;
     GDALDatasetH ds = GDALRasterize(dst, dstDsH, srcDsH, opt, &err);
 
@@ -127,6 +129,8 @@ UErrCodeT CGdaTrVtr::ToVtr(const UStringT *aDst, const OgrCtnDatasrcT *aSrc,
     GDALVectorTranslateOptions *opt =
         (GDALVectorTranslateOptions *) aProc->Handle();
 
+    // The "err", default must be set "FALSE", because the code will set the
+    // "err" only it has error.
     int err = FALSE;
     dstDsH = (GdaDatasetHT) GDALVectorTranslate(dst, dstDsH,
                                                 kSrcCount, srcDsH,

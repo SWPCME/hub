@@ -141,7 +141,7 @@ GdaOgrSrsT *GdaTrVtrToVtrT::Srs() const
  */
 GdaTrVtrProcHT GdaTrVtrToVtrT::Handle() const
 {
-    Save();
+    ((GdaTrVtrToVtrT *) this)->Save();
 
     return mProcH;
 }
@@ -188,6 +188,7 @@ UErrCodeT GdaTrVtrToVtrT::Save()
 
     mState = UStateOff;
     mProc->New(&mProcH, &mLOpt, mFrmtFlag);
+    mLOpt.Clear();
 
     return UErrFalse;
 }

@@ -64,7 +64,7 @@ UErrCodeT CGdaTrRstProcCtl::Init()
 /**
  * \brief New options.
  */
-UErrCodeT CGdaTrRstProcCtl::New(GdaTrVtrProcHT *aDst, BCtnStringT *aSrc,
+UErrCodeT CGdaTrRstProcCtl::New(GdaTrRstProcHT *aDst, BCtnStringT *aSrc,
                                 const GdaFrmtFlagCodeT aFrmt)
 {
     switch (aFrmt)
@@ -149,6 +149,11 @@ UErrCodeT CGdaTrRstProcCtl::NewRst(GdaTrRstProcHT *aDst, BCtnStringT *aSrc)
  */
 UErrCodeT CGdaTrRstProcCtl::DelRst(GdaTrRstProcHT aProcH)
 {
+    if (aProcH == NULL)
+    {
+        return UErrFalse;
+    }
+
     GDALTranslateOptionsFree((GDALTranslateOptions *) aProcH);
 
     return UErrFalse;

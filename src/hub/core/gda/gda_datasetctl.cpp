@@ -180,7 +180,8 @@ UErrCodeT CGdaDatasetCtl::SetBand(UIntT aDstId, CGdaBandCtl *aSrcBand)
     const char **opt = NULL;
     GDALProgressFunc func = NULL;
     void *data = NULL;
-    CPLErr err = GDALRasterBandCopyWholeRaster(srcBandH, dstBandH, opt, func, data);
+    CPLErr err = CE_Failure;
+    err = GDALRasterBandCopyWholeRaster(srcBandH, dstBandH, opt, func, data);
 
     if (err == CE_None)
     {

@@ -63,12 +63,14 @@ GdaTrRstToRstT::GdaTrRstToRstT(const GdaFormatCodeT aFrmt,
  */
 GdaTrRstToRstT::~GdaTrRstToRstT()
 {
-    InitPointer();
     Clear();
+    InitPointer();
 }
 
 /**
  * \brief Set all options.
+ *
+ * It will reset all options before you setting.
  */
 UErrCodeT GdaTrRstToRstT::SetAll(const GdaFormatCodeT aFrmt,
                                  const BCtnStringT *aOpt)
@@ -102,7 +104,6 @@ UErrCodeT GdaTrRstToRstT::SetFrmt(const GdaFormatCodeT aFrmt)
     mFrmt = aFrmt;
 
     UStringT frmt;
-    mFrmtFlag = GdaFrmtFlagRst;
     frmt = "-of";
     mLOpt.Add(frmt);
     UStringT frmtV;
@@ -117,8 +118,17 @@ UErrCodeT GdaTrRstToRstT::SetFrmt(const GdaFormatCodeT aFrmt)
  */
 UErrCodeT GdaTrRstToRstT::SetSrs(const GdaOgrSrsT *aSrs)
 {
+    mState = UStateOn;
+
     BMD_CLASS_NEW(mSrs, GdaOgrSrsT);
     *mSrs = *aSrs;
+
+    UStringT srs("-a_srs");
+    mLOpt.Add(srs);
+
+    UStringT wkt;
+    mSrs->ExportToWkt(&wkt);
+    mLOpt.Add(wkt);
 
     return UErrFalse;
 }
@@ -209,6 +219,7 @@ UErrCodeT GdaTrRstToRstT::Init()
     mProc = rst->ProcCtl();
 
     GDA_TYPE_CTL(mType);
+    mFrmtFlag = GdaFrmtFlagRst;
 
     return UErrFalse;
 }
@@ -220,13 +231,14 @@ UErrCodeT GdaTrRstToRstT::InitPointer()
 {
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mProc);
+    BMD_POINTER_INIT(mProcH);
     BMD_POINTER_INIT(mSrs);
 
     return UErrFalse;
 }
 
 /**
- * \brief Save.
+ * \brief Save and reset all options.
  */
 UErrCodeT GdaTrRstToRstT::Save()
 {
@@ -236,7 +248,9 @@ UErrCodeT GdaTrRstToRstT::Save()
     }
 
     mState = UStateOff;
+    mProc->Del(mProcH, mFrmtFlag);
     mProc->New(&mProcH, &mLOpt, mFrmtFlag);
+    mLOpt.Clear();
 
     return UErrFalse;
 }

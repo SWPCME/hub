@@ -105,5 +105,5 @@ UErrCodeT CGdaUtilsDem::Proc(const UStringT *aDst, const CGdaDatasetCtl *aSrc,
         return UErrFalse;
     }
 
-    return UErrFalse;
+    return UErrTrue;
 }

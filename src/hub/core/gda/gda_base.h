@@ -148,6 +148,8 @@ typedef enum
     GdaProjCsXian1980 = 2,
     GdaProjCsNad1983  = 3,
 } GdaProjCsCodeT;
+const UIntT GdaProjCsCodeTBegin = 1;
+const UIntT GdaProjCsCodeTEnd = 3;
 
 /**
  * \brief Gda utils dem processing format.

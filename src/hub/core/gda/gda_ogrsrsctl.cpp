@@ -31,6 +31,7 @@
 // gda
 #include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
+#include "gda_ogrsrstype.hpp"
 
 // GDAL
 #include "ogr_srs_api.h"
@@ -42,6 +43,7 @@ CGdaOgrSrsCtl::CGdaOgrSrsCtl()
 {
     New();
     BMD_POINTER_INIT(mType);
+    mCode = GdaProjCsUnknown;
 }
 
 /**
@@ -90,10 +92,12 @@ UErrCodeT CGdaOgrSrsCtl::ImportFromWkt(const UStringT *aWkt)
 
     if (err == OGRERR_NONE)
     {
+        mType->WktToProjCs(&mCode, aWkt);
+
         return UErrFalse;
     }
 
-    return UErrFalse;
+    return UErrTrue;
 }
 
 /**
@@ -107,10 +111,22 @@ UErrCodeT CGdaOgrSrsCtl::SetProjCs(const GdaProjCsCodeT aCode)
 
     if (err == OGRERR_NONE)
     {
+        mCode = aCode;
+
         return UErrFalse;
     }
 
     return UErrTrue;
+}
+
+/**
+ * \brief Projected coordinate system code.
+ */
+UErrCodeT CGdaOgrSrsCtl::ProjCs(GdaProjCsCodeT *aCode)
+{
+    *aCode = mCode;
+
+    return UErrFalse;
 }
 
 /**
@@ -124,6 +140,22 @@ UErrCodeT CGdaOgrSrsCtl::ExportToWkt(UStringT *aWkt)
     if (err == 0)
     {
         *aWkt = wkt;
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Compare.
+ */
+UErrCodeT CGdaOgrSrsCtl::Cmp(const GdaOgrSrsT *aSrs)
+{
+    GdaProjCsCodeT code;
+    aSrs->ProjCs(&code);
+
+    if (mCode == code)
+    {
         return UErrFalse;
     }
 

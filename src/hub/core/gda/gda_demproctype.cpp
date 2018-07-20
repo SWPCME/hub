@@ -60,6 +60,7 @@ GdaDemProcT::~GdaDemProcT()
 UErrCodeT GdaDemProcT::SetAll(const GdaDemProcFrmtCodeT aFrmt,
                               const BCtnStringT *aOpt)
 {
+    Clear();
     SetFrmt(aFrmt);
     mProc->New(&mProcH, aOpt);
 
@@ -112,9 +113,12 @@ UErrCodeT GdaDemProcT::Init()
  */
 UErrCodeT GdaDemProcT::Clear()
 {
-    mProc->Del(mProcH);
+    if (mProcH != NULL)
+    {
+        return mProc->Del(mProcH);
+    }
 
-    return UErrFalse;
+    return UErrTrue;
 }
 
 /***** Private B *****/

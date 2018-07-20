@@ -65,6 +65,7 @@ class GDA_LIB CGdaTypeCtl
     // Warp
     UErrCodeT ToProjCs(UStringT *aDst, const GdaProjCsCodeT aSrc);
     UErrCodeT ToProjCs(UIntT *aDst, const GdaProjCsCodeT aSrc);
+    UErrCodeT WktToProjCs(GdaProjCsCodeT *aDst, const UStringT aSrc);
 
     // Utils
     UErrCodeT ToDemProcFrmt(UStringT *aDst,
@@ -77,6 +78,8 @@ class GDA_LIB CGdaTypeCtl
 
   protected:
   private:
+    UErrCodeT ProjCsToStr(UStringT *aDst, const GdaProjCsCodeT aSrc);
+
     UErrCodeT MergeArgv(UContainerT<UStringT> *aStrCtn,
                         const UStringT *aToken);
 

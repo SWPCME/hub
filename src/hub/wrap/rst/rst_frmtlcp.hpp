@@ -35,6 +35,8 @@
 class CClsFsCtl;
 // gda
 class CGdaDriversCtl;
+class CGdaDriverCtl;
+class CGdaBandCtl;
 class CGdaWarpCtl;
 class CGdaUtilsDem;
 class CGdaUtilsTr;
@@ -61,11 +63,20 @@ class RST_LIB CRstFrmtLcp
   private:
     UErrCodeT InitPointer();
 
-    // Translate.
+    // For create, contains init, translate, and so on.
+    UErrCodeT CreateTif(const UStringT *aTif, const UStringT *aElev,
+                        const GdaProjCsCodeT aCode);
+    UErrCodeT CreateTifTmp(const UStringT *aTif, CGdaDatasetCtl *aDs,
+                           const UFloatT aNdVal);
+    UErrCodeT SetBandVal(CGdaBandCtl *aBand, UFloatT aVal,
+                         UFlagCodeT aFlag);
+    UErrCodeT DemProc(const UStringT *aDem, CGdaDatasetCtl *aDs,
+                      const GdaDemProcFrmtCodeT aFrmt);
     UErrCodeT ToTif(const UStringT *aDst, const UStringT *aSrc);
     UErrCodeT Reproj(const UStringT *aDst, const UStringT *aSrc,
                      GdaOgrSrsT *aDstSrs);
     UErrCodeT ToLcp(const UStringT *aDst, const UStringT *aSrc);
+    UErrCodeT TrTif2Lcp(const UStringT *aLcp, const UStringT *aTif);
 
     CRstFrmtCtl *mFrmt;
     CClsFsCtl *mFs;

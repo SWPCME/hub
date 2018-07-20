@@ -45,3 +45,24 @@ UErrCodeT CUstTypeCtl::Init()
 {
     return UErrFalse;
 }
+
+/**
+ * \brief Get size of "UDataTCodeT".
+ */
+UErrCodeT CUstTypeCtl::Size(UIntT *aSize, const UDataTCodeT aCode)
+{
+    switch (aCode)
+    {
+    case UDataTInt16:
+        *aSize = 2;
+        break;
+    case UDataTFloat32:
+        *aSize = 4;
+        break;
+    default:
+        *aSize = 0;
+        break;
+    }
+
+    return UErrFalse;
+}

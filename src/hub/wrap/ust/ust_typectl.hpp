@@ -34,6 +34,7 @@ class UST_LIB CUstTypeCtl
     ~CUstTypeCtl();
 
     UErrCodeT Init();
+    UErrCodeT Size(UIntT *aSize, const UDataTCodeT aCode);
 
   protected:
   private:

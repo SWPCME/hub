@@ -1,12 +1,12 @@
 /******************************************************************************
- * $Id: ust_stringctl.hpp 2016-08 $
+ * $Id: ust_stringctl.hpp 2018-07 $
  *
  * Project:  Universal struct library.
  * Purpose:  String control.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2016, Weiwei Huang
+ * Copyright (c) 2016-08 ~ 2018, Weiwei Huang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,15 @@
 #include "ust_stringbase.h"
 #include "base_mathtype.hpp"
 
+// cls
 class CClsStringCtl;
 class CClsStringToken;
+class CClsStringSrch;
 class CClsMemoryCtl;
 class CClsIoCommonCtl;
 class CClsFormatOutput;
+// ust
+class UStringT;
 
 class UST_LIB CUstStringCtl
 {
@@ -95,6 +99,8 @@ class UST_LIB CUstStringCtl
 
     // Finding token.
     UErrCodeT Find(char **aDst, char *aSrc, const char *aDelimiters);
+    // Check substring needle.
+    UErrCodeT Check(const UStringT *aHaystack, const UStringT *aNeedle);
 
     // Console.
     UErrCodeT ToConsole(const char *aStr);
@@ -119,6 +125,7 @@ class UST_LIB CUstStringCtl
     // Cls Library.
     CClsStringCtl* mStr;
     CClsStringToken *mToken;
+    CClsStringSrch *mSrch;
     CClsMemoryCtl *mMem;
     CClsIoCommonCtl *mIoCmn;
     CClsFormatOutput *mFmtOut;

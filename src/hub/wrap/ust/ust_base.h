@@ -40,9 +40,18 @@ typedef UHandleT UstFileHT;
 /* Macro. */
 
 #define UST_CTL(aCtl)                           \
+    if (aCtl == NULL)                           \
     {                                           \
         BMD_WRAP_CTL(wrapCtl);                  \
         aCtl = wrapCtl->Ust();                  \
+    }
+
+#define UST_TYPE_CTL(aCtl)                      \
+    if (aCtl == NULL)                           \
+    {                                           \
+        CUstCtl *ust = NULL;                    \
+        UST_CTL(ust);                           \
+        aCtl = ust->Type();                     \
     }
 
 #endif  /* UST_BASE_H_INCLUDED */

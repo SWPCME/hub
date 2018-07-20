@@ -181,6 +181,17 @@ UErrCodeT UStringT::Add(const char *aStr)
 // }
 
 /**
+ * \brief Check substring needle on this object.
+ *
+ * @param aSubStr, a substring needle.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT UStringT::Check(const UStringT *aNeedle)
+{
+    return mStr->Check(this, aNeedle);
+}
+
+/**
  * \brief Get string with type of "UCharT"
  *
  * @return String that storage of this object.

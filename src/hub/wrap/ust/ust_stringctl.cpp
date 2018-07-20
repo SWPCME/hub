@@ -41,12 +41,15 @@
 #include "cls_ctl.hpp"
 #include "cls_stringctl.hpp"
 #include "cls_stringtoken.hpp"
+#include "cls_stringsrch.hpp"
 #include "cls_memoryctl.hpp"
 #include "cls_ioctl.hpp"
 #include "cls_iocommonctl.hpp"
 #include "cls_iostreamctl.hpp"
 #include "cls_streamformat.hpp"
 #include "cls_formatoutput.hpp"
+// ust
+#include "ust_stringtype.hpp"
 
 /**
  * \brief Constructor.
@@ -55,6 +58,7 @@ CUstStringCtl::CUstStringCtl()
 {
     BMD_POINTER_INIT(mStr);
     BMD_POINTER_INIT(mToken);
+    BMD_POINTER_INIT(mSrch);
     BMD_POINTER_INIT(mMem);
     BMD_POINTER_INIT(mIoCmn);
     BMD_POINTER_INIT(mFmtOut);
@@ -67,6 +71,7 @@ CUstStringCtl::~CUstStringCtl()
 {
     BMD_POINTER_INIT(mStr);
     BMD_POINTER_INIT(mToken);
+    BMD_POINTER_INIT(mSrch);
     BMD_POINTER_INIT(mMem);
     BMD_POINTER_INIT(mIoCmn);
     BMD_POINTER_INIT(mFmtOut);
@@ -84,6 +89,7 @@ UErrCodeT CUstStringCtl::Init()
     CClsCtl* clsCtl = coreCtl->Cls();
     mStr = clsCtl->Str();
     mToken = mStr->Token();
+    mSrch = mStr->Srch();
     mMem = clsCtl->Mem();
     CClsIoCtl *ioCtl = clsCtl->Io();
     mIoCmn = ioCtl->Common();
@@ -379,6 +385,16 @@ BMathNumSignCodeT CUstStringCtl::Coll(const char *aDest, const char *aSrc)
 UErrCodeT CUstStringCtl::Find(char **aDst, char *aSrc, const char *aDelimiters)
 {
     return mToken->Find(aDst, aSrc, aDelimiters);
+}
+
+/**
+ * \brief Check substring on this object.
+ */
+UErrCodeT CUstStringCtl::Check(const UStringT *aHaystack, const UStringT *aNeedle)
+{
+    UStringT subStr;
+
+    return  mSrch->Str(&subStr, aHaystack, aNeedle);
 }
 
 UErrCodeT CUstStringCtl::ToConsole(const char *aStr)

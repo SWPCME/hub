@@ -58,8 +58,7 @@ class UST_LIB UStringT
     UErrCodeT Add(const wchar_t *aStr);
     UErrCodeT Del(const char *aStr);
     UErrCodeT Del(const wchar_t *aStr);
-    UErrCodeT Find(const char *aStr);
-    UErrCodeT Find(const wchar_t *aStr);
+    UErrCodeT Check(const UStringT *aNeedle);
     UIntT Count();
     UErrCodeT IsNull() const;
     UErrCodeT Clear();

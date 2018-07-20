@@ -27,8 +27,6 @@ import whub.*;
 
 public class TestRst
 {
-    private CRstCtl mRst;
-
     public static void main(String[] aArg)
     {
         TestRst rst = new TestRst();
@@ -41,20 +39,30 @@ public class TestRst
         CHubModuleCtl module = hubCtl.RegModule();
         module.Register(HubCodeT.HubMRst);
         mRst = module.Rst();
+
+        // Init variable.
+        mDataPath = new UStringT("../../../../data/core/gda");
+
         TestFrmt();
+
         hubCtl.DeregModule(module);
 
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT TestFrmt()
+    private UErrCodeT TestFrmt()
     {
         CRstFrmtCtl frmtCtl = mRst.Frmt();
         CRstFrmtLcp frmtLcp = frmtCtl.Lcp();
-        UStringT lcp = new UStringT("../../../data/core/gda/dem/test.lcp");
-        UStringT elev = new UStringT("../../../data/core/gda/dem/dem1.tif");
+        UStringT lcp = new UStringT(mDataPath);
+        lcp.Add("/tr/dem1_srcwin.lcp");
+        UStringT elev = new UStringT(mDataPath);
+        elev.Add("/tr/dem1_srcwin.tif");
         frmtLcp.Create(lcp, elev, null, null, GdaProjCsCodeT.GdaProjCsXian1980);
 
         return UErrCodeT.UErrFalse;
     }
+
+    private CRstCtl mRst;
+    private UStringT mDataPath;
 }

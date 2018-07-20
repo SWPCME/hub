@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: TestGda.java 2018-05 $
+ * $Id: TestGda.java 2018-06 $
  *
  * Project:  Test.
  * Purpose:  Test rst.
@@ -27,11 +27,6 @@ import whub.*;
 
 public class TestGda
 {
-    private CGdaCtl mGda;
-    private CGdaDriversCtl mDrivers;
-    private CGdaUtilsCtl mUtils;
-    private UStringT mDataPath;
-
     public static void main(String[] aArg)
     {
         TestGda gda = new TestGda();
@@ -68,14 +63,14 @@ public class TestGda
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT TestCore()
+    private UErrCodeT TestCore()
     {
         CoreBand();
 
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT DsPosToId(BMathCsC2dT aId, BMathCsC2dT aPos,
+    private UErrCodeT DsPosToId(BMathCsC2dT aId, BMathCsC2dT aPos,
                                CGdaDatasetCtl aDs)
     {
         GdaOgrSrsT srsSrc = new GdaOgrSrsT();
@@ -97,7 +92,7 @@ public class TestGda
         return err;
     }
 
-    public UErrCodeT CoreBand()
+    private UErrCodeT CoreBand()
     {
         // Load band.
         UStringT file = new UStringT(mDataPath);
@@ -132,7 +127,7 @@ public class TestGda
         return UErrCodeT.UErrFalse;
     }
 
-    public CGdaDatasetCtl LoadDataset(UStringT aFile,
+    private CGdaDatasetCtl LoadDataset(UStringT aFile,
                                       UAccessCodeT aAccess,
                                       GdaFormatCodeT aFormat)
     {
@@ -142,14 +137,14 @@ public class TestGda
         return datasetCtl;
     }
 
-    public UErrCodeT TestOgr()
+    private UErrCodeT TestOgr()
     {
         OgrCtr();
 
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT OgrCtr()
+    private UErrCodeT OgrCtr()
     {
         GdaOgrSrsT srsSrc = new GdaOgrSrsT();
         srsSrc.SetProjCs(GdaProjCsCodeT.GdaProjCsWgs1984);
@@ -165,14 +160,14 @@ public class TestGda
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT TestUtils()
+    private UErrCodeT TestUtils()
     {
         UtilsR2R();
 
         return UErrCodeT.UErrFalse;
     }
 
-    public UErrCodeT UtilsR2R()
+    private UErrCodeT UtilsR2R()
     {
         // Prepare data of source and output file.
         UStringT trPath = new UStringT(mDataPath);
@@ -200,7 +195,7 @@ public class TestGda
         return UErrCodeT.UErrFalse;
     }
 
-    UErrCodeT R2RTrSrcWin(CGdaDatasetCtl aDsSrc, UStringT aRstDst)
+    private UErrCodeT R2RTrSrcWin(CGdaDatasetCtl aDsSrc, UStringT aRstDst)
     {
         CGdaUtilsTr tr = mUtils.Tr();
         CGdaTrRst rst = tr.Rst();
@@ -234,4 +229,9 @@ public class TestGda
 
         return UErrCodeT.UErrFalse;
     }
+
+    private CGdaCtl mGda;
+    private CGdaDriversCtl mDrivers;
+    private CGdaUtilsCtl mUtils;
+    private UStringT mDataPath;
 }

@@ -46,6 +46,7 @@ C_OBJ = \
       cls_streamfile.o \
       cls_streamline.o \
       cls_streamformat.o \
+      cls_streamblock.o \
       cls_formatinput.o \
       cls_formatoutput.o \
       cls_mathctl.o \
@@ -80,6 +81,7 @@ C_HEADER = \
          cls_streamfile.hpp \
          cls_streamline.hpp \
          cls_streamformat.hpp \
+         cls_streamblock.hpp \
          cls_formatinput.hpp \
          cls_formatoutput.hpp \
          cls_mathctl.hpp \

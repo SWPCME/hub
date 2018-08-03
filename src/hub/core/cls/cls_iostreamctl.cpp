@@ -28,6 +28,7 @@
 #include "cls_streamfile.hpp"
 #include "cls_streamline.hpp"
 #include "cls_streamformat.hpp"
+#include "cls_streamblock.hpp"
 
 /**
  * \brief Constructor.
@@ -45,6 +46,7 @@ CClsIoStreamCtl::~CClsIoStreamCtl()
     BMD_CLASS_DEL(mFile);
     BMD_CLASS_DEL(mLine);
     BMD_CLASS_DEL(mFormat);
+    BMD_CLASS_DEL(mBlock);
 }
 
 /**
@@ -85,6 +87,16 @@ CClsStreamFormat *CClsIoStreamCtl::Format()
     return mFormat;
 }
 
+/**
+ * \brief Block.
+ */
+CClsStreamBlock *CClsIoStreamCtl::Block()
+{
+    BMD_CLASS_NEW(mBlock, CClsStreamBlock);
+
+    return mBlock;
+}
+
 /***** Private A *****/
 
 UErrCodeT CClsIoStreamCtl::InitPointer()
@@ -92,6 +104,7 @@ UErrCodeT CClsIoStreamCtl::InitPointer()
     BMD_POINTER_INIT(mFile);
     BMD_POINTER_INIT(mLine);
     BMD_POINTER_INIT(mFormat);
+    BMD_POINTER_INIT(mBlock);
 
     return UErrFalse;
 }

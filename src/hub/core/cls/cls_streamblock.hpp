@@ -1,12 +1,13 @@
+/* -*- mode: c++ -*- */
 /******************************************************************************
- * $Id: cls_iostreamctl.hpp 2017-07 $
+ * $Id: cls_streamblock.hpp 2018-08 $
  *
- * Project:  C language standard library.
- * Purpose:  Stream controler definition.
+ * Project:  Cls (C language standard library).
+ * Purpose:  Stream block definition.
  * Author:   Weiwei Huang, 898687324@qq.com
  *
  ******************************************************************************
- * Copyright (c) 2017-06 ~ 2017 Weiwei Huang
+ * Copyright (c) 2018-08 ~ 2018, Weiwei Huang
  *
  * This program is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -22,38 +23,37 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************************/
 
-#ifndef CLS_IOSTREAMCTL_HPP_INCLUDED
-#define CLS_IOSTREAMCTL_HPP_INCLUDED
+#ifndef CLS_STREAMBLOCK_HPP_INCLUDED
+#define CLS_STREAMBLOCK_HPP_INCLUDED
 
 #include "cls_base.h"
 
-class CClsStreamFile;
-class CClsStreamLine;
-class CClsStreamFormat;
-class CClsStreamBlock;
+// cls
+class CClsMemoryCtl;
+// ust
+class UMemT;
 
-class CLS_LIB CClsIoStreamCtl
+/**
+ * \brief Cls stream block: Input and output operations on blocks of data.
+ */
+class CLS_LIB CClsStreamBlock
 {
   public:
-    CClsIoStreamCtl();
-    ~CClsIoStreamCtl();
+    CClsStreamBlock();
+    ~CClsStreamBlock();
 
     UErrCodeT Init();
 
-    // Controler.
-    CClsStreamLine *Line();
-    CClsStreamFile *File();
-    CClsStreamFormat *Format();
-    CClsStreamBlock *Block();
+    UIntT Input(UMemT *aBlock, UIntT aSize, UIntT aCount,
+                ClsFileHT aFileH);
+    UErrCodeT Output(UMemT *aBlock, UIntT aSize, UIntT aCount,
+                     ClsFileHT aFileH);
 
   protected:
   private:
     UErrCodeT InitPointer();
 
-    CClsStreamFormat *mFormat;
-    CClsStreamFile *mFile;
-    CClsStreamLine *mLine;
-    CClsStreamBlock *mBlock;
+    CClsMemoryCtl *mMem;
 };
 
-#endif  // CLS_IOSTREAMCTL_HPP_INCLUDED
+#endif  // CLS_STREAMBLOCK_HPP_INCLUDED

@@ -1,13 +1,13 @@
-[+ AutoGen5 template tpl -*- mode: c++ -*-
+# -*- mode: makefile -*-
 ################################################################################
-# $Id: cxx_ctlcxxtpl.tpl 2018-06 $
+# $Id: Makefile 2018-08 $
 #
-# Project:  Hub.
-# Purpose:  Cxx controler for cxx tpl template.
+# Project:  
+# Purpose:  Makefile for main of amg.
 # Author:   Weiwei Huang, 898687324@qq.com
 #
 ################################################################################
-# Copyright (c) 2018-06 ~ 2018 Weiwei Huang
+# Copyright (c) 2018-08 ~ 2018 Weiwei Huang
 #
 # This program is free software; you can redistribute it and/or modify it under 
 # the terms of the GNU General Public License as published by the Free Software 
@@ -22,46 +22,23 @@
 # You should have received a copy of the GNU General Public License along with 
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-+]
-/* -*- mode: c++ -*- */
-[+ Include "cxx_licencecxxtpl.tpl" +]
 
-#include [+ cxx_include +]
+#
+# Options.
+#
+# Directory.
+SRC_DIR = ../../../../..
+DOC_SRC_DIR = .
+# Search.
+INCLUDE_DIR = -I$(CURRENT_DIR)
 
-/**
- * \brief Constructor.
- */
-[+ class_name +]::[+ class_name +]()
-{
-}
+# Include.
+OPT_LIST = $(SRC_DIR)/opt.lst
+include $(OPT_LIST)
 
-/**
- * \brief Destructor.
- */
-[+ class_name +]::~[+ class_name +]()
-{
-}
+# Target.
+default: amg_gen
 
-/**
- * \brief Initialize.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT [+ class_name +]::Init()
-{
-    return UErrFalse;
-}
+amg_gen: prj_amg_gen
 
-/***** Private A *****/
-
-/**
- * \brief InitPointer.
- *
- * @return UErrFalse, if successful; UErrTrue, if failed.
- */
-UErrCodeT [+ class_name +]::InitPointer()
-{
-    return UErrFalse;
-}
-
-/***** Private B *****/
+clean: prj_amg_clean

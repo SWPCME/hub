@@ -23,6 +23,7 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 +]
+/* -*- mode: c++ -*- */
 [+ Include "cxx_licencehxxtpl.tpl" +]
 
 #ifndef [+ hxx_file_def +]

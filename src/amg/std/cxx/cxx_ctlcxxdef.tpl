@@ -26,7 +26,7 @@
 /* -*- mode: conf -*- */
 [+ Include "cxx_licencecxxtpl.tpl" +]
 
-autogen definitions cxx_ctlcxxdef
+autogen definitions cxx_ctlcxxdef;
 
 /* base */
 #include 

@@ -36,6 +36,7 @@
 
 typedef UHandleT UDataHT;
 typedef UHandleT UstFileHT;
+typedef UHandleT UMemHT;
 
 /* Macro. */
 

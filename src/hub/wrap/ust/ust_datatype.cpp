@@ -1,7 +1,7 @@
 /******************************************************************************
  * $Id: ust_datatype.cpp 2018-05 $
  *
- * Project:  Common Library.
+ * Project:  Universal struct library.
  * Purpose:  Universal data struct type.
  * Author:   Weiwei Huang, 898687324@qq.com
  *

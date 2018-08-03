@@ -375,19 +375,27 @@ UErrCodeT CRstFrmtLcp::Reproj(const UStringT *aDst, const UStringT *aSrc,
     GdaFormatCodeT frmt = GdaFormatTif;
     mDrs->Register(frmt);
     CGdaDriverCtl *drTif = mDrs->Driver(frmt);
+
+    // source srs
     UAccessCodeT access = UAccessRead;
     CGdaDatasetCtl *srcDs = drTif->Load(aSrc, access);
     GdaOgrSrsT *srcSrs = srcDs->Srs();
+
+    // destination srs
     GdaOgrSrsT *dstSrs = aDstSrs;
     if (dstSrs->Cmp(srcSrs) == UErrFalse)
     {
         CClsFsCreate *fsCreate = mFs->Create();
         fsCreate->Copy(aDst, aSrc);
     }
-    GdaWarpReprojImageT reprojImage;
-    reprojImage.SetAll(dstSrs, srcSrs, drTif);
-    CGdaWarpReproj *reproj = mWarp->Reproj();
-    reproj->ToImage(aDst, srcDs, &reprojImage);
+    else
+    {
+        GdaWarpReprojImageT reprojImage;
+        reprojImage.SetAll(dstSrs, srcSrs, drTif);
+        CGdaWarpReproj *reproj = mWarp->Reproj();
+        reproj->ToImage(aDst, srcDs, &reprojImage);
+    }
+
     drTif->Close(aSrc);
 
     return UErrFalse;

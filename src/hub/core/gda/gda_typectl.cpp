@@ -37,6 +37,9 @@
 #include "gda_typeogr.hpp"
 #include "gda_banddatactl.hpp"
 
+// GDAL
+#include <cpl_string.h>
+
 /**
  * \brief Constructor.
  */
@@ -347,17 +350,34 @@ UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const BCtnStringT *aSrc)
         return UErrFalse;
     }
 
+    // allocate level 2 pointer
     BItStringT *it = aSrc->Iterator();
     UIntT count = aSrc->Count();
     char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 1));
-    argv[count] = NULL;
+    UIntT **argc = (UIntT **) mMem->Alloc(sizeof(UIntT *) * (count + 1));
+    argv[0] = (char *) argc;
+
+    // Move the argv to data field.
+    argv++;
+
+    // allocate level 1 pointer
+    // Set the header.
+    argc[0] = (UIntT *) mMem->Alloc(sizeof(UIntT));
+    *(argc[0]) = count;
 
     it->Head();
     for (UIntT i = 0; it->State() == UErrFalse; it->Next(), ++i)
     {
         UStringT str = it->Content();
-        argv[i] = (char *) mMem->Alloc(sizeof(char) * (str.Len() + 1));
+        UIntT sizeStr = str.Len() + 1;
+
+        // process level 1 pointer of argv
+        argv[i] = (char *) mMem->Alloc(sizeof(char) * sizeStr);
         argv[i] = mStr->Cpy(argv[i], str.ToA());
+
+        // process level 1 pointer of agrc
+        argc[i + 1] = (UIntT *) mMem->Alloc(sizeof(UIntT));
+        *(argc[i + 1]) = sizeStr;
     }
 
     *aDst = (GdaArgvT) argv;
@@ -388,16 +408,31 @@ UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const UStringT *aSrc)
 UErrCodeT CGdaTypeCtl::DelArgv(GdaArgvT aArgv)
 {
     char **argv = (char **) aArgv;
+    UIntT **argc = (UIntT **)(*(argv - 1));
     if (argv == NULL)
     {
         return UErrFalse;
     }
 
-    while (*argv != NULL)
+    // free level 1 pointer.
+    UIntT count = *(argc[0]);
+    mMem->Free((UHandleT) argc[0]);
+    for (UIntT i = 0; i < count; ++i)
     {
-        mMem->Free((UHandleT) *argv);
-        argv++;
+        char *argvTmp = argv[i];
+        UStringT argvStr(argvTmp);
+        UIntT sizeMove = *(argc[i + 1]) - (argvStr.Len() + 1);
+        if (sizeMove < 0)
+        {
+            return UErrTrue;
+        }
+        mMem->Free((UHandleT) (argvTmp - sizeMove));
+        mMem->Free((UHandleT) (*(argc + i + 1)));
     }
+
+    // free level 2 pointer.
+    mMem->Free((UHandleT) argc);
+    mMem->Free((UHandleT) (argv - 1));
 
     return UErrFalse;
 }

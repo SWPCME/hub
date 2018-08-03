@@ -30,6 +30,8 @@
 // gda
 class CGdaTypeCtl;
 class GdaOgrSrsT;
+// cls
+class CClsMemoryCtl;
 
 class GDA_LIB CGdaOgrSrsCtl
 {
@@ -48,10 +50,14 @@ class GDA_LIB CGdaOgrSrsCtl
 
   protected:
   private:
+    UErrCodeT InitPointer();
     UErrCodeT New();
     UErrCodeT Destroy();
 
+    // gda
     CGdaTypeCtl *mType;
+    // cls
+    CClsMemoryCtl *mMem;
 
     GdaOgrSrsHT mSrsH;
     GdaProjCsCodeT mCode;

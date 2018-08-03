@@ -32,6 +32,9 @@
 #include "gda_ctl.hpp"
 #include "gda_typectl.hpp"
 #include "gda_ogrsrstype.hpp"
+// cls
+#include "cls_ctl.hpp"
+#include "cls_memoryctl.hpp"
 
 // GDAL
 #include "ogr_srs_api.h"
@@ -42,7 +45,7 @@
 CGdaOgrSrsCtl::CGdaOgrSrsCtl()
 {
     New();
-    BMD_POINTER_INIT(mType);
+    InitPointer();
     mCode = GdaProjCsUnknown;
 }
 
@@ -52,7 +55,7 @@ CGdaOgrSrsCtl::CGdaOgrSrsCtl()
 CGdaOgrSrsCtl::~CGdaOgrSrsCtl()
 {
     Destroy();
-    BMD_POINTER_INIT(mType);
+    InitPointer();
 }
 
 /**
@@ -61,6 +64,10 @@ CGdaOgrSrsCtl::~CGdaOgrSrsCtl()
 UErrCodeT CGdaOgrSrsCtl::Init()
 {
     GDA_TYPE_CTL(mType);
+
+    CClsCtl *cls = NULL;
+    CLS_CTL(cls);
+    mMem = cls->Mem();
 
     return UErrFalse;
 }
@@ -81,14 +88,14 @@ UErrCodeT CGdaOgrSrsCtl::ImportFromWkt(const UStringT *aWkt)
     BCtnStringT srcWkt(UContainerList);
     srcWkt.Add(*aWkt);
     GdaArgvT dstWkt = NULL;
+
+    // [heap 1] new argv
     mType->NewArgv(&dstWkt, &srcWkt);
-    char **wkt = (char **) dstWkt;
-    OGRErr err = OSRImportFromWkt((OGRSpatialReferenceH) mSrsH, wkt);
-    UStringT test = wkt[0];
-    if (test.IsNull() == UErrTrue)
-    {
-        mType->DelArgv(dstWkt);
-    }
+
+    OGRErr err = OSRImportFromWkt((OGRSpatialReferenceH) mSrsH, (char **) dstWkt);
+
+    // delete argv, pair with [heap 1]
+    mType->DelArgv(dstWkt);
 
     if (err == OGRERR_NONE)
     {
@@ -140,6 +147,8 @@ UErrCodeT CGdaOgrSrsCtl::ExportToWkt(UStringT *aWkt)
     if (err == 0)
     {
         *aWkt = wkt;
+        mMem->Free((UHandleT) wkt);
+
         return UErrFalse;
     }
 
@@ -163,6 +172,17 @@ UErrCodeT CGdaOgrSrsCtl::Cmp(const GdaOgrSrsT *aSrs)
 }
 
 /***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CGdaOgrSrsCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mType);
+    BMD_POINTER_INIT(mMem);
+
+    return UErrFalse;
+}
 
 /**
  * \brief New.

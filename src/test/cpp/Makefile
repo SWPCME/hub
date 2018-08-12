@@ -22,3 +22,5 @@ include $(OPT_LIST)
 default: bin_file
 
 clean: clean_obj target_dir_clean
+
+check: prj_vgr_mem_check

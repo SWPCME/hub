@@ -20,6 +20,7 @@ C_OBJ = main.o
 
 # Binary file name.
 CXX_BIN_FILE = test_cpp
+VGR_PROG = $(PRJ_INSTALL_BIN_DIR)/$(CXX_BIN_FILE)
 
 # Backup directory.
 BACKUP_DIR = $(SRC_DIR)/../.backup

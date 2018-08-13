@@ -353,9 +353,14 @@ UErrCodeT CGdaTypeCtl::NewArgv(GdaArgvT *aDst, const BCtnStringT *aSrc)
     // allocate level 2 pointer
     BItStringT *it = aSrc->Iterator();
     UIntT count = aSrc->Count();
-    char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 1));
+    char **argv = (char **) mMem->Alloc(sizeof(char *) * (count + 2));
     UIntT **argc = (UIntT **) mMem->Alloc(sizeof(UIntT *) * (count + 1));
+
+    // Set the header.
     argv[0] = (char *) argc;
+
+    // Set the tail with "NULL", for the struct of "CSLConstList".
+    argv[count + 1] = NULL;
 
     // Move the argv to data field.
     argv++;

@@ -70,9 +70,7 @@ UErrCodeT CGdaDemProcCtl::New(GdaDemProcHT *aDst, const BCtnStringT *aSrc)
     mType->NewArgv(&argv, aSrc);
 
     GDALDEMProcessingOptionsForBinary *bin = NULL;
-    // SWPCME_A
-    // *aDst = (GdaDemProcHT) GDALDEMProcessingOptionsNew((char **) argv, bin);
-    // SWPCME_B
+    *aDst = (GdaDemProcHT) GDALDEMProcessingOptionsNew((char **) argv, bin);
 
     mType->DelArgv(argv);
 

@@ -129,8 +129,7 @@ CFmdFileCtl *CFmdFileLoad::Up()
 UErrCodeT CFmdFileLoad::All(const UStringT *aCfg, const UStringT *aLcp,
                             const UStringT *aIgnition, const UStringT *aBarrier)
 {
-    Cfg(aCfg);
-    Lcp(aLcp);
+    Basic(aCfg, aLcp);
     Ignition(aIgnition);
     Barrier(aBarrier);
 
@@ -138,31 +137,23 @@ UErrCodeT CFmdFileLoad::All(const UStringT *aCfg, const UStringT *aLcp,
 }
 
 /**
- * \brief Load configuration file.
+ * \brief Load basic file.
  *
- * \param aFile, configuration file.
+ * It contains the landscape file and configure file.
  *
- * \return UErrFalse, if successful; FMD_ERR, if failed.
- */
-UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
-{
-    FMD_FARSITE(mFarsiteH)->LoadInputsFile((char *) aFile->ToA());
-
-    return UErrFalse;
-}
-
-/**
- * \brief Load landscape file.
- *
- * \param aFile, landscape file.
+ * \param aCfg, configuration file that create by "CFmdCfgWrite".
+ * \param aLcp, landscape file that create by "CRstFrmtLcp".
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
+UErrCodeT CFmdFileLoad::Basic(const UStringT *aCfg, const UStringT *aLcp)
 {
-    FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
+    if (Lcp(aLcp) == UErrTrue)
+    {
+        return UErrTrue;
+    }
 
-    return UErrFalse;
+    return Cfg(aCfg);
 }
 
 /**
@@ -236,6 +227,39 @@ UErrCodeT CFmdFileLoad::InitPointer()
     BMD_POINTER_INIT(mRst);
     BMD_POINTER_INIT(mVtr);
     BMD_POINTER_INIT(mFarsiteH);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Load configuration file.
+ *
+ * \param aFile, configuration file.
+ *
+ * \return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
+{
+    UIntT err = FMD_FARSITE(mFarsiteH)->LoadInputsFile((char *) aFile->ToA());
+
+    if (err == 1)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Load landscape file.
+ *
+ * \param aFile, landscape file.
+ *
+ * \return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
+{
+    FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
 
     return UErrFalse;
 }

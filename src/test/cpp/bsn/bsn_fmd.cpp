@@ -188,8 +188,8 @@ UErrCodeT CBsnFmd::TestWrite()
     ignitionFile += "/ctgy/fmd/3/i1.shp";
     outFile += "/ctgy/fmd/3/o1";
 
-    ignitionFile =
-      "{\"type\": \"FeatureCollection\",\"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:EPSG::2383\" } },\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }";
+    // ignitionFile =
+    //   "{\"type\": \"FeatureCollection\",\"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:EPSG::2383\" } },\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }";
 
     // const UStringT ignitionFile =
     //   "{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }";
@@ -200,11 +200,10 @@ UErrCodeT CBsnFmd::TestWrite()
     UStringT barrierFile = "";
 
     // fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
-    fileLoad->Cfg(&cfgFile);
-    fileLoad->Lcp(&lcpFile);
-    // fileLoad->Ignition(&ignitionFile);
-    fileLoad->IgnitionGjson(&ignitionFile);
-    fileLoad->BarrierGjson(&barrierFile);
+    fileLoad->Basic(&cfgFile, &lcpFile);
+    fileLoad->Ignition(&ignitionFile);
+    // fileLoad->IgnitionGjson(&ignitionFile);
+    // fileLoad->BarrierGjson(&barrierFile);
 
     // Master.
     CFmdMasterCtl *masterCtl = mFmd->Master();

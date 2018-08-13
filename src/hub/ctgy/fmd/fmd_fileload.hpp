@@ -51,10 +51,8 @@ class FMD_LIB CFmdFileLoad
     // Load All file.
     UErrCodeT All(const UStringT *aCfg, const UStringT *aLcp,
                   const UStringT *aIgnition, const UStringT *aBarrier);
-    // Load configuration file.
-    UErrCodeT Cfg(const UStringT *aFile);
-    // Load landscape file.
-    UErrCodeT Lcp(const UStringT *aFile);
+    // load basic file
+    UErrCodeT Basic(const UStringT *aCfg, const UStringT *aLcp);
     // Set ignition file.
     UErrCodeT Ignition(const UStringT *aFile);
     UErrCodeT IgnitionGjson(const UStringT *aGjson);
@@ -66,6 +64,10 @@ class FMD_LIB CFmdFileLoad
   private:
     UErrCodeT InitPointer();
 
+    // Load configuration file.
+    UErrCodeT Cfg(const UStringT *aFile);
+    // Load landscape file.
+    UErrCodeT Lcp(const UStringT *aFile);
     // Load input error.
     UErrCodeT InputErr(UIntT aErr);
 

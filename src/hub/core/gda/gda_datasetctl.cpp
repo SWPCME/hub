@@ -69,6 +69,7 @@ CGdaDatasetCtl::CGdaDatasetCtl(const UStringT *aFile, UAccessCodeT aAccess)
  */
 CGdaDatasetCtl::~CGdaDatasetCtl()
 {
+    CloseAll();
     GdaClose();
     InitPointer();
 }
@@ -157,7 +158,12 @@ UErrCodeT CGdaDatasetCtl::AddBand(UDataTCodeT aDataT, UStringT *aOption)
 }
 
 /**
- * \brief Raster band.
+ * \brief Get raster band with band index.
+ *
+ * Band index, from 1 to count of band for this dataset.
+ *
+ * @param aId Band index.
+ * @return Handle of band contoler, if successful; NULL, if failed.
  */
 CGdaBandCtl *CGdaDatasetCtl::Band(UIntT aId)
 {
@@ -312,6 +318,48 @@ UErrCodeT CGdaDatasetCtl::XSize(UIntT *aNum)
 UErrCodeT CGdaDatasetCtl::YSize(UIntT *aNum)
 {
     *aNum = GDALGetRasterYSize((GDALDatasetH) mDatasetH);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Close band with band index.
+ *
+ * Band index, from 1 to count of band for this dataset.
+ *
+ * @param aBandId Band index.
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CGdaDatasetCtl::Close(const UIntT aBandId)
+{
+    MBandItT *it = mMBand.Iterator();
+    if (it->Goto(aBandId) == UErrTrue)
+    {
+        return UErrTrue;
+    }
+    CGdaBandCtl *bandCtl = it->Content();
+    delete bandCtl;
+    mMBand.DelByKey(aBandId);
+
+    return UErrFalse;
+}
+
+/**
+ * \brief Close all band.
+ *
+ * It will close all band that open by this class.
+ *
+ * @return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CGdaDatasetCtl::CloseAll()
+{
+    MBandItT *it = mMBand.Iterator();
+
+    for (it->Head(); it->State() == UErrFalse; it->Next())
+    {
+        const UIntT id = it->Key();
+        Close(id);
+    }
 
     return UErrFalse;
 }

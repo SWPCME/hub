@@ -45,8 +45,8 @@ CGdaBandCtl::CGdaBandCtl(UDataTCodeT aDataT,
                          const UStringT *aOption,
                          CGdaDatasetCtl *aDsCtl)
 {
-    mDs = aDsCtl;
     InitPointer();
+    mDs = aDsCtl;
     CreateBand(aDataT, aOption);
 }
 
@@ -56,8 +56,8 @@ CGdaBandCtl::CGdaBandCtl(UDataTCodeT aDataT,
  */
 CGdaBandCtl::CGdaBandCtl(UIntT aId, CGdaDatasetCtl *aDsCtl)
 {
-    mDs = aDsCtl;
     InitPointer();
+    mDs = aDsCtl;
     LoadBand(aId);
 }
 
@@ -306,6 +306,7 @@ UErrCodeT CGdaBandCtl::Write(GdaBandDataT *aData)
  */
 UErrCodeT CGdaBandCtl::InitPointer()
 {
+    BMD_POINTER_INIT(mDs);
     BMD_POINTER_INIT(mBandH);
     BMD_POINTER_INIT(mType);
     BMD_POINTER_INIT(mColor);

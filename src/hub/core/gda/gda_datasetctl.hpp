@@ -68,6 +68,10 @@ class GDA_LIB CGdaDatasetCtl
     UErrCodeT XSize(UIntT *aNum);
     UErrCodeT YSize(UIntT *aNum);
 
+    // close
+    UErrCodeT Close(const UIntT aBandId);
+    UErrCodeT CloseAll();
+
   private:
   protected:
     typedef UContainerT<CGdaBandCtl*, UIntT> MBandT;

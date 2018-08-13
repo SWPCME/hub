@@ -50,6 +50,7 @@ class CLS_LIB CClsMemoryCtl
 
  protected:
  private:
+    UErrCodeT InitPointer();
 };
 
 #endif  /* CLS_MEMORYCTL_HPP_INCLUDED */

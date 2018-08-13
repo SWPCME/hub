@@ -58,6 +58,16 @@ UErrCodeT CClsMemoryCtl::Init()
 }
 
 /**
+ * \brief Debug.
+ *
+ * To support with mtrace.
+ */
+// UErrCodeT CClsMemoryCtl::Debug()
+// {
+//     return UErrFalse;
+// }
+
+/**
  * \brief Allocate.
  *
  * To allocate memory, and return the handle.
@@ -188,5 +198,10 @@ UErrCodeT CClsMemoryCtl::Free(UHandleT* aHandle)
 }
 
 /***** Private A *****/
+
+UErrCodeT CClsMemoryCtl::InitPointer()
+{
+    return UErrFalse;
+}
 
 /***** Private B *****/

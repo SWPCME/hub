@@ -30,6 +30,10 @@
 // ust
 #include "ust/ust_stringtype.hpp"
 
+// cls
+class CClsStreamFile;
+class CClsStreamBlock;
+
 class CLS_LIB CClsFsCreate
 {
   public:
@@ -43,6 +47,12 @@ class CLS_LIB CClsFsCreate
 
   protected:
   private:
+    UErrCodeT InitPointer();
+    UErrCodeT CopyStdC(const UStringT *aDst, const UStringT *aSrc);
+    UErrCodeT CopySys(const UStringT *aDst, const UStringT *aSrc);
+
+    CClsStreamFile *mFile;
+    CClsStreamBlock *mBlock;
 };
 
 #endif  // CLS_FSCREATE_HPP_INCLUDED

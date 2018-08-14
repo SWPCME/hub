@@ -200,7 +200,8 @@ UErrCodeT CBsnFmd::TestWrite()
     UStringT barrierFile = "";
 
     // fileLoad->All(&cfgFile, &lcpFile, &ignitionFile, &barrierFile);
-    fileLoad->Basic(&cfgFile, &lcpFile);
+    fileLoad->Cfg(&cfgFile);
+    fileLoad->Lcp(&lcpFile);
     fileLoad->Ignition(&ignitionFile);
     // fileLoad->IgnitionGjson(&ignitionFile);
     // fileLoad->BarrierGjson(&barrierFile);

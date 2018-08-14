@@ -30,6 +30,8 @@
 #include "gda/gda_base.h"
 // ust
 #include "ust/ust_stringtype.hpp"
+// fmd
+#include "fmd_masterctl.hpp"
 
 class CGdaDriversCtl;
 class CGdaWarpCtl;
@@ -51,12 +53,14 @@ class FMD_LIB CFmdFileLoad
     // Load All file.
     UErrCodeT All(const UStringT *aCfg, const UStringT *aLcp,
                   const UStringT *aIgnition, const UStringT *aBarrier);
-    // load basic file
-    UErrCodeT Basic(const UStringT *aCfg, const UStringT *aLcp);
-    // Set ignition file.
+    // Load configuration file.
+    UErrCodeT Cfg(const UStringT *aFile);
+    // Load landscape file.
+    UErrCodeT Lcp(const UStringT *aFile);
+    // Load ignition file.
     UErrCodeT Ignition(const UStringT *aFile);
     UErrCodeT IgnitionGjson(const UStringT *aGjson);
-    // Set barrier file.
+    // Load barrier file.
     UErrCodeT Barrier(const UStringT *aFile);
     UErrCodeT BarrierGjson(const UStringT *aGjson);
 
@@ -64,18 +68,27 @@ class FMD_LIB CFmdFileLoad
   private:
     UErrCodeT InitPointer();
 
-    // Load configuration file.
-    UErrCodeT Cfg(const UStringT *aFile);
-    // Load landscape file.
-    UErrCodeT Lcp(const UStringT *aFile);
     // Load input error.
     UErrCodeT InputErr(UIntT aErr);
 
+    // set all
+    UErrCodeT SetAll();
+    // set configuration file.
+    UErrCodeT SetCfg();
+    // set landscape file
+    UErrCodeT SetLcp();
+    // set ignition file
+    UErrCodeT SetIgnition();
+    // set barrier file
+    UErrCodeT SetBarrier();
     UErrCodeT StrGjsonToShp(const UStringT *aDst, const UStringT *aSrc);
     UErrCodeT ToRstProjCs(const UStringT *aDst, const UStringT *aSrc,
                           const GdaProjCsCodeT aCode);
     UErrCodeT ToVtrProjCs(const UStringT *aDst, const UStringT *aSrc,
                           const GdaProjCsCodeT aCode);
+
+    // friend function
+    friend UErrCodeT CFmdMasterCtl::Launch();
 
     CFmdFileCtl *mFile;
     CGdaDriversCtl *mDrs;
@@ -87,6 +100,12 @@ class FMD_LIB CFmdFileLoad
 
     FmdFarsiteHT mFarsiteH;
     UStringT mTmpDir;
+
+    // files
+    UStringT mCfgFile;
+    UStringT mLcpFile;
+    UStringT mIgnitionFile;
+    UStringT mBarrierFile;
 };
 
 #endif  // FMD_FILELOAD_HPP_INCLUDED

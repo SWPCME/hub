@@ -29,6 +29,7 @@
 
 // fmd
 class CFmdCtl;
+class CFmdFileLoad;
 
 class FMD_LIB CFmdMasterCtl
 {
@@ -44,8 +45,11 @@ class FMD_LIB CFmdMasterCtl
 
   protected:
   private:
+    UErrCodeT InitPointer();
+
     FmdFarsiteHT mFarsiteH;
     CFmdCtl *mFmd;
+    CFmdFileLoad *mLoad;
 };
 
 #endif  // FMD_MASTERCTL_HPP_INCLUDED

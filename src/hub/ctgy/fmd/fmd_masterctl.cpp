@@ -30,6 +30,8 @@
 #include "ctgy_ctl.hpp"
 // fmd
 #include "fmd_ctl.hpp"
+#include "fmd_filectl.hpp"
+#include "fmd_fileload.hpp"
 
 // Farsite module.
 #include "Farsite5.h"
@@ -39,8 +41,7 @@
  */
 CFmdMasterCtl::CFmdMasterCtl(CFmdCtl *aFmd)
 {
-    BMD_POINTER_INIT(mFarsiteH);
-    BMD_POINTER_INIT(mFmd);
+    InitPointer();
     mFmd = aFmd;
 }
 
@@ -49,8 +50,7 @@ CFmdMasterCtl::CFmdMasterCtl(CFmdCtl *aFmd)
  */
 CFmdMasterCtl::~CFmdMasterCtl()
 {
-    BMD_POINTER_INIT(mFarsiteH);
-    BMD_POINTER_INIT(mFmd);
+    InitPointer();
 }
 
 /**
@@ -59,6 +59,8 @@ CFmdMasterCtl::~CFmdMasterCtl()
 UErrCodeT CFmdMasterCtl::Init()
 {
     mFarsiteH = mFmd->FarsiteH();
+    CFmdFileCtl *fileCtl = mFmd->File();
+    mLoad = fileCtl->Load();
 
     return UErrFalse;
 }
@@ -76,6 +78,12 @@ CFmdCtl *CFmdMasterCtl::Up()
  */
 UErrCodeT CFmdMasterCtl::Launch()
 {
+    UErrCodeT err = mLoad->SetAll();
+    if (err == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
     FMD_FARSITE(mFarsiteH)->LaunchFarsite();
 
     return UErrFalse;
@@ -90,3 +98,19 @@ UErrCodeT CFmdMasterCtl::Cancel()
 
     return UErrFalse;
 }
+
+/***** Private A *****/
+
+/**
+ * \brief Initialize pointer.
+ */
+UErrCodeT CFmdMasterCtl::InitPointer()
+{
+    BMD_POINTER_INIT(mFarsiteH);
+    BMD_POINTER_INIT(mFmd);
+    BMD_POINTER_INIT(mLoad);
+
+    return UErrFalse;
+}
+
+/***** Private B *****/

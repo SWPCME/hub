@@ -129,7 +129,8 @@ CFmdFileCtl *CFmdFileLoad::Up()
 UErrCodeT CFmdFileLoad::All(const UStringT *aCfg, const UStringT *aLcp,
                             const UStringT *aIgnition, const UStringT *aBarrier)
 {
-    Basic(aCfg, aLcp);
+    Cfg(aCfg);
+    Lcp(aLcp);
     Ignition(aIgnition);
     Barrier(aBarrier);
 
@@ -137,23 +138,31 @@ UErrCodeT CFmdFileLoad::All(const UStringT *aCfg, const UStringT *aLcp,
 }
 
 /**
- * \brief Load basic file.
+ * \brief Load configuration file.
  *
- * It contains the landscape file and configure file.
- *
- * \param aCfg, configuration file that create by "CFmdCfgWrite".
- * \param aLcp, landscape file that create by "CRstFrmtLcp".
+ * \param aFile, configuration file.
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CFmdFileLoad::Basic(const UStringT *aCfg, const UStringT *aLcp)
+UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
 {
-    if (Lcp(aLcp) == UErrTrue)
-    {
-        return UErrTrue;
-    }
+    mCfgFile = *aFile;
 
-    return Cfg(aCfg);
+    return UErrFalse;
+}
+
+/**
+ * \brief Load landscape file.
+ *
+ * \param aFile, landscape file.
+ *
+ * \return UErrFalse, if successful; UErrTrue, if failed.
+ */
+UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
+{
+    mLcpFile = *aFile;
+
+    return UErrFalse;
 }
 
 /**
@@ -163,11 +172,7 @@ UErrCodeT CFmdFileLoad::Basic(const UStringT *aCfg, const UStringT *aLcp)
  */
 UErrCodeT CFmdFileLoad::Ignition(const UStringT *aFile)
 {
-    UStringT file = mTmpDir;
-    file += "/ignition.shp";
-    GdaProjCsCodeT code = GdaProjCsXian1980;
-    ToVtrProjCs(&file, aFile, code);
-    FMD_FARSITE(mFarsiteH)->SetIgnitionFileName((char *) file.ToA());
+    mIgnitionFile = *aFile;
 
     return UErrFalse;
 }
@@ -191,11 +196,7 @@ UErrCodeT CFmdFileLoad::IgnitionGjson(const UStringT *aGjson)
  */
 UErrCodeT CFmdFileLoad::Barrier(const UStringT *aFile)
 {
-    UStringT file = mTmpDir;
-    file += "/barrier.shp";
-    GdaProjCsCodeT code = GdaProjCsXian1980;
-    ToVtrProjCs(&file, aFile, code);
-    FMD_FARSITE(mFarsiteH)->SetBarrierFileName((char *) file.ToA());
+    mBarrierFile = *aFile;
 
     return UErrFalse;
 }
@@ -232,15 +233,42 @@ UErrCodeT CFmdFileLoad::InitPointer()
 }
 
 /**
- * \brief Load configuration file.
- *
- * \param aFile, configuration file.
+ * \brief Load complete.
+ */
+UErrCodeT CFmdFileLoad::SetAll()
+{
+    if (SetLcp() == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    if (SetCfg() == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    if (SetIgnition() == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    if (SetBarrier() == UErrTrue)
+    {
+        return UErrTrue;
+    }
+
+    return UErrFalse;
+}
+
+
+/**
+ * \brief Set configuration file.
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
+UErrCodeT CFmdFileLoad::SetCfg()
 {
-    UIntT err = FMD_FARSITE(mFarsiteH)->LoadInputsFile((char *) aFile->ToA());
+    UIntT err = FMD_FARSITE(mFarsiteH)->LoadInputsFile((char *) mCfgFile.ToA());
 
     if (err == 1)
     {
@@ -251,17 +279,60 @@ UErrCodeT CFmdFileLoad::Cfg(const UStringT *aFile)
 }
 
 /**
- * \brief Load landscape file.
- *
- * \param aFile, landscape file.
+ * \brief Set landscape file.
  *
  * \return UErrFalse, if successful; UErrTrue, if failed.
  */
-UErrCodeT CFmdFileLoad::Lcp(const UStringT *aFile)
+UErrCodeT CFmdFileLoad::SetLcp()
 {
-    FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) aFile->ToA());
+    UIntT err = FMD_FARSITE(mFarsiteH)->LoadLandscapeFile((char *) mLcpFile.ToA());
 
-    return UErrFalse;
+    if (err == 1)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Set ignition file.
+ */
+UErrCodeT CFmdFileLoad::SetIgnition()
+{
+    UStringT file = mTmpDir;
+    file += "/ignition.shp";
+    GdaProjCsCodeT code = GdaProjCsXian1980;
+    ToVtrProjCs(&file, &mIgnitionFile, code);
+    UIntT err = FMD_FARSITE(mFarsiteH)->SetIgnitionFileName((char *) file.ToA());
+
+    if (err == 1)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
+}
+
+/**
+ * \brief Set barrier file.
+ *
+ * @param aFile, barrier file.
+ */
+UErrCodeT CFmdFileLoad::SetBarrier()
+{
+    UStringT file = mTmpDir;
+    file += "/barrier.shp";
+    GdaProjCsCodeT code = GdaProjCsXian1980;
+    ToVtrProjCs(&file, &mBarrierFile, code);
+    UIntT err = FMD_FARSITE(mFarsiteH)->SetBarrierFileName((char *) file.ToA());
+
+    if (err == 1)
+    {
+        return UErrFalse;
+    }
+
+    return UErrTrue;
 }
 
 /**

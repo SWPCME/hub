@@ -97,10 +97,10 @@ UErrCodeT CBsnGda::Init()
 
 UErrCodeT CBsnGda::Test()
 {
-    // TestCore();
+    TestCore();
     // TestOgr();
     // TestWarp();
-    TestUtils();
+    // TestUtils();
 
     return UErrFalse;
 }
@@ -128,9 +128,8 @@ UErrCodeT CBsnGda::CoreCreate()
 
 UErrCodeT CBsnGda::CoreLoad()
 {
-    // const UStringT file = "../../../data/core/gda/rst/testLoad.asc";
-    // CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatAsc);
-    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.tif";
+    const UStringT file = mDataPath;
+    file += "/dem/dem_wgs84.tif";
     CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatTif);
     CGdaBandCtl *bandCtl = datasetCtl->Band(1);
 
@@ -185,7 +184,8 @@ UErrCodeT CBsnGda::CoreWrite()
 
 UErrCodeT CBsnGda::CoreDataset()
 {
-    const UStringT file = "../../../data/ctgy/fmd/baiyun_m/baiyun_m.lcp";
+    const UStringT file = mDataPath;
+    file += "/dem/dem_wgs84.tif";
     CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatLcp);
 
     UStringT description = datasetCtl->Description();
@@ -265,9 +265,11 @@ UErrCodeT CBsnGda::DsPosToId(BMathCsC2dT *aId, const BMathCsC2dT *aPos,
 
 UErrCodeT CBsnGda::CoreBand()
 {
+    // open tif
     const UStringT file = mDataPath;
-    file += "/../../ctgy/fmd/baiyun_m/baiyun_m.lcp";
-    CGdaDatasetCtl *datasetCtl = LoadDataset(&file, UAccessRead, GdaFormatLcp);
+    file += "/dem/dem_xian80.tif";
+    CGdaDriverCtl *dr = mDrivers->Driver(GdaFormatTif);
+    CGdaDatasetCtl *datasetCtl = dr->Load(&file, UAccessRead);
     CGdaBandCtl *bandCtl = datasetCtl->Band(1);
 
     UIntT nBandX = 0;
@@ -281,7 +283,7 @@ UErrCodeT CBsnGda::CoreBand()
     bandCtl->BlockSize(&nXBlockS, &nYBlockS);
     mIoCmn->PrintF("nXBandS = %d, nYBandS = %d\n", nXBlockS, nYBlockS);
 
-    BMathCsC2dT pos(113.501129, 23.166046);
+    BMathCsC2dT pos(113.5255460, 23.4385733);
     BMathCsC2dT id;
     DsPosToId(&id ,&pos, datasetCtl);
 
@@ -294,6 +296,9 @@ UErrCodeT CBsnGda::CoreBand()
     data.ToF(&dataVal);
     UStringT strVal = dataVal;
     strVal.ToConsole();
+
+    // close tif
+    dr->Close(&file);
 
     return UErrFalse;
 }

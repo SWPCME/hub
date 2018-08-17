@@ -96,8 +96,9 @@ public class TestGda
     {
         // Load band.
         UStringT file = new UStringT(mDataPath);
-        file.Add("/../../ctgy/fmd/baiyun_m/baiyun_m.lcp");
-        CGdaDatasetCtl datasetCtl = LoadDataset(file, UAccessCodeT.UAccessRead, GdaFormatCodeT.GdaFormatLcp);
+        file.Add("/dem/dem_xian80.tif");
+        CGdaDriverCtl dr = mDrivers.Driver(GdaFormatCodeT.GdaFormatTif);
+        CGdaDatasetCtl datasetCtl = dr.Load(file, UAccessCodeT.UAccessRead);
         CGdaBandCtl bandCtl = datasetCtl.Band(1);
 
         // Transform the coordinate system.
@@ -106,7 +107,7 @@ public class TestGda
         GdaOgrSrsT srsDst = new GdaOgrSrsT();
         srsDst.SetProjCs(GdaProjCsCodeT.GdaProjCsXian1980);
         GdaOgrCtrT ctr = new GdaOgrCtrT(srsSrc, srsDst);
-        BMathCsC2dT ptSrc = new BMathCsC2dT(113.451129, 23.168046);
+        BMathCsC2dT ptSrc = new BMathCsC2dT(113.5255460, 23.4385733);
         BMathCsC2dT ptDst = new BMathCsC2dT();
         ctr.Tr(ptDst, ptSrc);
 
@@ -123,6 +124,9 @@ public class TestGda
         UStringT dataStr = new UStringT();
         data.ToS(dataStr);
         dataStr.ToConsole();
+
+        // close tif
+        dr.Close(file);
 
         return UErrCodeT.UErrFalse;
     }

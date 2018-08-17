@@ -27,17 +27,16 @@ import whub.*;
 
 public class TestOgr
 {
-    private COgrCtl mOgr;
-
     public void Test()
     {
+        mDataPath = new UStringT("../../../../data/core/ogr");
         CHubCtl hubCtl = CHubCtl.Hub();
         CHubModuleCtl module = hubCtl.RegModule();
         module.Register(HubCodeT.HubMOgr);
 
         mOgr = module.Ogr();
         TestWrite();
-        // TestRead();
+        TestRead();
         hubCtl.DeregModule(module);
     }
 
@@ -45,7 +44,8 @@ public class TestOgr
     {
         mOgr.Register(OgrFormatCodeT.OgrFormatShp);
         COgrDriverCtl dr = mOgr.Driver(OgrFormatCodeT.OgrFormatShp);
-        UStringT dsName = new UStringT("../../../data/core/ogr/t_write");
+        UStringT dsName = new UStringT(mDataPath);
+        dsName.Add("/t_write");
         COgrDatasrcCtl ds = dr.Create(dsName);
         UStringT layerName = new UStringT("linestring");
         COgrLayerCtl layer = ds.Create(layerName);
@@ -74,7 +74,8 @@ public class TestOgr
         COgrDriverCtl dr = mOgr.Driver(OgrFormatCodeT.OgrFormatShp);
 
         // Load shp file.
-        UStringT dsName = new UStringT("/home/swpcme/file/source/swpcme/hub/data/core/ogr/t_write/linestring.shp");
+        UStringT dsName = new UStringT(mDataPath);
+        dsName.Add("/t_write/linestring.shp");
         COgrDatasrcCtl ds = dr.Load(dsName);
         COgrLayerCtl layer = ds.Load(0);
         COgrFeaturesCtl features = layer.Features();
@@ -93,4 +94,7 @@ public class TestOgr
 
         // dr.CloseAll();
     }
+
+    private COgrCtl mOgr;
+    private UStringT mDataPath;
 }

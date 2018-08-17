@@ -27,8 +27,6 @@ import whub.*;
 
 public class TestFmd
 {
-    private CFmdCtl mFmd;
-
     public static void main(String[] aArg)
     {
         TestFmd fmd = new TestFmd();
@@ -37,6 +35,7 @@ public class TestFmd
 
     public UErrCodeT Test()
     {
+        mDataPath = new UStringT("../../../../data/ctgy/fmd");
         CHubCtl hubCtl = CHubCtl.Hub();
         CHubModuleCtl module = hubCtl.RegModule();
         module.Register(HubCodeT.HubMFmd);
@@ -52,7 +51,8 @@ public class TestFmd
     private UErrCodeT TestConfig()
     {
         CFmdFileCtl fileCtl = mFmd.File();
-        UStringT fileName = new UStringT("../../../data/ctgy/fmd/1/1.input");
+        UStringT fileName = new UStringT(mDataPath);
+        fileName.Add("/1/1.input");
         CFmdFileCfg cfg = fileCtl.Cfg(fileName, FmdFileCfgCodeT.FmdFileCfgCreate);
         CFmdCfgWrite cfgWrite = cfg.Write();
 
@@ -97,7 +97,8 @@ public class TestFmd
     private UErrCodeT TestConfigSimple()
     {
         CFmdFileCtl fileCtl = mFmd.File();
-        UStringT fileName = new UStringT("../../../data/ctgy/fmd/1/s1.input");
+        UStringT fileName = new UStringT(mDataPath);
+        fileName.Add("/1/s1.input");
         CFmdFileCfg cfg = fileCtl.Cfg(fileName, FmdFileCfgCodeT.FmdFileCfgCreate);
         CFmdCfgWrite cfgWrite = cfg.Write();
 
@@ -128,15 +129,23 @@ public class TestFmd
 
     private UErrCodeT TestWrite()
     {
+        // data
+        UStringT ignitionFile1 =
+            new UStringT("{\"type\": \"FeatureCollection\",\"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:EPSG::4326\" } },\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }");
+        UStringT ignitionFile2 =
+            new UStringT("{\"type\": \"FeatureCollection\",\"crs\": { \"type\": \"name\", \"properties\": { \"name\": \"urn:ogc:def:crs:EPSG::2383\" } },\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [ [ 450995.476157766825054, 2593188.469263007864356 ], [ 451108.449485530320089, 2593261.692716187797487 ], [ 451225.607010618434288, 2593081.772231230977923 ], [ 451052.485846314171795, 2593071.834762585349381 ], [ 450995.476157766825054, 2593188.469263007864356 ] ] ] } } ] }");
+
         CFmdFileCtl fileCtl = mFmd.File();
 
         // Load.
         CFmdFileLoad fileLoad = fileCtl.Load();
-        UStringT cfgFile = new UStringT("../../../data/ctgy/fmd/1/1.input");
+        UStringT cfgFile = new UStringT(mDataPath);
+        cfgFile.Add("/1/1.input");
 
-        UStringT lcpFile = new UStringT("../../../data/ctgy/fmd/3/1.lcp");
-        UStringT ignitionFile =
-            new UStringT("{\"type\": \"FeatureCollection\",\"features\": [{ \"type\": \"Feature\", \"properties\": { \"id\": null }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ 113.5255460, 23.4385733 ] } } ] }");
+        UStringT lcpFile = new UStringT(mDataPath);
+        lcpFile.Add("/3/1.lcp");
+
+        UStringT ignitionFile = new UStringT(ignitionFile1);
         UStringT barrierFile = new UStringT("");
 
         fileLoad.Cfg(cfgFile);
@@ -156,4 +165,7 @@ public class TestFmd
 
         return UErrCodeT.UErrFalse;
     }
+
+    private CFmdCtl mFmd;
+    private UStringT mDataPath;
 }

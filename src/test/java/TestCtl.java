@@ -33,5 +33,14 @@ public class TestCtl
         System.out.println(System.getProperty("java.library.path"));
         TestOgr ogr = new TestOgr();
         ogr.Test();
+
+        TestGda gda = new TestGda();
+        gda.Test();
+
+        TestRst rst = new TestRst();
+        rst.Test();
+
+        TestFmd fmd = new TestFmd();
+        fmd.Test();
     }
 }

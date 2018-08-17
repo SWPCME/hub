@@ -23,7 +23,7 @@
 ################################################################################
 
 # JAVA
-JAVA_JDK_DIR = /opt/icedtea-bin-3.6.0
+JAVA_JDK_DIR = /opt/icedtea-bin-3.8.0
 JAVA_OS = linux
 ifeq ($(TARGET_OS), x86_64-w64-mingw32)
 JAVA_JDK_DIR = $(HOME_DIR)/me/windows/bin/Java/jdk1.7.0_80

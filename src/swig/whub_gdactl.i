@@ -154,6 +154,10 @@ class CGdaDatasetCtl
     UErrCodeT PosToId(BMathCsC2dT *aDst, BMathCsC2dT *aSrc);
     UErrCodeT XSize(UIntT *aNum);
     UErrCodeT YSize(UIntT *aNum);
+
+    // close
+    UErrCodeT Close(const UIntT aBandId);
+    UErrCodeT CloseAll();
 };
 
 class CGdaBandCtl

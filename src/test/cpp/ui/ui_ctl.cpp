@@ -121,8 +121,8 @@ UErrCodeT CUiCtl::TestAll()
 
 UErrCodeT CUiCtl::Test()
 {
-    // CBsnGda *gda = mBsn->Gda();
-    // gda->Test();
+    CBsnGda *gda = mBsn->Gda();
+    gda->Test();
 
     CBsnRst *rst = mBsn->Rst();
     rst->Test();

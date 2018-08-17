@@ -242,7 +242,8 @@ UErrCodeT CGdaDriversCtl::Destroy()
 UErrCodeT CGdaDriversCtl::CleanupAll()
 {
     DeregisterAll();
-    DestroyDriverManager();
+    // Destroy driver manager need to count the driver that all is closing.
+    // DestroyDriverManager();
 
     return UErrFalse;
 }
